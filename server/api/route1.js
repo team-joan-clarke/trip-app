@@ -1,5 +1,5 @@
 const subRouter1 = require("express").Router();
-const { Thing1 } = require("../db");
+const { Thing1 } = require("../../db");
 const Sequelize = require("sequelize");
 
 subRouter1.get("/", async (req, res, next) => {
