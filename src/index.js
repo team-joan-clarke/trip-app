@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import axios from "axios";
+import store from "./store";
+import { Provider } from "react-redux";
 
 const Root = () => {
   let [stuff, setStuff] = useState("app");
@@ -17,4 +19,8 @@ const Root = () => {
 
 const root = createRoot(document.getElementById("root"));
 
-root.render(<Root />);
+root.render(
+  <Provider store={store}>
+    <Root />
+  </Provider>
+);
