@@ -5,11 +5,13 @@ const Root = () => {
   let [stuff, setStuff] = useState("root");
   useEffect(() => {
     async function getStuff() {
-      const someStuff = await axios.get("/route1");
+      const someStuff = await axios.get("/api/route1");
       setStuff(someStuff.data);
     }
     getStuff();
   }, []);
 
-  return <h1>Some stuff: {JSON.stringify(stuff)}</h1>;
+  return <h1>Some State Stuff: {JSON.stringify(stuff)}</h1>;
 };
+
+export default Root;
