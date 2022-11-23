@@ -5,7 +5,7 @@ const Root = () => {
   let [stuff, setStuff] = useState("root");
   useEffect(() => {
     async function getStuff() {
-      const someStuff = await axios.get("/Thing1");
+      const someStuff = await axios.get("/route1");
       setStuff(someStuff.data);
     }
     getStuff();
