@@ -23,4 +23,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || "Internal server error");
 });
 
-module.exports = app;
+const port = process.env.PORT || 3000;
+
+app.listen(port, function () {
+  console.log(`Your server, listening on port ${port}`);
+});
