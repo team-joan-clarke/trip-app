@@ -90,6 +90,7 @@ const tasks = [
     booking_num: "2345-89",
     link: "",
     status: "in progress",
+    TripId: 1,
   },
   {
     type: "Transportation",
@@ -106,6 +107,7 @@ const tasks = [
     description: " ",
     booking_num: "2345-89",
     status: "complete",
+    TripId: 5,
   },
   {
     type: "Activity",
@@ -114,12 +116,14 @@ const tasks = [
     due_date: " 2023-04-26 00:00:00 EST",
     description: "Do you this we can get into Berghain?",
     status: "in progress",
+    TripId: 5,
   },
   {
     type: "Lodging",
     due_date: "2023-04-06 00:00:00 EST",
     description: "Look for somewhere to stay in Kreuzberg area",
     status: "in progress",
+    TripId: 5,
   },
   {
     type: "Dining",
@@ -128,7 +132,9 @@ const tasks = [
     due_date: "2023-04-12 00:00:00 EST,",
     description: "Res at Nobelhart & Schmutzig on Thurs or Fri",
     status: "in progress",
+    TripId: 5,
   },
+
   {
     type: "Dining",
     subtype: "Snack",
@@ -136,6 +142,7 @@ const tasks = [
     due_date: "2023-04-28 00:00:00 EST",
     description: "Get deets on Konditori Damaskus",
     status: "in progress",
+    TripId: 5,
   },
   {
     type: "Dining",
@@ -145,6 +152,7 @@ const tasks = [
     description:
       "BEIGNETS! Look into Cafe du Monde. Maybe do at night instead?",
     status: "in progress",
+    TripId: 3,
   },
   {
     type: "Dining",
@@ -153,6 +161,7 @@ const tasks = [
     due_date: "2023-01-30 00:00:00 EST",
     description: "Johnny's Poboys or similar--check on veggie options",
     status: "in progress",
+    TripId: 3,
   },
   {
     type: "Dining",
@@ -166,6 +175,7 @@ const tasks = [
       "Friday res at Brennan's in the dining room. (THE place to get Banana's Foster). Spoke to Jimmy.",
     link: "https://www.brennansneworleans.com/",
     status: "complete",
+    TripId: 3,
   },
   {
     type: "Activity",
@@ -182,6 +192,7 @@ const tasks = [
     due_date: "2023-02-10 00:00:00 EST",
     description: "Book walking tour of one of the cemeteries?",
     status: "in progress",
+    TripId: 3,
   },
   {
     type: "Transportation",
@@ -189,6 +200,7 @@ const tasks = [
     due_date: "2023-01-25 00:00:00 EST",
     description: "Book flights",
     status: "in progress",
+    TripId: 3,
   },
   {
     type: "Lodging",
@@ -204,6 +216,7 @@ const tasks = [
     booking_num: "23458880",
     link: "https://www.airbnb.com/rooms/52567688?check_in=2023-01-11&check_out=2023-01-12&source_impression_id=p3_1669256978_TXmb8o1jH%2FBTR1Rg",
     status: "complete",
+    TripId: 2,
   },
   {
     type: "Activity",
@@ -212,6 +225,7 @@ const tasks = [
     due_date: "2023-03-14 00:00:00 EST",
     description: "Explore the Palm Springs strip!",
     status: "in progress",
+    TripId: 4,
   },
   {
     type: "Dining",
@@ -220,6 +234,7 @@ const tasks = [
     due_date: "2023-03-14 00:00:00 EST",
     description: "Grab a sweet treat at Great Shakes",
     status: "in progress",
+    TripId: 4,
   },
   {
     type: "Transportation",
@@ -237,6 +252,7 @@ const tasks = [
     booking_num: "2385-89",
     description: "Determine route to tea shop",
     status: "complete",
+    TripId: 4,
   },
   {
     type: "Lodging",
@@ -246,6 +262,7 @@ const tasks = [
     checkin_time: "10:00:00 EST",
     description: "Book hotel in Laguna Beach ",
     status: "in progress",
+    TripId: 7,
   },
   {
     type: "Dining",
@@ -254,6 +271,7 @@ const tasks = [
     due_date: "2023-05-14 00:00:00 EST",
     description: "Eat lunch at Urth Cafe",
     status: "in progress",
+    TripId: 7,
   },
   {
     type: "Dining",
@@ -262,6 +280,7 @@ const tasks = [
     due_date: "2022-12-17 00:00:00 EST",
     description: "Enjoy some calming tea with some greatengineers!",
     status: "in progress",
+    TripId: 7,
   },
   {
     type: "Transportation",
@@ -270,6 +289,7 @@ const tasks = [
     due_date: "2022-12-16 00:00:00 EST,",
     description: "Determine route to tea shop",
     status: "complete",
+    TripId: 7,
   },
 ];
 
@@ -282,6 +302,38 @@ async function seed() {
   console.log("db synced!");
 
   // Creating Users
+  const user_trip = await Promise.all([
+    User_Trip.create({
+      role: "owner",
+      UserId: 1,
+      TripId: 1,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 2,
+      TripId: 5,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 3,
+      TripId: 7,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 4,
+      TripId: 4,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 5,
+      TripId: 2,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 6,
+      TripId: 3,
+    }),
+  ]);
   const users = await Promise.all([
     User.create({
       firstName: "Cody",
