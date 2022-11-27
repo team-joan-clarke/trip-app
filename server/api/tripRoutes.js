@@ -27,7 +27,7 @@ tripRouter.get("/:tripId", async (req, res, next) => {
   }
 });
 
-// post route to create a trip 
+// post route to create a trip
 tripRouter.post("/", async (req, res, next) => {
   console.log("req body", req.body);
   try {
@@ -38,8 +38,17 @@ tripRouter.post("/", async (req, res, next) => {
   }
 });
 
+// put route to edit a trip we need trip id to search for that specific trip
+tripRouter.put("/:tripId", async (req, res, next) => {
+  try {
+    const findSpecificTrip = await Trip.findByPk(req.params.tripId);
+    findSpecificTrip.update(req.body)
+    res.send(findSpecificTrip).status(200)
+  } catch (error) {
+    next(error);
+  }
+});
 
-// put to edit a trip we need trip id to search for that specific trip
 // delete a trip need trip id to search for that specific trip
 
 module.exports = tripRouter;
