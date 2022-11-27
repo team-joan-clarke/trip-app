@@ -2,7 +2,7 @@ const tripRouter = require("express").Router();
 const { Trip, User_Trip, User_Task, Task, User } = require("../../db/index");
 const Sequelize = require("sequelize");
 
-// get a single Trip by trip id include users and tasks
+// get route to get a single Trip by trip id includes users and tasks
 tripRouter.get("/:tripId", async (req, res, next) => {
   try {
     const findSingleTripAndUsers = await Trip.findOne({
@@ -21,20 +21,28 @@ tripRouter.get("/:tripId", async (req, res, next) => {
       },
     });
 
-    res.send({ findSingleTripAndUsers, findTasksForTripAndUsers });
+    res.send({ findSingleTripAndUsers, findTasksForTripAndUsers }).status(200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// post route to create a trip 
+tripRouter.post("/", async (req, res, next) => {
+  console.log("req body", req.body);
+  try {
+    const makeNewTrip = await Trip.create(req.body);
+    res.send(makeNewTrip).status(200);
   } catch (error) {
     next(error);
   }
 });
 
 
-// get all trip associated with that user like all campuses
-// post create a trip // look at all fields needed to make a trip
 // put to edit a trip we need trip id to search for that specific trip
 // delete a trip need trip id to search for that specific trip
 
 module.exports = tripRouter;
-
 
 // // get all trips associated with a user
 // tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
