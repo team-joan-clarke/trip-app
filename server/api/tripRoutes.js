@@ -1,5 +1,5 @@
 const tripRouter = require("express").Router();
-const { Trip, User_Trip, User_Task, Task, User } = require("../../db/index");
+const { Trip, Task, User } = require("../../db/index");
 const Sequelize = require("sequelize");
 
 // get route to get a single Trip by trip id includes users and tasks
@@ -41,15 +41,24 @@ tripRouter.post("/", async (req, res, next) => {
 // put route to edit a trip we need trip id to search for that specific trip
 tripRouter.put("/:tripId", async (req, res, next) => {
   try {
-    const findSpecificTrip = await Trip.findByPk(req.params.tripId);
-    findSpecificTrip.update(req.body)
-    res.send(findSpecificTrip).status(200)
+    const findTripToUpdate = await Trip.findByPk(req.params.tripId);
+    findTripToUpdate.update(req.body);
+    res.send(findTripToUpdate).status(200);
   } catch (error) {
     next(error);
   }
 });
 
 // delete a trip need trip id to search for that specific trip
+tripRouter.delete("/:tripId", async (req, res, next) => {
+  try {
+    const findTripToDelete = await Trip.findByPk(req.params.tripId);
+    findTripToDelete.destroy()
+    res.send(findTripToDelete).status(200)
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = tripRouter;
 
