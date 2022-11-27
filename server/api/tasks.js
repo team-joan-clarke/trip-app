@@ -79,12 +79,10 @@ taskRouter.put("/:taskId", async (req, res, next) => {
       "status",
     ];
     for (const [key, value] of Object.entries(body)) {
-      console.log(key);
       if (taskFields.includes(key)) {
         checkedFields[key] = value;
       }
     }
-    console.log(checkedFields);
     const { taskId } = req.params;
     const data = await Task.findByPk(taskId);
     await data.update(checkedFields);
