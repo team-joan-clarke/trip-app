@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../db");
 
-const User_Trip = db.define("user_trip", {
+const User_Task = db.define("user_task", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -9,7 +9,7 @@ const User_Trip = db.define("user_trip", {
     allowNull: false,
   },
   role: {
-    type: DataTypes.ENUM("owner", "editor", "attendee"),
+    type: DataTypes.ENUM("editor", "attendee"),
   },
 });
 
@@ -18,4 +18,4 @@ const User_Trip = db.define("user_trip", {
 //   return await item.destroy();
 // };
 
-module.exports = User_Trip;
+module.exports = User_Task;
