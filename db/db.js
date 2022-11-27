@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
-const dbUrl =
-  process.env.DATABASE_URL || `postgres://localhost:5432/yourDBName`;
+const dbUrl = process.env.DATABASE_URL || `postgres://localhost:5432/trip-app`;
 
 let config;
 if (process.env.DATABASE_URL) {
