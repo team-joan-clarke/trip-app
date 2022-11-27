@@ -29,7 +29,6 @@ tripRouter.get("/:tripId", async (req, res, next) => {
 
 // post route to create a trip
 tripRouter.post("/", async (req, res, next) => {
-  console.log("req body", req.body);
   try {
     const makeNewTrip = await Trip.create(req.body);
     res.send(makeNewTrip).status(200);
