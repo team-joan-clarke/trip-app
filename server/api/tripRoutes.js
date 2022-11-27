@@ -1,33 +1,32 @@
 const tripRouter = require("express").Router();
-const { Trip, User_Trip, User_Task } = require("../../db/index");
+const { Trip, User_Trip, User_Task, Task, User } = require("../../db/index");
 const Sequelize = require("sequelize");
 
-// get route to get a single trip based on trip id like single campus
-// include tasks and user associated with trip
-// two queries
-// trip table to get trip
-// user_trips find by tripId
-// lets me find users ^ associated with trip
-// tasks table has tripId find All tasks associated with a trip Id
+// get a single Trip by trip id include users and tasks
+tripRouter.get("/:tripId", async (req, res, next) => {
+  try {
+    const findSingleTripAndUsers = await Trip.findOne({
+      where: { id: req.params.tripId },
+      include: {
+        model: User,
+        through: "User_Trip",
+      },
+    });
 
-// get a single trip include users and tasks for trip
+    const findTasksForTripAndUsers = await Task.findAll({
+      where: { TripId: req.params.tripId },
+      include: {
+        model: User,
+        through: "User_Tasks",
+      },
+    });
 
-console.log("trip table", Trip)
-tripRouter.get("/:id", async (req, res, next) => {
-  console.log("req.params", req.params.id);
-  const findTrip = await Trip.findOne({
-    where: {
-      id: req.params.id,
-    },
-  });
-  console.log("trip found", findTrip);
-  res.send("found");
+    res.send({ findSingleTripAndUsers, findTasksForTripAndUsers });
+  } catch (error) {
+    next(error);
+  }
 });
 
-tripRouter.get("/", async (req, res, next) => {
-    const findAllTrips = await Trip.findAll()
-    res.send(findAllTrips)
-})
 
 // get all trip associated with that user like all campuses
 // post create a trip // look at all fields needed to make a trip
@@ -35,3 +34,14 @@ tripRouter.get("/", async (req, res, next) => {
 // delete a trip need trip id to search for that specific trip
 
 module.exports = tripRouter;
+
+
+// // get all trips associated with a user
+// tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
+//   const findAllTrips = await User_Trip.findAll({
+//     where: {
+//       UserId: req.params.userId,
+//     },
+//   });
+//   res.send(findAllTrips);
+// });
