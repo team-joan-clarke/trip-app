@@ -8,7 +8,7 @@ const User_Task = db.define("user_task", {
     autoIncrement: true,
     allowNull: false,
   },
-  roles: {
+  role: {
     type: DataTypes.ENUM("editor", "attendee"),
   },
 });

@@ -8,7 +8,7 @@ const User_Trip = db.define("user_trip", {
     autoIncrement: true,
     allowNull: false,
   },
-  roles: {
+  role: {
     type: DataTypes.ENUM("owner", "editor", "attendee"),
   },
 });
