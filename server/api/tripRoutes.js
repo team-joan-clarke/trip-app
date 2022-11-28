@@ -20,17 +20,61 @@ tripRouter.get("/singleTrip/:tripId", async (req, res, next) => {
   }
 });
 
-// get route to get all trips associated with a user no tasks
+// get route to get all trips associated with a user ONLY 
 tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
+  //finds all tripIds for a specific user
   const findAllTrips = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });
 
-  const allTripsForUser = await Promise.all(findAllTrips.map(async (trip) => {
-    return await Trip.findByPk(trip.TripId)
-  }));
+  // uses findAllTrips trip ids to get trips from trip table
+  const allTripsForUser = await Promise.all(
+    findAllTrips.map(async (trip) => {
+      return await Trip.findByPk(trip.TripId);
+    })
+  );
 
-  res.send(allTripsForUser);
+  res.send(allTripsForUser).status(200);
+});
+
+// get route for trips dashboard gets active trips
+tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
+  const findAllTripsForUser = await User_Trip.findAll({
+    where: { UserId: req.params.userId },
+  });
+
+  const allActiveTripsForUser = await Promise.all(
+    findAllTripsForUser.map(async (trip) => {
+      return await Trip.findOne({
+        where: {
+          id: trip.TripId,
+          status: "active",
+        },
+      });
+    })
+  );
+
+  res.send(allActiveTripsForUser).status(200);
+});
+
+// get route for trips dashboard gets completed Trips
+tripRouter.get("/completedTrips/:userId", async (req, res, next) => {
+  const findAllTripsForUser = await User_Trip.findAll({
+    where: { UserId: req.params.userId },
+  });
+
+  const allCompletedTripsForUser = await Promise.all(
+    findAllTripsForUser.map(async (trip) => {
+      return await Trip.findOne({
+        where: {
+          id: trip.TripId,
+          status: "complete",
+        },
+      });
+    })
+  );
+
+  res.send(allCompletedTripsForUser).status(200);
 });
 
 // post route to create a trip
@@ -66,13 +110,3 @@ tripRouter.delete("/:tripId", async (req, res, next) => {
 });
 
 module.exports = tripRouter;
-
-// // get all trips associated with a user
-// tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
-//   const findAllTrips = await User_Trip.findAll({
-//     where: {
-//       UserId: req.params.userId,
-//     },
-//   });
-//   res.send(findAllTrips);
-// });
