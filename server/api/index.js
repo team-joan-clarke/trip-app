@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-// router.use("/route1", require("./route1"));
+router.use("/tasks", require("./tasks"));
 
 // router.use("/route2", require("./route2"));
 router.use("/trips", require("./tripRoutes"))
