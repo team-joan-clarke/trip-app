@@ -1,3 +1,6 @@
+"use strict";
+// Change to this file!
+
 const {
   db,
   models: { User, Task, Trip, User_Task, User_Trip },
@@ -83,7 +86,9 @@ const tasks = [
     checkin_time: "09:30:00 EST",
     start_location: "New York",
     end_location: "Florida",
+    description: " ",
     booking_num: "2345-89",
+    link: "",
     status: "in progress",
     TripId: 1,
   },
@@ -99,9 +104,10 @@ const tasks = [
     checkin_time: "14:30:00 EST",
     start_location: "JFK, New York",
     end_location: "BER, Berlin",
+    description: " ",
     booking_num: "2345-89",
     status: "complete",
-    TripId: 4,
+    TripId: 5,
   },
   {
     type: "Activity",
@@ -110,14 +116,14 @@ const tasks = [
     due_date: new Date(2023, 4, 26),
     description: "Do you this we can get into Berghain?",
     status: "in progress",
-    TripId: 4,
+    TripId: 5,
   },
   {
     type: "Lodging",
     due_date: new Date(2023, 4, 6),
     description: "Look for somewhere to stay in Kreuzberg area",
     status: "in progress",
-    TripId: 4,
+    TripId: 5,
   },
   {
     type: "Dining",
@@ -126,7 +132,7 @@ const tasks = [
     due_date: new Date(2023, 4, 12),
     description: "Res at Nobelhart & Schmutzig on Thurs or Fri",
     status: "in progress",
-    TripId: 4,
+    TripId: 5,
   },
 
   {
@@ -136,7 +142,7 @@ const tasks = [
     due_date: new Date(2023, 4, 28),
     description: "Get deets on Konditori Damaskus",
     status: "in progress",
-    TripId: 4,
+    TripId: 5,
   },
   {
     type: "Dining",
@@ -178,7 +184,6 @@ const tasks = [
     due_date: new Date(2023, 2, 10),
     description: "Check on when wigs will be avail for pickup",
     status: "in progress",
-    TripId: 3,
   },
   {
     type: "Activity",
@@ -195,7 +200,7 @@ const tasks = [
     due_date: new Date(2023, 1, 25),
     description: "Book flights",
     status: "in progress",
-    TripId: 2,
+    TripId: 3,
   },
   {
     type: "Lodging",
@@ -220,7 +225,7 @@ const tasks = [
     due_date: new Date(2023, 3, 14),
     description: "Explore the Palm Springs strip!",
     status: "in progress",
-    TripId: 5,
+    TripId: 4,
   },
   {
     type: "Dining",
@@ -229,7 +234,7 @@ const tasks = [
     due_date: new Date(2023, 3, 14),
     description: "Grab a sweet treat at Great Shakes",
     status: "in progress",
-    TripId: 5,
+    TripId: 4,
   },
   {
     type: "Transportation",
@@ -246,16 +251,17 @@ const tasks = [
     description: "Rent a car for Palm Springs trip",
     booking_num: "2385-89",
     status: "complete",
-    TripId: 5,
+    TripId: 4,
   },
   {
     type: "Lodging",
+    subtype: "Book Hotel",
     provider_name: "The Marriot",
     due_date: new Date(2022, 12, 17),
     checkin_time: "10:00:00 EST",
     description: "Book hotel in Laguna Beach ",
     status: "in progress",
-    TripId: 6,
+    TripId: 7,
   },
   {
     type: "Dining",
@@ -264,7 +270,7 @@ const tasks = [
     due_date: new Date(2023, 5, 14),
     description: "Eat lunch at Urth Cafe",
     status: "in progress",
-    TripId: 6,
+    TripId: 7,
   },
   {
     type: "Dining",
@@ -295,7 +301,38 @@ async function seed() {
   console.log("db synced!");
 
   // Creating Users
-
+  const user_trip = await Promise.all([
+    User_Trip.create({
+      role: "owner",
+      UserId: 1,
+      TripId: 1,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 2,
+      TripId: 5,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 3,
+      TripId: 7,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 4,
+      TripId: 4,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 5,
+      TripId: 2,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: 6,
+      TripId: 3,
+    }),
+  ]);
   const users = await Promise.all([
     User.create({
       firstName: "Cody",
@@ -435,347 +472,6 @@ async function seed() {
       return Task.create(task);
     })
   );
-
-  const user_trip = await Promise.all([
-    User_Trip.create({
-      role: "owner",
-      UserId: 1,
-      TripId: 1,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 10,
-      TripId: 1,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: 2,
-      TripId: 5,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 12,
-      TripId: 5,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 13,
-      TripId: 5,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 14,
-      TripId: 5,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 15,
-      TripId: 5,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: 4,
-      TripId: 7,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: 5,
-      TripId: 7,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: 15,
-      TripId: 4,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 16,
-      TripId: 4,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 4,
-      TripId: 4,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 4,
-      TripId: 5,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: 5,
-      TripId: 2,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: 6,
-      TripId: 3,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 9,
-      TripId: 3,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 7,
-      TripId: 3,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: 17,
-      TripId: 6,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 3,
-      TripId: 6,
-    }),
-    User_Trip.create({
-      role: "attendee",
-      UserId: 11,
-      TripId: 6,
-    }),
-  ]);
-
-  const user_task = await Promise.all([
-    User_Task.create({
-      role: "editor",
-      UserId: 1,
-      TaskId: 1,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 10,
-      TaskId: 1,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 15,
-      TaskId: 2,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 16,
-      TaskId: 2,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 4,
-      TaskId: 2,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 16,
-      TaskId: 3,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 4,
-      TaskId: 3,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 15,
-      TaskId: 3,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 4,
-      TaskId: 4,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 15,
-      TaskId: 4,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 16,
-      TaskId: 5,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 15,
-      TaskId: 5,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 4,
-      TaskId: 5,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 16,
-      TaskId: 6,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 15,
-      TaskId: 6,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 4,
-      TaskId: 6,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 6,
-      TaskId: 7,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 7,
-      TaskId: 7,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 9,
-      TaskId: 7,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 9,
-      TaskId: 8,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 7,
-      TaskId: 8,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 6,
-      TaskId: 8,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 9,
-      TaskId: 9,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 7,
-      TaskId: 9,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 6,
-      TaskId: 9,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 6,
-      TaskId: 10,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 6,
-      TaskId: 11,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 7,
-      TaskId: 11,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 5,
-      TaskId: 12,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 5,
-      TaskId: 13,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 13,
-      TaskId: 14,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 2,
-      TaskId: 14,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 12,
-      TaskId: 14,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 14,
-      TaskId: 14,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 15,
-      TaskId: 14,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 12,
-      TaskId: 15,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 13,
-      TaskId: 15,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 2,
-      TaskId: 16,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 17,
-      TaskId: 17,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 11,
-      TaskId: 17,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 3,
-      TaskId: 17,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 11,
-      TaskId: 18,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 3,
-      TaskId: 18,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 17,
-      TaskId: 18,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 4,
-      TaskId: 19,
-    }),
-    User_Task.create({
-      role: "editor",
-      UserId: 4,
-      TaskId: 20,
-    }),
-    User_Task.create({
-      role: "attendee",
-      UserId: 5,
-      TaskId: 20,
-    }),
-  ]);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
