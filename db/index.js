@@ -17,9 +17,11 @@ Task.belongsToMany(User, { through: User_Task });
 
 module.exports = {
   db,
+  models: {
     User,
     Trip,
     Task,
     User_Task,
     User_Trip,
+  },
 };

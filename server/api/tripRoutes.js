@@ -1,5 +1,7 @@
 const tripRouter = require("express").Router();
-const { Trip, Task, User } = require("../../db/index");
+const {
+  models: { Trip, Task, User },
+} = require("../../db/index");
 const Sequelize = require("sequelize");
 
 // get route to get a single Trip uses trip id to search for trip includes users and tasks
