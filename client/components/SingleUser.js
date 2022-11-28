@@ -13,7 +13,6 @@ const SingleUser = () => {
   }, []);
 
   const user = useSelector((state) => state.users);
-
   const firstName = user.firstName || "";
 
   return (

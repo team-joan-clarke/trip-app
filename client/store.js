@@ -4,7 +4,6 @@ import usersReducer from "./redux/users";
 import reducer2 from "./redux/reducer2";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
-import usersReducer from "./redux/users";
 
 const reducer = combineReducers({ users: usersReducer, reducer2 });
 

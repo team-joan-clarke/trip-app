@@ -12,17 +12,19 @@ const setUser = (user) => {
 };
 
 //thunks
-export const fetchUser = (id) => {
-  return async (dispatch) => {
-    const { data: user } = axios.get(`/api/users/${id}`);
+export const fetchUser = (id) => async (dispatch) => {
+  try {
+    const { data: user } = await axios.get(`/api/users/${id}`);
     dispatch(setUser(user));
-  };
+  } catch (error) {
+    throw error;
+  }
 };
 
 const usersReducer = (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
-      return state.users;
+      return action.user;
     default:
       return state;
   }
