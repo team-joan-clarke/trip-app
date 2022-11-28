@@ -232,7 +232,7 @@ const tasks = [
     due_date: new Date(2023, 3, 14),
     description: "Grab a sweet treat at Great Shakes",
     status: "in progress",
-    TripId: 5,
+    TripId: 6,
   },
   {
     type: "Transportation",
@@ -274,7 +274,7 @@ const tasks = [
     subtype: "Snack",
     provider_name: "Tea shop in NYC",
     due_date: new Date(2022, 12, 17),
-    description: "Enjoy some calming tea with some greatengineers!",
+    description: "Enjoy some calming tea with some great engineers!",
     status: "in progress",
     TripId: 7,
   },
