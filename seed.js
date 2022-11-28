@@ -24,7 +24,7 @@ const trips = [
     country: "United States",
     start_date: new Date(2023, 1, 6),
     end_date: new Date(2023, 1, 8, 23, 59, 59),
-    status: "active",
+    status: "complete",
   },
   {
     name: "Mardi Gras 2023!!!",
