@@ -12,12 +12,12 @@ const getAllTrips = (trips) => {
 
 //thunk creator
 
-export const getAllTripsThunk = (userId) => {
+export const getAllCompletedTripsThunk = (userId) => {
   console.log("make it to thunk");
   return async (dispatch) => {
     try {
       const { data: trips } = await axios.get(
-        `/api/trips/allUserTrips/${userId}`
+        `/api/trips/completedTrips/${userId}`
       );
       console.log("in thunk");
       dispatch(getAllTrips(trips));

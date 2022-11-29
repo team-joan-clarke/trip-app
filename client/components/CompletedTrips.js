@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getAllTripsThunk } from "../redux/tripReducer";
+import { getAllCompletedTripsThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
@@ -13,14 +13,14 @@ const CompletedTrips = (props) => {
   }, []);
 
   const { trips } = props;
-  console.log("trips", trips);
+
   return (
     <div>
       <h1>Hello these are completed Trips</h1>
       <div>
         {trips.map((singleTrip) => {
-            console.log("one trip", singleTrip)
-            return (
+          console.log("one trip", singleTrip);
+          return (
             <article key={singleTrip.id}>
               <h1>{singleTrip.name}</h1>
             </article>
@@ -34,14 +34,14 @@ const CompletedTrips = (props) => {
 const mapStateToProps = (state) => {
   console.log("this is state", state.trips);
   return {
-    trips: state.trips
+    trips: state.trips,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getTrips: (userId) => {
-      dispatch(getAllTripsThunk(userId));
+      dispatch(getAllCompletedTripsThunk(userId));
     },
   };
 };

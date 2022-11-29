@@ -54,8 +54,13 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
       });
     })
   );
+  const activeTrips = allActiveTripsForUser.filter((singleTrip) => {
+    if (singleTrip) {
+      return singleTrip;
+    }
+  });
 
-  res.send(allActiveTripsForUser).status(200);
+  res.send(activeTrips).status(200);
 });
 
 // get route for trips dashboard gets completed Trips
@@ -75,7 +80,14 @@ tripRouter.get("/completedTrips/:userId", async (req, res, next) => {
     })
   );
 
-  res.send(allCompletedTripsForUser).status(200);
+  const completedTrips = allCompletedTripsForUser.filter((singleTrip) => {
+    if (singleTrip) {
+      return singleTrip;
+    }
+  });
+
+  console.log("completed", completedTrips)
+  res.send(completedTrips).status(200);
 });
 
 // post route to create a trip
