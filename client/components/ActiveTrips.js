@@ -7,7 +7,7 @@ import { link } from "react-router-dom";
 const ActiveTrips = () => {
   return (
     <div>
-      <h1>Hello these are active trips</h1>
+      <h1>Current trips</h1>
     </div>
   );
 };

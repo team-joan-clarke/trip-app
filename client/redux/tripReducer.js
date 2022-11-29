@@ -1,11 +1,11 @@
 import axios from "axios";
 //action types
-const GET_ALL_TRIPS = "GET_ALL_TRIPS";
+const GET_ALL_COMPLETED_TRIP = "GET_ALL_COMPLETED_TRIP";
 
 //action creator
 const getAllTrips = (trips) => {
   return {
-    type: GET_ALL_TRIPS,
+    type: GET_ALL_COMPLETED_TRIP,
     trips,
   };
 };
@@ -33,7 +33,7 @@ const initialState = [];
 // reducer
 export default function tripReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_ALL_TRIPS:
+    case GET_ALL_COMPLETED_TRIP:
       return action.trips;
     default:
       return state;
