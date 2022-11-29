@@ -109,16 +109,24 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         allItineraryTasks: [...state.allItineraryTasks, action.task],
       };
-    case UPDATE_TASK:
+    case UPDATE_TASK: {
+      const filteredTasks = state.allItineraryTasks.filter(
+        (task) => task.id !== action.task.id
+      );
       return {
         ...state,
-        allItineraryTasks: [...state.allItineraryTasks, action.task],
+        allItineraryTasks: [...filteredTasks, action.task],
       };
-    case DELETE_TASK:
+    }
+    case DELETE_TASK: {
+      const filteredTasks = state.allItineraryTasks.filter(
+        (task) => task.id !== action.task.id
+      );
       return {
         ...state,
-        allItineraryTasks: [...state.allItineraryTasks, action.task],
+        allItineraryTasks: [...filteredTasks],
       };
+    }
     case UPDATE_TASK_USER: {
       const filteredTasks = state.allItineraryTasks.filter(
         (task) => task.id !== action.task.id
