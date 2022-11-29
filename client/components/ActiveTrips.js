@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { getAllTripsThunk } from "../redux/tripReducer";
+import { getAllActiveTripsThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
-import { link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // ^ to link to a specific trip in trip dashboard
 
 const ActiveTrips = () => {
+  const { userId } = useParams();
   return (
     <div>
       <h1>Current trips</h1>
@@ -27,4 +28,4 @@ const ActiveTrips = () => {
 // };
 
 // connect(mapStateToProps, mapDispatchToProps)(CompletedTrips);
-export default ActiveTrips
+export default ActiveTrips;
