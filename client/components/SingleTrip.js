@@ -3,15 +3,15 @@ import { connect } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getAllTripsThunk } from "../redux/tripReducer";
+import { getTasksByTrip } from "../redux/taskReducer";
+import TripTasks from "./TripTasks";
 
 const SingleTrip = () => {
   const dispatch = useDispatch();
   const { tripId } = useParams();
   useEffect(() => {
-    // dispatch(getAllTripsThunk());
+    dispatch(getTasksByTrip(2));
   }, []);
-
   // const trips = useSelector((state) => state.allTrips);
   const testTrip = {
     id: 2,
@@ -95,6 +95,8 @@ const SingleTrip = () => {
     <div className="container">
       <main>
         <h2>Single Trip</h2>
+        <h3>Trip Tasks</h3>
+        <TripTasks />
       </main>
     </div>
   );
