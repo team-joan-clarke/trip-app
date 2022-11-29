@@ -1,5 +1,7 @@
 const router = require("express").Router();
-const { User } = require("../db");
+const {
+  models: { User },
+} = require("../../db");
 
 router.post("/login", async (req, res, next) => {
   try {
@@ -11,14 +13,15 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/signup", async (req, res, next) => {
   try {
-    const { firstName, lastName, username, password, email, phoneNumber } = req.body;
+    const { firstName, lastName, username, password, email, phoneNumber } =
+      req.body;
     const user = await User.create({
       firstName,
       lastName,
       username,
       password,
       email,
-      phoneNumber
+      phoneNumber,
     });
     res.send({ token: await user.generateToken() });
   } catch (err) {
