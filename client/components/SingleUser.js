@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchUser } from "../redux/users";
+import CompletedTrips from "./CompletedTrips";
+import ActiveTrips from "./ActiveTrips";
 
 const SingleUser = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,9 @@ const SingleUser = () => {
         )}
         <h2> Hello {firstName}</h2>
         <h3>Here are your upcoming trips: </h3>
+        <CompletedTrips />
         <h3>Here are your past trips: </h3>
+        <ActiveTrips /> 
         <h3>Here are your tasks: </h3>
         <h3>RENDER TESTING</h3>
       </main>
