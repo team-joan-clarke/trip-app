@@ -1,10 +1,8 @@
 import axios from "axios";
-
 //action types
 const GET_ALL_TRIPS = "GET_ALL_TRIPS";
 
 //action creator
-
 const getAllTrips = (trips) => {
   return {
     type: GET_ALL_TRIPS,
@@ -14,13 +12,13 @@ const getAllTrips = (trips) => {
 
 //thunk creator
 
-const getAllTripsThunk = () => {
+const getAllTripsThunk = (userId) => {
   return async (dispatch) => {
     try {
       const { data: trips } = await axios.get(
         `/api/trips/allUserTrips/${userId}`
       );
-      dispatch(trips);
+      dispatch(getAllTrips(trips));
     } catch (error) {
       console.error(error);
     }
