@@ -1,6 +1,6 @@
 const taskRouter = require("express").Router();
 const {
-  models: { Task, User, Trip, User_Task },
+  models: { Task, User, Trip },
 } = require("../../db");
 const Sequelize = require("sequelize");
 
@@ -18,13 +18,15 @@ taskRouter.get("/user/:userId", async (req, res, next) => {
         if (tasks.length > 0) {
           res.status(200).send(tasks);
         } else {
-          console.log(new Error("No task data for user in Get User Tasks."));
+          console.log(
+            new Error("Error returning tasks for user in Get User Tasks.")
+          );
         }
       } else {
-        console.log(new Error("Could not fetch task data in Get User Tasks."));
+        console.log(new Error("Error fetching task data in Get User Tasks."));
       }
     } else {
-      console.log(new Error("Could not fetch user data in Get User Tasks."));
+      console.log(new Error("Error fetching user data in Get User Tasks."));
     }
   } catch (error) {
     next(error);
@@ -45,13 +47,13 @@ taskRouter.get("/trip/:tripId", async (req, res, next) => {
         if (tasks.length > 0) {
           res.status(200).send(tasks);
         } else {
-          console.log(new Error("No task data for user in Get Trip Tasks."));
+          console.log(new Error("Error returning tasks in Get Trip Tasks."));
         }
       } else {
-        console.log(new Error("Could not fetch task data in Get Trip Tasks."));
+        console.log(new Error("Error fetching task data in Get Trip Tasks."));
       }
     } else {
-      console.log(new Error("Could not fetch user data in Get Trip Tasks."));
+      console.log(new Error("Error fetching user data in Get Trip Tasks."));
     }
   } catch (error) {
     next(error);
@@ -96,7 +98,20 @@ taskRouter.post("/", async (req, res, next) => {
       status,
       TripId,
     });
-    res.status(201).send(data);
+    if (data) {
+      const tasksWithNewTask = await Trip.findAll({
+        where: { id: data.TripId },
+        include: [{ model: Task, include: [{ model: User }] }],
+      });
+      if (tasksWithNewTask[0]["Tasks"]) {
+        const tasks = tasksWithNewTask[0]["Tasks"];
+        res.status(201).send(tasks);
+      } else {
+        console.log(new Error("Error returning tasks in Create New Task."));
+      }
+    } else {
+      console.log(new Error("Error creating new Task."));
+    }
   } catch (error) {
     next(error);
   }
@@ -106,8 +121,25 @@ taskRouter.delete("/:taskId", async (req, res, next) => {
   try {
     const { taskId } = req.params;
     const data = await Task.findByPk(taskId);
-    await data.destroy();
-    res.status(200).send(data);
+    if (data) {
+      const deleted = await data.destroy();
+      if (deleted) {
+        const tasksWithoutDeletedTask = await Trip.findAll({
+          where: { id: data.TripId },
+          include: [{ model: Task, include: [{ model: User }] }],
+        });
+        if (tasksWithoutDeletedTask[0]["Tasks"]) {
+          const tasks = tasksWithoutDeletedTask[0]["Tasks"];
+          res.status(200).send(tasks);
+        } else {
+          console.log(new Error("Error returning tasks in Delete Task."));
+        }
+      } else {
+        console.log(new Error("Error deleting task in Delete Task."));
+      }
+    } else {
+      console.log(new Error("Error fetching task in Delete Task"));
+    }
   } catch (error) {
     next(error);
   }
@@ -139,8 +171,26 @@ taskRouter.put("/:taskId", async (req, res, next) => {
     }
     const { taskId } = req.params;
     const data = await Task.findByPk(taskId);
-    await data.update(checkedFields);
-    res.status(200).send(data);
+
+    if (data) {
+      const updated = await data.update(checkedFields);
+      if (updated) {
+        const tasksWithUpdatedTask = await Trip.findAll({
+          where: { id: data.TripId },
+          include: [{ model: Task, include: [{ model: User }] }],
+        });
+        if (tasksWithUpdatedTask[0]["Tasks"]) {
+          const tasks = tasksWithUpdatedTask[0]["Tasks"];
+          res.status(200).send(tasks);
+        } else {
+          console.log(new Error("Error returning tasks in Update Task."));
+        }
+      } else {
+        console.log(new Error("Error updating task in Update Task."));
+      }
+    } else {
+      console.log(new Error("Error fetching task in Update Task."));
+    }
   } catch (error) {
     next(error);
   }
