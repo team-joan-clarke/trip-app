@@ -12,7 +12,7 @@ const getAllTrips = (trips) => {
 
 //thunk creator
 
-const getAllTripsThunk = (userId) => {
+export const getAllTripsThunk = (userId) => {
   return async (dispatch) => {
     try {
       const { data: trips } = await axios.get(
