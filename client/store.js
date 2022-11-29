@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import axios from "axios";
 import usersReducer from "./redux/users";
+import auth from "./redux/auth";
 import tripReducer from "./redux/tripReducer";
 import taskReducer from "./redux/taskReducer";
 import reducer2 from "./redux/reducer2";
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   trips: tripReducer,
   tasks: taskReducer,
   reducer2,
+  auth,
 });
 
 const store = createStore(
