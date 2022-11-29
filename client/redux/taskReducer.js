@@ -1,31 +1,34 @@
 import axios from "axios";
 
 const ADD_NEW_TASK = "ADD_NEW_TASK";
-const ADD_TASK_TO_USER = "ADD_TASK_TO_USER";
+// const ADD_TASK_TO_USER = "ADD_TASK_TO_USER";
+const GET_TASKS = "GET_TASKS";
 
 export const addedNewTask = (task) => ({
   type: ADD_NEW_TASK,
   task,
 });
 
-export const addedTaskToUser = (task) => ({
-  type: ADD_TASK_TO_USER,
-  task,
+// export const addedTaskToUser = (task) => ({
+//   type: ADD_TASK_TO_USER,
+//   task,
+// });
+
+export const gotTasks = (tasks) => ({
+  type: GET_TASKS,
+  tasks,
 });
 
 export const addNewTask = (task, userId, role) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post("/api/tasks", task);
-      const userData = await axios.get(`/api/users/${userId}`);
-      if (data && userData.data) {
-        const user = userData.data;
-        const task = data;
-        const added = await user.addTask(task, { through: role });
-
-        if (added) {
-          dispatch(addedNewTask(task));
-        }
+      const { data } = await axios.post("/api/tasks", {
+        ...task,
+        userId,
+        role,
+      });
+      if (data) {
+        dispatch(addedNewTask(data));
       }
     } catch (error) {
       console.error(error);
@@ -33,24 +36,24 @@ export const addNewTask = (task, userId, role) => {
   };
 };
 
-export const addTaskToUser = (userId, taskId, role) => {
-  return async (dispatch) => {
-    try {
-      const userData = await axios.get(`/api/users/${userId}`);
-      const taskData = await axios.get(`/api/tasks/${taskId}`);
-      if (userData.data && taskData.data) {
-        const user = userData.data;
-        const task = taskData.data;
-        const added = await user.addTask(task, { through: role });
-        if (added) {
-          dispatch(addedNewTask(task));
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
+// export const updateTaskUser = (userId, taskId, role = null, action) => {
+//   return async (dispatch) => {
+//     try {
+//       const userData = await axios.get(`/api/users/${userId}`);
+//       const taskData = await axios.get(`/api/tasks/${taskId}`);
+//       if (userData.data && taskData.data) {
+//         const user = userData.data;
+//         const task = taskData.data;
+//         const added = await user.addTask(task, { through: role });
+//         if (added) {
+//           dispatch(addedNewTask(task));
+//         }
+//       }
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+// };
 
 const initialState = { allItineraryTasks: [], singleTaskView: {} };
 const taskReducer = (state = initialState, action) => {
@@ -60,10 +63,15 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         allItineraryTasks: [...state.allItineraryTasks, action.task],
       };
-    case ADD_TASK_TO_USER:
+    // case ADD_TASK_TO_USER:
+    //   return {
+    //     ...state,
+    //     allItineraryTasks: [...state.allItineraryTasks, action.task],
+    //   };
+    case GET_TASKS:
       return {
         ...state,
-        allItineraryTasks: [...state.allItineraryTasks, action.task],
+        allItineraryTasks: action.tasks,
       };
     default:
       return state;
