@@ -199,4 +199,41 @@ taskRouter.put("/:taskId", async (req, res, next) => {
   }
 });
 
+taskRouter.post("/task-user", async (req, res, next) => {
+  try {
+    const { userId, taskId, role } = req.params;
+    const data = await Task.findByPk(taskId);
+    const user = await User.findByPk(userId);
+    if (data && user) {
+      const userAddedToTask = await user.addTask(data, {
+        through: { role },
+      });
+      if (userAddedToTask) {
+        const tasksWithUpdatedTask = await Trip.findAll({
+          where: { id: data.TripId },
+          include: [
+            { model: Task, where: { id: data.id }, include: [{ model: User }] },
+          ],
+        });
+        if (tasksWithUpdatedTask) {
+          const tasks = tasksWithUpdatedTask[0]["Tasks"];
+          res.status(201).send(tasks[0]);
+        } else {
+          console.log(new Error("Error returning tasks in Update Task User."));
+        }
+      } else {
+        console.log(
+          new Error("Error adding user to task in Update Task User.")
+        );
+      }
+    } else {
+      console.log(
+        new Error("Error fetching task or user data in Update Task User.")
+      );
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = taskRouter;
