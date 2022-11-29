@@ -4,11 +4,10 @@ import { connect } from "react-redux";
 import { link } from "react-router-dom";
 // ^ to link to a specific trip in trip dashboard
 
-const CompletedTrips = () => {
+const ActiveTrips = () => {
   return (
     <div>
-      <h1>Hello these are completed Trips</h1>
-      <p> I am trip</p>
+      <h1>Hello these are active trips</h1>
     </div>
   );
 };
@@ -28,4 +27,4 @@ const CompletedTrips = () => {
 // };
 
 // connect(mapStateToProps, mapDispatchToProps)(CompletedTrips);
-export default CompletedTrips
+export default ActiveTrips
