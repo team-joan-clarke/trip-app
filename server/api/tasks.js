@@ -242,7 +242,7 @@ taskRouter.put("/task-user", async (req, res, next) => {
     const data = await Task.findByPk(taskId);
     const user = await User.findByPk(userId);
 
-    if (data && user) {
+    if (data && user && role) {
       const taskUserData = await User_Task.findOne({
         where: { UserId: userId, TaskId: taskId },
       });
@@ -278,7 +278,9 @@ taskRouter.put("/task-user", async (req, res, next) => {
       }
     } else {
       console.log(
-        new Error("Error fetching user or task data in Update Task User.")
+        new Error(
+          "Error fetching user, task, or role data in Update Task User."
+        )
       );
     }
   } catch (error) {
