@@ -1,6 +1,6 @@
 const taskRouter = require("express").Router();
 const {
-  models: { Task, User, Trip },
+  models: { Task, User, Trip, User_Task },
 } = require("../../db");
 const Sequelize = require("sequelize");
 
@@ -234,6 +234,54 @@ taskRouter.post("/task-user", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+taskRouter.put("/task-user", async (req, res, next) => {
+  try {
+    const { taskId, userId, role } = req.body;
+    const data = await Task.findByPk(taskId);
+    const user = await User.findByPk(userId);
+
+    if (data && user) {
+      const taskUserData = await User_Task.findOne({
+        where: { UserId: userId, TaskId: taskId },
+      });
+
+      if (taskUserData) {
+        const updated = await taskUserData.update({ role });
+        if (updated) {
+          const tasksWithUpdatedTask = await Trip.findAll({
+            where: { id: data.TripId },
+            include: [
+              {
+                model: Task,
+                where: { id: data.id },
+                include: [{ model: User }],
+              },
+            ],
+          });
+          if (tasksWithUpdatedTask[0]["Tasks"]) {
+            const tasks = tasksWithUpdatedTask[0]["Tasks"];
+            res.status(200).send(tasks[0]);
+          } else {
+            console.log(
+              new Error("Error returning tasks in Update Task User.")
+            );
+          }
+        } else {
+          console.log(
+            new Error("Error updating user role in Update Task User.")
+          );
+        }
+      } else {
+        console.log(new Error("Error fetching user role in Update Task User."));
+      }
+    } else {
+      console.log(
+        new Error("Error fetching user or task data in Update Task User.")
+      );
+    }
+  } catch (error) {}
 });
 
 taskRouter.delete("/task-user", async (req, res, next) => {
