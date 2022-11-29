@@ -1,31 +1,46 @@
 import axios from "axios";
 
 const ADD_NEW_TASK = "ADD_NEW_TASK";
-const ADD_TASK_TO_USER = "ADD_TASK_TO_USER";
+const UPDATE_TASK = "UPDATE_TASK";
+const DELETE_TASK = "DELETE_TASK";
+const UPDATE_TASK_USER = "UPDATE_TASK_USER";
+const GET_TASKS = "GET_TASKS";
 
 export const addedNewTask = (task) => ({
   type: ADD_NEW_TASK,
   task,
 });
 
-export const addedTaskToUser = (task) => ({
-  type: ADD_TASK_TO_USER,
+export const updatedTask = (task) => ({
+  type: UPDATE_TASK,
   task,
+});
+
+export const deletedTask = (task) => ({
+  type: DELETE_TASK,
+  task,
+});
+
+export const updatedTaskUser = (task) => ({
+  type: UPDATE_TASK_USER,
+  task,
+});
+
+export const gotTasks = (tasks) => ({
+  type: GET_TASKS,
+  tasks,
 });
 
 export const addNewTask = (task, userId, role) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post("/api/tasks", task);
-      const userData = await axios.get(`/api/users/${userId}`);
-      if (data && userData.data) {
-        const user = userData.data;
-        const task = data;
-        const added = await user.addTask(task, { through: role });
-
-        if (added) {
-          dispatch(addedNewTask(task));
-        }
+      const { data } = await axios.post("/api/tasks", {
+        ...task,
+        userId,
+        role,
+      });
+      if (data) {
+        dispatch(addedNewTask(data));
       }
     } catch (error) {
       console.error(error);
@@ -33,17 +48,51 @@ export const addNewTask = (task, userId, role) => {
   };
 };
 
-export const addTaskToUser = (userId, taskId, role) => {
+export const updateTask = (updatedData, taskId) => {
   return async (dispatch) => {
     try {
-      const userData = await axios.get(`/api/users/${userId}`);
-      const taskData = await axios.get(`/api/tasks/${taskId}`);
-      if (userData.data && taskData.data) {
-        const user = userData.data;
-        const task = taskData.data;
-        const added = await user.addTask(task, { through: role });
-        if (added) {
-          dispatch(addedNewTask(task));
+      const { data } = await axios.post(`/api/tasks/${taskId}`, updatedData);
+      if (data) {
+        dispatch(updatedTask(data));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const deleteTask = (taskId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/api/tasks/${taskId}`);
+      if (data) {
+        dispatch(deletedTask(data));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const updateTaskUser = (userId, taskId, role = null, action) => {
+  return async (dispatch) => {
+    try {
+      if (action === "add") {
+        // route to User_Task create
+        const { data } = await axios.post("/api/tasks/task-user");
+        if (data) {
+          dispatch(updatedTaskUser(data));
+        }
+      } else if (action === "remove") {
+        // route to User_Task delete
+        const { data } = await axios.delete("/api/tasks/task-user");
+        if (data) {
+          dispatch(updatedTaskUser(data));
+        }
+      } else if (action === "updateRole") {
+        const { data } = await axios.put("/api/tasks/task-user");
+        if (data) {
+          dispatch(updatedTaskUser(data));
         }
       }
     } catch (error) {
@@ -60,10 +109,37 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         allItineraryTasks: [...state.allItineraryTasks, action.task],
       };
-    case ADD_TASK_TO_USER:
+    case UPDATE_TASK: {
+      const filteredTasks = state.allItineraryTasks.filter(
+        (task) => task.id !== action.task.id
+      );
       return {
         ...state,
-        allItineraryTasks: [...state.allItineraryTasks, action.task],
+        allItineraryTasks: [...filteredTasks, action.task],
+      };
+    }
+    case DELETE_TASK: {
+      const filteredTasks = state.allItineraryTasks.filter(
+        (task) => task.id !== action.task.id
+      );
+      return {
+        ...state,
+        allItineraryTasks: [...filteredTasks],
+      };
+    }
+    case UPDATE_TASK_USER: {
+      const filteredTasks = state.allItineraryTasks.filter(
+        (task) => task.id !== action.task.id
+      );
+      return {
+        ...state,
+        allItineraryTasks: [...filteredTasks, action.task],
+      };
+    }
+    case GET_TASKS:
+      return {
+        ...state,
+        allItineraryTasks: action.tasks,
       };
     default:
       return state;
