@@ -4,6 +4,7 @@ const {
 } = require("../../db");
 const Sequelize = require("sequelize");
 
+// GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
 taskRouter.get("/user/:userId", async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -33,6 +34,7 @@ taskRouter.get("/user/:userId", async (req, res, next) => {
   }
 });
 
+// GET TASKS BY TRIP ID (1 TRIP -> TRIP TASKS FOR ALL USERS)
 taskRouter.get("/trip/:tripId", async (req, res, next) => {
   try {
     const { tripId } = req.params;
@@ -60,6 +62,7 @@ taskRouter.get("/trip/:tripId", async (req, res, next) => {
   }
 });
 
+// POST A NEW TASK AND ASSIGN TO USER (MUST BE ASSIGNED TO A USER)
 taskRouter.post("/", async (req, res, next) => {
   try {
     const {
@@ -126,6 +129,7 @@ taskRouter.post("/", async (req, res, next) => {
   }
 });
 
+// DELETE TASK
 taskRouter.delete("/:taskId", async (req, res, next) => {
   try {
     const { taskId } = req.params;
@@ -145,6 +149,7 @@ taskRouter.delete("/:taskId", async (req, res, next) => {
   }
 });
 
+// UPDATE TASK
 taskRouter.put("/:taskId", async (req, res, next) => {
   try {
     const checkedFields = {};
@@ -198,6 +203,7 @@ taskRouter.put("/:taskId", async (req, res, next) => {
   }
 });
 
+// ADD ADDITIONAL USER TO EXISTING TASK
 taskRouter.post("/task-user", async (req, res, next) => {
   try {
     const { userId, taskId, role } = req.body;
@@ -235,6 +241,7 @@ taskRouter.post("/task-user", async (req, res, next) => {
   }
 });
 
+// UPDATE USER ROLE ON EXISTING TASK
 taskRouter.put("/task-user", async (req, res, next) => {
   try {
     const { taskId, userId, role } = req.body;
@@ -287,6 +294,7 @@ taskRouter.put("/task-user", async (req, res, next) => {
   }
 });
 
+// REMOVE USER FROM EXISTING TASK
 taskRouter.delete("/task-user", async (req, res, next) => {
   try {
     const { taskId, userId } = req.body;
