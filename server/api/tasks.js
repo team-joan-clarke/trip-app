@@ -281,7 +281,9 @@ taskRouter.put("/task-user", async (req, res, next) => {
         new Error("Error fetching user or task data in Update Task User.")
       );
     }
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 });
 
 taskRouter.delete("/task-user", async (req, res, next) => {
