@@ -27,13 +27,13 @@ const getAllTripsThunk = () => {
   };
 };
 
-const initialState = [];
+const initialState = { allTrips: [], singleTrip: {} };
 
 // reducer
 export default function tripReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_TRIPS:
-      return action.trips;
+      return { ...state, allTrips: [...state.allTrips, action.trips] };
     default:
       return state;
   }
