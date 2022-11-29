@@ -79,7 +79,10 @@ taskRouter.post("/", async (req, res, next) => {
       link,
       status,
       TripId,
+      userId,
+      role,
     } = req.body;
+    console.log(userId, role);
     const data = await Task.create({
       type,
       subtype,
@@ -98,14 +101,21 @@ taskRouter.post("/", async (req, res, next) => {
       status,
       TripId,
     });
-    if (data) {
+    // 11/30/22 -- user hardcoded (New Orleans trip)
+    const user = await User.findByPk(7);
+    if (data && user) {
+      const userAddedToTask = await user.addTask(data, {
+        through: { role: "editor" },
+      });
       const tasksWithNewTask = await Trip.findAll({
         where: { id: data.TripId },
-        include: [{ model: Task, include: [{ model: User }] }],
+        include: [
+          { model: Task, where: { id: data.id }, include: [{ model: User }] },
+        ],
       });
       if (tasksWithNewTask[0]["Tasks"]) {
         const tasks = tasksWithNewTask[0]["Tasks"];
-        res.status(201).send(tasks);
+        res.status(201).send(tasks[0]);
       } else {
         console.log(new Error("Error returning tasks in Create New Task."));
       }
@@ -124,16 +134,7 @@ taskRouter.delete("/:taskId", async (req, res, next) => {
     if (data) {
       const deleted = await data.destroy();
       if (deleted) {
-        const tasksWithoutDeletedTask = await Trip.findAll({
-          where: { id: data.TripId },
-          include: [{ model: Task, include: [{ model: User }] }],
-        });
-        if (tasksWithoutDeletedTask[0]["Tasks"]) {
-          const tasks = tasksWithoutDeletedTask[0]["Tasks"];
-          res.status(200).send(tasks);
-        } else {
-          console.log(new Error("Error returning tasks in Delete Task."));
-        }
+        res.status(200).send(data);
       } else {
         console.log(new Error("Error deleting task in Delete Task."));
       }
@@ -177,11 +178,13 @@ taskRouter.put("/:taskId", async (req, res, next) => {
       if (updated) {
         const tasksWithUpdatedTask = await Trip.findAll({
           where: { id: data.TripId },
-          include: [{ model: Task, include: [{ model: User }] }],
+          include: [
+            { model: Task, where: { id: data.id }, include: [{ model: User }] },
+          ],
         });
         if (tasksWithUpdatedTask[0]["Tasks"]) {
           const tasks = tasksWithUpdatedTask[0]["Tasks"];
-          res.status(200).send(tasks);
+          res.status(200).send(tasks[0]);
         } else {
           console.log(new Error("Error returning tasks in Update Task."));
         }
