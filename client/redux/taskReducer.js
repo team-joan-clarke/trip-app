@@ -3,7 +3,7 @@ import axios from "axios";
 const ADD_NEW_TASK = "ADD_NEW_TASK";
 const UPDATE_TASK = "UPDATE_TASK";
 const DELETE_TASK = "DELETE_TASK";
-// const ADD_TASK_TO_USER = "ADD_TASK_TO_USER";
+const ADD_NEW_USER_TO_TASK = "ADD_NEW_USER_TO_TASK";
 const GET_TASKS = "GET_TASKS";
 
 export const addedNewTask = (task) => ({
@@ -21,10 +21,10 @@ export const deletedTask = (task) => ({
   task,
 });
 
-// export const addedTaskToUser = (task) => ({
-//   type: ADD_TASK_TO_USER,
-//   task,
-// });
+export const addedNewUserToTask = (task) => ({
+  type: ADD_NEW_USER_TO_TASK,
+  task,
+});
 
 export const gotTasks = (tasks) => ({
   type: GET_TASKS,
@@ -74,24 +74,19 @@ export const deleteTask = (taskId) => {
   };
 };
 
-// export const updateTaskUser = (userId, taskId, role = null, action) => {
-//   return async (dispatch) => {
-//     try {
-//       const userData = await axios.get(`/api/users/${userId}`);
-//       const taskData = await axios.get(`/api/tasks/${taskId}`);
-//       if (userData.data && taskData.data) {
-//         const user = userData.data;
-//         const task = taskData.data;
-//         const added = await user.addTask(task, { through: role });
-//         if (added) {
-//           dispatch(addedNewTask(task));
-//         }
-//       }
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-// };
+export const addNewUserToTask = (userId, taskId, role = null, action) => {
+  return async (dispatch) => {
+    try {
+      if (action === "add") {
+        // route to User_Task create
+      } else if (action === "remove") {
+        // route to User_Task delete
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 const initialState = { allItineraryTasks: [], singleTaskView: {} };
 const taskReducer = (state = initialState, action) => {
