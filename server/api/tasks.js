@@ -101,11 +101,10 @@ taskRouter.post("/", async (req, res, next) => {
       status,
       TripId,
     });
-    // 11/30/22 -- user hardcoded (New Orleans trip)
-    const user = await User.findByPk(7);
+    const user = await User.findByPk(userId);
     if (data && user) {
       const userAddedToTask = await user.addTask(data, {
-        through: { role: "editor" },
+        through: { role },
       });
       const tasksWithNewTask = await Trip.findAll({
         where: { id: data.TripId },
