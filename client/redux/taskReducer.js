@@ -64,7 +64,7 @@ export const updateTask = (updatedData, taskId) => {
 export const deleteTask = (taskId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/tasks/${taskId}`);
+      const { data } = await axios.delete(`/api/tasks/${taskId}`);
       if (data) {
         dispatch(deletedTask(data));
       }
@@ -79,8 +79,21 @@ export const updateTaskUser = (userId, taskId, role = null, action) => {
     try {
       if (action === "add") {
         // route to User_Task create
+        const { data } = await axios.post("/api/tasks/task-user");
+        if (data) {
+          dispatch(updatedTaskUser(data));
+        }
       } else if (action === "remove") {
         // route to User_Task delete
+        const { data } = await axios.delete("/api/tasks/task-user");
+        if (data) {
+          dispatch(updatedTaskUser(data));
+        }
+      } else if (action === "updateRole") {
+        const { data } = await axios.put("/api/tasks/task-user");
+        if (data) {
+          dispatch(updatedTaskUser(data));
+        }
       }
     } catch (error) {
       console.error(error);
@@ -106,11 +119,15 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         allItineraryTasks: [...state.allItineraryTasks, action.task],
       };
-    case UPDATE_TASK_USER:
+    case UPDATE_TASK_USER: {
+      const filteredTasks = state.allItineraryTasks.filter(
+        (task) => task.id !== action.task.id
+      );
       return {
         ...state,
-        allItineraryTasks: [...state.allItineraryTasks, action.task],
+        allItineraryTasks: [...filteredTasks, action.task],
       };
+    }
     case GET_TASKS:
       return {
         ...state,
