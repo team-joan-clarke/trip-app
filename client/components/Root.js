@@ -22,7 +22,7 @@ const Root = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/users/:userId" element={<SingleUser />} />
+        <Route exact path="/user" element={<SingleUser />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
       </Routes>

@@ -27,6 +27,7 @@ export const verified = () => async (dispatch) => {
       },
     });
     //update res.data to protect info
+    setCookie("userId", res.data.id, 1);
     return dispatch(setAuth(res.data));
   }
 };

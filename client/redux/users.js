@@ -35,9 +35,9 @@ const setUser = (user) => {
 };
 
 //thunks
-export const fetchUser = (id) => async (dispatch) => {
+export const fetchUser = () => async (dispatch) => {
   try {
-    setCookie("user", id, 1);
+    const id = getCookie("userId");
     const { data: user } = await axios.get(`/api/users/${id}`);
     dispatch(setUser(user));
   } catch (error) {

@@ -8,11 +8,11 @@ import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
 
 const SingleUser = () => {
-  const dispatch = useDispatch();
-  const { userId } = useParams();
-  useEffect(() => {
-    dispatch(fetchUser(userId));
-  }, []);
+  //   const dispatch = useDispatch();
+  //   const { userId } = useParams();
+  //   useEffect(() => {
+  //     dispatch(fetchUser(userId));
+  //   }, []);
 
   const user = useSelector((state) => state.users);
   const firstName = user.firstName || "";
@@ -27,7 +27,7 @@ const SingleUser = () => {
         <h3>Here are your upcoming trips: </h3>
         <CompletedTrips />
         <h3>Here are your past trips: </h3>
-        <ActiveTrips /> 
+        <ActiveTrips />
         <h3>Here are your tasks: </h3>
         <h3>RENDER TESTING</h3>
       </main>
