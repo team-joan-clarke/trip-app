@@ -3,7 +3,7 @@ import axios from "axios";
 const ADD_NEW_TASK = "ADD_NEW_TASK";
 const UPDATE_TASK = "UPDATE_TASK";
 const DELETE_TASK = "DELETE_TASK";
-const ADD_NEW_USER_TO_TASK = "ADD_NEW_USER_TO_TASK";
+const UPDATE_TASK_USER = "UPDATE_TASK_USER";
 const GET_TASKS = "GET_TASKS";
 
 export const addedNewTask = (task) => ({
@@ -21,8 +21,8 @@ export const deletedTask = (task) => ({
   task,
 });
 
-export const addedNewUserToTask = (task) => ({
-  type: ADD_NEW_USER_TO_TASK,
+export const updatedTaskUser = (task) => ({
+  type: UPDATE_TASK_USER,
   task,
 });
 
@@ -74,7 +74,7 @@ export const deleteTask = (taskId) => {
   };
 };
 
-export const addNewUserToTask = (userId, taskId, role = null, action) => {
+export const updateTaskUser = (userId, taskId, role = null, action) => {
   return async (dispatch) => {
     try {
       if (action === "add") {
@@ -106,11 +106,11 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         allItineraryTasks: [...state.allItineraryTasks, action.task],
       };
-    // case ADD_TASK_TO_USER:
-    //   return {
-    //     ...state,
-    //     allItineraryTasks: [...state.allItineraryTasks, action.task],
-    //   };
+    case UPDATE_TASK_USER:
+      return {
+        ...state,
+        allItineraryTasks: [...state.allItineraryTasks, action.task],
+      };
     case GET_TASKS:
       return {
         ...state,
