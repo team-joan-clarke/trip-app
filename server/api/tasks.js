@@ -201,7 +201,7 @@ taskRouter.put("/:taskId", async (req, res, next) => {
 
 taskRouter.post("/task-user", async (req, res, next) => {
   try {
-    const { userId, taskId, role } = req.params;
+    const { userId, taskId, role } = req.body;
     const data = await Task.findByPk(taskId);
     const user = await User.findByPk(userId);
     if (data && user) {
@@ -219,16 +219,51 @@ taskRouter.post("/task-user", async (req, res, next) => {
           const tasks = tasksWithUpdatedTask[0]["Tasks"];
           res.status(201).send(tasks[0]);
         } else {
-          console.log(new Error("Error returning tasks in Update Task User."));
+          console.log(new Error("Error returning tasks in Create Task User."));
         }
       } else {
         console.log(
-          new Error("Error adding user to task in Update Task User.")
+          new Error("Error adding user to task in Create Task User.")
         );
       }
     } else {
       console.log(
-        new Error("Error fetching task or user data in Update Task User.")
+        new Error("Error fetching task or user data in Create Task User.")
+      );
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+taskRouter.delete("/task-user", async (req, res, next) => {
+  try {
+    const { taskId, userId } = req.body;
+    const data = await Task.findByPk(taskId);
+    const user = await User.findByPk(userId);
+    if (data && user) {
+      const userRemovedFromTask = await user.removeTask(data);
+      if (userRemovedFromTask) {
+        const tasksWithUpdatedTask = await Trip.findAll({
+          where: { id: data.TripId },
+          include: [
+            { model: Task, where: { id: data.id }, include: [{ model: User }] },
+          ],
+        });
+        if (tasksWithUpdatedTask) {
+          const tasks = tasksWithUpdatedTask[0]["Tasks"];
+          res.status(200).send(tasks[0]);
+        } else {
+          console.log(new Error("Error returning tasks in Delete Task User."));
+        }
+      } else {
+        console.log(
+          new Error("Error removing user to task in Delete Task User.")
+        );
+      }
+    } else {
+      console.log(
+        new Error("Error fetching task or user data in Delete Task User.")
       );
     }
   } catch (error) {
