@@ -20,7 +20,8 @@ tripRouter.get("/singleTrip/:tripId", async (req, res, next) => {
   }
 });
 
-// get route to get all trips associated with a user ONLY 
+// get route to get all trips associated with a user ONLY
+// tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
   //finds all tripIds for a specific user
   const findAllTrips = await User_Trip.findAll({

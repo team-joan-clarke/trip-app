@@ -1,31 +1,49 @@
 import React, { useEffect } from "react";
 import { getAllTripsThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
-import { link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
 // ^ to link to a specific trip in trip dashboard
 
-const CompletedTrips = () => {
+const CompletedTrips = (props) => {
+  console.log("these are props", props);
+
+  useEffect(() => {
+    props.getTrips(4);
+  }, []);
+
+  const { trips } = props;
+  console.log("trips", trips);
   return (
     <div>
       <h1>Hello these are completed Trips</h1>
-      <p> I am trip</p>
+      <div>
+        {trips.map((singleTrip) => {
+            console.log("one trip", singleTrip)
+            return (
+            <article key={singleTrip.id}>
+              <h1>{singleTrip.name}</h1>
+            </article>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     trips: state.trips.allTrips,
-//   };
-// };
+const mapStateToProps = (state) => {
+  console.log("this is state", state.trips);
+  return {
+    trips: state.trips
+  };
+};
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     getTrips: () => {
-//       dispatch(getAllTripsThunk());
-//     },
-//   };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getTrips: (userId) => {
+      dispatch(getAllTripsThunk(userId));
+    },
+  };
+};
 
-// connect(mapStateToProps, mapDispatchToProps)(CompletedTrips);
-export default CompletedTrips
+export default connect(mapStateToProps, mapDispatchToProps)(CompletedTrips);
