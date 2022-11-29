@@ -3,6 +3,7 @@ import { getAllCompletedTripsThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button"
 // ^ to link to a specific trip in trip dashboard
 
 const CompletedTrips = (props) => {
@@ -21,9 +22,14 @@ const CompletedTrips = (props) => {
         {trips.map((singleTrip) => {
           console.log("one trip", singleTrip);
           return (
-            <article key={singleTrip.id}>
-              <h1>{singleTrip.name}</h1>
-            </article>
+            <Card style={{ width: "18rem" }} key={singleTrip.id}>
+              <Card.Img variant="top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU" />
+              <Card.Body>
+                <Card.Title>{singleTrip.name}</Card.Title>
+                <Card.Text>{singleTrip.description}</Card.Text>
+                <Button variant="success">View Trip</Button>
+              </Card.Body>
+            </Card>
           );
         })}
       </div>
