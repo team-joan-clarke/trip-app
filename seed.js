@@ -303,6 +303,7 @@ async function seed() {
     User.create({
       firstName: "Cody",
       lastName: "Pug",
+      username: "cody",
       password: "123",
       email: "cody@gmail.com",
       phoneNumber: "123-123-1234",
@@ -310,6 +311,7 @@ async function seed() {
     User.create({
       firstName: "Murphy",
       lastName: "Cat",
+      username: "murphy",
       password: "123",
       email: "murphyy@gmail.com",
       phoneNumber: "123-124-1234",
@@ -317,6 +319,7 @@ async function seed() {
     User.create({
       firstName: "Lizzy",
       lastName: "Lizard",
+      username: "lizzy",
       password: "123",
       email: "lizzy@gmail.com",
       phoneNumber: "125-123-1234",
@@ -324,6 +327,7 @@ async function seed() {
     User.create({
       firstName: "Anahis",
       lastName: "Valenzuela",
+      username: "anahis",
       password: "123",
       email: "anahis@gmail.com",
       phoneNumber: "123-127-1234",
@@ -331,6 +335,7 @@ async function seed() {
     User.create({
       firstName: "Irais",
       lastName: "Valenzuela",
+      username: "irais",
       password: "123",
       email: "irais@gmail.com",
       phoneNumber: "123-128-1234",
@@ -338,6 +343,7 @@ async function seed() {
     User.create({
       firstName: "Collin",
       lastName: "Ross",
+      username: "collin",
       password: "123",
       email: "collin@gmail.com",
       phoneNumber: "123-125-1234",
@@ -345,6 +351,7 @@ async function seed() {
     User.create({
       firstName: "Kirk",
       lastName: "Land",
+      username: "kirk",
       password: "123",
       email: "kirk@gmail.com",
       phoneNumber: "123-124-1234",
@@ -352,6 +359,7 @@ async function seed() {
     User.create({
       firstName: "Yuri",
       lastName: "Valenzuela",
+      username: "yuri",
       password: "123",
       email: "yuri@gmail.com",
       phoneNumber: "123-123-1234",
@@ -359,6 +367,7 @@ async function seed() {
     User.create({
       firstName: "Jacob",
       lastName: "Valenzuela",
+      username: "jacob",
       password: "123",
       email: "jacob@gmail.com",
       phoneNumber: "123-122-1234",
@@ -366,6 +375,7 @@ async function seed() {
     User.create({
       firstName: "Ashley",
       lastName: "Valenzuela",
+      username: "ashley",
       password: "123",
       email: "ashley@gmail.com",
       phoneNumber: "123-121-1234",
@@ -373,6 +383,7 @@ async function seed() {
     User.create({
       firstName: "Sara",
       lastName: "Foley",
+      username: "sara",
       password: "pw12",
       email: "sfoley@test.com",
       phoneNumber: "321-123-1234",
@@ -381,6 +392,7 @@ async function seed() {
     User.create({
       firstName: "Diego",
       lastName: "Ivories",
+      username: "diego",
       password: "pw15",
       email: "dIvories@test.com",
       phoneNumber: "321-123-3333",
@@ -389,6 +401,7 @@ async function seed() {
     User.create({
       firstName: "Neil",
       lastName: "Goldman",
+      username: "neil",
       password: "pw45",
       email: "ngoldman@test.com",
       phoneNumber: "444-123-3333",
@@ -397,6 +410,7 @@ async function seed() {
     User.create({
       firstName: "Tim",
       lastName: "Smith",
+      username: "tim",
       password: "pw85",
       email: "tsmith@test.com",
       phoneNumber: "567-123-3333",
@@ -405,6 +419,7 @@ async function seed() {
     User.create({
       firstName: "Jessie",
       lastName: "Canon",
+      username: "jessie",
       password: "pw55",
       email: "jcanon@test.com",
       phoneNumber: "567-123-3360",
@@ -413,6 +428,7 @@ async function seed() {
     User.create({
       firstName: "Delia",
       lastName: "Harley",
+      username: "delia",
       password: "pw95",
       email: "dharley@test.com",
       phoneNumber: "212-123-3333",
@@ -421,6 +437,7 @@ async function seed() {
     User.create({
       firstName: "Elise",
       lastName: "Benjamin",
+      username: "elise",
       password: "pw35",
       email: "ebenjamin@test.com",
       phoneNumber: "212-3-3333",
