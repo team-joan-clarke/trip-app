@@ -1,11 +1,17 @@
 import axios from "axios";
 
 const ADD_NEW_TASK = "ADD_NEW_TASK";
+const UPDATE_TASK = "UPDATE_TASK";
 // const ADD_TASK_TO_USER = "ADD_TASK_TO_USER";
 const GET_TASKS = "GET_TASKS";
 
 export const addedNewTask = (task) => ({
   type: ADD_NEW_TASK,
+  task,
+});
+
+export const updatedTask = (task) => ({
+  type: UPDATE_TASK,
   task,
 });
 
@@ -27,6 +33,19 @@ export const addNewTask = (task, userId, role) => {
         userId,
         role,
       });
+      if (data) {
+        dispatch(addedNewTask(data));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const updateTask = (updatedData) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post("/api/tasks", updatedData);
       if (data) {
         dispatch(addedNewTask(data));
       }
@@ -59,6 +78,11 @@ const initialState = { allItineraryTasks: [], singleTaskView: {} };
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_NEW_TASK:
+      return {
+        ...state,
+        allItineraryTasks: [...state.allItineraryTasks, action.task],
+      };
+    case UPDATE_TASK:
       return {
         ...state,
         allItineraryTasks: [...state.allItineraryTasks, action.task],
