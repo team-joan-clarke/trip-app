@@ -92,10 +92,12 @@ const SingleTrip = () => {
   };
 
   return (
-    <div className="container">
+    <div
+      className="container"
+      style={{ width: "100%", alignContent: "center" }}
+    >
       <main>
         <h2>Single Trip</h2>
-        <h3>Trip Tasks</h3>
         <TripTasks />
       </main>
     </div>
