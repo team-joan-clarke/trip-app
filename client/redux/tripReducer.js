@@ -2,6 +2,7 @@ import axios from "axios";
 //action types
 const GET_ALL_COMPLETED_TRIP = "GET_ALL_COMPLETED_TRIP";
 const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS";
+const CREATE_TRIP = "CREATE_TRIP";
 
 //action creator
 const getAllCompletedTrips = (trips) => {
@@ -15,6 +16,13 @@ const getAllActiveTrips = (activeTrips) => {
   return {
     type: GET_ALL_ACTIVE_TRIP,
     activeTrips,
+  };
+};
+
+const createTrip = (trip) => {
+  return {
+    type: CREATE_TRIP,
+    trip,
   };
 };
 
@@ -46,6 +54,17 @@ export const getAllActiveTripsThunk = (userId) => {
   };
 };
 
+export const createNewTrip = (trip) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(`/api/trips`, trip);
+      dispatch(createTrip(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 const initialState = { active: [], complete: [] };
 
 // reducer
@@ -55,6 +74,8 @@ export default function tripReducer(state = initialState, action) {
       return { ...state, complete: action.trips };
     case GET_ALL_ACTIVE_TRIP:
       return { ...state, active: action.activeTrips };
+    case CREATE_TRIP:
+      return { ...state, active: action.trip };
     default:
       return state;
   }
