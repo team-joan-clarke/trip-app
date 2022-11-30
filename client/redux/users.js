@@ -25,11 +25,19 @@ export function getCookie(cname) {
 
 //action types
 const SET_USER = "SET_USER";
+const UPDATE_USER = "UPDATE_USER";
 
 //action creators
 const setUser = (user) => {
   return {
     type: SET_USER,
+    user,
+  };
+};
+
+const updateUser = (user) => {
+  return {
+    type: UPDATE_USER,
     user,
   };
 };
@@ -41,13 +49,25 @@ export const fetchUser = () => async (dispatch) => {
     const { data: user } = await axios.get(`/api/users/${id}`);
     dispatch(setUser(user));
   } catch (error) {
-    throw error;
+    console.error(error);
+  }
+};
+
+export const updatingUser = (info) => async (dispatch) => {
+  try {
+    const id = getCookie("userId");
+    const { data: user } = await axios.put(`/api/users/${id}/update`, info);
+    dispatch(updateUser(user));
+  } catch (error) {
+    return dispatch(updateUser({ error: error }));
   }
 };
 
 const usersReducer = (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
+      return action.user;
+    case UPDATE_USER:
       return action.user;
     default:
       return state;

@@ -22,11 +22,20 @@ users.get("/:id", async (req, res, next) => {
   }
 });
 
-users.post("/", async (req, res, next) => {
+users.put("/:id/update", async (req, res, next) => {
   try {
-    // const {firstName, lastName, password, email, phoneNumber} = req.body;
-    const data = await User.create(req.body);
-    res.status(201).send(data);
+    const { firstName, lastName, username, email, password, phoneNumber } =
+      req.body;
+    const user = await User.findByPk(req.params.id);
+    await user.update({
+      firstName,
+      lastName,
+      username,
+      email,
+      phoneNumber,
+      password,
+    });
+    res.status(200).send(user);
   } catch (error) {
     next(error);
   }
@@ -42,11 +51,11 @@ users.post("/", async (req, res, next) => {
 //   }
 // });
 
-// users.put("/:campusId", async (req, res, next) => {
+// users.post("/", async (req, res, next) => {
 //   try {
-//     const data = await Thing2.findByPk(req.params.campusId);
-//     await data.update(req.body);
-//     res.status(200).send(data);
+//     // const {firstName, lastName, password, email, phoneNumber} = req.body;
+//     const data = await User.create(req.body);
+//     res.status(201).send(data);
 //   } catch (error) {
 //     next(error);
 //   }

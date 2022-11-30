@@ -2,17 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { fetchUser } from "../redux/users";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
 
 const SingleUser = () => {
-  //   const dispatch = useDispatch();
-  //   const { userId } = useParams();
-  //   useEffect(() => {
-  //     dispatch(fetchUser(userId));
-  //   }, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, []);
 
   const user = useSelector((state) => state.users);
   const firstName = user.firstName || "";
@@ -34,4 +32,10 @@ const SingleUser = () => {
     </div>
   );
 };
-export default connect(null)(SingleUser);
+
+const mapState = (state) => {
+  return {
+    user: state.users,
+  };
+};
+export default connect(mapState)(SingleUser);
