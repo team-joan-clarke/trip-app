@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import "../../public/index.css"
 // ^ to link to a specific trip in trip dashboard
 
 const CompletedTrips = (props) => {
@@ -23,8 +24,9 @@ const CompletedTrips = (props) => {
         ) : (
           trips.complete.map((singleTrip) => {
             return (
+            <div className="grid">
               <Card
-                className="mb-4"
+                className="mb-4 box"
                 style={{ width: "18rem" }}
                 key={singleTrip.id}
               >
@@ -39,6 +41,7 @@ const CompletedTrips = (props) => {
                   <Button variant="success">View Trip</Button>
                 </Card.Body>
               </Card>
+            </div>
             );
           })
         )}

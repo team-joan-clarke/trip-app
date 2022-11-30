@@ -68,3 +68,24 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+/* trip cards */
+
+
+.grid {
+    min-height: 100%; 
+    display: flex; 
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.box {
+    margin: 20px;
+    border-radius: 10px 10px 10px 10px ;
+    height: 200px;
+}
+
+
+.grid > div {
+    flex-basis: calc(25% - 40px);
+}
