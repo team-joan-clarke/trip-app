@@ -30,11 +30,11 @@ undefined.length
           trips.active.map((singleTrip) => {
             return (
               <Card
-                className="mb-4"
+                className="mb-4 "
                 style={{ width: "18rem" }}
                 key={singleTrip.id}
               >
-                <Card.Img
+                <Card.Img 
                   variant="top"
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU"
                 />

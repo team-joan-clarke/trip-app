@@ -60,7 +60,6 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
       return singleTrip;
     }
   });
-console.log("in backend active route", activeTrips)
   res.send(activeTrips).status(200);
 });
 
