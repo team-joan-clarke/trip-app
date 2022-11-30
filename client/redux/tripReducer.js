@@ -1,9 +1,12 @@
 import axios from "axios";
 import { getCookie } from "./users";
+
 //action types
 const GET_ALL_COMPLETED_TRIP = "GET_ALL_COMPLETED_TRIP";
 const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS";
+const GET_SINGLE_TRIP = "GET_SINGLE_TRIP";
 const CREATE_TRIP = "CREATE_TRIP";
+const UPDATE_TRIP = "UPDATE_TRIP";
 
 //action creator
 const getAllCompletedTrips = (trips) => {
@@ -27,13 +30,27 @@ const createTrip = (trip) => {
   };
 };
 
+const updateTrip = (trip) => {
+  return {
+    type: UPDATE_TRIP,
+    trip,
+  };
+};
+
+const getSingleTrip = (trip) => {
+  return {
+    type: GET_SINGLE_TRIP,
+    trip,
+  };
+};
+
 //thunk creator
 
 export const getAllCompletedTripsThunk = () => {
   return async (dispatch) => {
     try {
-      const id = getCookie("userId")
-      console.log("id", id)
+      const id = getCookie("userId");
+      console.log("id", id);
       const { data: trips } = await axios.get(
         `/api/trips/completedTrips/${id}`
       );
@@ -47,10 +64,8 @@ export const getAllCompletedTripsThunk = () => {
 export const getAllActiveTripsThunk = () => {
   return async (dispatch) => {
     try {
-      const id = getCookie("userId")
-      const { data: trips } = await axios.get(
-        `/api/trips/activeTrips/${id}`
-      );
+      const id = getCookie("userId");
+      const { data: trips } = await axios.get(`/api/trips/activeTrips/${id}`);
       dispatch(getAllActiveTrips(trips));
     } catch (error) {
       console.error(error);
@@ -69,7 +84,32 @@ export const createNewTrip = (trip) => {
   };
 };
 
-const initialState = { active: [], complete: [] };
+export const updateThisTrip = (updatedData, tripId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        `/api/trips/singleTrip/${tripId}`,
+        updatedData
+      );
+      dispatch(updateTrip(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const fetchSingleTrip = (tripId) => {
+  return async (dispatch) => {
+    try {
+      const { data: trip } = await axios.get(`/api/trips/singleTrip/${tripId}`);
+      dispatch(getSingleTrip(trip));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+const initialState = { active: [], complete: [], singleTripView: {} };
 
 // reducer
 export default function tripReducer(state = initialState, action) {
@@ -80,6 +120,13 @@ export default function tripReducer(state = initialState, action) {
       return { ...state, active: action.activeTrips };
     case CREATE_TRIP:
       return { ...state, active: action.trip };
+    case UPDATE_TRIP:
+      const filteredTrips = state.active.filter(
+        (trip) => trip.id !== action.trip.id
+      );
+      return { ...state, active: [...filteredTrips, action.trip] };
+    case GET_SINGLE_TRIP:
+      return {...state, singleTripView: {singleTrip: action.trip}}
     default:
       return state;
   }

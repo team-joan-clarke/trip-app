@@ -55,7 +55,6 @@ const CreateTrip = (props) => {
           <label htmlFor="name">Trip Name:</label>
           <input type="text" name="name" value={name} onChange={handleChange} />
         </div>
-
         <div>
           <label htmlFor="city">City:</label>
           <input type="text" name="city" value={city} onChange={handleChange} />
