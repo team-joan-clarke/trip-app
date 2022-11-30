@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { getAllCompletedTripsThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "../../public/index.css";
-// ^ to link to a specific trip in trip dashboard
 
 const CompletedTrips = (props) => {
   useEffect(() => {
@@ -13,6 +12,12 @@ const CompletedTrips = (props) => {
   }, []);
 
   const { trips } = props;
+  const navigate = useNavigate()
+
+  const handleClick = (event) => {
+    console.log(event.target.name)
+    navigate(`/trip/${event.target.name}`);
+  }
 
   return (
     <div>
@@ -41,7 +46,7 @@ const CompletedTrips = (props) => {
                       {singleTrip.end_date.slice(8, 10)}/
                       {singleTrip.start_date.slice(0, 4)}
                     </Card.Text>
-                    <Button variant="success">View Trip</Button>
+                    <Button name={singleTrip.id} onClick={handleClick} variant="primary">View Trip</Button>
                   </Card.Body>
                 </Card>
               </div>
