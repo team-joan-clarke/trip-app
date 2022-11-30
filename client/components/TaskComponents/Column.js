@@ -6,7 +6,7 @@ import TaskList from "./TaskList";
 
 const Column = (props) => {
   return (
-    <Card style={{ width: "20rem" }}>
+    <Card style={{ width: "20rem", alignItems: "center" }}>
       <h3>{props.col.date}</h3>
       <TaskList tasks={props.tasks} />
     </Card>
