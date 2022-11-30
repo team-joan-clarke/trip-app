@@ -289,6 +289,17 @@ const tasks = [
     status: "complete",
     TripId: 7,
   },
+  {
+    type: "Activity",
+    subtype: "Entertainment",
+    provider_name: "Tipitina's",
+    due_date: new Date(2023, 2, 10),
+    start_date: new Date(2023, 2, 17),
+    start_time: "20:30:00 CST",
+    description: "mix of country and jazz",
+    status: "complete",
+    TripId: 2,
+  },
 ];
 
 /**
@@ -796,6 +807,16 @@ async function seed() {
       role: "attendee",
       UserId: 5,
       TaskId: 20,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: 15,
+      TaskId: 21,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: 16,
+      TaskId: 21,
     }),
   ]);
 
