@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
+import Column from "./TaskComponents/Column";
+import Card from "react-bootstrap/Card";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const TripTasks = () => {
   const dispatch = useDispatch();
@@ -126,32 +129,15 @@ const TripTasks = () => {
     setColumns(dayArr);
     setColTasks(taskMap);
   }, [tasks]);
+
   return (
-    <div className="container">
-      {columns.map((day, i) => {
-        const dayTasks = colTasks[`${day.date}`];
-        let taskBool = false;
-        if (dayTasks.length > 0) {
-          taskBool = true;
-        }
-        return (
-          <div key={`day${i}`}>
-            <h3>{day.date}</h3>
-            {taskBool ? (
-              dayTasks.map((t, i) => {
-                return (
-                  <div key={i}>
-                    <h4>{t.type}</h4>
-                  </div>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </div>
-        );
-      })}
-    </div>
+    <Card style={{ width: "auto", flexDirection: "row", flexWrap: "wrap" }}>
+      <DragDropContext>
+        {columns.map((col, i) => {
+          return <Column key={i} col={col} tasks={colTasks[col.date]} />;
+        })}
+      </DragDropContext>
+    </Card>
   );
 };
 export default connect(null)(TripTasks);
