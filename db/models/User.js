@@ -1,5 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../db");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+require("dotenv").config();
+
+const SALT_ROUNDS = 5;
 
 const User = db.define("User", {
   firstName: {
@@ -12,7 +17,7 @@ const User = db.define("User", {
   },
   username: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   password: {
     type: DataTypes.STRING,
@@ -44,7 +49,7 @@ const User = db.define("User", {
 /**
  * instanceMethods
  */
- User.prototype.correctPassword = function (candidatePwd) {
+User.prototype.correctPassword = function (candidatePwd) {
   //we need to compare the plain version to an encrypted version of the password
   return bcrypt.compare(candidatePwd, this.password);
 };
@@ -63,7 +68,9 @@ User.authenticate = async function ({ username, password }) {
     error.status = 401;
     throw error;
   }
-  return user.generateToken();
+  const token = await user.generateToken();
+  await user.update({ token: token });
+  return token;
 };
 
 User.findByToken = async function (token) {

@@ -149,7 +149,7 @@ const tasks = [
     description:
       "BEIGNETS! Look into Cafe du Monde. Maybe do at night instead?",
     status: "in progress",
-    TripId: 3,
+    TripId: 2,
   },
   {
     type: "Dining",
@@ -158,7 +158,7 @@ const tasks = [
     due_date: new Date(2023, 1, 30),
     description: "Johnny's Poboys or similar--check on veggie options",
     status: "in progress",
-    TripId: 3,
+    TripId: 2,
   },
   {
     type: "Dining",
@@ -172,7 +172,7 @@ const tasks = [
       "Friday res at Brennan's in the dining room. (THE place to get Banana's Foster). Spoke to Jimmy.",
     link: "https://www.brennansneworleans.com/",
     status: "complete",
-    TripId: 3,
+    TripId: 2,
   },
   {
     type: "Activity",
@@ -181,7 +181,7 @@ const tasks = [
     due_date: new Date(2023, 2, 10),
     description: "Check on when wigs will be avail for pickup",
     status: "in progress",
-    TripId: 3,
+    TripId: 2,
   },
   {
     type: "Activity",
@@ -190,7 +190,7 @@ const tasks = [
     due_date: new Date(2023, 2, 10),
     description: "Book walking tour of one of the cemeteries?",
     status: "in progress",
-    TripId: 3,
+    TripId: 2,
   },
   {
     type: "Transportation",
@@ -198,7 +198,7 @@ const tasks = [
     due_date: new Date(2023, 1, 25),
     description: "Book flights",
     status: "in progress",
-    TripId: 2,
+    TripId: 3,
   },
   {
     type: "Lodging",
@@ -214,7 +214,7 @@ const tasks = [
     booking_num: "23458880",
     link: "https://www.airbnb.com/rooms/52567688?check_in=2023-01-11&check_out=2023-01-12&source_impression_id=p3_1669256978_TXmb8o1jH%2FBTR1Rg",
     status: "complete",
-    TripId: 2,
+    TripId: 3,
   },
   {
     type: "Activity",
@@ -525,22 +525,22 @@ async function seed() {
     User_Trip.create({
       role: "owner",
       UserId: 5,
-      TripId: 2,
+      TripId: 3,
     }),
     User_Trip.create({
       role: "owner",
       UserId: 6,
-      TripId: 3,
+      TripId: 2,
     }),
     User_Trip.create({
       role: "attendee",
       UserId: 9,
-      TripId: 3,
+      TripId: 2,
     }),
     User_Trip.create({
       role: "attendee",
       UserId: 7,
-      TripId: 3,
+      TripId: 2,
     }),
     User_Trip.create({
       role: "owner",

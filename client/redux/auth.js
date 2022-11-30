@@ -1,5 +1,6 @@
 import axios from "axios";
-import history from "../history";
+// import history from "../history";
+import { getCookie, setCookie } from "./users";
 
 const TOKEN = "token";
 
@@ -16,51 +17,53 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
 /**
  * THUNK CREATORS
  */
-export const me = () => async (dispatch) => {
-    //change to incorporate cookies instead of localStorage
-  const token = window.localStorage.getItem(TOKEN);
+export const verified = () => async (dispatch) => {
+  //using cookies instead of localStorage
+  const token = getCookie(TOKEN);
   if (token) {
-    const res = await axios.get("/auth/me", {
+    const res = await axios.get("/auth/verified", {
       headers: {
         authorization: token,
       },
     });
     //update res.data to protect info
+    setCookie("userId", res.data.id, 1);
     return dispatch(setAuth(res.data));
   }
 };
 
-//pull apart into login and signup thunks
-export const authenticate =
-  (userName, password, method) => async (dispatch) => {
-    try {
-      const res = await axios.post(`/auth/${method}`, { userName, password });
-      window.localStorage.setItem(TOKEN, res.data.token);
-      dispatch(me());
-    } catch (authError) {
-      return dispatch(setAuth({ error: authError }));
-    }
-  };
+export const authenticateLogin = (username, password) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/auth/login`, { username, password });
+    setCookie(TOKEN, res.data.token, 1);
+    dispatch(verified());
+  } catch (authError) {
+    return dispatch(setAuth({ error: authError }));
+  }
+};
 
 export const authenticateSignUp =
-  (fullName, age, userName, email, password, method) => async (dispatch) => {
+  (firstName, lastName, username, password, email, phoneNumber) =>
+  async (dispatch) => {
     try {
-      const res = await axios.post(`/auth/${method}`, {
-        fullName,
-        age,
-        userName,
-        email,
+      const res = await axios.post(`/auth/signup`, {
+        firstName,
+        lastName,
+        username,
         password,
+        email,
+        phoneNumber,
       });
-      window.localStorage.setItem(TOKEN, res.data.token);
-      dispatch(me());
+      setCookie(TOKEN, res.data.token, 1);
+      dispatch(verified());
     } catch (authError) {
       return dispatch(setAuth({ error: authError }));
     }
   };
 
 export const logout = () => {
-  window.localStorage.removeItem(TOKEN);
+  setCookie(TOKEN, "", 0);
+  setCookie("userId", "", 0);
   history.push("/");
   return {
     type: SET_AUTH,
