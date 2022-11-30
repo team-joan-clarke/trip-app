@@ -7,10 +7,9 @@ import Button from "react-bootstrap/Button";
 // ^ to link to a specific trip in trip dashboard
 
 const ActiveTrips = (props) => {
-  const { userId } = useParams();
 
   useEffect(() => {
-    props.getTrips(userId);
+    props.getTrips();
   }, []);
 
   const { trips } = props;
@@ -26,7 +25,7 @@ undefined.length
       <h1>Current Trips</h1>
       <div>
         {trips.active.length == 0 ? (
-          <h2>No active Trips</h2>
+          <h4>No active Trips</h4>
         ) : (
           trips.active.map((singleTrip) => {
             return (
@@ -61,8 +60,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getTrips: (userId) => {
-      dispatch(getAllActiveTripsThunk(userId));
+    getTrips: () => {
+      dispatch(getAllActiveTripsThunk());
     },
   };
 };
