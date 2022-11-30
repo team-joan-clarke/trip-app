@@ -12,7 +12,6 @@ const getAllCompletedTrips = (trips) => {
 };
 
 const getAllActiveTrips = (activeTrips) => {
-  console.log("in action creator", activeTrips);
   return {
     type: GET_ALL_ACTIVE_TRIP,
     activeTrips,
@@ -40,7 +39,6 @@ export const getAllActiveTripsThunk = (userId) => {
       const { data: trips } = await axios.get(
         `/api/trips/activeTrips/${userId}`
       );
-      console.log("trips in active thunk", trips);
       dispatch(getAllActiveTrips(trips));
     } catch (error) {
       console.error(error);

@@ -54,7 +54,6 @@ undefined.length
 };
 
 const mapStateToProps = (state) => {
-  console.log("this is state in active trip", state.trips);
   return {
     trips: state.trips,
   };
