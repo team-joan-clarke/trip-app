@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getTasksByTrip } from "../redux/taskReducer";
 import TripTasks from "./TripTasks";
+import TripTaskTodo from "./TripTaskTodo";
 
 const SingleTrip = () => {
   const dispatch = useDispatch();
@@ -99,6 +100,7 @@ const SingleTrip = () => {
       <main>
         <h2>Single Trip</h2>
         <TripTasks />
+        <TripTaskTodo />
       </main>
     </div>
   );
