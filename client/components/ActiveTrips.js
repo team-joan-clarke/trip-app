@@ -28,7 +28,7 @@ undefined.length
         ) : (
           trips.active.map((singleTrip) => {
             return (
-              <div className="grid">
+              <div className="grid" key={singleTrip.id}>
                 <Card
                   className="mb-4 box"
                   style={{ width: "18rem" }}
@@ -36,7 +36,7 @@ undefined.length
                 >
                   <Card.Img
                     variant="top"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU"
+                    src={singleTrip.imageUrl}
                   />
                   <Card.Body>
                     <Card.Title>{singleTrip.name}</Card.Title>
