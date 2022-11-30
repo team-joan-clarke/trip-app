@@ -14,23 +14,22 @@ function timeDisplayConverter(time) {
 }
 
 const TaskCard = (props) => {
-  console.log("in task card");
   const [seeMore, setSeeMore] = useState(false);
-
-  // let more;
-
-  // useEffect(() => {
-  //   more = seeMore;
-  // }, [setSeeMore]);
-
+  const taskStartTime = timeDisplayConverter(props.task.start_date);
   return (
-    <Card style={{ width: "13rem", marginTop: "1rem" }}>
+    <Card
+      style={
+        props.type === "todo"
+          ? { width: "auto", margin: "1rem" }
+          : { width: "13rem", marginTop: "1rem" }
+      }
+    >
       <Card.Body>
         <Card.Title>{props.task.provider_name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           {props.task.type}: {props.task.subtype ? props.task.subtype : ""}
         </Card.Subtitle>
-        <Card.Text>Start: {props.task.start_time}</Card.Text>
+        <Card.Text>Start: {taskStartTime}</Card.Text>
         {props.task.checkin_time ? (
           <Card.Text>Check In: {props.task.checkin_time}</Card.Text>
         ) : (
@@ -58,6 +57,7 @@ const TaskCard = (props) => {
             e.preventDefault();
             setSeeMore(!seeMore);
           }}
+          style={{ display: "block" }}
         >
           {seeMore ? "See Less" : "See More..."}
         </Card.Link>

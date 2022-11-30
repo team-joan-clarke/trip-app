@@ -69,6 +69,7 @@
   display: block;
 }
 
+
 /* trip cards */
 
 
@@ -88,4 +89,20 @@
 
 .grid > div {
     flex-basis: calc(25% - 40px);
+}
+
+/* Add lightseagreen to buttons */
+.btn-primary {
+  background-color: lightseagreen;
+  background-image: linear-gradient(115deg, lightseagreen, 68%, #bded7e);
+  border: none;
+  border-radius: 50px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #bded7e;
+  background-image: linear-gradient(115deg, lightseagreen, 35%, #bded7e);
+  border: none;
+  border-radius: 50px;
 }
