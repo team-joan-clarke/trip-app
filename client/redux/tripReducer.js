@@ -1,7 +1,7 @@
 import axios from "axios";
 //action types
 const GET_ALL_COMPLETED_TRIP = "GET_ALL_COMPLETED_TRIP";
-const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS"
+const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS";
 
 //action creator
 const getAllCompletedTrips = (trips) => {
@@ -11,13 +11,13 @@ const getAllCompletedTrips = (trips) => {
   };
 };
 
-const getAllActiveTrips = (trips) => {
+const getAllActiveTrips = (activeTrips) => {
+  console.log("in action creator", activeTrips);
   return {
     type: GET_ALL_ACTIVE_TRIP,
-    trips,
+    activeTrips,
   };
 };
-
 
 //thunk creator
 
@@ -27,6 +27,7 @@ export const getAllCompletedTripsThunk = (userId) => {
       const { data: trips } = await axios.get(
         `/api/trips/completedTrips/${userId}`
       );
+      console.log("in think", trips);
       dispatch(getAllCompletedTrips(trips));
     } catch (error) {
       console.error(error);
@@ -35,13 +36,12 @@ export const getAllCompletedTripsThunk = (userId) => {
 };
 
 export const getAllActiveTripsThunk = (userId) => {
-  console.log("make it to thunk");
   return async (dispatch) => {
     try {
       const { data: trips } = await axios.get(
-        `/api/trips/activeTrips//${userId}`
+        `/api/trips/activeTrips/${userId}`
       );
-      console.log("in thunk");
+      console.log("trips in active thunk", trips)
       dispatch(getAllActiveTrips(trips));
     } catch (error) {
       console.error(error);
@@ -49,16 +49,16 @@ export const getAllActiveTripsThunk = (userId) => {
   };
 };
 
-const initialState = [];
-// const initialState = { allTrips: [], singleTrip: {} };
+
+const initialState = { active: [], complete: [] };
 
 // reducer
 export default function tripReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_COMPLETED_TRIP:
-      return action.trips;
+      return { ...state, complete: [action.trips] };
     case GET_ALL_ACTIVE_TRIP:
-      return action.trips
+      return { ...state, active: [action.activeTrips] };
     default:
       return state;
   }

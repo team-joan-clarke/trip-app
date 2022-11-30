@@ -19,10 +19,10 @@ const CompletedTrips = (props) => {
     <div>
       <h1>Past Trips</h1>
       <div>
-        {trips.length == 0 ? (
+        {trips.complete.length == 0 ? (
           <h2>No past trips</h2>
         ) : (
-          trips.map((singleTrip) => {
+          trips.complete[0].map((singleTrip) => {
             return (
               <Card
                 className="mb-4"
@@ -48,7 +48,7 @@ const CompletedTrips = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("this is state", state.trips);
+  console.log("state", state.trips.active);
   return {
     trips: state.trips,
   };
@@ -62,4 +62,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+// export default CompletedTrips
 export default connect(mapStateToProps, mapDispatchToProps)(CompletedTrips);
