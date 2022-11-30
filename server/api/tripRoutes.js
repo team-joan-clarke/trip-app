@@ -20,7 +20,8 @@ tripRouter.get("/singleTrip/:tripId", async (req, res, next) => {
   }
 });
 
-// get route to get all trips associated with a user ONLY 
+// get route to get all trips associated with a user ONLY
+// tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
   //finds all tripIds for a specific user
   const findAllTrips = await User_Trip.findAll({
@@ -39,6 +40,7 @@ tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 
 // get route for trips dashboard gets active trips
 tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
+    console.log("in active route")
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });
@@ -53,8 +55,13 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
       });
     })
   );
-
-  res.send(allActiveTripsForUser).status(200);
+  const activeTrips = allActiveTripsForUser.filter((singleTrip) => {
+    if (singleTrip) {
+      return singleTrip;
+    }
+  });
+console.log("in backend active route", activeTrips)
+  res.send(activeTrips).status(200);
 });
 
 // get route for trips dashboard gets completed Trips
@@ -74,7 +81,13 @@ tripRouter.get("/completedTrips/:userId", async (req, res, next) => {
     })
   );
 
-  res.send(allCompletedTripsForUser).status(200);
+  const completedTrips = allCompletedTripsForUser.filter((singleTrip) => {
+    if (singleTrip) {
+      return singleTrip;
+    }
+  });
+
+  res.send(completedTrips).status(200);
 });
 
 // post route to create a trip
