@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { DragDropContext } from "react-beautiful-dnd";
+import Column from "./TaskComponents/Column";
+import Card from "react-bootstrap/Card";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const TripTasks = () => {
   const dispatch = useDispatch();
   const { tripId } = useParams();
-  useEffect(() => {
-    // dispatch(getAllTripsThunk());
-  }, []);
   const tasks = useSelector((state) => state.tasks.allItineraryTasks);
+  //const trip = useSelector((state) => state.trip.singleTrip);
   console.log(tasks);
+  const [columns, setColumns] = useState([]);
+  const [colTasks, setColTasks] = useState({});
   const testTrip = {
     id: 2,
     name: "Mardi Gras 2023!!!",
@@ -90,22 +94,70 @@ const TripTasks = () => {
     ],
   };
 
-  // const trips = useSelector((state) => state.allTrips);
+  // useEffect(() => {}, [trip])
+
+  // TRIP DURATION
   const diffTime = Math.abs(
     Date.parse(testTrip.end_date) - Date.parse(testTrip.start_date)
   );
   const tripDuration = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  const dayArr = new Array(tripDuration).fill("");
-  console.log(dayArr);
+
+  useEffect(() => {
+    // MAPPING TASKS TO COLUMNS BY DATE
+    const dayArr = [];
+    const taskMap = {};
+    const startDay = new Date(testTrip.start_date);
+
+    for (let i = 0; i < tripDuration; i++) {
+      const startDate = new Date(testTrip.start_date);
+      startDate.setDate(startDate.getDate() + i);
+      const dateStr = startDate.toDateString();
+      dayArr.push({ date: dateStr });
+      taskMap[dateStr] = [];
+    }
+
+    tasks.forEach((task) => {
+      if (task.start_date) {
+        const startDate = new Date(task.start_date);
+        startDate.setDate(startDate.getDate());
+        const taskDate = startDate.toDateString();
+        const taskArr = taskMap[taskDate];
+        taskArr.push(task);
+        taskMap[taskDate] = taskArr;
+      }
+    });
+    setColumns(dayArr);
+    setColTasks(taskMap);
+  }, [tasks]);
+
   return (
-    <div className="container">
-      {dayArr.map((day, i) => {
-        return (
-          <div key={`day${i}`}>
-            <h3>{i}</h3>
-          </div>
-        );
-      })}
+    <div
+      style={{
+        width: "auto",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        padding: "2rem",
+        borderRadius: "5px",
+        boxShadow: "2px 1px 20px grey",
+      }}
+    >
+      <h3>Trip Tasks</h3>
+      <div
+        style={{
+          display: "flex",
+          width: "auto",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          padding: "none",
+          justifyContent: "center",
+        }}
+      >
+        <DragDropContext>
+          {columns.map((col, i) => {
+            return <Column key={i} col={col} tasks={colTasks[col.date]} />;
+          })}
+        </DragDropContext>
+      </div>
     </div>
   );
 };
