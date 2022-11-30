@@ -27,6 +27,7 @@ export const verified = () => async (dispatch) => {
       },
     });
     //update res.data to protect info
+    setCookie("userId", res.data.id, 1);
     return dispatch(setAuth(res.data));
   }
 };
@@ -62,6 +63,7 @@ export const authenticateSignUp =
 
 export const logout = () => {
   setCookie(TOKEN, "", 0);
+  setCookie("userId", "", 0);
   history.push("/");
   return {
     type: SET_AUTH,
