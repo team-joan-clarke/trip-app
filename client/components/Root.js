@@ -6,6 +6,7 @@ import UpdateUserForm from "./UpdateUserForm";
 import SingleTrip from "./SingleTrip";
 import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
+import Navbar from "./Navbar";
 
 // const Root = () => {
 //   let [stuff, setStuff] = useState("root");
@@ -23,6 +24,7 @@ import { Login } from "./LoginForm";
 const Root = () => {
   return (
     <BrowserRouter>
+    <Navbar />
       <Routes>
         <Route exact path="/user" element={<SingleUser />} />
         <Route exact path="/trip/:tripId" element={<SingleTrip />} />
