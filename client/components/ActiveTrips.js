@@ -41,6 +41,7 @@ undefined.length
                 <Card.Body>
                   <Card.Title>{singleTrip.name}</Card.Title>
                   <Card.Text>Status: {singleTrip.status}</Card.Text>
+                  <Card.Text>Dates: {singleTrip.start_date.slice(5, 7)}/{singleTrip.start_date.slice(8, 10)}/{singleTrip.start_date.slice(0, 4)} - {singleTrip.end_date.slice(5, 7)}/{singleTrip.end_date.slice(8, 10)}/{singleTrip.start_date.slice(0, 4)}</Card.Text>
                   <Button variant="success">View Trip</Button>
                 </Card.Body>
               </Card>
