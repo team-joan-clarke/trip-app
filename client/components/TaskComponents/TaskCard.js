@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -15,8 +15,16 @@ function timeDisplayConverter(time) {
 
 const TaskCard = (props) => {
   console.log("in task card");
+  const [seeMore, setSeeMore] = useState(false);
+
+  // let more;
+
+  // useEffect(() => {
+  //   more = seeMore;
+  // }, [setSeeMore]);
+
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "18rem", marginTop: "1rem" }}>
       <Card.Body>
         <Card.Title>{props.task.provider_name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
@@ -28,7 +36,7 @@ const TaskCard = (props) => {
         ) : (
           <></>
         )}
-        {props.task.checkin_time ? (
+        {props.task.description && seeMore ? (
           <Card.Text>Description: {props.task.description}</Card.Text>
         ) : (
           <></>
@@ -41,6 +49,15 @@ const TaskCard = (props) => {
         <Button variant="primary" style={{ float: "right" }}>
           Edit
         </Button>
+        <Card.Link
+          href=""
+          onClick={(e) => {
+            e.preventDefault();
+            setSeeMore(!seeMore);
+          }}
+        >
+          {seeMore ? "See Less" : "See More..."}
+        </Card.Link>
       </Card.Body>
     </Card>
   );
