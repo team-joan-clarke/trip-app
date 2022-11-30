@@ -2,41 +2,42 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../redux/auth";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
-const Navbar = ({ isLoggedIn }) => {
+const NavigationBar = ({ isLoggedIn }) => {
   const handleClick = () => {
     logout();
   };
 
   return (
-    <div className="nav-bar">
-      <header className="trippn-header">
-        <h1>trippn</h1>
-      </header>
-      <nav className="nav-links">
-        <Link to="/login" className="nav-link">
-          Login
-        </Link>
-        <Link to="/signup" className="nav-link">
-          Signup
-        </Link>
-        <div className="dropdown">
-          <button className="dropbtn">
-            Dropdown
-            <i className="fa fa-caret-down"></i>
-          </button>
-          <div className="dropdown-content">
-            <a href="#">Dead Link 1</a>
-            <a href="#">Dead Link 2</a>
-            <a href="#">Dead Link 3</a>
-          </div>
-        </div>
-        <a href="#" className="nav-link" onClick={handleClick}>
-            Logout
-          </a>
-      </nav>
-      <hr />
-    </div>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand href="#home">trippn</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/signup">Signup</Nav.Link>
+            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Dead Link</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">Dead Link</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Dead Link</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/dummydash">dummy dash</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Nav>
+            <Nav.Link href="/user">User Dashboard</Nav.Link>
+            <Nav.Link href="/" onClick={handleClick}>
+              Sign Out
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
@@ -55,4 +56,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch)(Navbar);
+export default connect(mapState, mapDispatch)(NavigationBar);

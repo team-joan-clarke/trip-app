@@ -6,7 +6,7 @@ import UpdateUserForm from "./UpdateUserForm";
 import SingleTrip from "./SingleTrip";
 import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
-import Navbar from "./Navbar";
+import NavigationBar from "./Navbar";
 import DummyUserDash from "./DummyUserDash";
 
 // const Root = () => {
@@ -25,7 +25,7 @@ import DummyUserDash from "./DummyUserDash";
 const Root = () => {
   return (
     <BrowserRouter>
-    <Navbar />
+    <NavigationBar />
       <Routes>
         <Route exact path="/user" element={<SingleUser />} />
         <Route exact path="/trip/:tripId" element={<SingleTrip />} />
