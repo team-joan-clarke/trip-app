@@ -24,7 +24,7 @@ import Navbar from "./Navbar";
 const Root = () => {
   return (
     <BrowserRouter>
-    <Navbar />
+      <Navbar />
       <Routes>
         <Route exact path="/user" element={<SingleUser />} />
         <Route exact path="/trip/:tripId" element={<SingleTrip />} />
