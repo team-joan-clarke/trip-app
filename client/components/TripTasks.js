@@ -11,7 +11,6 @@ const TripTasks = () => {
   const { tripId } = useParams();
   const tasks = useSelector((state) => state.tasks.allItineraryTasks);
   //const trip = useSelector((state) => state.trip.singleTrip);
-  console.log(tasks);
   const [columns, setColumns] = useState([]);
   const [colTasks, setColTasks] = useState({});
   const testTrip = {
@@ -137,6 +136,7 @@ const TripTasks = () => {
         padding: "2rem",
         borderRadius: "5px",
         boxShadow: "2px 1px 20px grey",
+        marginTop: "3rem",
       }}
     >
       <h3>Trip Tasks</h3>
