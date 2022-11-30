@@ -33,7 +33,6 @@ export const getAllCompletedTripsThunk = () => {
   return async (dispatch) => {
     try {
       const id = getCookie("userId")
-      console.log("id", id)
       const { data: trips } = await axios.get(
         `/api/trips/completedTrips/${id}`
       );

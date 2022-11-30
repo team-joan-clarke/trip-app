@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import history from "../history";
-// ^ to link to a specific trip in trip dashboard
+
 
 const ActiveTrips = (props) => {
   useEffect(() => {
@@ -55,7 +54,7 @@ undefined.length
                     <Button
                       name={singleTrip.id}
                       onClick={handleClick}
-                      variant="success"
+                      variant="primary"
                     >
                       View Trip
                     </Button>
