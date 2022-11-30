@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import Column from "./TaskComponents/Column";
-import Card from "react-bootstrap/Card";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const TripTasks = () => {
   const dispatch = useDispatch();
