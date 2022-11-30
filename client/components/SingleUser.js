@@ -38,4 +38,5 @@ const mapState = (state) => {
     user: state.users,
   };
 };
+
 export default connect(mapState)(SingleUser);

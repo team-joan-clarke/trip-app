@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logout } from "./auth";
 
 // Cookie functions:
 export function setCookie(cname, cvalue, exdays) {
@@ -26,6 +27,7 @@ export function getCookie(cname) {
 //action types
 const SET_USER = "SET_USER";
 const UPDATE_USER = "UPDATE_USER";
+const DELETE_USER = "DELETE_USER";
 
 //action creators
 const setUser = (user) => {
@@ -38,6 +40,13 @@ const setUser = (user) => {
 const updateUser = (user) => {
   return {
     type: UPDATE_USER,
+    user,
+  };
+};
+
+const deleteUser = (user) => {
+  return {
+    type: DELETE_USER,
     user,
   };
 };
@@ -63,11 +72,24 @@ export const updatingUser = (info) => async (dispatch) => {
   }
 };
 
+export const deletingUser = () => async (dispatch) => {
+  try {
+    const id = getCookie("userId");
+    const { data: user } = await axios.delete(`/api/users/${id}`);
+    logout();
+    dispatch(deleteUser());
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const usersReducer = (state = {}, action) => {
   switch (action.type) {
     case SET_USER:
       return action.user;
     case UPDATE_USER:
+      return action.user;
+    case DELETE_USER:
       return action.user;
     default:
       return state;

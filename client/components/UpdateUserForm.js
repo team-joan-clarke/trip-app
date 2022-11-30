@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { updatingUser } from "../redux/users";
-import { fetchUser } from "../redux/users";
+import { fetchUser, deletingUser } from "../redux/users";
 
 export class UpdateUser extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ export class UpdateUser extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
     this.props.fetchUser();
@@ -37,6 +38,7 @@ export class UpdateUser extends React.Component {
       phoneNumber: this.state.phoneNumber,
       password: this.state.password,
     });
+    event.target.reset();
   }
 
   handleChange(event) {
@@ -45,8 +47,15 @@ export class UpdateUser extends React.Component {
     });
   }
 
+  handleClick() {
+    let result = confirm("Are you sure you want to delete user?");
+    if (result) {
+      this.props.deleteUser();
+    }
+  }
+
   render() {
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, handleClick } = this;
     const firstName = this.props.user.firstName || "";
     const lastName = this.props.user.lastName || "";
     const username = this.props.user.username || "";
@@ -111,6 +120,9 @@ export class UpdateUser extends React.Component {
           {this.state.error != "" && <p>{this.state.error}</p>}
           <button type="submit">Update Profile</button>
         </form>
+        <button type="button" onClick={handleClick}>
+          Delete User
+        </button>
       </div>
     );
   }
@@ -123,6 +135,7 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   updateUser: (userInfo) => dispatch(updatingUser(userInfo)),
   fetchUser: () => dispatch(fetchUser()),
+  deleteUser: () => dispatch(deletingUser()),
 });
 
 export default connect(mapState, mapDispatch)(UpdateUser);

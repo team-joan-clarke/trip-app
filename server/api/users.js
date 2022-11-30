@@ -41,15 +41,15 @@ users.put("/:id/update", async (req, res, next) => {
   }
 });
 
-// users.delete("/:id", async (req, res, next) => {
-//   try {
-//     const data = await Thing2.findByPk(req.params.id);
-//     await data.destroy();
-//     res.status(200).send(data);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+users.delete("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    await user.destroy();
+    res.status(202).send(user);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // users.post("/", async (req, res, next) => {
 //   try {
