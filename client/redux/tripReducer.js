@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "./users";
 //action types
 const GET_ALL_COMPLETED_TRIP = "GET_ALL_COMPLETED_TRIP";
 const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS";
@@ -20,11 +21,13 @@ const getAllActiveTrips = (activeTrips) => {
 
 //thunk creator
 
-export const getAllCompletedTripsThunk = (userId) => {
+export const getAllCompletedTripsThunk = () => {
   return async (dispatch) => {
     try {
+      const id = getCookie("userId")
+      console.log("id", id)
       const { data: trips } = await axios.get(
-        `/api/trips/completedTrips/${userId}`
+        `/api/trips/completedTrips/${id}`
       );
       dispatch(getAllCompletedTrips(trips));
     } catch (error) {
@@ -33,11 +36,12 @@ export const getAllCompletedTripsThunk = (userId) => {
   };
 };
 
-export const getAllActiveTripsThunk = (userId) => {
+export const getAllActiveTripsThunk = () => {
   return async (dispatch) => {
     try {
+      const id = getCookie("userId")
       const { data: trips } = await axios.get(
-        `/api/trips/activeTrips/${userId}`
+        `/api/trips/activeTrips/${id}`
       );
       dispatch(getAllActiveTrips(trips));
     } catch (error) {

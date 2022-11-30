@@ -22,10 +22,8 @@ const SingleUser = () => {
           <h3 className=" error"> User does not exist in the system!</h3>
         )}
         <h2> Hello {firstName}</h2>
-        <h3>Here are your upcoming trips: </h3>
-        <CompletedTrips />
-        <h3>Here are your past trips: </h3>
         <ActiveTrips />
+        <CompletedTrips />
         <h3>Here are your tasks: </h3>
         <h3>RENDER TESTING</h3>
       </main>

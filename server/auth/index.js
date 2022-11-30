@@ -4,6 +4,7 @@ const {
 } = require("../../db");
 
 router.post("/login", async (req, res, next) => {
+  console.log("in login route")
   try {
     res.send({ token: await User.authenticate(req.body) });
   } catch (err) {
