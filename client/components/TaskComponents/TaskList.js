@@ -24,17 +24,12 @@ function startTimeCompare(a, b) {
 }
 
 const TaskList = (props) => {
-  console.log("props", props.tasks);
-  console.log("props LLL", props.tasks.length);
   if (props.tasks.length > 0) {
-    console.log("before", props.tasks);
     props.tasks.sort(startTimeCompare);
-    console.log("after", props.tasks);
     return (
       <div className="tasklist-container">
         {props.tasks.map((task, i) => {
-          console.log("t", task);
-          return <TaskCard key={i} task={task} />;
+          return <TaskCard key={i} type="itinerary" task={task} />;
         })}
       </div>
     );
