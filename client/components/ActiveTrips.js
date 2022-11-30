@@ -14,16 +14,21 @@ const ActiveTrips = (props) => {
   }, []);
 
   const { trips } = props;
-  console.log("in active trip component", trips.active);
+
+/*
+trups.active = []
+trips.active[0] = undefined
+undefined.length 
+*/
 
   return (
     <div>
-      <h1>Past Trips</h1>
+      <h1>Current Trips</h1>
       <div>
         {trips.active.length == 0 ? (
-          <h2>No past trips</h2>
+          <h2>No active Trips</h2>
         ) : (
-          trips.active[0].map((singleTrip) => {
+          trips.active.map((singleTrip) => {
             return (
               <Card
                 className="mb-4"

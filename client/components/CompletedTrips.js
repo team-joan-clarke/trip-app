@@ -19,10 +19,10 @@ const CompletedTrips = (props) => {
     <div>
       <h1>Past Trips</h1>
       <div>
-        {trips.complete.length == 0 ? (
+        {trips.complete.length == 0? (
           <h2>No past trips</h2>
         ) : (
-          trips.complete[0].map((singleTrip) => {
+          trips.complete.map((singleTrip) => {
             return (
               <Card
                 className="mb-4"
@@ -48,7 +48,6 @@ const CompletedTrips = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("state", state.trips.active);
   return {
     trips: state.trips,
   };

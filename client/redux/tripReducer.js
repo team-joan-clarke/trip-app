@@ -27,7 +27,6 @@ export const getAllCompletedTripsThunk = (userId) => {
       const { data: trips } = await axios.get(
         `/api/trips/completedTrips/${userId}`
       );
-      console.log("in think", trips);
       dispatch(getAllCompletedTrips(trips));
     } catch (error) {
       console.error(error);
@@ -41,7 +40,7 @@ export const getAllActiveTripsThunk = (userId) => {
       const { data: trips } = await axios.get(
         `/api/trips/activeTrips/${userId}`
       );
-      console.log("trips in active thunk", trips)
+      console.log("trips in active thunk", trips);
       dispatch(getAllActiveTrips(trips));
     } catch (error) {
       console.error(error);
@@ -49,17 +48,30 @@ export const getAllActiveTripsThunk = (userId) => {
   };
 };
 
-
 const initialState = { active: [], complete: [] };
 
 // reducer
 export default function tripReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_COMPLETED_TRIP:
-      return { ...state, complete: [action.trips] };
+      return { ...state, complete: action.trips };
     case GET_ALL_ACTIVE_TRIP:
-      return { ...state, active: [action.activeTrips] };
+      return { ...state, active: action.activeTrips };
     default:
       return state;
   }
 }
+
+/*
+initial
+active: []
+
+when there are no actives
+active: []
+
+when there are actives
+active: [{ object 1}]
+
+
+
+*/
