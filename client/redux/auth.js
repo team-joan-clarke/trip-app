@@ -1,5 +1,5 @@
 import axios from "axios";
-// import history from "../history";
+import history from '../history';
 import { getCookie, setCookie } from "./users";
 
 const TOKEN = "token";
