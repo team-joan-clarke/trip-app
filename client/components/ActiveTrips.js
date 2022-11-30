@@ -28,9 +28,9 @@ undefined.length
         ) : (
           trips.active.map((singleTrip) => {
             return (
-              <div className="grid" key={singleTrip.id}>
+              <div key={singleTrip.id}>
                 <Card
-                  className="mb-4 box"
+                  className="mb-4"
                   style={{ width: "18rem" }}
                   key={singleTrip.id}
                 >
