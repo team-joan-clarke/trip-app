@@ -188,8 +188,10 @@ const tasks = [
     subtype: "Tour",
     provider_name: "Cemetery Tour",
     due_date: new Date(2023, 2, 10),
+    start_date: new Date(2023, 2, 16),
+    start_time: "12:15:00 CST",
     description: "Book walking tour of one of the cemeteries?",
-    status: "in progress",
+    status: "complete",
     TripId: 2,
   },
   {
