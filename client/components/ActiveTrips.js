@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { getAllActiveTripsThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import history from "../history";
 // ^ to link to a specific trip in trip dashboard
 
 const ActiveTrips = (props) => {
@@ -12,6 +13,11 @@ const ActiveTrips = (props) => {
   }, []);
 
   const { trips } = props;
+  const navigate = useNavigate();
+
+  const handleClick = (event) => {
+    navigate(`/trip/${event.target.name}`);
+  };
 
   /*
 trups.active = []
@@ -34,10 +40,7 @@ undefined.length
                   style={{ width: "18rem" }}
                   key={singleTrip.id}
                 >
-                  <Card.Img
-                    variant="top"
-                    src={singleTrip.imageUrl}
-                  />
+                  <Card.Img variant="top" src={singleTrip.imageUrl} />
                   <Card.Body>
                     <Card.Title>{singleTrip.name}</Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
@@ -49,7 +52,13 @@ undefined.length
                       {singleTrip.end_date.slice(8, 10)}/
                       {singleTrip.start_date.slice(0, 4)}
                     </Card.Text>
-                    <Button variant="success">View Trip</Button>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleClick}
+                      variant="success"
+                    >
+                      View Trip
+                    </Button>
                   </Card.Body>
                 </Card>
               </div>
