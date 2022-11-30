@@ -131,13 +131,34 @@ const TripTasks = () => {
   }, [tasks]);
 
   return (
-    <Card style={{ width: "auto", flexDirection: "row", flexWrap: "wrap" }}>
-      <DragDropContext>
-        {columns.map((col, i) => {
-          return <Column key={i} col={col} tasks={colTasks[col.date]} />;
-        })}
-      </DragDropContext>
-    </Card>
+    <div
+      style={{
+        width: "auto",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        padding: "2rem",
+        borderRadius: "5px",
+        boxShadow: "2px 1px 20px grey",
+      }}
+    >
+      <h3>Trip Tasks</h3>
+      <div
+        style={{
+          display: "flex",
+          width: "auto",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          padding: "none",
+          justifyContent: "center",
+        }}
+      >
+        <DragDropContext>
+          {columns.map((col, i) => {
+            return <Column key={i} col={col} tasks={colTasks[col.date]} />;
+          })}
+        </DragDropContext>
+      </div>
+    </div>
   );
 };
 export default connect(null)(TripTasks);

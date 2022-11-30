@@ -24,7 +24,7 @@ const TaskCard = (props) => {
   // }, [setSeeMore]);
 
   return (
-    <Card style={{ width: "18rem", marginTop: "1rem" }}>
+    <Card style={{ width: "13rem", marginTop: "1rem" }}>
       <Card.Body>
         <Card.Title>{props.task.provider_name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
@@ -42,7 +42,9 @@ const TaskCard = (props) => {
           <></>
         )}
         {props.task.link ? (
-          <Card.Link href={props.task.link}>Visit Website</Card.Link>
+          <Card.Link href={props.task.link} target="_blank">
+            Visit Website
+          </Card.Link>
         ) : (
           <></>
         )}
@@ -50,6 +52,7 @@ const TaskCard = (props) => {
           Edit
         </Button>
         <Card.Link
+          className="mb-2 text-muted"
           href=""
           onClick={(e) => {
             e.preventDefault();
