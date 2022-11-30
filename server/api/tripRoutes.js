@@ -55,12 +55,17 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
       });
     })
   );
+  
   const activeTrips = allActiveTripsForUser.filter((singleTrip) => {
     if (singleTrip) {
       return singleTrip;
     }
+  })
+
+  activeTrips.sort(function(a,b){
+    return new Date(b.start_date) - new Date(a.start_date);
   });
-console.log("in backend active route", activeTrips)
+
   res.send(activeTrips).status(200);
 });
 
