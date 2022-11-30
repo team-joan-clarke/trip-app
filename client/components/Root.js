@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SingleUser from "./SingleUser";
 import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
+import Navbar from "./Navbar";
 
 // const Root = () => {
 //   let [stuff, setStuff] = useState("root");
@@ -21,6 +22,7 @@ import { Login } from "./LoginForm";
 const Root = () => {
   return (
     <BrowserRouter>
+    <Navbar />
       <Routes>
         <Route exact path="/users/:userId" element={<SingleUser />} />
         <Route exact path="/login" element={<Login />} />
