@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
-import { getAllActiveTripsThunk } from "../redux/tripReducer";
+import React, { useEffect, useState } from "react";
+import {
+  getAllActiveTripsThunk,
+  deleteActiveTripThunk,
+} from "../redux/tripReducer";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-
 
 const ActiveTrips = (props) => {
   useEffect(() => {
@@ -16,6 +18,10 @@ const ActiveTrips = (props) => {
 
   const handleClick = (event) => {
     navigate(`/trip/${event.target.name}`);
+  };
+
+  const handleRemove = (event) => {
+    props.deleteTrip(event.target.name);
   };
 
   /*
@@ -44,19 +50,23 @@ undefined.length
                     <Card.Title>{singleTrip.name}</Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
                     <Card.Text>
-                      Dates: {singleTrip.start_date.slice(5, 7)}/
-                      {singleTrip.start_date.slice(8, 10)}/
-                      {singleTrip.start_date.slice(0, 4)} -{" "}
-                      {singleTrip.end_date.slice(5, 7)}/
-                      {singleTrip.end_date.slice(8, 10)}/
-                      {singleTrip.start_date.slice(0, 4)}
+                      Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
+                      {singleTrip.end_date.toString().slice(3, 15)}
                     </Card.Text>
+                    <Card.Text></Card.Text>
                     <Button
                       name={singleTrip.id}
                       onClick={handleClick}
                       variant="primary"
                     >
                       View Trip
+                    </Button>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleRemove}
+                      variant="primary"
+                    >
+                      Remove
                     </Button>
                   </Card.Body>
                 </Card>
@@ -79,6 +89,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getTrips: () => {
       dispatch(getAllActiveTripsThunk());
+    },
+    deleteTrip: (tripId) => {
+      dispatch(deleteActiveTripThunk(tripId));
     },
   };
 };

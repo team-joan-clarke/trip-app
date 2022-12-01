@@ -32,7 +32,7 @@ const createTrip = (trip) => {
 export const getAllCompletedTripsThunk = () => {
   return async (dispatch) => {
     try {
-      const id = getCookie("userId")
+      const id = getCookie("userId");
       const { data: trips } = await axios.get(
         `/api/trips/completedTrips/${id}`
       );
@@ -46,10 +46,8 @@ export const getAllCompletedTripsThunk = () => {
 export const getAllActiveTripsThunk = () => {
   return async (dispatch) => {
     try {
-      const id = getCookie("userId")
-      const { data: trips } = await axios.get(
-        `/api/trips/activeTrips/${id}`
-      );
+      const id = getCookie("userId");
+      const { data: trips } = await axios.get(`/api/trips/activeTrips/${id}`);
       dispatch(getAllActiveTrips(trips));
     } catch (error) {
       console.error(error);
@@ -74,9 +72,29 @@ const initialState = { active: [], complete: [] };
 export default function tripReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_COMPLETED_TRIP:
-      return { ...state, complete: action.trips };
+      const sortedDatesForComplete = action.trips
+        .map((obj) => {
+          return { ...obj, start_date: new Date(obj.start_date) };
+        })
+        .map((obj) => {
+          return { ...obj, end_date: new Date(obj.end_date) };
+        })
+        .sort(
+          (objA, objB) => Number(objA.start_date) - Number(objB.start_date)
+        );
+      return { ...state, complete: sortedDatesForComplete };
     case GET_ALL_ACTIVE_TRIP:
-      return { ...state, active: action.activeTrips };
+      const sortedDates = action.activeTrips
+        .map((obj) => {
+          return { ...obj, start_date: new Date(obj.start_date) };
+        })
+        .map((obj) => {
+          return { ...obj, end_date: new Date(obj.end_date) };
+        })
+        .sort(
+          (objA, objB) => Number(objA.start_date) - Number(objB.start_date)
+        );
+      return { ...state, active: sortedDates };
     case CREATE_TRIP:
       return { ...state, active: action.trip };
     default:

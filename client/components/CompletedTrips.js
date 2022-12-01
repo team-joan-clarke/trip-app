@@ -12,12 +12,11 @@ const CompletedTrips = (props) => {
   }, []);
 
   const { trips } = props;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
-    console.log(event.target.name)
     navigate(`/trip/${event.target.name}`);
-  }
+  };
 
   return (
     <div>
@@ -39,14 +38,16 @@ const CompletedTrips = (props) => {
                     <Card.Title>{singleTrip.name}</Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
                     <Card.Text>
-                      Dates: {singleTrip.start_date.slice(5, 7)}/
-                      {singleTrip.start_date.slice(8, 10)}/
-                      {singleTrip.start_date.slice(0, 4)} -{" "}
-                      {singleTrip.end_date.slice(5, 7)}/
-                      {singleTrip.end_date.slice(8, 10)}/
-                      {singleTrip.start_date.slice(0, 4)}
+                      Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
+                      {singleTrip.end_date.toString().slice(3, 15)}
                     </Card.Text>
-                    <Button name={singleTrip.id} onClick={handleClick} variant="primary">View Trip</Button>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleClick}
+                      variant="primary"
+                    >
+                      View Trip
+                    </Button>
                   </Card.Body>
                 </Card>
               </div>
@@ -57,7 +58,6 @@ const CompletedTrips = (props) => {
     </div>
   );
 };
-
 
 const mapStateToProps = (state) => {
   return {
@@ -75,18 +75,3 @@ const mapDispatchToProps = (dispatch) => {
 
 // export default CompletedTrips
 export default connect(mapStateToProps, mapDispatchToProps)(CompletedTrips);
-
-// const months = {
-//     01: "January",
-//     02: "Febuary",
-//     03: "March",
-//     04: "April",
-//     05: "May",
-//     06: "June",
-//     07: "July",
-//     08: "August",
-//     09: "September",
-//     10: "October",
-//     11: "November",
-//     12: "December"
-//   }

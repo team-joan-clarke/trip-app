@@ -99,6 +99,7 @@ const TripTaskTodo = () => {
   useEffect(() => {
     // SORTING TASKS BY DUE DATE
     const todoTasks = tasks.filter((task) => task.status === "in progress");
+    console.log("todotasks", todoTasks)
     todoTasks.sort(dueDateCompare);
     setTodo(todoTasks);
   }, [tasks]);
