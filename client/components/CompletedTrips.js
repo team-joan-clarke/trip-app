@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getAllCompletedTripsThunk } from "../redux/tripReducer";
+import { getAllCompletedTripsThunk, deleteCompleteTripThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
@@ -16,6 +16,10 @@ const CompletedTrips = (props) => {
 
   const handleClick = (event) => {
     navigate(`/trip/${event.target.name}`);
+  };
+
+  const handleRemove = (event) => {
+    props.deleteTrip(event.target.name);
   };
 
   return (
@@ -48,6 +52,13 @@ const CompletedTrips = (props) => {
                     >
                       View Trip
                     </Button>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleRemove}
+                      variant="primary"
+                    >
+                      Remove
+                    </Button>
                   </Card.Body>
                 </Card>
               </div>
@@ -70,6 +81,9 @@ const mapDispatchToProps = (dispatch) => {
     getTrips: () => {
       dispatch(getAllCompletedTripsThunk());
     },
+    deleteTrip: (tripId) => {
+        dispatch(deleteCompleteTripThunk(tripId))
+    }
   };
 };
 

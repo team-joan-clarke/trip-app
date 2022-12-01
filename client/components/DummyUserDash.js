@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import CreateTrip from "./CreateTrip";
-
+import EditTrip from "./EditTrip";
 
 const DummyUserDash = () => {
   return (
@@ -9,6 +9,7 @@ const DummyUserDash = () => {
       <main>
         <h3>Dummy Dash</h3>
         <CreateTrip />
+        <EditTrip />
       </main>
     </div>
   );

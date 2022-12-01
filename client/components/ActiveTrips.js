@@ -23,13 +23,6 @@ const ActiveTrips = (props) => {
   const handleRemove = (event) => {
     props.deleteTrip(event.target.name);
   };
-
-  /*
-trups.active = []
-trips.active[0] = undefined
-undefined.length 
-*/
-
   return (
     <div>
       <h1>Current Trips</h1>
@@ -61,11 +54,7 @@ undefined.length
                     >
                       View Trip
                     </Button>
-                    <Button
-                      name={singleTrip.id}
-                      onClick={handleRemove}
-                      variant="primary"
-                    >
+                    <Button name={singleTrip.id} onClick={handleRemove} variant="primary">
                       Remove
                     </Button>
                   </Card.Body>
@@ -92,8 +81,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteTrip: (tripId) => {
       dispatch(deleteActiveTripThunk(tripId));
-    },
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveTrips);
-//   export default ActiveTrips

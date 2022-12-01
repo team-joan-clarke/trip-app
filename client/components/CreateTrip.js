@@ -49,36 +49,33 @@ const CreateTrip = (props) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} id="add-trip">
-        <h2>Create a New Trip: </h2>
+      <form onSubmit={handleSubmit} className="trip-form">
+        <h2>Create a Trip</h2>
         <div>
-          <label htmlFor="name">Trip Name:</label>
-          <input type="text" name="name" value={name} onChange={handleChange} />
-        </div>
-
-        <div>
-          <label htmlFor="city">City:</label>
-          <input type="text" name="city" value={city} onChange={handleChange} />
+          <input type="text" placeholder='Trip Name' name="name" value={name} onChange={handleChange} />
         </div>
         <div>
-          <label htmlFor="state">State:</label>
+          <input type="text" placeholder='City' name="city" value={city} onChange={handleChange} />
+        </div>
+        <div>
           <input
             type="text"
             name="state"
+            placeholder='State'
             value={state}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label htmlFor="country">Country:</label>
           <input
             type="text"
+            placeholder='Country'
             name="country"
             value={country}
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className='date-picker'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Start Date"
@@ -91,7 +88,7 @@ const CreateTrip = (props) => {
             />
           </LocalizationProvider>
         </div>
-        <div>
+        <div className='date-picker'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="End Date"
@@ -105,7 +102,7 @@ const CreateTrip = (props) => {
           </LocalizationProvider>
         </div>
         <div>
-          <button className="submit" type="submit">
+          <button className="btn-primary" type="submit">
             Submit
           </button>
         </div>

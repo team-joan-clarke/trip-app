@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
+import AllTasks from "./AllTasks";
 
 const SingleUser = () => {
   const dispatch = useDispatch();
@@ -22,10 +23,12 @@ const SingleUser = () => {
           <h3 className=" error"> User does not exist in the system!</h3>
         )}
         <h2> Hello {firstName}</h2>
+
         <ActiveTrips />
         <CompletedTrips />
+
         <h3>Here are your tasks: </h3>
-        <h3>RENDER TESTING</h3>
+        <AllTasks />
       </main>
     </div>
   );
