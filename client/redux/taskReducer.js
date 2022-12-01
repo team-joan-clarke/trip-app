@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "./users";
 
 const ADD_NEW_TASK = "ADD_NEW_TASK";
 const UPDATE_TASK = "UPDATE_TASK";
@@ -31,7 +32,17 @@ export const gotTasks = (tasks) => ({
   tasks,
 });
 
-export const getTasksByUser = () => {};
+export const getTasksByUser = () => {
+  return async (dispatch) => {
+    try {
+      const id = getCookie("userId");
+      const { data } = await axios.get(`api/tasks/user/${id}`);
+      dispatch(gotTasks(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 export const getTasksByTrip = (tripId) => {
   return async (dispatch) => {
@@ -66,7 +77,7 @@ export const addNewTask = (task, userId, role) => {
 export const updateTask = (updatedData, taskId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/tasks/${taskId}`, updatedData);
+      const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData);
       if (data) {
         dispatch(updatedTask(data));
       }
