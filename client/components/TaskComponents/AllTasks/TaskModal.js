@@ -3,7 +3,7 @@ import { connect, useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { Form, FloatingLabel, Row, Col } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { updateTask } from "../redux/taskReducer";
+import { updateTask } from "../../../redux/taskReducer";
 // ^ to link to a specific trip in trip dashboard
 
 const TaskEditForm = (props) => {
@@ -12,12 +12,12 @@ const TaskEditForm = (props) => {
 
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const [start_date, setStart_Date] = useState(singleTask.start_date || "");
-  const [end_date, setEnd_Date] = useState(singleTask.endt_date || "");
-  const [start_time, setStart_Time] = useState(singleTask.start_time || "");
-  const [end_time, setEnd_Time] = useState(singleTask.end_time || "");
+  const [start_date, setStart_Date] = useState(singleTask.start_date || null);
+  const [end_date, setEnd_Date] = useState(singleTask.endt_date || null);
+  const [start_time, setStart_Time] = useState(singleTask.start_time || null);
+  const [end_time, setEnd_Time] = useState(singleTask.end_time || null);
   const [start_location, setStart_Location] = useState(
-    singleTask.start_location || ""
+    singleTask.start_location || null
   );
   const [end_location, setEnd_Location] = useState(
     singleTask.end_location || ""
@@ -28,7 +28,11 @@ const TaskEditForm = (props) => {
   const [booking_num, setBooking_Num] = useState(singleTask.booking_num || "");
   const [link, setLink] = useState(singleTask.link || "");
   const [description, setDescription] = useState(singleTask.description || "");
+  const [checked, setChecked] = useState(false);
 
+  const handleChange = () => {
+    setChecked(!checked);
+  };
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (event) => {
@@ -116,18 +120,27 @@ const TaskEditForm = (props) => {
                   />
                 </FloatingLabel>
               </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="floatingInputGrid"
-                  label="Final Destination"
-                >
-                  <Form.Control
-                    type="text"
-                    placeholder="Ending Address"
-                    onChange={(e) => setEnd_Location(e.target.value)}
-                  />
-                </FloatingLabel>
-              </Col>
+              <Form.Check
+                type="checkbox"
+                id="taskCheckbox"
+                label="Check if end location differs from start location."
+                onChange={handleChange}
+              />
+
+              {checked && (
+                <Col>
+                  <FloatingLabel
+                    controlId="floatingInputGrid"
+                    label="End Location"
+                  >
+                    <Form.Control
+                      type="text"
+                      placeholder="Ending Address"
+                      onChange={(e) => setEnd_Location(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+              )}
             </Row>
 
             <Form.Group className="mb-3" controlId="taskForm">

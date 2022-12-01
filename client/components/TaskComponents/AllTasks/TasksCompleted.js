@@ -3,7 +3,11 @@ import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { getTasksByUser, updateTask, deleteTask } from "../redux/taskReducer";
+import {
+  getTasksByUser,
+  updateTask,
+  deleteTask,
+} from "../../../redux/taskReducer";
 import Modal from "react-bootstrap/Modal";
 // ^ to link to a specific trip in trip dashboard
 
@@ -13,7 +17,8 @@ const TasksCompleted = (props) => {
     dispatch(getTasksByUser());
   }, []);
 
-  const handleClick = (id) => {
+  const handleClick = (e, id) => {
+    e.stopPropagation();
     dispatch(deleteTask(id));
   };
 
@@ -42,7 +47,7 @@ const TasksCompleted = (props) => {
                   </Card.Text>
                   <Button
                     variant="primary"
-                    onClick={handleClick(singleTask.id)}
+                    onClick={(e) => handleClick(e, singleTask.id)}
                   >
                     Delete Task From History
                   </Button>

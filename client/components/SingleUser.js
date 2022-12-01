@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
-import AllTasks from "./AllTasks";
+import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CreateTrip from "./CreateTrip";
 
 const SingleUser = () => {
