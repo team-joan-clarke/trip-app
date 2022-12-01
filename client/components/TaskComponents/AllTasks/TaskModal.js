@@ -56,11 +56,21 @@ const TaskEditForm = (props) => {
     );
   };
 
+  const handleClick = (e, id) => {
+    e.stopPropagation();
+    const status = "complete";
+    dispatch(updateTask({ status }, id));
+  };
+
   return (
     <div>
       <Button variant="primary" onClick={handleShow}>
         Edit Task
       </Button>
+      <Button variant="primary" onClick={(e) => handleClick(e, singleTask.id)}>
+        Completed
+      </Button>
+
       <Modal show={show} onHide={handleClose} scrollable={true}>
         <Modal.Header closeButton>
           <Modal.Title>{singleTask.type}</Modal.Title>
