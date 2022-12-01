@@ -77,7 +77,7 @@ export const addNewTask = (task, userId, role) => {
 export const updateTask = (updatedData, taskId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/tasks/${taskId}`, updatedData);
+      const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData);
       if (data) {
         dispatch(updatedTask(data));
       }
