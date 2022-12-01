@@ -3,7 +3,11 @@ import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { getTasksByUser, updateTask, deleteTask } from "../redux/taskReducer";
+import {
+  getTasksByUser,
+  updateTask,
+  deleteTask,
+} from "../../../redux/taskReducer";
 import Modal from "react-bootstrap/Modal";
 // ^ to link to a specific trip in trip dashboard
 

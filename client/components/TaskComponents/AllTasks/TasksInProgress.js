@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
-import { getTasksByUser, updateTask, deleteTask } from "../redux/taskReducer";
+import {
+  getTasksByUser,
+  updateTask,
+  deleteTask,
+} from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
-import Checkbox from "./Checkbox";
 // ^ to link to a specific trip in trip dashboard
 
 const TasksInProgress = (props) => {
@@ -14,19 +17,6 @@ const TasksInProgress = (props) => {
   useEffect(() => {
     dispatch(getTasksByUser());
   }, []);
-
-  // const [checked, setChecked] = useState(false);
-
-  // const handleChange = (singleTask) => {
-  //   setChecked(!checked);
-
-  //   if (checked && singleTask.status === "in progress") {
-  //     dispatch(updateTask({ status: "complete" }), singleTask.id);
-  //   }
-  //   if (!checked && singleTask.status === "complete") {
-  //     dispatch(updateTask({ status: "in progress" }, singleTask.id));
-  //   }
-  // };
 
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks.filter((task) => task.status === "in progress");
@@ -55,7 +45,7 @@ const TasksInProgress = (props) => {
                       onSubmit={handleChange(singleTask)}
                     />
                   </Form> */}
-                  <Checkbox singleTask={singleTask} />
+                  {/* <Checkbox singleTask={singleTask} /> */}
                   <Card.Title>{singleTask.type}</Card.Title>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
                   <Card.Text>
@@ -78,5 +68,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-// export default CompletedTrips
 export default connect(mapStateToProps)(TasksInProgress);
