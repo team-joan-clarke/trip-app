@@ -64,7 +64,7 @@ const TripTasks = (props) => {
         marginTop: "3rem",
       }}
     >
-      <h3>Trip Tasks</h3>
+      <h3>Trip Itinerary</h3>
       <div
         style={{
           display: "flex",
