@@ -16,7 +16,8 @@ const trips = [
     start_date: new Date(2022, 12, 5),
     end_date: new Date(2022, 12, 7),
     status: "active",
-    imageUrl: "https://cdn1.parksmedia.wdprapps.disney.com/resize/mwImage/1/1300/2304/75/vision-dam/digital/parks-platform/parks-global-assets/disney-world/attractions/cinderella-castle/cinderella-castle-2x1.jpg?2022-03-10T19:40:10+00:00"
+    imageUrl:
+      "https://cdn1.parksmedia.wdprapps.disney.com/resize/mwImage/1/1300/2304/75/vision-dam/digital/parks-platform/parks-global-assets/disney-world/attractions/cinderella-castle/cinderella-castle-2x1.jpg?2022-03-10T19:40:10+00:00",
   },
   {
     name: "Kylie's Bday",
@@ -26,7 +27,8 @@ const trips = [
     start_date: new Date(2023, 1, 6),
     end_date: new Date(2023, 1, 8),
     status: "active",
-    imageUrl: "http://www.nwf.org/-/media/NEW-WEBSITE/Shared-Folder/Wildlife/Plants-and-Fungi/plant_joshua-tree_KiskaMedia-GettyImages_600x300.ashx"
+    imageUrl:
+      "http://www.nwf.org/-/media/NEW-WEBSITE/Shared-Folder/Wildlife/Plants-and-Fungi/plant_joshua-tree_KiskaMedia-GettyImages_600x300.ashx",
   },
   {
     name: "Mardi Gras 2023!!!",
@@ -36,7 +38,8 @@ const trips = [
     start_date: new Date(2023, 2, 15),
     end_date: new Date(2023, 2, 23),
     status: "complete",
-    imageUrl: "https://www.worldatlas.com/r/w768/upload/25/75/5e/shutterstock-390717274.jpg"
+    imageUrl:
+      "https://www.worldatlas.com/r/w768/upload/25/75/5e/shutterstock-390717274.jpg",
   },
   {
     name: "Berlin",
@@ -46,7 +49,7 @@ const trips = [
     start_date: new Date(2023, 5, 1),
     end_date: new Date(2023, 5, 8),
     status: "active",
-    imageUrl: "https://media.timeout.com/images/105303515/image.jpg"
+    imageUrl: "https://media.timeout.com/images/105303515/image.jpg",
   },
   {
     name: "Palm Springs Trip with friends",
@@ -56,7 +59,8 @@ const trips = [
     start_date: new Date(2023, 3, 16),
     end_date: new Date(2023, 4, 16),
     status: "active",
-    imageUrl: "https://media.cntraveler.com/photos/605cfa959d9a95de47693340/1:1/w_3692,h_3692,c_limit/T24Y1F.jpg"
+    imageUrl:
+      "https://media.cntraveler.com/photos/605cfa959d9a95de47693340/1:1/w_3692,h_3692,c_limit/T24Y1F.jpg",
   },
   {
     name: "Trip to Laguna",
@@ -66,7 +70,8 @@ const trips = [
     start_date: new Date(2023, 5, 16),
     end_date: new Date(2023, 6, 16),
     status: "active",
-    imageUrl: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/7b/c0/bf/laguna-beach.jpg?w=600&h=400&s=1"
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/7b/c0/bf/laguna-beach.jpg?w=600&h=400&s=1",
   },
   {
     name: "Trip to Tea Shop",
@@ -76,7 +81,8 @@ const trips = [
     start_date: new Date(2022, 12, 17),
     end_date: new Date(2022, 12, 17),
     status: "complete",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO1y52-cuFMKc2cVCwlBsLPqfr-rC_MTPWg&usqp=CAU"
+    imageUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO1y52-cuFMKc2cVCwlBsLPqfr-rC_MTPWg&usqp=CAU",
   },
 ];
 //////////////Tasks/////////////////////

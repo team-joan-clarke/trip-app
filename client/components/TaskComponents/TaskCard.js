@@ -26,8 +26,13 @@ const TaskCard = (props) => {
       <Card
         style={
           props.type === "todo"
-            ? { width: "auto", margin: "1rem" }
-            : { width: "13rem", marginTop: ".5rem", marginBottom: ".5rem" }
+            ? { width: "auto", margin: "1rem", boxShadow: "0px 1px 1px grey" }
+            : {
+                width: "13rem",
+                marginTop: ".5rem",
+                marginBottom: ".5rem",
+                boxShadow: "0px 1px 1px grey",
+              }
         }
       >
         <Card.Body>
@@ -35,7 +40,13 @@ const TaskCard = (props) => {
           <Card.Subtitle className="mb-2 text-muted">
             {props.task.type}: {props.task.subtype ? props.task.subtype : ""}
           </Card.Subtitle>
-          <Card.Text>Start: {taskStartTime}</Card.Text>
+          {props.type === "todo" ? (
+            <Card.Text>
+              Due: {new Date(props.task.due_date).toLocaleDateString()}
+            </Card.Text>
+          ) : (
+            <Card.Text>Start: {taskStartTime}</Card.Text>
+          )}
           {props.task.checkin_time ? (
             <Card.Text>Check In: {props.task.checkin_time}</Card.Text>
           ) : (
@@ -60,6 +71,20 @@ const TaskCard = (props) => {
           >
             Edit
           </Button>
+          {props.type === "todo" ? (
+            <Button
+              variant="outline-secondary"
+              style={{
+                marginRight: "1rem",
+                borderRadius: "50px",
+                float: "right",
+              }}
+            >
+              Mark as Complete
+            </Button>
+          ) : (
+            <></>
+          )}
           <Card.Link
             className="mb-2 text-muted"
             href=""
