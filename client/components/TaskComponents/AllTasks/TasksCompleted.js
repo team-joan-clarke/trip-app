@@ -3,6 +3,7 @@ import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import {
   getTasksByUser,
   updateTask,
@@ -21,6 +22,7 @@ const TasksCompleted = (props) => {
     e.stopPropagation();
     dispatch(deleteTask(id));
   };
+  const [show, setShow] = useState(false);
 
   const tasks = props.tasks.allItineraryTasks || [];
   let completeTasks = tasks.filter((task) => task.status === "complete");
@@ -45,12 +47,41 @@ const TasksCompleted = (props) => {
                   <Card.Text>
                     Provider Name: {singleTask.provider_name}
                   </Card.Text>
-                  <Button
-                    variant="primary"
-                    onClick={(e) => handleClick(e, singleTask.id)}
-                  >
-                    Delete Task From History
-                  </Button>
+                  <Alert show={show} variant="danger">
+                    <Alert.Heading>
+                      Are you sure you want to delete this task from your
+                      history?
+                    </Alert.Heading>
+                    <p>
+                      To delete, press the delete button. To cancel request,
+                      press cancel.
+                    </p>
+                    <hr />
+                    <div className="d-flex justify-content-end">
+                      <Button
+                        onClick={() => setShow(false)}
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={(e) => handleClick(e, singleTask.id)}
+                        variant="danger"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </Alert>
+
+                  {!show && (
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => setShow(true)}
+                    >
+                      Delete
+                    </Button>
+                  )}
                 </Card.Body>
               </Card>
             );

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { Form } from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
 import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
@@ -75,13 +74,6 @@ const TasksInProgress = (props) => {
                     </Button>
                   )}
 
-                  {/* <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={(e) => handleDelete(e, singleTask.id)}
-                  >
-                    Delete
-                  </Button> */}
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>Trip: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
