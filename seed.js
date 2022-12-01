@@ -24,7 +24,7 @@ const trips = [
     state: "California",
     country: "United States",
     start_date: new Date(2023, 1, 6),
-    end_date: new Date(2023, 1, 8, 23, 59, 59),
+    end_date: new Date(2023, 1, 8),
     status: "active",
     imageUrl: "http://www.nwf.org/-/media/NEW-WEBSITE/Shared-Folder/Wildlife/Plants-and-Fungi/plant_joshua-tree_KiskaMedia-GettyImages_600x300.ashx"
   },
@@ -34,7 +34,7 @@ const trips = [
     state: "Louisiana",
     country: "United States",
     start_date: new Date(2023, 2, 15),
-    end_date: new Date(2023, 2, 23, 23, 59, 59),
+    end_date: new Date(2023, 2, 23),
     status: "complete",
     imageUrl: "https://www.worldatlas.com/r/w768/upload/25/75/5e/shutterstock-390717274.jpg"
   },
@@ -44,7 +44,7 @@ const trips = [
     state: "Brandenburg",
     country: "Germany",
     start_date: new Date(2023, 5, 1),
-    end_date: new Date(2023, 5, 8, 23, 59, 59),
+    end_date: new Date(2023, 5, 8),
     status: "active",
     imageUrl: "https://media.timeout.com/images/105303515/image.jpg"
   },
