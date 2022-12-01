@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { Form, FloatingLabel, Row, Col, FormGroup } from "react-bootstrap";
+import { Form, FloatingLabel, Row, Col } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { updateTask } from "../redux/taskReducer";
 // ^ to link to a specific trip in trip dashboard
@@ -64,29 +63,12 @@ const TaskEditForm = (props) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            {/* <FloatingLabel
-              controlId="floatingSelect"
-              label="Select Type of Task"
-            >
-              <Form.Select
-                aria-label="Floating label select example"
-                onSelect={(event) => setType(event.target.value)}
-              >
-                <option> {singleTask.type}</option>
-                <option value="Lodging">Lodging</option>
-                <option value="Dining">Dining</option>
-                <option value="Transportation">Transportation</option>
-                <option value="Activity">Activity</option>
-                <option value="Entertainment">Activity</option>
-              </Form.Select>
-            </FloatingLabel> */}
             <Row className="g-2">
               <Col md>
                 <FloatingLabel controlId="floatingInputGrid" label="Start Date">
                   <Form.Control
                     type="text"
                     placeholder="Start Date"
-                    // value={start_date}
                     onChange={(e) => setStart_Date(e.target.value)}
                   />
                 </FloatingLabel>
@@ -96,8 +78,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="End Date"
-                    // value={end_date}
-                    onChange={(e) => setStart_Date(e.target.value)}
+                    onChange={(e) => setEnd_Date(e.target.value)}
                   />
                 </FloatingLabel>
               </Col>
@@ -108,8 +89,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Start Date"
-                    // value={start_time}
-                    onChange={(e) => setStart_Date(e.target.value)}
+                    onChange={(e) => setStart_Time(e.target.value)}
                   />
                 </FloatingLabel>
               </Col>
@@ -118,8 +98,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="End Date"
-                    // value={end_time}
-                    onChange={(e) => setStart_Date(e.target.value)}
+                    onChange={(e) => setEnd_Time(e.target.value)}
                   />
                 </FloatingLabel>
               </Col>
@@ -133,8 +112,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Starting Address"
-                    // value={start_location}
-                    onChange={(e) => setStart_Date(e.target.value)}
+                    onChange={(e) => setStart_Location(e.target.value)}
                   />
                 </FloatingLabel>
               </Col>
@@ -146,8 +124,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Ending Address"
-                    // value={end_location}
-                    onChange={(e) => setStart_Date(e.target.value)}
+                    onChange={(e) => setEnd_Location(e.target.value)}
                   />
                 </FloatingLabel>
               </Col>
@@ -158,8 +135,7 @@ const TaskEditForm = (props) => {
               <Form.Control
                 type="text"
                 placeholder="Hotel Name, Airline, etc..."
-                // value={provider_name}
-                onChange={(e) => setStart_Date(e.target.value)}
+                onChange={(e) => setProvider_Namer(e.target.value)}
               />
             </Form.Group>
 
@@ -168,8 +144,7 @@ const TaskEditForm = (props) => {
               <Form.Control
                 type="text"
                 placeholder="booking/confirmation number"
-                // value={booking_num}
-                onChange={(e) => setStart_Date(e.target.value)}
+                onChange={(e) => setBooking_Num(e.target.value)}
               />
             </Form.Group>
 
@@ -179,8 +154,7 @@ const TaskEditForm = (props) => {
                 type="url"
                 placeholder="link"
                 autoFocus
-                // value={link}
-                onChange={(e) => setStart_Date(e.target.value)}
+                onChange={(e) => setLink(e.target.value)}
               />
             </Form.Group>
 
@@ -189,8 +163,7 @@ const TaskEditForm = (props) => {
               <Form.Control
                 as="textarea"
                 rows={5}
-                // value={description}
-                onChange={(e) => setStart_Date(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
           </Form>
