@@ -5,6 +5,9 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Button from "react-bootstrap/Button";
+import { Form } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
 
 const CreateTrip = (props) => {
   const [name, setName] = useState("");
@@ -14,6 +17,7 @@ const CreateTrip = (props) => {
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [status, setStatus] = useState("active");
+  const [show, setShow] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,69 +48,107 @@ const CreateTrip = (props) => {
       setState(event.target.value);
     } else if (event.target.name === "country") {
       setCountry(event.target.value);
-    } 
+    }
   };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="trip-form">
-        <h2>Create a Trip</h2>
-        <div>
-          <input type="text" placeholder='Trip Name' name="name" value={name} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder='City' name="city" value={city} onChange={handleChange} />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="state"
-            placeholder='State'
-            value={state}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder='Country'
-            name="country"
-            value={country}
-            onChange={handleChange}
-          />
-        </div>
-        <div className='date-picker'>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Start Date"
-              name="start_date"
-              value={start_date}
-              onChange={(newValue) => {
-                setStartDate(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </div>
-        <div className='date-picker'>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="End Date"
-              name="end_date"
-              value={end_date}
-              onChange={(newValue) => {
-                setEndDate(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </div>
-        <div>
-          <button className="btn-primary" type="submit">
-            Submit
-          </button>
-        </div>
-      </form>
+      <Button variant="primary" onClick={handleShow}>
+        Create Trip
+      </Button>
+      <Modal show={show} onHide={handleClose} scrollable={true}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Trip</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="edit-trip-form">
+              <Form.Control
+                type="text"
+                name="name"
+                placeholder="Trip Name"
+                value={name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="edit-trip-form">
+              <Form.Control
+                type="text"
+                name="city"
+                placeholder="City"
+                value={city}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="edit-trip-form">
+              <Form.Control
+                type="text"
+                name="state"
+                placeholder="State"
+                value={state}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="edit-trip-form">
+              <Form.Control
+                type="text"
+                name="country"
+                placeholder="Country"
+                value={country}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <div>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                className="date-picker"
+              >
+                <DatePicker
+                  label="Start Date"
+                  name="start_date"
+                  value={start_date}
+                  onChange={(newValue) => {
+                    setStartDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </div>
+            <div>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                className="date-picker"
+              >
+                <DatePicker
+                  label="End Date"
+                  name="end_date"
+                  value={end_date}
+                  onChange={(newValue) => {
+                    setEndDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </div>
+          </Form>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Create
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
