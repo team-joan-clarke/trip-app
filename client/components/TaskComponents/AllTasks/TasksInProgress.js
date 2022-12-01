@@ -31,17 +31,8 @@ const TasksInProgress = (props) => {
                 key={singleTask.id}
               >
                 <Card.Body>
-                  {/* <Form>
-                    <Form.Check
-                      reverse
-                      type="checkbox"
-                      id="taskCheckbox"
-                      label="completed"
-                      onSubmit={handleChange(singleTask)}
-                    />
-                  </Form> */}
-                  {/* <Checkbox singleTask={singleTask} /> */}
-                  <Card.Title>{singleTask.type}</Card.Title>
+                  <Card.Title>{singleTask.type} </Card.Title>
+                  <Card.Text>Trip: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
                   <Card.Text>
                     Provider Name: {singleTask.provider_name}
