@@ -12,12 +12,12 @@ const TaskEditForm = (props) => {
 
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const [start_date, setStart_Date] = useState(singleTask.start_date || "");
-  const [end_date, setEnd_Date] = useState(singleTask.endt_date || "");
-  const [start_time, setStart_Time] = useState(singleTask.start_time || "");
-  const [end_time, setEnd_Time] = useState(singleTask.end_time || "");
+  const [start_date, setStart_Date] = useState(singleTask.start_date || null);
+  const [end_date, setEnd_Date] = useState(singleTask.endt_date || null);
+  const [start_time, setStart_Time] = useState(singleTask.start_time || null);
+  const [end_time, setEnd_Time] = useState(singleTask.end_time || null);
   const [start_location, setStart_Location] = useState(
-    singleTask.start_location || ""
+    singleTask.start_location || null
   );
   const [end_location, setEnd_Location] = useState(
     singleTask.end_location || ""

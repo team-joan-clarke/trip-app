@@ -18,6 +18,10 @@ const TasksInProgress = (props) => {
     dispatch(getTasksByUser());
   }, []);
 
+  const handleClick = (e, id) => {
+    e.stopPropagation();
+    dispatch(updateTask(id));
+  };
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks.filter((task) => task.status === "in progress");
 
@@ -52,6 +56,12 @@ const TasksInProgress = (props) => {
                     Provider Name: {singleTask.provider_name}
                   </Card.Text>
                   <TaskModal singleTask={singleTask} />
+                  <Button
+                    variant="primary"
+                    onClick={(e) => handleClick(e, singleTask.id)}
+                  >
+                    Delete Task From History
+                  </Button>
                 </Card.Body>
               </Card>
             );
