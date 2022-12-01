@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import TaskCard from "./TaskComponents/TaskCard";
+import AddNewTaskModal from "./TaskComponents/AddNewTaskModal";
 
 function dueDateCompare(a, b) {
   return new Date(b.start_date) - new Date(a.start_date);
@@ -16,6 +17,7 @@ const TripTaskTodo = () => {
   const { tripId } = useParams();
   const tasks = useSelector((state) => state.tasks.allItineraryTasks);
   const [todo, setTodo] = useState([]);
+  const [modalShow, setModalShow] = React.useState(false);
   //const trip = useSelector((state) => state.trip.singleTrip);
   const testTrip = {
     id: 2,
@@ -98,7 +100,6 @@ const TripTaskTodo = () => {
   useEffect(() => {
     // SORTING TASKS BY DUE DATE
     const todoTasks = tasks.filter((task) => task.status === "in progress");
-    console.log("todotasks", todoTasks)
     todoTasks.sort(dueDateCompare);
     setTodo(todoTasks);
   }, [tasks]);
@@ -115,7 +116,18 @@ const TripTaskTodo = () => {
         marginTop: "3rem",
       }}
     >
-      <h3>ToDo</h3>
+      <div
+        style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
+      >
+        <h3 style={{ flex: 5, width: "fit-contents" }}>In Progress</h3>
+        <Button
+          variant="primary"
+          style={{ flex: 1, width: "fit-contents", float: "right" }}
+          onClick={() => setModalShow(true)}
+        >
+          Add New Task
+        </Button>
+      </div>
       <Card>
         {todo.map((task, i) => {
           return (
@@ -128,6 +140,7 @@ const TripTaskTodo = () => {
           );
         })}
       </Card>
+      <AddNewTaskModal show={modalShow} onHide={() => setModalShow(false)} />
     </div>
   );
 };
