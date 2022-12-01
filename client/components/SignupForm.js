@@ -28,46 +28,28 @@ const SignUpForm = (props) => {
 
   return (
     <div>
-      <h3>Sign Up Here</h3>
-      <form onSubmit={handleSubmit}>
+      <h3>Create Account</h3>
+      <form onSubmit={handleSubmit} className='trip-form'>
         <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input name="firstName" type="text" />
+          <input name="firstName" placeholder='First Name' type="text" />
         </div>
         <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input name="lastName" type="text" />
+          <input name="lastName" placeholder='Last Name' type="text" />
         </div>
         <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
+          <input name="username" placeholder='Username' type="text" />
         </div>
         <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
+          <input name="password" placeholder='Password' type="password" />
         </div>
         <div>
-          <label htmlFor="email">
-            <small>E-mail</small>
-          </label>
-          <input name="email" type="text" />
+          <input name="email" placeholder='Email' type="text" />
         </div>
         <div>
-          <label htmlFor="phoneNumber">
-            <small>Phone Number</small>
-          </label>
-          <input name="phoneNumber" type="text" />
+          <input name="phoneNumber" placeholder='Phone Number' type="text" />
         </div>
         <div>
-          <button className="signup" type="submit">Sign Up</button>
+          <button className="btn-primary" type="submit">Register</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
