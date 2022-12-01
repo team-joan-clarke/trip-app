@@ -17,7 +17,8 @@ const TasksCompleted = (props) => {
     dispatch(getTasksByUser());
   }, []);
 
-  const handleClick = (id) => {
+  const handleClick = (e, id) => {
+    e.stopPropagation();
     dispatch(deleteTask(id));
   };
 
@@ -46,7 +47,7 @@ const TasksCompleted = (props) => {
                   </Card.Text>
                   <Button
                     variant="primary"
-                    onClick={handleClick(singleTask.id)}
+                    onClick={(e) => handleClick(e, singleTask.id)}
                   >
                     Delete Task From History
                   </Button>

@@ -20,8 +20,10 @@ const TasksInProgress = (props) => {
 
   const handleClick = (e, id) => {
     e.stopPropagation();
-    dispatch(updateTask(id));
+    const status = "complete";
+    dispatch(updateTask({ status }, id));
   };
+
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks.filter((task) => task.status === "in progress");
 
@@ -60,7 +62,7 @@ const TasksInProgress = (props) => {
                     variant="primary"
                     onClick={(e) => handleClick(e, singleTask.id)}
                   >
-                    Delete Task From History
+                    Completed
                   </Button>
                 </Card.Body>
               </Card>
