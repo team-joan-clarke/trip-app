@@ -1,11 +1,14 @@
 import axios from "axios";
 import { getCookie } from "./users";
+
 //action types
 const GET_ALL_COMPLETED_TRIP = "GET_ALL_COMPLETED_TRIP";
 const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS";
+const GET_SINGLE_TRIP = "GET_SINGLE_TRIP";
 const CREATE_TRIP = "CREATE_TRIP";
 const DELETE_ACTIVE_TRIP = "DELETE_ACTIVE_TRIP";
 const DELETE_COMPLETE_TRIP = "DELETE_COMPLETE_TRIP";
+const UPDATE_TRIP = "UPDATE_TRIP";
 
 //action creator
 const getAllCompletedTrips = (trips) => {
@@ -29,9 +32,17 @@ const createTrip = (trip) => {
   };
 };
 
+
 const deleteActiveTrip = (trip) => {
   return {
     type: DELETE_ACTIVE_TRIP,
+    trip
+  }
+}
+
+const updateTrip = (trip) => {
+  return {
+    type: UPDATE_TRIP,
     trip,
   };
 };
@@ -39,6 +50,13 @@ const deleteActiveTrip = (trip) => {
 const deleteCompleteTrip = (trip) => {
   return {
     type: DELETE_COMPLETE_TRIP,
+    trip
+   }
+}
+
+const getSingleTrip = (trip) => {
+  return {
+    type: GET_SINGLE_TRIP,
     trip,
   };
 };
@@ -82,6 +100,7 @@ export const createNewTrip = (trip) => {
   };
 };
 
+
 export const deleteActiveTripThunk = (tripId) => {
   return async (dispatch) => {
     try {
@@ -92,6 +111,21 @@ export const deleteActiveTripThunk = (tripId) => {
     }
   };
 };
+
+export const updateThisTrip = (updatedData, tripId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        `/api/trips/singleTrip/${tripId}`,
+        updatedData
+      );
+      dispatch(updateTrip(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 
 export const deleteCompleteTripThunk = (tripId) => {
   return async (dispatch) => {
@@ -104,7 +138,19 @@ export const deleteCompleteTripThunk = (tripId) => {
   };
 };
 
-const initialState = { active: [], complete: [] };
+export const fetchSingleTrip = (tripId) => {
+  return async (dispatch) => {
+    try {
+      const { data: trip } = await axios.get(`/api/trips/singleTrip/${tripId}`);
+      dispatch(getSingleTrip(trip));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+
+const initialState = { active: [], complete: [], singleTripView: {} };
 
 // reducer
 export default function tripReducer(state = initialState, action) {
@@ -131,6 +177,13 @@ export default function tripReducer(state = initialState, action) {
           ...state,
           complete: [...filteredCompletedTrips],
         };
+    case UPDATE_TRIP:
+      const filteredTrips = state.active.filter(
+        (trip) => trip.id !== action.trip.id
+      );
+      return { ...state, active: [...filteredTrips, action.trip] };
+    case GET_SINGLE_TRIP:
+      return {...state, singleTripView: {singleTrip: action.trip}}
     default:
       return state;
   }
