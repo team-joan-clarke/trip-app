@@ -17,22 +17,16 @@ const LoginForm = (props) => {
   
   return (
     <div>
-      <h3>Log In Here</h3>
-      <form onSubmit={handleSubmit}>
+      <h3>Log In</h3>
+      <form onSubmit={handleSubmit} className='trip-form'>
         <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
+          <input name="username" placeholder='Username' type="text" />
         </div>
         <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
+          <input name="password" placeholder='Password' type="password" />
         </div>
         <div>
-          <button className="login" type="submit">Log In</button>
+          <button className="btn-primary" type="submit">Sign In</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
