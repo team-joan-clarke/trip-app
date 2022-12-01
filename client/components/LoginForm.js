@@ -14,22 +14,48 @@ const LoginForm = (props) => {
     const password = evt.target.password.value;
     props.authenticateLogin(username, password);
   };
-  
+
   return (
     <div>
-      <h3>Log In</h3>
-      <form onSubmit={handleSubmit} className='trip-form'>
-        <div>
-          <input name="username" placeholder='Username' type="text" />
+      <div
+        style={{
+          width: "40%",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          padding: "2rem",
+          borderRadius: "5px",
+          boxShadow: "2px 1px 20px grey",
+          margin: "10rem auto",
+        }}
+      >
+        <h3>Log In</h3>
+        <div
+          style={{
+            display: "flex",
+            width: "80%",
+            margin: 'auto',
+            flexDirection: "row",
+            flexWrap: "wrap",
+            padding: "none",
+            justifyContent: "center",
+          }}
+        >
+          <form onSubmit={handleSubmit} className="trip-form">
+            <div>
+              <input name="username" placeholder="Username" type="text" />
+            </div>
+            <div>
+              <input name="password" placeholder="Password" type="password" />
+            </div>
+            <div>
+              <button className="btn-primary" type="submit">
+                Sign In
+              </button>
+            </div>
+            {error && error.response && <div> {error.response.data} </div>}
+          </form>
         </div>
-        <div>
-          <input name="password" placeholder='Password' type="password" />
-        </div>
-        <div>
-          <button className="btn-primary" type="submit">Sign In</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
+      </div>
     </div>
   );
 };
