@@ -3,6 +3,7 @@ const {
   models: { Task, User, Trip, User_Task },
 } = require("../../db");
 const Sequelize = require("sequelize");
+const User_Trip = require("../../db/models/User_Trip");
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
 taskRouter.get("/user/:userId", async (req, res, next) => {
@@ -12,7 +13,17 @@ taskRouter.get("/user/:userId", async (req, res, next) => {
     if (user) {
       const data = await User.findAll({
         where: { id: userId },
-        include: [{ model: Task }],
+        include: [
+          {
+            model: Task,
+            include: [
+              {
+                model: Trip,
+                attributes: ["name"],
+              },
+            ],
+          },
+        ],
       });
       if (data) {
         const tasks = data[0]["Tasks"];
