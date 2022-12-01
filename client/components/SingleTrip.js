@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getTasksByTrip } from "../redux/taskReducer";
 import TripTasks from "./TripTasks";
+import TripTaskTodo from "./TripTaskTodo";
 
 const SingleTrip = () => {
   const dispatch = useDispatch();
@@ -92,11 +93,14 @@ const SingleTrip = () => {
   };
 
   return (
-    <div className="container">
+    <div
+      className="container"
+      style={{ width: "100%", alignContent: "center" }}
+    >
       <main>
         <h2>Single Trip</h2>
-        <h3>Trip Tasks</h3>
         <TripTasks />
+        <TripTaskTodo />
       </main>
     </div>
   );

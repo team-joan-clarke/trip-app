@@ -1,44 +1,71 @@
 import React, { useEffect } from "react";
-import { getAllCompletedTripsThunk } from "../redux/tripReducer";
+import { getAllCompletedTripsThunk, deleteCompleteTripThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-// ^ to link to a specific trip in trip dashboard
+import "../../public/index.css";
 
 const CompletedTrips = (props) => {
-  const { userId } = useParams();
-
   useEffect(() => {
-    props.getTrips(userId);
+    props.getTrips();
   }, []);
 
   const { trips } = props;
+  const navigate = useNavigate();
+
+  const handleClick = (event) => {
+    navigate(`/trip/${event.target.name}`);
+  };
+
+  const handleRemove = (event) => {
+    props.deleteTrip(event.target.name);
+  };
 
   return (
     <div>
       <h1>Past Trips</h1>
       <div>
-        {trips.complete.length == 0? (
-          <h2>No past trips</h2>
+        {trips.complete.length == 0 ? (
+          <h4>No past trips</h4>
         ) : (
           trips.complete.map((singleTrip) => {
             return (
-              <Card
-                className="mb-4"
-                style={{ width: "18rem" }}
-                key={singleTrip.id}
-              >
-                <Card.Img
-                  variant="top"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU"
-                />
-                <Card.Body>
-                  <Card.Title>{singleTrip.name}</Card.Title>
-                  <Card.Text>Status: {singleTrip.status}</Card.Text>
-                  <Button variant="success">View Trip</Button>
-                </Card.Body>
-              </Card>
+              <div key={singleTrip.id}>
+                <Card
+                  className="mb-4"
+                  style={{ width: "18rem" }}
+                  key={singleTrip.id}
+                >
+                  <Card.Img variant="top" src={singleTrip.imageUrl} />
+                  <Card.Body>
+                    <Card.Title>{singleTrip.name}</Card.Title>
+                    <Card.Text>Status: {singleTrip.status}</Card.Text>
+                    <Card.Text>
+                      Dates: {singleTrip.start_date.slice(5, 7)}/
+                      {singleTrip.start_date.slice(8, 10)}/
+                      {singleTrip.start_date.slice(0, 4)} -{" "}
+                      {singleTrip.end_date.slice(5, 7)}/
+                      {singleTrip.end_date.slice(8, 10)}/
+                      {singleTrip.start_date.slice(0, 4)}
+                    </Card.Text>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleClick}
+                      variant="primary"
+                    >
+                      View Trip
+                    </Button>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleRemove}
+                      variant="primary"
+                    >
+                      Remove
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </div>
             );
           })
         )}
@@ -55,11 +82,29 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getTrips: (userId) => {
-      dispatch(getAllCompletedTripsThunk(userId));
+    getTrips: () => {
+      dispatch(getAllCompletedTripsThunk());
     },
+    deleteTrip: (tripId) => {
+        dispatch(deleteCompleteTripThunk(tripId))
+    }
   };
 };
 
 // export default CompletedTrips
 export default connect(mapStateToProps, mapDispatchToProps)(CompletedTrips);
+
+// const months = {
+//     01: "January",
+//     02: "Febuary",
+//     03: "March",
+//     04: "April",
+//     05: "May",
+//     06: "June",
+//     07: "July",
+//     08: "August",
+//     09: "September",
+//     10: "October",
+//     11: "November",
+//     12: "December"
+//   }
