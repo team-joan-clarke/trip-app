@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getAllCompletedTripsThunk } from "../redux/tripReducer";
+import { getAllCompletedTripsThunk, deleteCompleteTripThunk } from "../redux/tripReducer";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
@@ -12,12 +12,15 @@ const CompletedTrips = (props) => {
   }, []);
 
   const { trips } = props;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
-    console.log(event.target.name)
     navigate(`/trip/${event.target.name}`);
-  }
+  };
+
+  const handleRemove = (event) => {
+    props.deleteTrip(event.target.name);
+  };
 
   return (
     <div>
@@ -46,7 +49,20 @@ const CompletedTrips = (props) => {
                       {singleTrip.end_date.slice(8, 10)}/
                       {singleTrip.start_date.slice(0, 4)}
                     </Card.Text>
-                    <Button name={singleTrip.id} onClick={handleClick} variant="primary">View Trip</Button>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleClick}
+                      variant="primary"
+                    >
+                      View Trip
+                    </Button>
+                    <Button
+                      name={singleTrip.id}
+                      onClick={handleRemove}
+                      variant="primary"
+                    >
+                      Remove
+                    </Button>
                   </Card.Body>
                 </Card>
               </div>
@@ -57,7 +73,6 @@ const CompletedTrips = (props) => {
     </div>
   );
 };
-
 
 const mapStateToProps = (state) => {
   return {
@@ -70,6 +85,9 @@ const mapDispatchToProps = (dispatch) => {
     getTrips: () => {
       dispatch(getAllCompletedTripsThunk());
     },
+    deleteTrip: (tripId) => {
+        dispatch(deleteCompleteTripThunk(tripId))
+    }
   };
 };
 
