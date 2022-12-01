@@ -40,7 +40,7 @@ tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 
 // get route for trips dashboard gets active trips
 tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
-    console.log("in active route")
+  console.log("in active route");
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });
@@ -55,16 +55,14 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
       });
     })
   );
-  
-  const activeTrips = allActiveTripsForUser.filter((singleTrip) => {
-    if (singleTrip) {
-      return singleTrip;
-    }
-  })
 
-  activeTrips.sort(function(a,b){
-    return new Date(b.start_date) - new Date(a.start_date);
-  });
+  const activeTrips = allActiveTripsForUser
+    .filter((singleTrip) => {
+      if (singleTrip) {
+        return singleTrip;
+      }
+    })
+  
 
   res.send(activeTrips).status(200);
 });

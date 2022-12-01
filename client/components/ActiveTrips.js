@@ -1,5 +1,8 @@
-import React, { useEffect } from "react";
-import { getAllActiveTripsThunk, deleteActiveTripThunk } from "../redux/tripReducer";
+import React, { useEffect, useState } from "react";
+import {
+  getAllActiveTripsThunk,
+  deleteActiveTripThunk,
+} from "../redux/tripReducer";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
@@ -18,16 +21,8 @@ const ActiveTrips = (props) => {
   };
 
   const handleRemove = (event) => {
-    props.deleteTrip(event.target.name)
-    console.log("tripid to remove", event.target.name);
+    props.deleteTrip(event.target.name);
   };
-
-  /*
-trups.active = []
-trips.active[0] = undefined
-undefined.length 
-*/
-
   return (
     <div>
       <h1>Current Trips</h1>
@@ -48,13 +43,10 @@ undefined.length
                     <Card.Title>{singleTrip.name}</Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
                     <Card.Text>
-                      Dates: {singleTrip.start_date.slice(5, 7)}/
-                      {singleTrip.start_date.slice(8, 10)}/
-                      {singleTrip.start_date.slice(0, 4)} -{" "}
-                      {singleTrip.end_date.slice(5, 7)}/
-                      {singleTrip.end_date.slice(8, 10)}/
-                      {singleTrip.start_date.slice(0, 4)}
+                      Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
+                      {singleTrip.end_date.toString().slice(3, 15)}
                     </Card.Text>
+                    <Card.Text></Card.Text>
                     <Button
                       name={singleTrip.id}
                       onClick={handleClick}
@@ -88,9 +80,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getAllActiveTripsThunk());
     },
     deleteTrip: (tripId) => {
-        dispatch(deleteActiveTripThunk(tripId))
+      dispatch(deleteActiveTripThunk(tripId));
     }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveTrips);
-//   export default ActiveTrips
