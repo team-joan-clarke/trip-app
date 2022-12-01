@@ -106,7 +106,7 @@ tripRouter.post("/", async (req, res, next) => {
 });
 
 // put route to edit a trip uses tripId to search for specific trip
-tripRouter.put("/:tripId", async (req, res, next) => {
+tripRouter.put("/singleTrip/:tripId", async (req, res, next) => {
   try {
     const findTripToUpdate = await Trip.findByPk(req.params.tripId);
     findTripToUpdate.update(req.body);

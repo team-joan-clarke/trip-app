@@ -32,13 +32,12 @@ const createTrip = (trip) => {
   };
 };
 
-
 const deleteActiveTrip = (trip) => {
   return {
     type: DELETE_ACTIVE_TRIP,
-    trip
-  }
-}
+    trip,
+  };
+};
 
 const updateTrip = (trip) => {
   return {
@@ -50,9 +49,9 @@ const updateTrip = (trip) => {
 const deleteCompleteTrip = (trip) => {
   return {
     type: DELETE_COMPLETE_TRIP,
-    trip
-   }
-}
+    trip,
+  };
+};
 
 const getSingleTrip = (trip) => {
   return {
@@ -100,6 +99,16 @@ export const createNewTrip = (trip) => {
   };
 };
 
+export const updateThisTrip = (updatedData, tripId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/trips/singleTrip/${tripId}`, updatedData);
+      dispatch(updateTrip(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 export const deleteActiveTripThunk = (tripId) => {
   return async (dispatch) => {
@@ -111,21 +120,6 @@ export const deleteActiveTripThunk = (tripId) => {
     }
   };
 };
-
-export const updateThisTrip = (updatedData, tripId) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(
-        `/api/trips/singleTrip/${tripId}`,
-        updatedData
-      );
-      dispatch(updateTrip(data));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
-
 
 export const deleteCompleteTripThunk = (tripId) => {
   return async (dispatch) => {
@@ -149,7 +143,6 @@ export const fetchSingleTrip = (tripId) => {
   };
 };
 
-
 const initialState = { active: [], complete: [], singleTripView: {} };
 
 // reducer
@@ -169,21 +162,29 @@ export default function tripReducer(state = initialState, action) {
         ...state,
         active: [...filteredActiveTrips],
       };
-      case DELETE_COMPLETE_TRIP:
-        const filteredCompletedTrips = state.complete.filter((trip) => {
-          return trip.id !== action.trip.id;
-        });
-        return {
-          ...state,
-          complete: [...filteredCompletedTrips],
-        };
+    case DELETE_COMPLETE_TRIP:
+      const filteredCompletedTrips = state.complete.filter((trip) => {
+        return trip.id !== action.trip.id;
+      });
+      return {
+        ...state,
+        complete: [...filteredCompletedTrips],
+      };
     case UPDATE_TRIP:
-      const filteredTrips = state.active.filter(
-        (trip) => trip.id !== action.trip.id
-      );
-      return { ...state, active: [...filteredTrips, action.trip] };
+      if (action.trip.status == "active") {
+        const filteredTrips = state.active.filter(
+          (trip) => trip.id !== action.trip.id
+        );
+        return { ...state, active: [...filteredTrips, action.trip] };
+      } else {
+        const filteredTrips = state.complete.filter(
+          (trip) => trip.id !== action.trip.id
+        );
+        return { ...state, complete: [...filteredTrips, action.trip] };
+      }
+
     case GET_SINGLE_TRIP:
-      return {...state, singleTripView: {singleTrip: action.trip}}
+      return { ...state, singleTripView: { singleTrip: action.trip } };
     default:
       return state;
   }

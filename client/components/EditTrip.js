@@ -9,7 +9,6 @@ import { updateThisTrip, fetchSingleTrip } from "../redux/tripReducer";
 
 const EditTrip = (props) => {
   const { singleTrip } = props.trips.singleTripView;
-  console.log("single trip", singleTrip);
 
   const [tripInfo, setTripInfo] = useState({
     name: "",
@@ -47,21 +46,21 @@ const EditTrip = (props) => {
         end_date: "",
         status: "active",
       });
-      window.location.reload();
+    //   window.location.reload();
     }
   };
 
   return (
     <div>
       {singleTrip ? (
-        <form onSubmit={handleSubmit} id="edit-trip">
-          <h2>Edit Your Trip: </h2>
+        <form onSubmit={handleSubmit} className="trip-form">
+          <h2>Edit Trip</h2>
           <div>
             <label htmlFor="name">Trip Name:</label>
             <input
               type="text"
               name="name"
-              defaultValue={singleTrip.name}
+              defaultValue={singleTrip.name || ''}
               onChange={handleChange}
             />
           </div>
@@ -70,7 +69,7 @@ const EditTrip = (props) => {
             <input
               type="text"
               name="city"
-              defaultValue={singleTrip.city}
+              defaultValue={singleTrip.city || ''}
               onChange={handleChange}
             />
           </div>
@@ -79,7 +78,7 @@ const EditTrip = (props) => {
             <input
               type="text"
               name="state"
-              value={singleTrip.state}
+              value={singleTrip.state || ''}
               onChange={handleChange}
             />
           </div>
@@ -88,16 +87,16 @@ const EditTrip = (props) => {
             <input
               type="text"
               name="country"
-              value={singleTrip.country}
+              value={singleTrip.country || ''}
               onChange={handleChange}
             />
           </div>
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <div className='date-picker'>
+            <LocalizationProvider dateAdapter={AdapterDayjs} className='date-picker'>
               <DatePicker
                 label="Start Date"
                 name="start_date"
-                value={start_date}
+                value={singleTrip.start_date || ''}
                 onChange={(newValue) => {
                   setStartDate(newValue);
                 }}
@@ -105,12 +104,12 @@ const EditTrip = (props) => {
               />
             </LocalizationProvider>
           </div>
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <div className='date-picker'>
+            <LocalizationProvider dateAdapter={AdapterDayjs} className='date-picker'>
               <DatePicker
                 label="End Date"
                 name="end_date"
-                value={end_date}
+                value={singleTrip.end_date || ''}
                 onChange={(newValue) => {
                   setEndDate(newValue);
                 }}
@@ -119,7 +118,7 @@ const EditTrip = (props) => {
             </LocalizationProvider>
           </div>
           <div>
-            <button className="submit" type="submit">
+            <button className="btn-primary" type="submit">
               Submit
             </button>
           </div>
