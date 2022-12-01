@@ -33,6 +33,12 @@ const TaskList = (props) => {
         })}
       </div>
     );
+  } else {
+    return (
+      <div style={{ alignSelf: "center" }}>
+        <h6>No activities scheduled.</h6>
+      </div>
+    );
   }
 };
 
