@@ -10,7 +10,11 @@ const AllTasks = (props) => {
   return (
     <div>
       <h2> Tasks </h2>
-      <Tabs defaultActiveKey="inProgress" id="uncontrolled-tab-example">
+      <Tabs
+        defaultActiveKey="inProgress"
+        id="uncontrolled-tab-example"
+        animation="false"
+      >
         <Tab eventKey="inProgress" title="In Progress">
           <TasksInProgress />
         </Tab>
