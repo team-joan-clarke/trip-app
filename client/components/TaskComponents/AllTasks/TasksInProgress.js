@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
-import {
-  getTasksByUser,
-  updateTask,
-  deleteTask,
-} from "../../../redux/taskReducer";
+import { getTasksByUser } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
 // ^ to link to a specific trip in trip dashboard
 
@@ -17,12 +12,6 @@ const TasksInProgress = (props) => {
   useEffect(() => {
     dispatch(getTasksByUser());
   }, []);
-
-  const handleClick = (e, id) => {
-    e.stopPropagation();
-    const status = "complete";
-    dispatch(updateTask({ status }, id));
-  };
 
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks.filter((task) => task.status === "in progress");
@@ -58,12 +47,6 @@ const TasksInProgress = (props) => {
                     Provider Name: {singleTask.provider_name}
                   </Card.Text>
                   <TaskModal singleTask={singleTask} />
-                  <Button
-                    variant="primary"
-                    onClick={(e) => handleClick(e, singleTask.id)}
-                  >
-                    Completed
-                  </Button>
                 </Card.Body>
               </Card>
             );

@@ -3,7 +3,7 @@ import { connect, useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { Form, FloatingLabel, Row, Col } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { updateTask } from "../../../redux/taskReducer";
+import { updateTask, deleteTask } from "../../../redux/taskReducer";
 // ^ to link to a specific trip in trip dashboard
 
 const TaskEditForm = (props) => {
@@ -56,11 +56,29 @@ const TaskEditForm = (props) => {
     );
   };
 
+  const handleClick = (e, id) => {
+    e.stopPropagation();
+    const status = "complete";
+    dispatch(updateTask({ status }, id));
+  };
+
+  const handleDelete = (e, id) => {
+    e.stopPropagation();
+    dispatch(deleteTask(id));
+  };
+
   return (
     <div>
       <Button variant="primary" onClick={handleShow}>
         Edit Task
       </Button>
+      <Button variant="primary" onClick={(e) => handleClick(e, singleTask.id)}>
+        Completed
+      </Button>
+      <Button variant="primary" onClick={(e) => handleDelete(e, singleTask.id)}>
+        Delete
+      </Button>
+
       <Modal show={show} onHide={handleClose} scrollable={true}>
         <Modal.Header closeButton>
           <Modal.Title>{singleTask.type}</Modal.Title>
