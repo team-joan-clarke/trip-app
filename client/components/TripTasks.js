@@ -41,8 +41,10 @@ const TripTasks = (props) => {
           startDate.setDate(startDate.getDate());
           const taskDate = startDate.toDateString();
           const taskArr = taskMap[taskDate];
-          taskArr.push(task);
-          taskMap[taskDate] = taskArr;
+          if (taskArr) {
+            taskArr.push(task);
+            taskMap[taskDate] = taskArr;
+          }
         }
       });
       setColumns(dayArr);
