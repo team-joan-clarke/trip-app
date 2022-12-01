@@ -173,7 +173,8 @@ export default function tripReducer(state = initialState, action) {
         );
       return { ...state, active: sortedDates };
     case CREATE_TRIP:
-      return { ...state, active: action.trip };
+      const currentActiveTrips = state.active
+      return { ...state, active: [...currentActiveTrips, action.trip] };
     case DELETE_ACTIVE_TRIP:
       const filteredActiveTrips = state.active.filter((trip) => {
         return trip.id !== action.trip.id;
