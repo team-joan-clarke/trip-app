@@ -18,7 +18,6 @@ const SingleTrip = () => {
     dispatch(fetchSingleTrip(tripId));
   }, [trip]);
   const trip = useSelector((state) => state.trips.singleTripView);
-
   return (
     <div
       className="container"
