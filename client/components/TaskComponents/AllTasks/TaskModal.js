@@ -9,6 +9,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
@@ -67,6 +68,10 @@ const TaskEditForm = (props) => {
     dispatch(updateTask({ status }, id));
   };
 
+  // "2022-06-17"
+  let currentDate = new Date().toJSON().slice(0, 10);
+  let currentTime = new Date().toJSON().slice(0, 19);
+
   return (
     <div>
       <Button variant="primary" onClick={handleShow}>
@@ -97,6 +102,7 @@ const TaskEditForm = (props) => {
                         setStart_Date(newValue);
                       }}
                       renderInput={(params) => <TextField {...params} />}
+                      minDate={dayjs(currentDate)}
                     />
                   </LocalizationProvider>
                 </Col>
@@ -113,6 +119,8 @@ const TaskEditForm = (props) => {
                         setEnd_Date(newValue);
                       }}
                       renderInput={(params) => <TextField {...params} />}
+                      minDate={dayjs(start_date)}
+                      minTime={dayjs(start_date)}
                     />
                   </LocalizationProvider>
                 </Col>
