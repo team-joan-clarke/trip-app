@@ -9,6 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { connect } from "react-redux";
 import { addNewTask } from "../../redux/taskReducer";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 function AddNewTaskModal(props) {
   const dispatch = useDispatch();
@@ -16,6 +17,13 @@ function AddNewTaskModal(props) {
   const [subtype, setSubtype] = useState("");
   const [provider_name, setProvider] = useState("");
   const [due_date, setDueDate] = useState(null);
+  const [start_date, setStartDate] = useState(null);
+  const [end_date, setEndDate] = useState(null);
+  const [start_location, setStartLocation] = useState("");
+  const [end_location, setEndLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [booking_num, setBookingNum] = useState("");
+  const [link, setLink] = useState("");
 
   function conditionalSubtypeOptions(type) {
     if (type === "Transportation") {
@@ -89,6 +97,13 @@ function AddNewTaskModal(props) {
           subtype,
           provider_name,
           due_date,
+          start_date,
+          end_date,
+          start_location,
+          end_location,
+          description,
+          booking_num,
+          link,
           status: "in progress",
           TripId: props.trip,
         },
@@ -109,6 +124,16 @@ function AddNewTaskModal(props) {
       setSubtype(event.target.value);
     } else if (event.target.name === "provider_name") {
       setProvider(event.target.value);
+    } else if (event.target.name === "start_location") {
+      setStartLocation(event.target.value);
+    } else if (event.target.name === "end_location") {
+      setEndLocation(event.target.value);
+    } else if (event.target.name === "description") {
+      setDescription(event.target.value);
+    } else if (event.target.name === "booking_num") {
+      setBookingNum(event.target.value);
+    } else if (event.target.name === "link") {
+      setLink(event.target.value);
     }
   };
 
@@ -193,10 +218,10 @@ function AddNewTaskModal(props) {
               <Form.Label>Start Date</Form.Label>
               <div className="date-picker">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
+                  <DateTimePicker
                     label="Start Date"
                     name="start_date"
-                    value={""}
+                    value={start_date}
                     onChange={(newValue) => {
                       setStartDate(newValue);
                     }}
@@ -217,9 +242,9 @@ function AddNewTaskModal(props) {
                   <DatePicker
                     label="End Date"
                     name="end_date"
-                    value={""}
+                    value={end_date}
                     onChange={(newValue) => {
-                      setStartDate(newValue);
+                      setEndDate(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -233,27 +258,52 @@ function AddNewTaskModal(props) {
           {/* START LOCATION - OPTIONAL */}
           <Form.Group className="mb-3" controlId="formTaskSTARTLOCATION">
             <Form.Label>Start Location</Form.Label>
-            <Form.Control type="text" />
+            <Form.Control
+              type="text"
+              name="start_location"
+              value={start_location}
+              onChange={handleChange}
+            />
           </Form.Group>
           {/* END_LOCATION - OPTIONAL */}
           <Form.Group className="mb-3" controlId="formTaskENDLOCATION">
             <Form.Label>End Location</Form.Label>
-            <Form.Control type="text" />
+            <Form.Control
+              type="text"
+              name="end_location"
+              value={end_location}
+              onChange={handleChange}
+            />
           </Form.Group>
           {/* DESCRIPTION - OPTIONAL AVAIL */}
           <Form.Group className="mb-3" controlId="formTaskDESCRIPTION">
             <Form.Label>Description</Form.Label>
-            <Form.Control type="text" />
+            <Form.Control
+              type="text"
+              name="description"
+              value={description}
+              onChange={handleChange}
+            />
           </Form.Group>
           {/* BOOKINGNUM - OPTIONAL */}
           <Form.Group className="mb-3" controlId="formTaskBOOKINGNUM">
             <Form.Label>Booking Number</Form.Label>
-            <Form.Control type="text" />
+            <Form.Control
+              type="text"
+              name="booking_num"
+              value={booking_num}
+              onChange={handleChange}
+            />
           </Form.Group>
           {/* LINK - OPTIONAL AVAIL */}
           <Form.Group className="mb-3" controlId="formTaskLINK">
             <Form.Label>Link</Form.Label>
-            <Form.Control type="text" />
+            <Form.Control
+              type="text"
+              name="link"
+              value={link}
+              onChange={handleChange}
+            />
           </Form.Group>
           <Button
             variant="primary"
