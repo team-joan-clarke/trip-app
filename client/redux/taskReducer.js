@@ -57,9 +57,10 @@ export const getTasksByTrip = (tripId) => {
   };
 };
 
-export const addNewTask = (task, userId, role) => {
+export const addNewTask = (task, role) => {
   return async (dispatch) => {
     try {
+      const userId = getCookie("userId");
       const { data } = await axios.post("/api/tasks", {
         ...task,
         userId,
