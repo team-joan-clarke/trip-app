@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -24,6 +24,13 @@ function AddNewTaskModal(props) {
   const [description, setDescription] = useState("");
   const [booking_num, setBookingNum] = useState("");
   const [link, setLink] = useState("");
+  const [addedResStatus, setAddedResStatus] = useState("");
+
+  const prevTasksRef = useRef();
+  useEffect(() => {
+    prevTasksRef.current = tasks;
+  }, []);
+  const { tasks } = props;
 
   function conditionalSubtypeOptions(type) {
     if (type === "Transportation") {
@@ -88,33 +95,41 @@ function AddNewTaskModal(props) {
     }
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(
-      addNewTask(
-        {
-          type,
-          subtype,
-          provider_name,
-          due_date,
-          start_date,
-          end_date,
-          start_location,
-          end_location,
-          description,
-          booking_num,
-          link,
-          status: "in progress",
-          TripId: props.trip,
-        },
-        "editor"
-      )
-    );
-    setType("");
-    setSubtype("");
-    setProvider("");
-    setDueDate(null);
-    console.log("submitted");
+    try {
+      dispatch(
+        addNewTask(
+          {
+            type,
+            subtype,
+            provider_name,
+            due_date,
+            start_date,
+            end_date,
+            start_location,
+            end_location,
+            description,
+            booking_num,
+            link,
+            status: "in progress",
+            TripId: props.trip,
+          },
+          "editor"
+        )
+      );
+      if (prevTasksRef.current !== tasks) {
+        setType("");
+        setSubtype("");
+        setProvider("");
+        setDueDate(null);
+        console.log("submitted");
+        setAddedResStatus("success");
+        console.log(addedResStatus);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event) => {
@@ -137,6 +152,8 @@ function AddNewTaskModal(props) {
     }
   };
 
+  console.log("props", props);
+
   return (
     <Modal
       {...props}
@@ -150,170 +167,187 @@ function AddNewTaskModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          {/* TYPE - SELECT */}
-          <Form.Group className="mb-3" controlId="formTaskTYPE">
-            <Form.Label>Task Type &#40;required&#41;</Form.Label>
-            <Form.Select name="type" onChange={handleChange}>
-              <option value="">Choose task type...</option>
-              <option value="Transportation">Transportation</option>
-              <option value="Lodging">Lodging</option>
-              <option value="Dining">Dining</option>
-              <option value="Recreation">Recreation</option>
-              <option value="Business">Business</option>
-            </Form.Select>
-          </Form.Group>
-          {/* SUBTYPE - SELECT BASED ON TYPE */}
-          <Form.Group className="mb-3" controlId="formTaskSUBTYPE">
-            <Form.Label>Task SubType &#40;required&#41;</Form.Label>
-            {type ? (
-              conditionalSubtypeOptions(type)
-            ) : (
-              <Form.Select name="subtype" onChange={handleChange}>
-                <option>Choose task subtype...</option>
+        {addedResStatus !== "success" ? (
+          <Form>
+            {/* TYPE - SELECT */}
+            <Form.Group className="mb-3" controlId="formTaskTYPE">
+              <Form.Label>Task Type &#40;required&#41;</Form.Label>
+              <Form.Select name="type" onChange={handleChange}>
+                <option value="">Choose task type...</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Lodging">Lodging</option>
+                <option value="Dining">Dining</option>
+                <option value="Recreation">Recreation</option>
+                <option value="Business">Business</option>
               </Form.Select>
-            )}
-          </Form.Group>
-          {/* LOCATION NAME/TITLE */}
-          <Form.Group className="mb-3" controlId="formTaskPROVIDER">
-            <Form.Label>
-              Location Name, Activity, or Title &#40;required&#41;
-            </Form.Label>
-            <Form.Control
-              type="text"
-              name="provider_name"
-              value={provider_name}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          {/* DUE DATE */}
-          <Form.Group
-            className="mb-3"
-            name="dueDate"
-            controlId="formTaskDUEDATE"
-          >
-            <Form.Label>Due Date &#40;required&#41;</Form.Label>
-            <div className="date-picker">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Due Date"
-                  name="due_date"
-                  value={due_date}
-                  onChange={(newValue) => {
-                    console.log(newValue);
-                    setDueDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </div>
-          </Form.Group>
-          <div id="start-end-date-flex" style={{ display: "flex" }}>
-            {/* STARTDATE W/ START TIME CALENDAR VIEW */}
-            <Form.Group
-              className="mb-3"
-              controlId="formTaskSTARTDATE"
-              style={{ flex: 1 }}
-            >
-              <Form.Label>Start Date</Form.Label>
-              <div className="date-picker">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker
-                    label="Start Date"
-                    name="start_date"
-                    value={start_date}
-                    onChange={(newValue) => {
-                      setStartDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </div>
             </Form.Group>
-            {/* ENDDATE - OPTIONAL ASK? */}
+            {/* SUBTYPE - SELECT BASED ON TYPE */}
+            <Form.Group className="mb-3" controlId="formTaskSUBTYPE">
+              <Form.Label>Task SubType &#40;required&#41;</Form.Label>
+              {type ? (
+                conditionalSubtypeOptions(type)
+              ) : (
+                <Form.Select name="subtype" onChange={handleChange}>
+                  <option>Choose task subtype...</option>
+                </Form.Select>
+              )}
+            </Form.Group>
+            {/* LOCATION NAME/TITLE */}
+            <Form.Group className="mb-3" controlId="formTaskPROVIDER">
+              <Form.Label>
+                Location Name, Activity, or Title &#40;required&#41;
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name="provider_name"
+                value={provider_name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            {/* DUE DATE */}
             <Form.Group
               className="mb-3"
-              controlId="formTaskENDDATE"
-              style={{ flex: 1 }}
+              name="dueDate"
+              controlId="formTaskDUEDATE"
             >
-              <Form.Label>End Date</Form.Label>
+              <Form.Label>Due Date &#40;required&#41;</Form.Label>
               <div className="date-picker">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    label="End Date"
-                    name="end_date"
-                    value={end_date}
+                    label="Due Date"
+                    name="due_date"
+                    value={due_date}
                     onChange={(newValue) => {
-                      setEndDate(newValue);
+                      console.log(newValue);
+                      setDueDate(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
               </div>
             </Form.Group>
+            <div id="start-end-date-flex" style={{ display: "flex" }}>
+              {/* STARTDATE W/ START TIME CALENDAR VIEW */}
+              <Form.Group
+                className="mb-3"
+                controlId="formTaskSTARTDATE"
+                style={{ flex: 1 }}
+              >
+                <Form.Label>Start Date</Form.Label>
+                <div className="date-picker">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                      label="Start Date"
+                      name="start_date"
+                      value={start_date}
+                      onChange={(newValue) => {
+                        setStartDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </div>
+              </Form.Group>
+              {/* ENDDATE - OPTIONAL ASK? */}
+              <Form.Group
+                className="mb-3"
+                controlId="formTaskENDDATE"
+                style={{ flex: 1 }}
+              >
+                <Form.Label>End Date</Form.Label>
+                <div className="date-picker">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="End Date"
+                      name="end_date"
+                      value={end_date}
+                      onChange={(newValue) => {
+                        setEndDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </div>
+              </Form.Group>
+            </div>
+            {/* START_TIME - ADDED AS START TIME AND TO STARTDATE*/}
+            {/* END_TIME - OPTIONAL */}
+            {/* CHECKIN - OPTIONAL */}
+            {/* START LOCATION - OPTIONAL */}
+            <Form.Group className="mb-3" controlId="formTaskSTARTLOCATION">
+              <Form.Label>Start Location</Form.Label>
+              <Form.Control
+                type="text"
+                name="start_location"
+                value={start_location}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            {/* END_LOCATION - OPTIONAL */}
+            <Form.Group className="mb-3" controlId="formTaskENDLOCATION">
+              <Form.Label>End Location</Form.Label>
+              <Form.Control
+                type="text"
+                name="end_location"
+                value={end_location}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            {/* DESCRIPTION - OPTIONAL AVAIL */}
+            <Form.Group className="mb-3" controlId="formTaskDESCRIPTION">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type="text"
+                name="description"
+                value={description}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            {/* BOOKINGNUM - OPTIONAL */}
+            <Form.Group className="mb-3" controlId="formTaskBOOKINGNUM">
+              <Form.Label>Booking Number</Form.Label>
+              <Form.Control
+                type="text"
+                name="booking_num"
+                value={booking_num}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            {/* LINK - OPTIONAL AVAIL */}
+            <Form.Group className="mb-3" controlId="formTaskLINK">
+              <Form.Label>Link</Form.Label>
+              <Form.Control
+                type="text"
+                name="link"
+                value={link}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={handleSubmit}
+              style={{ float: "right" }}
+            >
+              Add Task
+            </Button>
+          </Form>
+        ) : (
+          <div>
+            <h2>Success</h2>
+            <Button
+              variant="primary"
+              type="submit"
+              style={{ float: "right" }}
+              onClick={(e) => {
+                setAddedResStatus("");
+                props.onHide(e);
+              }}
+            >
+              Done
+            </Button>
           </div>
-          {/* START_TIME - ADDED AS START TIME AND TO STARTDATE*/}
-          {/* END_TIME - OPTIONAL */}
-          {/* CHECKIN - OPTIONAL */}
-          {/* START LOCATION - OPTIONAL */}
-          <Form.Group className="mb-3" controlId="formTaskSTARTLOCATION">
-            <Form.Label>Start Location</Form.Label>
-            <Form.Control
-              type="text"
-              name="start_location"
-              value={start_location}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          {/* END_LOCATION - OPTIONAL */}
-          <Form.Group className="mb-3" controlId="formTaskENDLOCATION">
-            <Form.Label>End Location</Form.Label>
-            <Form.Control
-              type="text"
-              name="end_location"
-              value={end_location}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          {/* DESCRIPTION - OPTIONAL AVAIL */}
-          <Form.Group className="mb-3" controlId="formTaskDESCRIPTION">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              type="text"
-              name="description"
-              value={description}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          {/* BOOKINGNUM - OPTIONAL */}
-          <Form.Group className="mb-3" controlId="formTaskBOOKINGNUM">
-            <Form.Label>Booking Number</Form.Label>
-            <Form.Control
-              type="text"
-              name="booking_num"
-              value={booking_num}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          {/* LINK - OPTIONAL AVAIL */}
-          <Form.Group className="mb-3" controlId="formTaskLINK">
-            <Form.Label>Link</Form.Label>
-            <Form.Control
-              type="text"
-              name="link"
-              value={link}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Button
-            variant="primary"
-            type="submit"
-            onClick={handleSubmit}
-            style={{ float: "right" }}
-          >
-            Add Task
-          </Button>
-        </Form>
+        )}
       </Modal.Body>
     </Modal>
   );
