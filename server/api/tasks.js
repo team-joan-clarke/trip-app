@@ -96,7 +96,6 @@ taskRouter.post("/", async (req, res, next) => {
       userId,
       role,
     } = req.body;
-    console.log(userId, role);
     const data = await Task.create({
       type,
       subtype,
