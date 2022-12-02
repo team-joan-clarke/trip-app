@@ -74,7 +74,7 @@ const TasksInProgress = (props) => {
                     </Button>
                   )}
                   <Card.Title>{singleTask.type} </Card.Title>
-                  {/* <Card.Text>Trip: {singleTask.Trip.name}</Card.Text> */}
+                  <Card.Text>Trip: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
                   <Card.Text>
                     Provider Name: {singleTask.provider_name}

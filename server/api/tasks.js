@@ -194,7 +194,17 @@ taskRouter.put("/:taskId", async (req, res, next) => {
         const tasksWithUpdatedTask = await Trip.findAll({
           where: { id: data.TripId },
           include: [
-            { model: Task, where: { id: data.id }, include: [{ model: User }] },
+            {
+              model: Task,
+              where: { id: data.id },
+              include: [
+                {
+                  model: Trip,
+                  attributes: ["name"],
+                },
+                { model: User },
+              ],
+            },
           ],
         });
         if (tasksWithUpdatedTask[0]["Tasks"]) {
