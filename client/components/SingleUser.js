@@ -14,7 +14,7 @@ const SingleUser = () => {
     dispatch(fetchUser());
   }, []);
 
-  const user = useSelector((state) => state.users);
+  const user = useSelector((state) => state.users.allUsers);
   const firstName = user.firstName || "";
 
   return (

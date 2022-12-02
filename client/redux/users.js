@@ -26,6 +26,8 @@ export function getCookie(cname) {
 
 //action types
 const SET_USER = "SET_USER";
+const GET_ALL_USERS = "GET_ALL_USERS";
+const GET_USERS_ON_TRIP = "GET_USERS_ON_TRIP";
 const UPDATE_USER = "UPDATE_USER";
 const DELETE_USER = "DELETE_USER";
 
@@ -37,6 +39,19 @@ const setUser = (user) => {
   };
 };
 
+const setAllUsers = (users) => {
+  return {
+    type: GET_ALL_USERS,
+    users,
+  };
+};
+
+const setUsersOnTrip = (usersOnTrip) => {
+  return {
+    type: GET_USERS_ON_TRIP,
+    usersOnTrip,
+  };
+};
 const updateUser = (user) => {
   return {
     type: UPDATE_USER,
@@ -62,6 +77,28 @@ export const fetchUser = () => async (dispatch) => {
   }
 };
 
+export const fetchAllUsers = () => {
+  return async (dispatch) => {
+    try {
+      const { data: users } = await axios.get("api/users");
+      dispatch(setAllUsers(users));
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
+};
+
+export const fetchAllUsersOnTrip = (tripId) => {
+  return async (dispatch) => {
+    try {
+      const { data: usersOnTrip } = await axios.get(`/api/userTrips/${tripId}`);
+      dispatch(setUsersOnTrip(usersOnTrip));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 export const updatingUser = (info) => async (dispatch) => {
   try {
     const id = getCookie("userId");
@@ -83,14 +120,19 @@ export const deletingUser = () => async (dispatch) => {
   }
 };
 
-const usersReducer = (state = {}, action) => {
+const initialState = { allUsers: [], usersOnTrip: [] };
+const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
-      return action.user;
+      return { ...state, allUsers: action.user };
+    case GET_ALL_USERS:
+      return { ...state, allUsers: action.users };
+    case GET_USERS_ON_TRIP:
+      return { ...state, usersOnTrip: action.usersOnTrip };
     case UPDATE_USER:
-      return action.user;
+      return { ...state, allUsers: action.users };
     case DELETE_USER:
-      return action.user;
+      return { ...state, allUsers: action.users };
     default:
       return state;
   }

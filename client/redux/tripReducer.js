@@ -6,6 +6,7 @@ const GET_ALL_COMPLETED_TRIP = "GET_ALL_COMPLETED_TRIP";
 const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS";
 const GET_SINGLE_TRIP = "GET_SINGLE_TRIP";
 const CREATE_TRIP = "CREATE_TRIP";
+const CREATE_USER_TRIP = "CREATE_USER_TRIP";
 const DELETE_ACTIVE_TRIP = "DELETE_ACTIVE_TRIP";
 const DELETE_COMPLETE_TRIP = "DELETE_COMPLETE_TRIP";
 const UPDATE_TRIP = "UPDATE_TRIP";
@@ -29,6 +30,13 @@ const createTrip = (trip) => {
   return {
     type: CREATE_TRIP,
     trip,
+  };
+};
+
+const createUserTrip = (userTrip) => {
+  return {
+    type: CREATE_USER_TRIP,
+    userTrip,
   };
 };
 
@@ -93,6 +101,17 @@ export const createNewTrip = (trip) => {
     try {
       const { data } = await axios.post(`/api/trips`, trip);
       dispatch(createTrip(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const createNewUserTrip = (userTrip) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(`/api/userTrips`, userTrip);
+      dispatch(createUserTrip(data));
     } catch (error) {
       console.error(error);
     }
@@ -178,6 +197,9 @@ export default function tripReducer(state = initialState, action) {
     case CREATE_TRIP:
       const currentActiveTrips = state.active;
       return { ...state, active: [...currentActiveTrips, action.trip] };
+    case CREATE_USER_TRIP:
+      const currentUserTrips = state.active;
+      return { ...state, active: [...currentUserTrips, action.userTrip] };
     case DELETE_ACTIVE_TRIP:
       const filteredActiveTrips = state.active.filter((trip) => {
         return trip.id !== action.trip.id;

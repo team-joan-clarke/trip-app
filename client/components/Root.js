@@ -6,6 +6,7 @@ import UpdateUserForm from "./UpdateUserForm";
 import SingleTrip from "./SingleTrip";
 import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
+import DummyDash from "./DummyDash";
 import NavigationBar from "./Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { verified } from "../redux/auth";
