@@ -8,7 +8,17 @@ import TasksInProgress from "./TasksInProgress";
 
 const AllTasks = (props) => {
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        padding: "2rem",
+        borderRadius: "5px",
+        boxShadow: "2px 1px 20px grey",
+        margin: "5rem auto",
+      }}
+    >
       <h2> Tasks </h2>
       <Tabs
         defaultActiveKey="inProgress"

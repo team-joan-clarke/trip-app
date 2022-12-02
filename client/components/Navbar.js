@@ -24,7 +24,7 @@ const NavigationBar = ({ isLoggedIn }) => {
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Dead Link</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Dead Link</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Dead Link</NavDropdown.Item>
+              <NavDropdown.Item href="/update">Update Profile</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/dummydash">dummy dash</NavDropdown.Item>
             </NavDropdown>

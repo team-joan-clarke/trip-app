@@ -7,6 +7,20 @@ import { authenticateSignUp } from "../redux/auth";
  */
 const SignUpForm = (props) => {
   const { error } = props;
+  let errorMessage;
+
+  if (error) {
+    if (
+      error.response.data ===
+      "Validation error: Validation isEmail on email failed"
+    ) {
+      errorMessage =
+        "Email input must be a valid email address Ex:___@gmail.com ";
+    }
+    if (error.response.data === "User already exists") {
+      errorMessage = "There is an existing user with this email";
+    }
+  }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -39,7 +53,6 @@ const SignUpForm = (props) => {
           margin: "5rem auto",
         }}
       >
-        <h3>Create Account</h3>
         <div
           style={{
             display: "flex",
@@ -51,28 +64,50 @@ const SignUpForm = (props) => {
             justifyContent: "center",
           }}
         >
+          <h3>Create Account</h3>
           <div>
             <form onSubmit={handleSubmit} className="trip-form">
               <div>
-                <input name="firstName" placeholder="First Name" type="text" />
-              </div>
-              <div>
-                <input name="lastName" placeholder="Last Name" type="text" />
-              </div>
-              <div>
-                <input name="username" placeholder="Username" type="text" />
-              </div>
-              <div>
-                <input name="password" placeholder="Password" type="password" />
-              </div>
-              <div>
-                <input name="email" placeholder="Email" type="text" />
+                <input
+                  name="firstName"
+                  placeholder="First Name"
+                  type="text"
+                  required
+                />
               </div>
               <div>
                 <input
-                  name="phoneNumber"
-                  placeholder="Phone Number"
+                  name="lastName"
+                  placeholder="Last Name"
                   type="text"
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  name="username"
+                  placeholder="Username"
+                  type="text"
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  required
+                />
+              </div>
+              <div>
+                <input name="email" placeholder="Email" type="text" required />
+              </div>
+              <div>
+                <input
+                  type="tel"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  placeholder="Phone: 000-000-0000"
+                  name="phoneNumber"
                 />
               </div>
               <div>
@@ -80,7 +115,8 @@ const SignUpForm = (props) => {
                   Register
                 </button>
               </div>
-              {error && error.response && <div> {error.response.data} </div>}
+              {/* {error && error.response && <div> {error.response.data} </div>} */}
+              {error && error.response && <div> {errorMessage} </div>}
             </form>
           </div>
         </div>
