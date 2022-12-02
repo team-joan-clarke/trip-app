@@ -8,7 +8,7 @@ import ActiveTrips from "./ActiveTrips";
 import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CreateTrip from "./CreateTrip";
 
-const SingleUser = ({ isLoggedIn }) => {
+const SingleUser = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());
@@ -19,70 +19,52 @@ const SingleUser = ({ isLoggedIn }) => {
 
   return (
     <div>
-      {isLoggedIn ? (
-        <div className="container">
-          <main>
-            {user.length == 0 && (
-              <h3 className=" error"> User does not exist in the system!</h3>
-            )}
-            <h2> Hello {firstName}</h2>
+      <div className="container">
+        <main>
+          {user.length == 0 && (
+            <h3 className=" error"> User does not exist in the system!</h3>
+          )}
+          <h2> Hello {firstName}</h2>
 
+          <div
+            style={{
+              width: "auto",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              padding: "2rem",
+              borderRadius: "5px",
+              boxShadow: "2px 1px 20px grey",
+              marginTop: "3rem",
+            }}
+          >
+            <h3>Get Started</h3>
             <div
               style={{
+                display: "flex",
                 width: "auto",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                padding: "2rem",
-                borderRadius: "5px",
-                boxShadow: "2px 1px 20px grey",
-                marginTop: "3rem",
+                padding: "none",
+                justifyContent: "center",
               }}
             >
-              <h3>Get Started</h3>
-              <div
-                style={{
-                  display: "flex",
-                  width: "auto",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  padding: "none",
-                  justifyContent: "center",
-                }}
-              >
-                <CreateTrip />
-              </div>
+              <CreateTrip />
             </div>
+          </div>
 
-            <ActiveTrips />
-            <CompletedTrips />
+          <ActiveTrips />
+          <CompletedTrips />
 
-            <h3>Here are your tasks: </h3>
-            <AllTasks />
-          </main>
-        </div>
-      ) : (
-        <div
-          style={{
-            width: "50%",
-            flexDirection: "row",
-            textAlign: "center",
-            flexWrap: "wrap",
-            padding: "2rem",
-            borderRadius: "5px",
-            boxShadow: "2px 1px 20px grey",
-            margin: "5rem auto",
-          }}
-        >
-          <h4>{"Please login to view this page."}</h4>
-        </div>
-      )}
+          <h3>Here are your tasks: </h3>
+          <AllTasks />
+        </main>
+      </div>
     </div>
   );
 };
 
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.auth.id,
     user: state.users,
   };
 };
