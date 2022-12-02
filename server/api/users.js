@@ -4,14 +4,14 @@ const {
 } = require("../../db");
 const Sequelize = require("sequelize");
 
-// users.get("/", async (req, res, next) => {
-//   try {
-//     const data = await User.findAll();
-//     res.status(200).send(data);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+users.get("/", async (req, res, next) => {
+  try {
+    const data = await User.findAll();
+    res.status(200).send(data);
+  } catch (error) {
+    next(error);
+  }
+});
 
 users.get("/:id", async (req, res, next) => {
   try {

@@ -15,7 +15,7 @@ const EditTrip = (props) => {
   let initialEndDate;
 
   const { singleTrip } = props.trips.singleTripView;
-  let {tripId} = useParams();
+  let { tripId } = useParams();
 
   if (singleTrip) {
     initialStartDate = singleTrip.start_date;

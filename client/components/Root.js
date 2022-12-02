@@ -6,6 +6,7 @@ import UpdateUserForm from "./UpdateUserForm";
 import SingleTrip from "./SingleTrip";
 import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
+import DummyDash from "./DummyDash";
 import NavigationBar from "./Navbar";
 
 // const Root = () => {
@@ -31,6 +32,7 @@ const Root = () => {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/update" element={<UpdateUserForm />} />
+        <Route exact path='/dummydash' element={<DummyDash />} />
       </Routes>
     </BrowserRouter>
   );
