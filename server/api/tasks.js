@@ -228,7 +228,17 @@ taskRouter.post("/task-user", async (req, res, next) => {
         const tasksWithUpdatedTask = await Trip.findAll({
           where: { id: data.TripId },
           include: [
-            { model: Task, where: { id: data.id }, include: [{ model: User }] },
+            {
+              model: Task,
+              where: { id: data.id },
+              include: [
+                { model: User },
+                {
+                  model: Trip,
+                  attributes: ["name"],
+                },
+              ],
+            },
           ],
         });
         if (tasksWithUpdatedTask) {
