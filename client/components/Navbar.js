@@ -7,37 +7,68 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
-const NavigationBar = ({ isLoggedIn }) => {
+const NavigationBar = ({ isLoggedIn, auth }) => {
   const handleClick = () => {
     logout();
   };
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="#home">trippn</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href="/signup">Signup</Nav.Link>
-            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Dead Link</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Dead Link</NavDropdown.Item>
-              <NavDropdown.Item href="/update">Update Profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/dummydash">dummy dash</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Nav>
-            <Nav.Link href="/user">User Dashboard</Nav.Link>
-            <Nav.Link href="/" onClick={handleClick}>
-              Sign Out
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <div>
+      {isLoggedIn ? (
+        <div>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="#home">trippn</Navbar.Brand>
+              <Nav>
+                <Nav.Link href="/user">{auth.firstName} </Nav.Link>
+              </Nav>
+              <div
+                style={{
+                  position: "relative",
+                  right: "2em",
+                }}
+              >
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                  <Nav className="me-auto">
+                    <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+                      <NavDropdown.Item href="#action/3.1">
+                        Dead Link
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="/update">
+                        Update Profile
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="/login" onClick={handleClick}>
+                        Sign Out
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item href="/dummydash">
+                        dummy dash
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </Nav>
+                </Navbar.Collapse>
+              </div>
+            </Container>
+          </Navbar>
+        </div>
+      ) : (
+        <div>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="#home">trippn</Navbar.Brand>
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="me-auto">
+                  <Nav.Link href="/login">Login</Nav.Link>
+                  <Nav.Link href="/signup">Signup</Nav.Link>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </div>
+      )}
+    </div>
   );
 };
 
