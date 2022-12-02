@@ -128,6 +128,7 @@ const tasks = [
   },
   {
     type: "Lodging",
+    subtype: "Private Rental",
     due_date: new Date(2023, 4, 6),
     description: "Look for somewhere to stay in Kreuzberg area",
     status: "in progress",
@@ -214,6 +215,7 @@ const tasks = [
   },
   {
     type: "Lodging",
+    subtype: "Private Rental",
     provider_name: "AirBnB",
     due_date: new Date(2022, 11, 30),
     start_date: new Date(2023, 1, 6, 0, 0, 0),
@@ -247,7 +249,7 @@ const tasks = [
   },
   {
     type: "Transportation",
-    subtype: "Rental car",
+    subtype: "Car",
     provider_name: "Expedia Rental Car",
     due_date: new Date(2023, 3, 1),
     start_date: new Date(2023, 3, 12, 0, 0, 0),
@@ -263,6 +265,7 @@ const tasks = [
   },
   {
     type: "Lodging",
+    subtype: "Hotel",
     provider_name: "The Marriot",
     due_date: new Date(2022, 12, 17),
     description: "Book hotel in Laguna Beach ",
@@ -289,7 +292,7 @@ const tasks = [
   },
   {
     type: "Transportation",
-    subtype: "Subway",
+    subtype: "Public Transportation",
     provider_name: "NYC Subway",
     due_date: new Date(2022, 12, 16),
     description: "Determine route to tea shop",
