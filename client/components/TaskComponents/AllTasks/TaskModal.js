@@ -4,7 +4,12 @@ import Button from "react-bootstrap/Button";
 import { Form, FloatingLabel, Row, Col } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { updateTask } from "../../../redux/taskReducer";
-// ^ to link to a specific trip in trip dashboard
+import TextField from "@mui/material/TextField";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
@@ -13,9 +18,9 @@ const TaskEditForm = (props) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [start_date, setStart_Date] = useState(singleTask.start_date || null);
-  const [end_date, setEnd_Date] = useState(singleTask.endt_date || null);
-  const [start_time, setStart_Time] = useState(singleTask.start_time || null);
-  const [end_time, setEnd_Time] = useState(singleTask.end_time || null);
+  const [end_date, setEnd_Date] = useState(singleTask.end_date || null);
+  // const [start_time, setStart_Time] = useState(singleTask.start_time || null);
+  // const [end_time, setEnd_Time] = useState(singleTask.end_time || null);
   const [start_location, setStart_Location] = useState(
     singleTask.start_location || null
   );
@@ -42,8 +47,8 @@ const TaskEditForm = (props) => {
         {
           start_date,
           end_date,
-          start_time,
-          end_time,
+          // start_time,
+          // end_time,
           start_location,
           end_location,
           provider_name,
@@ -54,6 +59,7 @@ const TaskEditForm = (props) => {
         singleTask.id
       )
     );
+    handleClose();
   };
 
   const handleClick = (e, id) => {
@@ -61,6 +67,10 @@ const TaskEditForm = (props) => {
     const status = "complete";
     dispatch(updateTask({ status }, id));
   };
+
+  // "2022-06-17"
+  let currentDate = new Date().toJSON().slice(0, 10);
+  let currentTime = new Date().toJSON().slice(0, 19);
 
   return (
     <div>
@@ -77,81 +87,100 @@ const TaskEditForm = (props) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Row className="g-2">
-              <Col md>
-                <FloatingLabel controlId="floatingInputGrid" label="Start Date">
-                  <Form.Control
-                    type="text"
-                    placeholder="Start Date"
-                    onChange={(e) => setStart_Date(e.target.value)}
-                  />
-                </FloatingLabel>
-              </Col>
-              <Col md>
-                <FloatingLabel controlId="floatingInputGrid" label="End Date">
-                  <Form.Control
-                    type="text"
-                    placeholder="End Date"
-                    onChange={(e) => setEnd_Date(e.target.value)}
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <Row>
-              <Col md>
-                <FloatingLabel controlId="floatingInputGrid" label="Start Time">
-                  <Form.Control
-                    type="text"
-                    placeholder="Start Date"
-                    onChange={(e) => setStart_Time(e.target.value)}
-                  />
-                </FloatingLabel>
-              </Col>
-              <Col md>
-                <FloatingLabel controlId="floatingInputGrid" label="End Time">
-                  <Form.Control
-                    type="text"
-                    placeholder="End Date"
-                    onChange={(e) => setEnd_Time(e.target.value)}
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <FloatingLabel
-                  controlId="floatingInputGrid"
-                  label="Starting Location"
-                >
-                  <Form.Control
-                    type="text"
-                    placeholder="Starting Address"
-                    onChange={(e) => setStart_Location(e.target.value)}
-                  />
-                </FloatingLabel>
-              </Col>
+            <Form.Group className="mb-3" controlId="taskForm">
+              <Row className="g-2 ">
+                <Col md>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    className="date-picker"
+                  >
+                    <DateTimePicker
+                      label="Start Date and Start Time"
+                      name="start_date"
+                      value={start_date}
+                      onChange={(newValue) => {
+                        setStart_Date(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                      minDate={dayjs(currentDate)}
+                    />
+                  </LocalizationProvider>
+                </Col>
+                <Col>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    className="date-picker"
+                  >
+                    <DateTimePicker
+                      label="End Date and End Time"
+                      name="end_date"
+                      value={end_date}
+                      onChange={(newValue) => {
+                        setEnd_Date(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                      minDate={dayjs(start_date)}
+                      minTime={dayjs(start_date)}
+                    />
+                  </LocalizationProvider>
+                </Col>
+              </Row>
+            </Form.Group>
+
+            {/* <Form.Group className="mb-3" controlId="taskForm">
+              <Row>
+                <Col md>
+                  <FloatingLabel
+                    controlId="floatingInputGrid"
+                    label="Start Time"
+                  >
+                    <Form.Control
+                      type="text"
+                      placeholder="Start Date"
+                      onChange={(e) => setStart_Time(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+                <Col md>
+                  <FloatingLabel controlId="floatingInputGrid" label="End Time">
+                    <Form.Control
+                      type="text"
+                      placeholder="End Date"
+                      onChange={(e) => setEnd_Time(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+            </Form.Group> */}
+
+            <Form.Group className="mb-3" controlId="taskForm">
+              <Form.Label>Start Location</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Starting Address"
+                onChange={(e) => setStart_Location(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="taskForm">
               <Form.Check
                 type="checkbox"
                 id="taskCheckbox"
                 label="Check if end location differs from start location."
                 onChange={handleChange}
               />
+            </Form.Group>
 
-              {checked && (
-                <Col>
-                  <FloatingLabel
-                    controlId="floatingInputGrid"
-                    label="End Location"
-                  >
-                    <Form.Control
-                      type="text"
-                      placeholder="Ending Address"
-                      onChange={(e) => setEnd_Location(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
-              )}
-            </Row>
+            {checked && (
+              <Form.Group className="mb-3" controlId="taskForm">
+                <Form.Label>End Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ending Address"
+                  onChange={(e) => setEnd_Location(e.target.value)}
+                />
+              </Form.Group>
+            )}
 
             <Form.Group className="mb-3" controlId="taskForm">
               <Form.Label>Provider Name</Form.Label>

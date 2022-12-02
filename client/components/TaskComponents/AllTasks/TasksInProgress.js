@@ -73,7 +73,6 @@ const TasksInProgress = (props) => {
                       Delete
                     </Button>
                   )}
-
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>Trip: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>

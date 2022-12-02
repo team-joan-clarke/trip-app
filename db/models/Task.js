@@ -20,6 +20,9 @@ const Task = db.define("Task", {
   },
   end_date: {
     type: DataTypes.DATE,
+    // validate: {
+    //   isAfter: this.start_date,
+    // },
   },
   start_time: {
     type: DataTypes.TIME,
