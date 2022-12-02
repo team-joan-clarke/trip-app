@@ -15,54 +15,75 @@ const SingleUser = () => {
   }, []);
 
   const user = useSelector((state) => state.users);
+  const loggedIn = useSelector((state) => state.isLoggedIn);
   const firstName = user.firstName || "";
 
   return (
-    <div className="container">
-      <main>
-        {user.length == 0 && (
-          <h3 className=" error"> User does not exist in the system!</h3>
-        )}
-        <h2> Hello {firstName}</h2>
+    <div>
+      {loggedIn ? (
+        <div className="container">
+          <main>
+            {user.length == 0 && (
+              <h3 className=" error"> User does not exist in the system!</h3>
+            )}
+            <h2> Hello {firstName}</h2>
 
+            <div
+              style={{
+                width: "auto",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                padding: "2rem",
+                borderRadius: "5px",
+                boxShadow: "2px 1px 20px grey",
+                marginTop: "3rem",
+              }}
+            >
+              <h3>Get Started</h3>
+              <div
+                style={{
+                  display: "flex",
+                  width: "auto",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  padding: "none",
+                  justifyContent: "center",
+                }}
+              >
+                <CreateTrip />
+              </div>
+            </div>
+
+            <ActiveTrips />
+            <CompletedTrips />
+
+            <h3>Here are your tasks: </h3>
+            <AllTasks />
+          </main>
+        </div>
+      ) : (
         <div
           style={{
-            width: "auto",
+            width: "50%",
             flexDirection: "row",
+            textAlign: "center",
             flexWrap: "wrap",
             padding: "2rem",
             borderRadius: "5px",
             boxShadow: "2px 1px 20px grey",
-            marginTop: "3rem",
+            margin: "5rem auto",
           }}
         >
-          <h3>Get Started</h3>
-          <div
-            style={{
-              display: "flex",
-              width: "auto",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              padding: "none",
-              justifyContent: "center",
-            }}
-          >
-            <CreateTrip />
-          </div>
+          <h4>{"Please login to view this page."}</h4>
         </div>
-
-        <ActiveTrips />
-        <CompletedTrips />
-
-        <h3>Here are your tasks: </h3>
-        <AllTasks />
-      </main>
+      )}
     </div>
   );
 };
 
 const mapState = (state) => {
   return {
+    isLoggedIn: !!state.auth.id,
     user: state.users,
   };
 };
