@@ -9,7 +9,7 @@ import TripTasks from "./TripTasks";
 import TripTaskTodo from "./TripTaskTodo";
 import EditTrip from "./EditTrip";
 
-const SingleTrip = () => {
+const SingleTrip = ({ isLoggedIn }) => {
   const dispatch = useDispatch();
   const { tripId } = useParams();
 
@@ -22,11 +22,10 @@ const SingleTrip = () => {
   }, [trip]);
 
   const trip = useSelector((state) => state.trips.singleTripView);
-  const loggedIn = useSelector((state) => state.isLoggedIn);
 
   return (
     <div>
-      {loggedIn ? (
+      {isLoggedIn ? (
         <div
           className="container"
           style={{ width: "100%", alignContent: "center" }}

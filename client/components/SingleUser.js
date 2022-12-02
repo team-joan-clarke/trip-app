@@ -8,19 +8,18 @@ import ActiveTrips from "./ActiveTrips";
 import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CreateTrip from "./CreateTrip";
 
-const SingleUser = () => {
+const SingleUser = ({ isLoggedIn }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());
   }, []);
 
   const user = useSelector((state) => state.users);
-  const loggedIn = useSelector((state) => state.isLoggedIn);
   const firstName = user.firstName || "";
 
   return (
     <div>
-      {loggedIn ? (
+      {isLoggedIn ? (
         <div className="container">
           <main>
             {user.length == 0 && (

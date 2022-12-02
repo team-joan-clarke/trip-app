@@ -33,7 +33,7 @@ const LoginForm = (props) => {
           style={{
             display: "flex",
             width: "80%",
-            margin: 'auto',
+            margin: "auto",
             flexDirection: "row",
             flexWrap: "wrap",
             padding: "none",
@@ -63,6 +63,7 @@ const LoginForm = (props) => {
 const mapLogin = (state) => {
   return {
     error: state.auth.error,
+    auth: state.auth,
   };
 };
 
