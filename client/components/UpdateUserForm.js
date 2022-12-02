@@ -100,14 +100,20 @@ export class UpdateUser extends React.Component {
               </Button>
             </div>
           </Alert>
-
-          <Button
-            variant="outline-danger"
-            size="sm"
-            onClick={() => handleShow(true)}
+          <div
+            style={{
+              position: "absolute",
+              right: "10em",
+            }}
           >
-            Delete User
-          </Button>
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={() => handleShow(true)}
+            >
+              Delete User
+            </Button>
+          </div>
 
           <Form className="form" onSubmit={handleSubmit}>
             <h3>Update User Profile</h3>
