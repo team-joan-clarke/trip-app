@@ -17,33 +17,98 @@ function AddNewTaskModal(props) {
   const [provider_name, setProvider] = useState("");
   const [due_date, setDueDate] = useState(null);
 
-  const { tripId } = useParams();
-  console.log(tripId);
+  function conditionalSubtypeOptions(type) {
+    if (type === "Transportation") {
+      return (
+        <Form.Select name="subtype" onChange={handleChange}>
+          <option>Choose task subtype...</option>
+          <option>Flight</option>
+          <option>Train</option>
+          <option>Bus</option>
+          <option>Car</option>
+          <option>Bike</option>
+          <option>Public Transportation</option>
+          <option>Walk</option>
+        </Form.Select>
+      );
+    } else if (type === "Lodging") {
+      return (
+        <Form.Select name="subtype" onChange={handleChange}>
+          <option>Choose task subtype...</option>
+          <option>Hotel</option>
+          <option>Private Rental</option>
+          <option>Camping</option>
+          <option>Couch Surfing</option>
+          <option>Friends and Family</option>
+        </Form.Select>
+      );
+    } else if (type === "Dining") {
+      return (
+        <Form.Select name="subtype" onChange={handleChange}>
+          <option>Choose task subtype...</option>
+          <option>Breakfast</option>
+          <option>Brunch</option>
+          <option>Lunch</option>
+          <option>Dinner</option>
+          <option>Snack</option>
+        </Form.Select>
+      );
+    } else if (type === "Recreation") {
+      return (
+        <Form.Select name="subtype" onChange={handleChange}>
+          <option>Choose task subtype...</option>
+          <option>Outdoors</option>
+          <option>Entertainment</option>
+          <option>Sports</option>
+          <option>Arts</option>
+          <option>Tours</option>
+          <option>Other</option>
+        </Form.Select>
+      );
+    } else if (type === "Business") {
+      return (
+        <Form.Select name="subtype" onChange={handleChange}>
+          <option>Choose task subtype...</option>
+          <option>Meeting</option>
+          <option>Presentation</option>
+          <option>Keynote</option>
+          <option>Lab</option>
+          <option>Mixer</option>
+          <option>Check In</option>
+        </Form.Select>
+      );
+    }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addNewTask({
-      type,
-      subtype,
-      provider_name,
-      due_date,
-      status: "in progress",
-    });
+    dispatch(
+      addNewTask(
+        {
+          type,
+          subtype,
+          provider_name,
+          due_date,
+          status: "in progress",
+          TripId: props.trip,
+        },
+        "editor"
+      )
+    );
     setType("");
     setSubtype("");
     setProvider("");
     setDueDate(null);
+    console.log("submitted");
   };
 
   const handleChange = (event) => {
-    if (event.target.name === "name") {
-      setName(event.target.value);
-    } else if (event.target.name === "city") {
-      setCity(event.target.value);
-    } else if (event.target.name === "state") {
-      setState(event.target.value);
-    } else if (event.target.name === "country") {
-      setCountry(event.target.value);
+    if (event.target.name === "type") {
+      setType(event.target.value);
+    } else if (event.target.name === "subtype") {
+      setSubtype(event.target.value);
+    } else if (event.target.name === "provider_name") {
+      setProvider(event.target.value);
     }
   };
 
@@ -64,35 +129,54 @@ function AddNewTaskModal(props) {
           {/* TYPE - SELECT */}
           <Form.Group className="mb-3" controlId="formTaskTYPE">
             <Form.Label>Task Type &#40;required&#41;</Form.Label>
-            <Form.Select>
-              <option>Choose task type...</option>
+            <Form.Select name="type" onChange={handleChange}>
+              <option value="">Choose task type...</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Lodging">Lodging</option>
+              <option value="Dining">Dining</option>
+              <option value="Recreation">Recreation</option>
+              <option value="Business">Business</option>
             </Form.Select>
           </Form.Group>
           {/* SUBTYPE - SELECT BASED ON TYPE */}
           <Form.Group className="mb-3" controlId="formTaskSUBTYPE">
             <Form.Label>Task SubType &#40;required&#41;</Form.Label>
-            <Form.Select>
-              <option>Choose task subtype...</option>
-            </Form.Select>
+            {type ? (
+              conditionalSubtypeOptions(type)
+            ) : (
+              <Form.Select name="subtype" onChange={handleChange}>
+                <option>Choose task subtype...</option>
+              </Form.Select>
+            )}
           </Form.Group>
           {/* LOCATION NAME/TITLE */}
           <Form.Group className="mb-3" controlId="formTaskPROVIDER">
             <Form.Label>
               Location Name, Activity, or Title &#40;required&#41;
             </Form.Label>
-            <Form.Control type="text" />
+            <Form.Control
+              type="text"
+              name="provider_name"
+              value={provider_name}
+              onChange={handleChange}
+            />
           </Form.Group>
           {/* DUE DATE */}
-          <Form.Group className="mb-3" controlId="formTaskDUEDATE">
+          <Form.Group
+            className="mb-3"
+            name="dueDate"
+            controlId="formTaskDUEDATE"
+          >
             <Form.Label>Due Date &#40;required&#41;</Form.Label>
             <div className="date-picker">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Due Date"
                   name="due_date"
-                  value={""}
+                  value={due_date}
                   onChange={(newValue) => {
-                    setStartDate(newValue);
+                    console.log(newValue);
+                    setDueDate(newValue);
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -171,7 +255,12 @@ function AddNewTaskModal(props) {
             <Form.Label>Link</Form.Label>
             <Form.Control type="text" />
           </Form.Group>
-          <Button variant="primary" type="submit" style={{ float: "right" }}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+            style={{ float: "right" }}
+          >
             Add Task
           </Button>
         </Form>
