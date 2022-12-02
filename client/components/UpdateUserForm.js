@@ -124,14 +124,7 @@ export class UpdateUser extends React.Component {
                 />
               </Form.Group>
             </Col>
-            {/* <label>First Name: {firstName}</label>
-          <input
-            type="text"
-            name="firstName"
-            placeholder="new first name"
-            defaultValue={this.state.firstName}
-            onChange={handleChange}
-          /> */}
+
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Last Name: {lastName}</Form.Label>
@@ -143,14 +136,6 @@ export class UpdateUser extends React.Component {
                   onChange={handleChange}
                 />
               </Form.Group>
-              {/* <label>Last Name: {lastName}</label>
-          <input
-            type="text"
-            name="lastName"
-            placeholder="new last name"
-            defaultValue={this.state.lastName}
-            onChange={handleChange}
-          /> */}
             </Col>
           </Row>
           <Row>
@@ -166,14 +151,7 @@ export class UpdateUser extends React.Component {
                 />
               </Form.Group>
             </Col>
-            {/* <label> username: {username}</label>
-          <input
-            type="text"
-            name="username"
-            placeholder="new username"
-            defaultValue={this.state.username}
-            onChange={handleChange}
-          /> */}
+
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label> Password</Form.Label>
@@ -186,14 +164,6 @@ export class UpdateUser extends React.Component {
                 />
               </Form.Group>
             </Col>
-            {/* <label> Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="password"
-              defaultValue={this.state.password}
-              onChange={handleChange}
-            /> */}
           </Row>
 
           <Form.Group className="mb-3">
@@ -206,14 +176,6 @@ export class UpdateUser extends React.Component {
               onChange={handleChange}
             />
           </Form.Group>
-          {/* <label>Email: {email} </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="new email"
-                  defaultValue={this.state.email}
-                  onChange={handleChange}
-                /> */}
 
           <Form.Group className="mb-3">
             <Form.Label>Phone Number: {phoneNumber}</Form.Label>
@@ -226,17 +188,6 @@ export class UpdateUser extends React.Component {
               onChange={handleChange}
             />
           </Form.Group>
-
-          {/* <label>Phone Number: {phoneNumber} </label>
-          <input
-            type="tel"
-            required
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            name="phoneNumber"
-            placeholder="format: 000-000-0000"
-            defaultValue={this.state.phoneNumber}
-            onChange={handleChange}
-          /> */}
 
           {this.state.error != "" && <p>{this.state.error}</p>}
 
