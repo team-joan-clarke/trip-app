@@ -68,7 +68,7 @@ export class UpdateUser extends React.Component {
     const phoneNumber = this.props.user.phoneNumber || "";
 
     const show = this.state.show;
-
+    console.log('PROPS', this.props)
     return (
       <div
         style={{
@@ -198,7 +198,7 @@ export class UpdateUser extends React.Component {
   }
 }
 const mapState = (state) => ({
-  user: state.users,
+  user: state.users.allUsers,
   error: state.users.error,
 });
 
