@@ -329,7 +329,7 @@ function AddNewTaskModal(props) {
           </Form>
         ) : (
           <div>
-            <h2>Success</h2>
+            <h3>Task Successfully Added!</h3>
             <Button
               variant="primary"
               type="submit"
