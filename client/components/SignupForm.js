@@ -18,7 +18,8 @@ const SignUpForm = (props) => {
         "Email input must be a valid email address Ex:___@gmail.com ";
     }
     if (error.response.data === "User already exists") {
-      errorMessage = "There is an existing user with this email";
+      errorMessage =
+        "There is an existing user with this username and/or email";
     }
   }
 
@@ -96,6 +97,8 @@ const SignUpForm = (props) => {
                   name="password"
                   placeholder="Password"
                   type="password"
+                  minLength="8"
+                  maxLength="16"
                   required
                 />
               </div>
