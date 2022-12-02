@@ -46,7 +46,12 @@ const TripTaskTodo = (props) => {
         <h3 style={{ flex: 5, width: "fit-contents" }}>In Progress</h3>
         <Button
           variant="primary"
-          style={{ flex: 1, width: "fit-contents", float: "right" }}
+          style={{
+            flex: 1,
+            width: "fit-contents",
+            float: "right",
+            marginRight: "1rem",
+          }}
           onClick={() => setModalShow(true)}
         >
           Add New Task
