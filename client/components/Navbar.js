@@ -19,13 +19,20 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
               <Navbar.Brand href="#home">trippn</Navbar.Brand>
-              <Nav>
-                <Nav.Link href="/user">{auth.firstName} </Nav.Link>
-              </Nav>
               <div
                 style={{
                   position: "relative",
-                  right: "2em",
+                  right: "5em",
+                }}
+              >
+                <Nav>
+                  <Nav.Link href="/user">{auth.firstName} </Nav.Link>
+                </Nav>
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  right: "3em",
                 }}
               >
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
