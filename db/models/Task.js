@@ -3,11 +3,50 @@ const db = require("../db");
 
 const Task = db.define("Task", {
   type: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM(
+      "Transportation",
+      "Lodging",
+      "Dining",
+      "Activity",
+      "Business"
+    ),
     allowNull: false,
   },
   subtype: {
-    type: DataTypes.STRING,
+    type: {
+      type: DataTypes.ENUM(
+        "Flight",
+        "Train",
+        "Bus",
+        "Car",
+        "Bike",
+        "Public Transportation",
+        "Walk",
+        "Hotel",
+        "Private Rental",
+        "Camping",
+        "Couch Surfing",
+        "Friends and Family",
+        "Breakfast",
+        "Brunch",
+        "Lunch",
+        "Dinner",
+        "Snack",
+        "Outdoors",
+        "Entertainment",
+        "Sports",
+        "Arts",
+        "Tours",
+        "Other",
+        "Meeting",
+        "Presentation",
+        "Round Table",
+        "Keynote",
+        "Lab",
+        "Mixer",
+        "Check In"
+      ),
+    },
   },
   provider_name: {
     type: DataTypes.STRING,
@@ -20,17 +59,18 @@ const Task = db.define("Task", {
   },
   end_date: {
     type: DataTypes.DATE,
-    // validate: {
-    //   isAfter: this.start_date,
-    // },
+    validate: {
+      startDateAfterEndDate() {
+        if (this.start_date.isAfter(this.end_date)) {
+          throw new Error("Start date must be before the end date.");
+        }
+      },
+    },
   },
   start_time: {
     type: DataTypes.TIME,
   },
   end_time: {
-    type: DataTypes.TIME,
-  },
-  checkin_time: {
     type: DataTypes.TIME,
   },
   start_location: {
@@ -47,6 +87,9 @@ const Task = db.define("Task", {
   },
   link: {
     type: DataTypes.TEXT,
+    validate: {
+      isUrl: true,
+    },
   },
   status: {
     type: DataTypes.ENUM("in progress", "complete"),
