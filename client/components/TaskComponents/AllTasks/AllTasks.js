@@ -8,7 +8,7 @@ import TasksInProgress from "./TasksInProgress";
 
 const AllTasks = (props) => {
   return (
-    <div>
+    <div className="tasklist-container">
       <h2> Tasks </h2>
       <Tabs
         defaultActiveKey="inProgress"
