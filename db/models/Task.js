@@ -1,19 +1,20 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../db");
 
-const Task = db.define("Task", {
-  type: {
-    type: DataTypes.ENUM(
-      "Transportation",
-      "Lodging",
-      "Dining",
-      "Activity",
-      "Business"
-    ),
-    allowNull: false,
-  },
-  subtype: {
+const Task = db.define(
+  "Task",
+  {
     type: {
+      type: DataTypes.ENUM(
+        "Transportation",
+        "Lodging",
+        "Dining",
+        "Activity",
+        "Business"
+      ),
+      allowNull: false,
+    },
+    subtype: {
       type: DataTypes.ENUM(
         "Flight",
         "Train",
@@ -36,7 +37,7 @@ const Task = db.define("Task", {
         "Entertainment",
         "Sports",
         "Arts",
-        "Tours",
+        "Tour",
         "Other",
         "Meeting",
         "Presentation",
@@ -47,53 +48,57 @@ const Task = db.define("Task", {
         "Check In"
       ),
     },
+    provider_name: {
+      type: DataTypes.STRING,
+    },
+    due_date: {
+      type: DataTypes.DATE,
+    },
+    start_date: {
+      type: DataTypes.DATE,
+    },
+    end_date: {
+      type: DataTypes.DATE,
+    },
+    start_time: {
+      type: DataTypes.TIME,
+    },
+    end_time: {
+      type: DataTypes.TIME,
+    },
+    start_location: {
+      type: DataTypes.TEXT,
+    },
+    end_location: {
+      type: DataTypes.TEXT,
+    },
+    description: {
+      type: DataTypes.TEXT,
+    },
+    booking_num: {
+      type: DataTypes.TEXT,
+    },
+    link: {
+      type: DataTypes.TEXT,
+      validate: {
+        isUrl: true,
+      },
+    },
+    status: {
+      type: DataTypes.ENUM("in progress", "complete"),
+    },
   },
-  provider_name: {
-    type: DataTypes.STRING,
-  },
-  due_date: {
-    type: DataTypes.DATE,
-  },
-  start_date: {
-    type: DataTypes.DATE,
-  },
-  end_date: {
-    type: DataTypes.DATE,
+  {
     validate: {
       startDateAfterEndDate() {
-        if (this.start_date.isAfter(this.end_date)) {
-          throw new Error("Start date must be before the end date.");
+        if (this.end_date) {
+          if (this.start_date > this.end_date) {
+            throw new Error("Start date must be before the end date.");
+          }
         }
       },
     },
-  },
-  start_time: {
-    type: DataTypes.TIME,
-  },
-  end_time: {
-    type: DataTypes.TIME,
-  },
-  start_location: {
-    type: DataTypes.TEXT,
-  },
-  end_location: {
-    type: DataTypes.TEXT,
-  },
-  description: {
-    type: DataTypes.TEXT,
-  },
-  booking_num: {
-    type: DataTypes.TEXT,
-  },
-  link: {
-    type: DataTypes.TEXT,
-    validate: {
-      isUrl: true,
-    },
-  },
-  status: {
-    type: DataTypes.ENUM("in progress", "complete"),
-  },
-});
+  }
+);
 
 module.exports = Task;
