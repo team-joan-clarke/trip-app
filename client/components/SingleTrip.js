@@ -24,43 +24,46 @@ const SingleTrip = () => {
   const trip = useSelector((state) => state.trips.singleTripView);
 
   return (
-    <div
-      className="container"
-      style={{ width: "100%", alignContent: "center" }}
-    >
-      <main>
-        <h2>Single Trip {trip.name}</h2>
+    <div>
+      <div
+        className="container"
+        style={{ width: "100%", alignContent: "center" }}
+      >
+        <main>
+          <h2>Single Trip {trip.name}</h2>
 
-        <div
-          style={{
-            width: "auto",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            padding: "2rem",
-            borderRadius: "5px",
-            boxShadow: "2px 1px 20px grey",
-            marginTop: "3rem",
-          }}
-        >
-          <h3>Edit This Trip</h3>
           <div
             style={{
-              display: "flex",
               width: "auto",
               flexDirection: "row",
               flexWrap: "wrap",
-              padding: "none",
-              justifyContent: "center",
+              padding: "2rem",
+              borderRadius: "5px",
+              boxShadow: "2px 1px 20px grey",
+              marginTop: "3rem",
             }}
           >
-            <EditTrip />
+            <h3>Edit This Trip</h3>
+            <div
+              style={{
+                display: "flex",
+                width: "auto",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                padding: "none",
+                justifyContent: "center",
+              }}
+            >
+              <EditTrip />
+            </div>
           </div>
-        </div>
 
-        <TripTasks trip={trip["singleTrip"]} />
-        <TripTaskTodo trip={trip["singleTrip"]} />
-      </main>
+          <TripTasks trip={trip["singleTrip"]} />
+          <TripTaskTodo trip={trip["singleTrip"]} />
+        </main>
+      </div>
     </div>
   );
 };
+
 export default connect(null)(SingleTrip);
