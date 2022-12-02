@@ -18,10 +18,12 @@ const User = db.define("User", {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   password: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(64),
     allowNull: false,
+    validate: { is: /^[0-9a-f]{64}$/i },
   },
   token: {
     type: DataTypes.TEXT,
