@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SingleUser from "./SingleUser";
 import UpdateUserForm from "./UpdateUserForm";
 import SingleTrip from "./SingleTrip";
@@ -27,6 +27,7 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/user" element={<SingleUser />} />
               <Route exact path="/trip/:tripId" element={<SingleTrip />} />
               <Route exact path="/update" element={<UpdateUserForm />} />
+              {/* <Route path="/redirect" element={<Navigate to="/user" />} /> */}
             </Routes>
           </div>
         ) : (
@@ -36,6 +37,7 @@ const Root = ({ isLoggedIn }) => {
               <Routes>
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/signup" element={<Signup />} />
+                {/* <Route path="/redirect" element={<Navigate to="/user" />} /> */}
               </Routes>
             </div>
           </div>

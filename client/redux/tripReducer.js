@@ -102,7 +102,10 @@ export const createNewTrip = (trip) => {
 export const updateThisTrip = (updatedData, tripId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/trips/singleTrip/${tripId}`, updatedData);
+      const { data } = await axios.put(
+        `/api/trips/singleTrip/${tripId}`,
+        updatedData
+      );
       dispatch(updateTrip(data));
     } catch (error) {
       console.error(error);
@@ -173,7 +176,7 @@ export default function tripReducer(state = initialState, action) {
         );
       return { ...state, active: sortedDates };
     case CREATE_TRIP:
-      const currentActiveTrips = state.active
+      const currentActiveTrips = state.active;
       return { ...state, active: [...currentActiveTrips, action.trip] };
     case DELETE_ACTIVE_TRIP:
       const filteredActiveTrips = state.active.filter((trip) => {

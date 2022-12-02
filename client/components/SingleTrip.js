@@ -9,7 +9,7 @@ import TripTasks from "./TripTasks";
 import TripTaskTodo from "./TripTaskTodo";
 import EditTrip from "./EditTrip";
 
-const SingleTrip = ({ isLoggedIn }) => {
+const SingleTrip = () => {
   const dispatch = useDispatch();
   const { tripId } = useParams();
 
@@ -25,67 +25,45 @@ const SingleTrip = ({ isLoggedIn }) => {
 
   return (
     <div>
-      {isLoggedIn ? (
-        <div
-          className="container"
-          style={{ width: "100%", alignContent: "center" }}
-        >
-          <main>
-            <h2>Single Trip {trip.name}</h2>
+      <div
+        className="container"
+        style={{ width: "100%", alignContent: "center" }}
+      >
+        <main>
+          <h2>Single Trip {trip.name}</h2>
 
+          <div
+            style={{
+              width: "auto",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              padding: "2rem",
+              borderRadius: "5px",
+              boxShadow: "2px 1px 20px grey",
+              marginTop: "3rem",
+            }}
+          >
+            <h3>Edit This Trip</h3>
             <div
               style={{
+                display: "flex",
                 width: "auto",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                padding: "2rem",
-                borderRadius: "5px",
-                boxShadow: "2px 1px 20px grey",
-                marginTop: "3rem",
+                padding: "none",
+                justifyContent: "center",
               }}
             >
-              <h3>Edit This Trip</h3>
-              <div
-                style={{
-                  display: "flex",
-                  width: "auto",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  padding: "none",
-                  justifyContent: "center",
-                }}
-              >
-                <EditTrip />
-              </div>
+              <EditTrip />
             </div>
+          </div>
 
-            <TripTasks trip={trip["singleTrip"]} />
-            <TripTaskTodo trip={trip["singleTrip"]} />
-          </main>
-        </div>
-      ) : (
-        <div
-          style={{
-            width: "50%",
-            flexDirection: "row",
-            textAlign: "center",
-            flexWrap: "wrap",
-            padding: "2rem",
-            borderRadius: "5px",
-            boxShadow: "2px 1px 20px grey",
-            margin: "5rem auto",
-          }}
-        >
-          <h4>{"Please login to view this page."}</h4>
-        </div>
-      )}
+          <TripTasks trip={trip["singleTrip"]} />
+          <TripTaskTodo trip={trip["singleTrip"]} />
+        </main>
+      </div>
     </div>
   );
 };
 
-const mapState = (state) => {
-  return {
-    isLoggedIn: !!state.auth.id,
-  };
-};
-export default connect(mapState)(SingleTrip);
+export default connect(null)(SingleTrip);
