@@ -9,7 +9,7 @@ import TaskCard from "./TaskComponents/TaskCard";
 import AddNewTaskModal from "./TaskComponents/AddNewTaskModal";
 
 function dueDateCompare(a, b) {
-  return new Date(b.start_date) - new Date(a.start_date);
+  return new Date(a.due_date) - new Date(b.due_date);
 }
 
 const TripTaskTodo = (props) => {
@@ -68,6 +68,7 @@ const TripTaskTodo = (props) => {
         trip={trip ? trip.id : null}
         show={modalShow}
         onHide={() => setModalShow(false)}
+        tasks={tasks}
       />
     </div>
   );
