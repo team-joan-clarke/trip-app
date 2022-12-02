@@ -146,16 +146,12 @@ const TaskEditForm = (props) => {
             </Form.Group> */}
 
             <Form.Group className="mb-3" controlId="taskForm">
-              <FloatingLabel
-                controlId="floatingInputGrid"
-                label="Starting Location"
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Starting Address"
-                  onChange={(e) => setStart_Location(e.target.value)}
-                />
-              </FloatingLabel>
+              <Form.Label>Start Location</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Starting Address"
+                onChange={(e) => setStart_Location(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="taskForm">
@@ -169,16 +165,12 @@ const TaskEditForm = (props) => {
 
             {checked && (
               <Form.Group className="mb-3" controlId="taskForm">
-                <FloatingLabel
-                  controlId="floatingInputGrid"
-                  label="End Location"
-                >
-                  <Form.Control
-                    type="text"
-                    placeholder="Ending Address"
-                    onChange={(e) => setEnd_Location(e.target.value)}
-                  />
-                </FloatingLabel>
+                <Form.Label>End Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ending Address"
+                  onChange={(e) => setEnd_Location(e.target.value)}
+                />
               </Form.Group>
             )}
 
