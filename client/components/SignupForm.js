@@ -7,6 +7,20 @@ import { authenticateSignUp } from "../redux/auth";
  */
 const SignUpForm = (props) => {
   const { error } = props;
+  let errorMessage;
+
+  if (error) {
+    if (
+      error.response.data ===
+      "Validation error: Validation isEmail on email failed"
+    ) {
+      errorMessage =
+        "Email input must be a valid email address Ex:___@gmail.com ";
+    }
+    if (error.response.data === "User already exists") {
+      errorMessage = "There is an existing user with this email";
+    }
+  }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -101,7 +115,8 @@ const SignUpForm = (props) => {
                   Register
                 </button>
               </div>
-              {error && error.response && <div> {error.response.data} </div>}
+              {/* {error && error.response && <div> {error.response.data} </div>} */}
+              {error && error.response && <div> {errorMessage} </div>}
             </form>
           </div>
         </div>
