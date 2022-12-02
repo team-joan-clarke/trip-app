@@ -123,9 +123,7 @@ function AddNewTaskModal(props) {
         setSubtype("");
         setProvider("");
         setDueDate(null);
-        console.log("submitted");
         setAddedResStatus("success");
-        console.log(addedResStatus);
       }
     } catch (error) {
       console.log(error);
@@ -151,8 +149,6 @@ function AddNewTaskModal(props) {
       setLink(event.target.value);
     }
   };
-
-  console.log("props", props);
 
   return (
     <Modal
@@ -218,7 +214,6 @@ function AddNewTaskModal(props) {
                     name="due_date"
                     value={due_date}
                     onChange={(newValue) => {
-                      console.log(newValue);
                       setDueDate(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
