@@ -31,7 +31,7 @@ const TaskEditForm = (props) => {
     singleTask.provider_name || ""
   );
   const [booking_num, setBooking_Num] = useState(singleTask.booking_num || "");
-  const [link, setLink] = useState(singleTask.link || "");
+  const [link, setLink] = useState(singleTask.link || null);
   const [description, setDescription] = useState(singleTask.description || "");
   const [checked, setChecked] = useState(false);
 
@@ -205,7 +205,6 @@ const TaskEditForm = (props) => {
               <Form.Control
                 type="url"
                 placeholder="link"
-                autoFocus
                 onChange={(e) => setLink(e.target.value)}
               />
             </Form.Group>
