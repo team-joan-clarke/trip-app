@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { Alert } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -24,13 +25,27 @@ function AddNewTaskModal(props) {
   const [description, setDescription] = useState("");
   const [booking_num, setBookingNum] = useState("");
   const [link, setLink] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [show, setShow] = useState(false);
   const [addedResStatus, setAddedResStatus] = useState("");
+  const [addingTask, setAddingTask] = useState(false);
 
   const prevTasksRef = useRef();
   useEffect(() => {
     prevTasksRef.current = tasks;
-  }, []);
+    console.log("prev", prevTasksRef.current);
+  });
   const { tasks } = props;
+  console.log("compare", prevTasksRef.current === tasks);
+  const taskCompare = prevTasksRef.current === tasks;
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [errors]);
 
   function conditionalSubtypeOptions(type) {
     if (type === "Transportation") {
@@ -99,32 +114,68 @@ function AddNewTaskModal(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      dispatch(
-        addNewTask(
-          {
-            type,
-            subtype,
-            provider_name,
-            due_date,
-            start_date,
-            end_date,
-            start_location,
-            end_location,
-            description,
-            booking_num,
-            link,
-            status: "in progress",
-            TripId: props.trip,
-          },
-          "editor"
-        )
-      );
-      if (prevTasksRef.current !== tasks) {
-        setType("");
-        setSubtype("");
-        setProvider("");
-        setDueDate(null);
-        setAddedResStatus("success");
+      if (due_date && type && subtype && provider_name) {
+        if (errors.length === 0) {
+          await dispatch(
+            addNewTask(
+              {
+                type,
+                subtype,
+                provider_name,
+                due_date,
+                start_date,
+                end_date,
+                start_location,
+                end_location,
+                description,
+                booking_num,
+                link,
+                status: "in progress",
+                TripId: props.trip,
+              },
+              "editor"
+            )
+          );
+          setAddingTask(true);
+          console.log("in submit prev", prevTasksRef.current.length);
+          console.log("in submit tasks", tasks.length);
+          console.log("in submit tasks", taskCompare);
+          if (taskCompare === false && addingTask(true)) {
+            setType("");
+            setSubtype("");
+            setProvider("");
+            setDueDate(null);
+            setStartDate(null);
+            setEndDate(null);
+            setStartLocation("");
+            setEndLocation("");
+            setDescription("");
+            setBookingNum("");
+            setLink("");
+            setAddedResStatus("success");
+            setAddingTask(false);
+          }
+        }
+      } else {
+        if (!provider_name) {
+          const providerError = [
+            ...errors,
+            "Must include a location name, activity name, or title.",
+          ];
+          setErrors(providerError);
+        }
+        if (!subtype) {
+          const subtypeError = [...errors, "Must include subtype."];
+          setErrors(subtypeError);
+        }
+        if (!type) {
+          const typeError = [...errors, "Must include type."];
+          setErrors(typeError);
+        }
+        if (!due_date) {
+          const dueDateError = [...errors, "Must include dute date."];
+          setErrors(dueDateError);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -133,10 +184,33 @@ function AddNewTaskModal(props) {
 
   const handleChange = (event) => {
     if (event.target.name === "type") {
+      if (errors.includes("Must include type.")) {
+        const filtered = errors.filter(
+          (error) => error !== "Must include type."
+        );
+        setErrors([...filtered]);
+      }
       setType(event.target.value);
     } else if (event.target.name === "subtype") {
+      if (errors.includes("Must include subtype.")) {
+        const filtered = errors.filter(
+          (error) => error !== "Must include subtype."
+        );
+        setErrors([...filtered]);
+      }
       setSubtype(event.target.value);
     } else if (event.target.name === "provider_name") {
+      if (
+        errors.includes(
+          "Must include a location name, activity name, or title."
+        )
+      ) {
+        const filtered = errors.filter(
+          (error) =>
+            error !== "Must include a location name, activity name, or title."
+        );
+        setErrors([...filtered]);
+      }
       setProvider(event.target.value);
     } else if (event.target.name === "start_location") {
       setStartLocation(event.target.value);
@@ -147,6 +221,30 @@ function AddNewTaskModal(props) {
     } else if (event.target.name === "booking_num") {
       setBookingNum(event.target.value);
     } else if (event.target.name === "link") {
+      const urlRegex = new RegExp(
+        "^(https?:\\/\\/)?" +
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" +
+          "((\\d{1,3}\\.){3}\\d{1,3}))" +
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" +
+          "(\\?[;&a-z\\d%_.~+=-]*)?" +
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      );
+      const linkBool = urlRegex.test(event.target.value);
+      console.log("link", event.target.value);
+      console.log("link length", event.target.value.length);
+      console.log("link type", typeof event.target.value);
+
+      if (linkBool || event.target.value.length === 0) {
+        if (errors.includes("Link must be a url.")) {
+          const filtered = errors.filter(
+            (error) => error !== "Link must be a url."
+          );
+          setErrors([...filtered]);
+        }
+      } else if (!linkBool && !errors.includes("Link must be a url.")) {
+        setErrors([...errors, "Link must be a url."]);
+      }
       setLink(event.target.value);
     }
   };
@@ -164,7 +262,22 @@ function AddNewTaskModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {addedResStatus !== "success" ? (
+        {addedResStatus === "success" && errors.length === 0 ? (
+          <div>
+            <h3>Task Successfully Added!</h3>
+            <Button
+              variant="primary"
+              type="submit"
+              style={{ float: "right" }}
+              onClick={(e) => {
+                setAddedResStatus("");
+                props.onHide(e);
+              }}
+            >
+              Done
+            </Button>
+          </div>
+        ) : (
           <Form>
             {/* TYPE - SELECT */}
             <Form.Group className="mb-3" controlId="formTaskTYPE">
@@ -174,7 +287,7 @@ function AddNewTaskModal(props) {
                 <option value="Transportation">Transportation</option>
                 <option value="Lodging">Lodging</option>
                 <option value="Dining">Dining</option>
-                <option value="Recreation">Recreation</option>
+                <option value="Activity">Recreation</option>
                 <option value="Business">Business</option>
               </Form.Select>
             </Form.Group>
@@ -215,6 +328,12 @@ function AddNewTaskModal(props) {
                     name="due_date"
                     value={due_date}
                     onChange={(newValue) => {
+                      if (errors.includes("Must include dute date.")) {
+                        const filtered = errors.filter(
+                          (error) => error !== "Must include dute date."
+                        );
+                        setErrors([...filtered]);
+                      }
                       setDueDate(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -237,6 +356,18 @@ function AddNewTaskModal(props) {
                       name="start_date"
                       value={start_date}
                       onChange={(newValue) => {
+                        if (
+                          errors.includes(
+                            "Must set start date before setting end date."
+                          )
+                        ) {
+                          const filtered = errors.filter(
+                            (error) =>
+                              error !==
+                              "Must set start date before setting end date."
+                          );
+                          setErrors([...filtered]);
+                        }
                         setStartDate(newValue);
                       }}
                       renderInput={(params) => <TextField {...params} />}
@@ -258,7 +389,33 @@ function AddNewTaskModal(props) {
                       name="end_date"
                       value={end_date}
                       onChange={(newValue) => {
-                        setEndDate(newValue);
+                        if (!start_date) {
+                          setErrors([
+                            ...errors,
+                            "Must set start date before setting end date.",
+                          ]);
+                        } else {
+                          if (newValue < start_date) {
+                            setErrors([
+                              ...errors,
+                              "End date must come after start date.",
+                            ]);
+                          } else {
+                            if (
+                              errors.includes(
+                                "End date must come after start date."
+                              )
+                            ) {
+                              const filtered = errors.filter(
+                                (error) =>
+                                  error !==
+                                  "End date must come after start date."
+                              );
+                              setErrors([...filtered]);
+                            }
+                            setEndDate(newValue);
+                          }
+                        }
                       }}
                       renderInput={(params) => <TextField {...params} />}
                     />
@@ -266,9 +423,6 @@ function AddNewTaskModal(props) {
                 </div>
               </Form.Group>
             </div>
-            {/* START_TIME - ADDED AS START TIME AND TO STARTDATE*/}
-            {/* END_TIME - OPTIONAL */}
-            {/* CHECKIN - OPTIONAL */}
             {/* START LOCATION - OPTIONAL */}
             <Form.Group className="mb-3" controlId="formTaskSTARTLOCATION">
               <Form.Label>Start Location</Form.Label>
@@ -328,22 +482,20 @@ function AddNewTaskModal(props) {
               Add Task
             </Button>
           </Form>
-        ) : (
-          <div>
-            <h3>Task Successfully Added!</h3>
-            <Button
-              variant="primary"
-              type="submit"
-              style={{ float: "right" }}
-              onClick={(e) => {
-                setAddedResStatus("");
-                props.onHide(e);
-              }}
-            >
-              Done
-            </Button>
-          </div>
         )}
+        <Alert show={show} variant="danger" style={{ flexDirection: "column" }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Alert.Heading style={{ float: "left" }}>
+              Please fix these errors before proceeding:
+            </Alert.Heading>
+            <ul>
+              {errors.map((error, i) => {
+                return <li key={i}>{error}</li>;
+              })}
+            </ul>
+          </div>
+          <hr />
+        </Alert>
       </Modal.Body>
     </Modal>
   );
