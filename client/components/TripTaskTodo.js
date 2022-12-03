@@ -7,12 +7,28 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { Button, Card } from "react-bootstrap";
 import TaskCard from "./TaskComponents/TaskCard";
 import AddNewTaskModal from "./TaskComponents/AddNewTaskModal";
+import { getCookie } from "../redux/users";
 
 function dueDateCompare(a, b) {
   return new Date(a.due_date) - new Date(b.due_date);
 }
 
 const TripTaskTodo = (props) => {
+  const idOfUserLoggedIn = getCookie("userId");
+  console.log("user logged in id", idOfUserLoggedIn);
+  console.log("props in trip taskTodo", props.trip.Users);
+
+  
+  const userLoggedInRelationshipToTrip = props.trip.Users.filter((user) => {
+    if (user.id == idOfUserLoggedIn) {
+      if (user.user_trip.role !== "attendee") {
+        return user;
+      }
+    }
+  });
+
+  console.log("userLoggedInrealtion", userLoggedInRelationshipToTrip);
+
   const dispatch = useDispatch();
   // const { tripId } = useParams();
   const { trip } = props;
@@ -44,18 +60,23 @@ const TripTaskTodo = (props) => {
         style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
       >
         <h3 style={{ flex: 5, width: "fit-contents" }}>In Progress</h3>
-        <Button
-          variant="primary"
-          style={{
-            flex: 1,
-            width: "fit-contents",
-            float: "right",
-            marginRight: "1rem",
-          }}
-          onClick={() => setModalShow(true)}
-        >
-          Add New Task
-        </Button>
+        {/* conditional render here to allow only editors and owners to add a new task to trip */}
+        {userLoggedInRelationshipToTrip.length ? (
+          <Button
+            variant="primary"
+            style={{
+              flex: 1,
+              width: "fit-contents",
+              float: "right",
+              marginRight: "1rem",
+            }}
+            onClick={() => setModalShow(true)}
+          >
+            Add New Task
+          </Button>
+        ) : (
+          <h1></h1>
+        )}
       </div>
       <Card>
         {todo.map((task, i) => {

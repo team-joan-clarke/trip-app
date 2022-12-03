@@ -7,6 +7,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import Column from "./TaskComponents/Column";
 
 const TripTasks = (props) => {
+  console.log("in trip tasks", props.trip.Users)
   const dispatch = useDispatch();
   const { tripId } = useParams();
   const tasks = useSelector((state) => state.tasks.allItineraryTasks);

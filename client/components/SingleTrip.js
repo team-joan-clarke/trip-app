@@ -27,38 +27,25 @@ const SingleTrip = () => {
   if (!singleTrip) return null;
 
   const idOfUserLoggedIn = getCookie("userId");
-  console.log("loggedIn", idOfUserLoggedIn);
+  const allUsersInTrip = singleTrip.Users;
 
-  // const userId = singleTrip.Users[0].id
-  // const userRole = singleTrip.Users[0].user_trip.role
-  const allUsers = singleTrip.Users;
-  console.log("allUser", allUsers);
-
-  const userRelationToTrip = singleTrip.Users.filter((user) => {
-    console.log("singleUser", user);
+  // ensures that that user logged in is owner if so they can edit trip 
+  const userLoggedInRelationshipToTrip = singleTrip.Users.filter((user) => {
     if (user.id == idOfUserLoggedIn) {
-      if (user.user_trip.role !== "attendee") {
-        console.log("role", user.user_trip.role);
+      if (user.user_trip.role == "owner") {
         return user;
       }
     }
   });
 
-  console.log("la relacion", userRelationToTrip);
+  // const onlyOwnersAndEditors = singleTrip.Users.filter((user) => {
+  //   return user.user_trip.role == "owner" || "editor";
+  // });
 
-  const onlyOwnersAndEditors = singleTrip.Users.filter((user) => {
-    return user.user_trip.role == "owner" || "editor";
-  });
+  // const onlyOwners = singleTrip.Users.filter((user) => {
+  //   return user.user_trip.role == "owner";
+  // });
 
-  // const isOwner
-
-  const onlyOwners = singleTrip.Users.filter((user) => {
-    return user.user_trip.role == "owner";
-  });
-
-  console.log("onlyOwnersAndEditors", onlyOwnersAndEditors);
-  // console.log("userId", userId)
-  // console.log("userRole", userRole)
   return (
     <div>
       <div
@@ -66,9 +53,9 @@ const SingleTrip = () => {
         style={{ width: "100%", alignContent: "center" }}
       >
         <main>
-          <h2>Trip name: {trip.singleTrip.name}</h2>
+          <h1>{trip.singleTrip.name}</h1>
 
-          {userRelationToTrip.length ? (
+          {userLoggedInRelationshipToTrip.length ? (
             <div
               style={{
                 width: "auto",
@@ -92,7 +79,7 @@ const SingleTrip = () => {
                 }}
               >
                 <EditTrip />
-                {/* {userRelationToTrip.length ? <EditTrip /> : <h1></h1>} */}
+                {/* {userLoggedInRelationshipToTrip.length ? <EditTrip /> : <h1></h1>} */}
               </div>
             </div>
           ) : (
