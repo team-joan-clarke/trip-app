@@ -22,7 +22,7 @@ function CuteCarousel() {
         <Carousel.Caption>
           {/* <h3>First slide label</h3> */}
           {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-          <h1>Plan your perfect trip with trippin</h1>
+          <h1>Plan your perfect trip with trippn</h1>
           <Button onClick={handleClick} variant="primary">
             Start Planning
           </Button>

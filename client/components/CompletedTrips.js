@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getAllCompletedTripsThunk,
   deleteCompleteTripThunk,
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "../../public/index.css";
+import Alert from "react-bootstrap/Alert";
 
 const CompletedTrips = (props) => {
   useEffect(() => {
@@ -16,6 +17,7 @@ const CompletedTrips = (props) => {
 
   const { trips } = props;
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   console.log("props in completed trips", trips);
 
@@ -24,6 +26,8 @@ const CompletedTrips = (props) => {
   };
 
   const handleRemove = (event) => {
+    event.stopPropagation();
+    setShow(false);
     props.deleteTrip(event.target.name);
   };
 
