@@ -28,7 +28,6 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/user" element={<SingleUser />} />
               <Route exact path="/trip/:tripId" element={<SingleTrip />} />
               <Route exact path="/update" element={<UpdateUserForm />} />
-              {/* <Route path="/redirect" element={<Navigate to="/user" />} /> */}
             </Routes>
           </div>
         ) : (
@@ -38,7 +37,6 @@ const Root = ({ isLoggedIn }) => {
               <Routes>
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/signup" element={<Signup />} />
-                {/* <Route path="/redirect" element={<Navigate to="/user" />} /> */}
               </Routes>
             </div>
           </div>
