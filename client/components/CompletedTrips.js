@@ -62,7 +62,7 @@ const CompletedTrips = (props) => {
                       <Button
                         name={singleTrip.id}
                         onClick={handleRemove}
-                        variant="danger"
+                        variant="outline-danger"
                       >
                         Delete
                       </Button>

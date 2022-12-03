@@ -99,7 +99,7 @@ const ActiveTrips = (props) => {
                       View Trip
                     </Button>
                     {singleTrip.role == "owner" ? 
-                    <Button name={singleTrip.id} onClick={handleRemove} variant="danger">
+                    <Button name={singleTrip.id} onClick={handleRemove} variant="outline-danger">
                       Delete
                     </Button> : <h1></h1>}
                   </Card.Body>
