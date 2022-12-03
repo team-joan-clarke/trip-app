@@ -57,7 +57,6 @@ const ActiveTrips = (props) => {
   
   const { trips } = props;
   const navigate = useNavigate();
-  console.log("props in active trips", props)
   
   const handleClick = (event) => {
     navigate(`/trip/${event.target.name}`);  

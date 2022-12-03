@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "../../public/index.css";
-import Alert from "react-bootstrap/Alert";
 
 const CompletedTrips = (props) => {
   useEffect(() => {
@@ -17,17 +16,12 @@ const CompletedTrips = (props) => {
 
   const { trips } = props;
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-
-  console.log("props in completed trips", trips);
 
   const handleClick = (event) => {
     navigate(`/trip/${event.target.name}`);
   };
 
   const handleRemove = (event) => {
-    event.stopPropagation();
-    setShow(false);
     props.deleteTrip(event.target.name);
   };
 
