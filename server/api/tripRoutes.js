@@ -98,6 +98,15 @@ tripRouter.get("/completedTrips/:userId", async (req, res, next) => {
     }
   });
 
+  for (let i = 0; i < completedTrips.length; i++) {
+    for (let j = 0; j < findAllTripsForUser.length; j++) {
+      if (completedTrips[i].id === findAllTripsForUser[j].TripId) {
+        completedTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
+      }
+    }
+  }
+
+  console.log("complete trip", completedTrips)
   res.send(completedTrips).status(200);
 });
 

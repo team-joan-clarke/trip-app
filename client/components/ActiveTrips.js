@@ -71,7 +71,7 @@ const ActiveTrips = (props) => {
       <h1>Current Trips</h1>
       <div>
         {trips.active.length == 0 ? (
-          <h4>No active Trips</h4>  
+          <h5>No active Trips</h5>  
           ) : (
             trips.active.map((singleTrip) => {
               return (
@@ -100,7 +100,7 @@ const ActiveTrips = (props) => {
                     </Button>
                     {singleTrip.role == "owner" ? 
                     <Button name={singleTrip.id} onClick={handleRemove} variant="danger">
-                      Remove
+                      Delete
                     </Button> : <h1></h1>}
                   </Card.Body>
                 </Card>

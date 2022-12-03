@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import { getAllCompletedTripsThunk, deleteCompleteTripThunk } from "../redux/tripReducer";
+import {
+  getAllCompletedTripsThunk,
+  deleteCompleteTripThunk,
+} from "../redux/tripReducer";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
@@ -14,6 +17,8 @@ const CompletedTrips = (props) => {
   const { trips } = props;
   const navigate = useNavigate();
 
+  console.log("props in completed trips", trips);
+
   const handleClick = (event) => {
     navigate(`/trip/${event.target.name}`);
   };
@@ -27,7 +32,7 @@ const CompletedTrips = (props) => {
       <h1>Past Trips</h1>
       <div>
         {trips.complete.length == 0 ? (
-          <h4>No past trips</h4>
+          <h5>No past trips</h5>
         ) : (
           trips.complete.map((singleTrip) => {
             return (
@@ -41,6 +46,7 @@ const CompletedTrips = (props) => {
                   <Card.Body>
                     <Card.Title>{singleTrip.name}</Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
+                    <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
                     <Card.Text>
                       Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
                       {singleTrip.end_date.toString().slice(3, 15)}
@@ -52,13 +58,17 @@ const CompletedTrips = (props) => {
                     >
                       View Trip
                     </Button>
-                    <Button
-                      name={singleTrip.id}
-                      onClick={handleRemove}
-                      variant="danger"
-                    >
-                      Remove
-                    </Button>
+                    {singleTrip.role == "owner" ? (
+                      <Button
+                        name={singleTrip.id}
+                        onClick={handleRemove}
+                        variant="danger"
+                      >
+                        Delete
+                      </Button>
+                    ) : (
+                      <h1></h1>
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -82,8 +92,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getAllCompletedTripsThunk());
     },
     deleteTrip: (tripId) => {
-        dispatch(deleteCompleteTripThunk(tripId))
-    }
+      dispatch(deleteCompleteTripThunk(tripId));
+    },
   };
 };
 
