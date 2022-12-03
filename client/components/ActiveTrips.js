@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   getAllActiveTripsThunk,
   deleteActiveTripThunk,
+  fetchSingleTrip
 } from "../redux/tripReducer";  
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -51,7 +52,7 @@ import Button from "react-bootstrap/Button";
 
 const ActiveTrips = (props) => {
   useEffect(() => {
-    props.getTrips();  
+    props.getTrips(); 
   }, []);
   
   const { trips } = props;
@@ -69,7 +70,7 @@ const ActiveTrips = (props) => {
       <h1>Current Trips</h1>
       <div>
         {trips.active.length == 0 ? (
-          <h4>No active Trips</h4>  
+          <h5>No active Trips</h5>  
           ) : (
             trips.active.map((singleTrip) => {
               return (
@@ -83,6 +84,7 @@ const ActiveTrips = (props) => {
                   <Card.Body>
                     <Card.Title>{singleTrip.name}</Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
+                    <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
                     <Card.Text>
                       Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
                       {singleTrip.end_date.toString().slice(3, 15)}
@@ -95,9 +97,10 @@ const ActiveTrips = (props) => {
                       >
                       View Trip
                     </Button>
-                    <Button name={singleTrip.id} onClick={handleRemove} variant="primary">
-                      Remove
-                    </Button>
+                    {singleTrip.role == "owner" ? 
+                    <Button name={singleTrip.id} onClick={handleRemove} variant="outline-danger">
+                      Delete
+                    </Button> : <h1></h1>}
                   </Card.Body>
                 </Card>
               </div>
@@ -123,7 +126,10 @@ const mapDispatchToProps = (dispatch) => {
     },  
     deleteTrip: (tripId) => {
       dispatch(deleteActiveTripThunk(tripId));
-    }  
+    },
+    getTripAndUserRole: (tripId) => {
+      dispatch(fetchSingleTrip(tripId))
+    }
   };  
 };  
 

@@ -21,7 +21,6 @@ tripRouter.get("/singleTrip/:tripId", async (req, res, next) => {
 });
 
 // get route to get all trips associated with a user ONLY
-// tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
   //finds all tripIds for a specific user
   const findAllTrips = await User_Trip.findAll({
@@ -41,10 +40,13 @@ tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 // get route for trips dashboard gets active trips
 tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
   console.log("in active route");
+
+  // gets role
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });
 
+  // trip info
   const allActiveTripsForUser = await Promise.all(
     findAllTripsForUser.map(async (trip) => {
       return await Trip.findOne({
@@ -56,13 +58,19 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
     })
   );
 
-  const activeTrips = allActiveTripsForUser
-    .filter((singleTrip) => {
-      if (singleTrip) {
-        return singleTrip;
+  const activeTrips = allActiveTripsForUser.filter((singleTrip) => {
+    if (singleTrip) {
+      return singleTrip;
+    }
+  });
+
+  for (let i = 0; i < activeTrips.length; i++) {
+    for (let j = 0; j < findAllTripsForUser.length; j++) {
+      if (activeTrips[i].id === findAllTripsForUser[j].TripId) {
+        activeTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
       }
-    })
-  
+    }
+  }
 
   res.send(activeTrips).status(200);
 });
@@ -90,6 +98,15 @@ tripRouter.get("/completedTrips/:userId", async (req, res, next) => {
     }
   });
 
+  for (let i = 0; i < completedTrips.length; i++) {
+    for (let j = 0; j < findAllTripsForUser.length; j++) {
+      if (completedTrips[i].id === findAllTripsForUser[j].TripId) {
+        completedTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
+      }
+    }
+  }
+
+  console.log("complete trip", completedTrips)
   res.send(completedTrips).status(200);
 });
 
