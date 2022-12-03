@@ -55,7 +55,6 @@ const TaskCard = (props) => {
   const taskStartTime = timeDisplayConverter(props.task.start_date);
   const idOfUserLoggedIn = getCookie("userId");
   const usersInTrip = props.trip;
-  console.log("usersInTrip", usersInTrip);
 
   const handleClick = (e, id) => {
     // e.stopPropagation();
@@ -90,8 +89,6 @@ const TaskCard = (props) => {
       }
     }
   });
-
-  console.log("is editor", userLoggedInIsEditorOfTrip);
 
   return (
     <>

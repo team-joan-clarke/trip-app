@@ -15,9 +15,6 @@ function dueDateCompare(a, b) {
 
 const TripTaskTodo = (props) => {
   const idOfUserLoggedIn = getCookie("userId");
-  console.log("user logged in id", idOfUserLoggedIn);
-  console.log("props in trip taskTodo", props.trip.Users);
-
 
   const userLoggedInRelationshipToTrip = props.trip.Users.filter((user) => {
     if (user.id == idOfUserLoggedIn) {
@@ -26,8 +23,6 @@ const TripTaskTodo = (props) => {
       }
     }
   });
-
-  console.log("userLoggedInrealtion", userLoggedInRelationshipToTrip);
 
   const dispatch = useDispatch();
   // const { tripId } = useParams();
@@ -78,7 +73,6 @@ const TripTaskTodo = (props) => {
           <h1></h1>
         )}
       </div>
-      {/* <TripTasks trip={trip["singleTrip"]} /> */}
       <Card>
         {todo.map((task, i) => {
           return (
