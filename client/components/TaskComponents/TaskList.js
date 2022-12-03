@@ -4,9 +4,11 @@ import { Droppable } from "react-beautiful-dnd";
 import TaskCard from "./TaskCard";
 
 function startTimeCompare(a, b) {
-  if (a.start_time) {
-    if (b.start_time) {
-      if (a.start_time >= b.start_time) {
+  const aTime = new Date(a.start_date).getTime();
+  const bTime = new Date(b.start_date).getTime();
+  if (aTime) {
+    if (bTime) {
+      if (aTime >= bTime) {
         return 1;
       } else {
         return -1;
@@ -15,7 +17,7 @@ function startTimeCompare(a, b) {
       return 1;
     }
   } else {
-    if (b.start_time) {
+    if (bTime) {
       return 1;
     } else {
       return 0;

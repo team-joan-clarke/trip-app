@@ -6,6 +6,7 @@ import Alert from "react-bootstrap/Alert";
 import { Draggable } from "react-beautiful-dnd";
 import EditTaskModal from "./EditTaskModal";
 import { deleteTask, updateTask } from "../../redux/taskReducer";
+import { Avatar, AvatarGroup } from "@mui/material";
 
 function timeDisplayConverter(time) {
   const formattedTime = new Date(time).toLocaleTimeString("en-US", {
@@ -14,6 +15,35 @@ function timeDisplayConverter(time) {
     hour12: true,
   });
   return formattedTime;
+}
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
 }
 
 const TaskCard = (props) => {
@@ -52,10 +82,26 @@ const TaskCard = (props) => {
         }
       >
         <Card.Body>
-          <Card.Title>{props.task.provider_name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">
-            {props.task.type}: {props.task.subtype ? props.task.subtype : ""}
-          </Card.Subtitle>
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: 1 }}>
+              <Card.Title>{props.task.provider_name}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                {props.task.type}:{" "}
+                {props.task.subtype ? props.task.subtype : ""}
+              </Card.Subtitle>
+            </div>
+            {props.type === "todo" ? (
+              <AvatarGroup style={{ flex: 1 }}>
+                {props.task.Users.map((user, i) => {
+                  const nameArr = [user.firstName, user.lastName];
+                  const fullName = nameArr.join(" ");
+                  return <Avatar {...stringAvatar(fullName)} key={i} />;
+                })}
+              </AvatarGroup>
+            ) : (
+              <></>
+            )}
+          </div>
           {props.type === "todo" ? (
             <Card.Text>
               Due: {new Date(props.task.due_date).toLocaleDateString()}
@@ -65,6 +111,17 @@ const TaskCard = (props) => {
           )}
           {props.task.description && seeMore ? (
             <Card.Text>Description: {props.task.description}</Card.Text>
+          ) : (
+            <></>
+          )}
+          {props.type === "itinerary" && seeMore ? (
+            <AvatarGroup style={{ flex: 1, float: "left" }}>
+              {props.task.Users.map((user, i) => {
+                const nameArr = [user.firstName, user.lastName];
+                const fullName = nameArr.join(" ");
+                return <Avatar {...stringAvatar(fullName)} key={i} />;
+              })}
+            </AvatarGroup>
           ) : (
             <></>
           )}
