@@ -7,7 +7,6 @@ import { updateTask } from "../../../redux/taskReducer";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
@@ -19,8 +18,6 @@ const TaskEditForm = (props) => {
   const [show, setShow] = useState(false);
   const [start_date, setStart_Date] = useState(singleTask.start_date || null);
   const [end_date, setEnd_Date] = useState(singleTask.end_date || null);
-  // const [start_time, setStart_Time] = useState(singleTask.start_time || null);
-  // const [end_time, setEnd_Time] = useState(singleTask.end_time || null);
   const [start_location, setStart_Location] = useState(
     singleTask.start_location || null
   );
@@ -31,7 +28,7 @@ const TaskEditForm = (props) => {
     singleTask.provider_name || ""
   );
   const [booking_num, setBooking_Num] = useState(singleTask.booking_num || "");
-  const [link, setLink] = useState(singleTask.link || "");
+  const [link, setLink] = useState(singleTask.link || null);
   const [description, setDescription] = useState(singleTask.description || "");
   const [checked, setChecked] = useState(false);
 
@@ -47,8 +44,6 @@ const TaskEditForm = (props) => {
         {
           start_date,
           end_date,
-          // start_time,
-          // end_time,
           start_location,
           end_location,
           provider_name,
@@ -70,7 +65,6 @@ const TaskEditForm = (props) => {
 
   // "2022-06-17"
   let currentDate = new Date().toJSON().slice(0, 10);
-  let currentTime = new Date().toJSON().slice(0, 19);
 
   return (
     <div>
@@ -127,32 +121,6 @@ const TaskEditForm = (props) => {
               </Row>
             </Form.Group>
 
-            {/* <Form.Group className="mb-3" controlId="taskForm">
-              <Row>
-                <Col md>
-                  <FloatingLabel
-                    controlId="floatingInputGrid"
-                    label="Start Time"
-                  >
-                    <Form.Control
-                      type="text"
-                      placeholder="Start Date"
-                      onChange={(e) => setStart_Time(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
-                <Col md>
-                  <FloatingLabel controlId="floatingInputGrid" label="End Time">
-                    <Form.Control
-                      type="text"
-                      placeholder="End Date"
-                      onChange={(e) => setEnd_Time(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
-              </Row>
-            </Form.Group> */}
-
             <Form.Group className="mb-3" controlId="taskForm">
               <Form.Label>Start Location</Form.Label>
               <Form.Control
@@ -205,7 +173,6 @@ const TaskEditForm = (props) => {
               <Form.Control
                 type="url"
                 placeholder="link"
-                autoFocus
                 onChange={(e) => setLink(e.target.value)}
               />
             </Form.Group>

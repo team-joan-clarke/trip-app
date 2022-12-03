@@ -8,12 +8,15 @@ const Trip = db.define("Trip", {
   },
   city: {
     type: DataTypes.STRING,
+    defaultValue: "TBD",
   },
   state: {
     type: DataTypes.STRING,
+    defaultValue: "TBD",
   },
   country: {
     type: DataTypes.STRING,
+    defaultValue: "TBD",
   },
   start_date: {
     type: DataTypes.DATE,
@@ -30,7 +33,7 @@ const Trip = db.define("Trip", {
       isUrl: true,
     },
     defaultValue:
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU",
   },
 });
 

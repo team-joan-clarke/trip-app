@@ -65,13 +65,20 @@ const TasksInProgress = (props) => {
                   </Alert>
 
                   {!show && (
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => setShow(true)}
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "2em",
+                      }}
                     >
-                      Delete
-                    </Button>
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => setShow(true)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   )}
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>Trip: {singleTask.Trip.name}</Card.Text>

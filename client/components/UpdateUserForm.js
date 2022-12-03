@@ -68,137 +68,144 @@ export class UpdateUser extends React.Component {
     const phoneNumber = this.props.user.phoneNumber || "";
 
     const show = this.state.show;
-
+    console.log('PROPS', this.props)
     return (
-      <div
-        style={{
-          width: "80%",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          padding: "2rem",
-          borderRadius: "5px",
-          boxShadow: "2px 1px 20px grey",
-          margin: "5rem auto",
-        }}
-      >
-        <Alert show={show} variant="danger">
-          <Alert.Heading>
-            Are you sure you want to delete this task?
-          </Alert.Heading>
-          <p>
-            To delete, press the delete button. To cancel request, press cancel.
-          </p>
-          <hr />
-          <div className="d-flex justify-content-end">
-            <Button onClick={() => handleShow(false)} variant="secondary">
-              Cancel
-            </Button>
-            <Button onClick={() => handleClick} variant="danger">
-              Delete
+      <div>
+        <div
+          style={{
+            width: "80%",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            padding: "2rem",
+            borderRadius: "5px",
+            boxShadow: "2px 1px 20px grey",
+            margin: "5rem auto",
+          }}
+        >
+          <Alert show={show} variant="danger">
+            <Alert.Heading>
+              Are you sure you want to delete this task?
+            </Alert.Heading>
+            <p>
+              To delete, press the delete button. To cancel request, press
+              cancel.
+            </p>
+            <hr />
+            <div className="d-flex justify-content-end">
+              <Button onClick={() => handleShow(false)} variant="secondary">
+                Cancel
+              </Button>
+              <Button onClick={() => handleClick} variant="danger">
+                Delete
+              </Button>
+            </div>
+          </Alert>
+          <div
+            style={{
+              position: "absolute",
+              right: "10em",
+            }}
+          >
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={() => handleShow(true)}
+            >
+              Delete User
             </Button>
           </div>
-        </Alert>
 
-        {!show && (
-          <Button
-            variant="outline-danger"
-            size="sm"
-            onClick={() => handleShow(true)}
-          >
-            Delete User
-          </Button>
-        )}
+          <Form className="form" onSubmit={handleSubmit}>
+            <h3>Update User Profile</h3>
+            <Row>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>First Name: {firstName}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="firstName"
+                    placeholder="new first name"
+                    defaultValue={this.state.firstName}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
 
-        <Form className="form" onSubmit={handleSubmit}>
-          <h3>Update User Profile</h3>
-          <Row>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label>First Name: {firstName}</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="firstName"
-                  placeholder="new first name"
-                  defaultValue={this.state.firstName}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Last Name: {lastName}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="lastName"
+                    placeholder="new last name"
+                    defaultValue={this.state.lastName}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>username: {username}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="username"
+                    placeholder="new username"
+                    defaultValue={this.state.username}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
 
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label>Last Name: {lastName}</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="lastName"
-                  placeholder="new last name"
-                  defaultValue={this.state.lastName}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label>username: {username}</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="username"
-                  placeholder="new username"
-                  defaultValue={this.state.username}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label> Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    defaultValue={this.state.password}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label> Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  defaultValue={this.state.password}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
+            <Form.Group className="mb-3">
+              <Form.Label>Email: {email}</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="new email"
+                defaultValue={this.state.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Email: {email}</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="new email"
-              defaultValue={this.state.email}
-              onChange={handleChange}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Phone Number: {phoneNumber}</Form.Label>
+              <Form.Control
+                type="tel"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                name="phoneNumber"
+                placeholder="format: 000-000-0000"
+                defaultValue={this.state.phoneNumber}
+                onChange={handleChange}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Phone Number: {phoneNumber}</Form.Label>
-            <Form.Control
-              type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              name="phoneNumber"
-              placeholder="format: 000-000-0000"
-              defaultValue={this.state.phoneNumber}
-              onChange={handleChange}
-            />
-          </Form.Group>
+            {this.state.error != "" && <p>{this.state.error}</p>}
 
-          {this.state.error != "" && <p>{this.state.error}</p>}
-
-          <Button type="submit">Update Profile</Button>
-        </Form>
+            <Button type="submit">Update Profile</Button>
+          </Form>
+        </div>
       </div>
     );
   }
 }
 const mapState = (state) => ({
-  user: state.users,
+  user: state.users.allUsers,
   error: state.users.error,
 });
 

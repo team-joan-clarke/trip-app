@@ -14,49 +14,51 @@ const SingleUser = () => {
     dispatch(fetchUser());
   }, []);
 
-  const user = useSelector((state) => state.users);
+  const user = useSelector((state) => state.users.allUsers);
   const firstName = user.firstName || "";
 
   return (
-    <div className="container">
-      <main>
-        {user.length == 0 && (
-          <h3 className=" error"> User does not exist in the system!</h3>
-        )}
-        <h2> Hello {firstName}</h2>
+    <div>
+      <div className="container">
+        <main>
+          {user.length == 0 && (
+            <h3 className=" error"> User does not exist in the system!</h3>
+          )}
+          <h2> Hello {firstName}</h2>
 
-        <div
-          style={{
-            width: "auto",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            padding: "2rem",
-            borderRadius: "5px",
-            boxShadow: "2px 1px 20px grey",
-            marginTop: "3rem",
-          }}
-        >
-          <h3>Get Started</h3>
           <div
             style={{
-              display: "flex",
               width: "auto",
               flexDirection: "row",
               flexWrap: "wrap",
-              padding: "none",
-              justifyContent: "center",
+              padding: "2rem",
+              borderRadius: "5px",
+              boxShadow: "2px 1px 20px grey",
+              marginTop: "3rem",
             }}
           >
-            <CreateTrip />
+            <h3>Get Started</h3>
+            <div
+              style={{
+                display: "flex",
+                width: "auto",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                padding: "none",
+                justifyContent: "center",
+              }}
+            >
+              <CreateTrip />
+            </div>
           </div>
-        </div>
 
-        <ActiveTrips />
-        <CompletedTrips />
+          <ActiveTrips />
+          <CompletedTrips />
 
-        <h3>Here are your tasks: </h3>
-        <AllTasks />
-      </main>
+          <h3>Here are your tasks: </h3>
+          <AllTasks />
+        </main>
+      </div>
     </div>
   );
 };
