@@ -8,8 +8,10 @@ import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
 import DummyDash from "./DummyDash";
 import NavigationBar from "./Navbar";
+import CuteCarousel from "./Carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { verified } from "../redux/auth";
+
 
 const Root = ({ isLoggedIn }) => {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ const Root = ({ isLoggedIn }) => {
 
   return (
     <BrowserRouter>
+    <NavigationBar />
       <div>
         {isLoggedIn ? (
           <div>
@@ -30,6 +33,7 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/update" element={<UpdateUserForm />} />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
+               <Route exact path='/home' element={<CuteCarousel />} />
             </Routes>
           </div>
         ) : (
@@ -39,6 +43,7 @@ const Root = ({ isLoggedIn }) => {
               <Routes>
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/signup" element={<Signup />} />
+                <Route exact path='/home' element={<CuteCarousel />} />
               </Routes>
             </div>
           </div>

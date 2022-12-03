@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { authenticateSignUp } from "../redux/auth";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const SignUpForm = (props) => {
@@ -123,6 +124,10 @@ const SignUpForm = (props) => {
                 <button className="btn-primary" type="submit">
                   Register
                 </button>
+                <Link  style={{ color: "black", textDecoration: "none"}} to={`/login`} >
+                  <p>Already have an account?</p>
+                </Link>
+
               </div>
               {/* {error && error.response && <div> {error.response.data} </div>} */}
               {error && error.response && <div> {errorMessage} </div>}

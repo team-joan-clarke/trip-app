@@ -18,7 +18,7 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
         <div>
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-              <Navbar.Brand href="#home">trippn</Navbar.Brand>
+              <Navbar.Brand href="/home">trippn</Navbar.Brand>
               <div
                 style={{
                   position: "absolute",
