@@ -19,7 +19,7 @@ const getAllCompletedTrips = (trips) => {
   };
 };
 
-const getAllActiveTrips = (activeTrips) => {
+const getAllActiveTrips = (activeTrips) => {console.log("action creator", activeTrips)
   return {
     type: GET_ALL_ACTIVE_TRIP,
     activeTrips,
@@ -89,6 +89,7 @@ export const getAllActiveTripsThunk = () => {
     try {
       const id = getCookie("userId");
       const { data: trips } = await axios.get(`/api/trips/activeTrips/${id}`);
+      console.log("data in get active thunk", trips.findAllTripsForUser)
       dispatch(getAllActiveTrips(trips));
     } catch (error) {
       console.error(error);
