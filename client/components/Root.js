@@ -26,7 +26,6 @@ const Root = ({ isLoggedIn }) => {
       <div>
         {isLoggedIn ? (
           <div>
-            <NavigationBar />
             <Routes>
               <Route exact path="/user" element={<SingleUser />} />
               <Route exact path="/trip/:tripId" element={<SingleTrip />} />
@@ -39,7 +38,6 @@ const Root = ({ isLoggedIn }) => {
         ) : (
           <div>
             <div>
-              <NavigationBar />
               <Routes>
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/signup" element={<Signup />} />
