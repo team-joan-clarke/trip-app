@@ -60,12 +60,6 @@ const Task = db.define(
     end_date: {
       type: DataTypes.DATE,
     },
-    start_time: {
-      type: DataTypes.TIME,
-    },
-    end_time: {
-      type: DataTypes.TIME,
-    },
     start_location: {
       type: DataTypes.TEXT,
     },
