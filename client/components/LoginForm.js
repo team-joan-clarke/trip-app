@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { authenticateLogin } from "../redux/auth";
+import auth, { authenticateLogin } from "../redux/auth";
 import { useNavigate } from "react-router-dom";
 
-/**
- * COMPONENT
- */
 const LoginForm = (props) => {
   const { error } = props;
+  const navigate = useNavigate();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -15,6 +13,12 @@ const LoginForm = (props) => {
     const password = evt.target.password.value;
     props.authenticateLogin(username, password);
   };
+
+  useEffect(() => {
+    if (props.auth.id) {
+      navigate("/user");
+    }
+  }, []);
 
   return (
     <div>

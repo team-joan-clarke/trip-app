@@ -28,6 +28,8 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/user" element={<SingleUser />} />
               <Route exact path="/trip/:tripId" element={<SingleTrip />} />
               <Route exact path="/update" element={<UpdateUserForm />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/signup" element={<Signup />} />
             </Routes>
           </div>
         ) : (
