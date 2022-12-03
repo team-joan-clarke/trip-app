@@ -1,11 +1,11 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { Draggable } from "react-beautiful-dnd";
 import EditTaskModal from "./EditTaskModal";
-import { deleteTask } from "../../redux/taskReducer";
+import { deleteTask, updateTask } from "../../redux/taskReducer";
 
 function timeDisplayConverter(time) {
   const formattedTime = new Date(time).toLocaleTimeString("en-US", {
@@ -21,12 +21,17 @@ const TaskCard = (props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
   const taskStartTime = timeDisplayConverter(props.task.start_date);
-  // if (props.task.checkin_time) {
-  //   const checkInTime = timeDisplayConverter(props.task.start_time);
-  // }
+
+  const handleClick = (e, id) => {
+    // e.stopPropagation();
+    e.preventDefault();
+    const status = "complete";
+    dispatch(updateTask({ status }, id));
+  };
 
   const handleDelete = (e, id) => {
-    e.stopPropagation();
+    // e.stopPropagation();
+    e.preventDefault();
     setShow(false);
     dispatch(deleteTask(id));
   };
@@ -58,11 +63,6 @@ const TaskCard = (props) => {
           ) : (
             <Card.Text>Start: {taskStartTime}</Card.Text>
           )}
-          {props.task.checkin_time ? (
-            <Card.Text>Check In: {props.task.checkin_time}</Card.Text>
-          ) : (
-            <></>
-          )}
           {props.task.description && seeMore ? (
             <Card.Text>Description: {props.task.description}</Card.Text>
           ) : (
@@ -75,84 +75,114 @@ const TaskCard = (props) => {
           ) : (
             <></>
           )}
-          {props.type === "todo" ? (
-            <Button
-              variant="primary"
-              style={{
-                float: "right",
+          <div style={{ flex: 1, alignItems: "center" }}>
+            <Card.Link
+              className="mb-2 text-muted"
+              href=""
+              onClick={(e) => {
+                e.preventDefault();
+                setSeeMore(!seeMore);
               }}
+              style={{ float: "left" }}
             >
-              Mark as Complete
-            </Button>
-          ) : (
-            <></>
-          )}
-          <Alert show={show} variant="danger">
-            <Alert.Heading>
-              Are you sure you want to delete this task?
-            </Alert.Heading>
-            <p>
-              To delete, press the delete button. To cancel request, press
-              cancel.
-            </p>
-            <hr />
-            <div className="d-flex justify-content-end">
+              {seeMore ? "See Less" : "See More..."}
+            </Card.Link>
+            {props.type === "todo" ? (
               <Button
-                onClick={() => setShow(false)}
-                variant="secondary"
-                style={{ marginRight: "1rem", borderRadius: "50px" }}
+                variant="primary"
+                style={{
+                  float: "right",
+                }}
+                onClick={(e) => handleClick(e, props.task.id)}
               >
-                Cancel
+                Mark as Complete
               </Button>
+            ) : (
+              <></>
+            )}
+            <Alert
+              show={show}
+              variant="danger"
+              style={{ flexDirection: "column" }}
+            >
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <Alert.Heading style={{ float: "left" }}>
+                  Are you sure you want to delete this task?
+                </Alert.Heading>
+                <p style={{ display: "block" }}>
+                  To delete, press the delete button. To cancel request, press
+                  cancel.
+                </p>
+              </div>
+              <hr />
+              <div
+                className="d-flex justify-content-end"
+                style={{ width: "100%" }}
+              >
+                <Button
+                  onClick={() => setShow(false)}
+                  variant="secondary"
+                  size={props.type === "itinerary" ? "sm" : null}
+                  style={{
+                    marginRight: "1rem",
+                    borderRadius: "50px",
+                    float: "right",
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={(e) => handleDelete(e, props.task.id)}
+                  variant="danger"
+                  size={props.type === "itinerary" ? "sm" : null}
+                  style={{
+                    borderRadius: "50px",
+                    float: "right",
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Alert>
+            <div
+              style={
+                props.type === "itinerary"
+                  ? {
+                      display: "inline-block",
+                      float: "right",
+                      marginTop: "1rem",
+                    }
+                  : {}
+              }
+            >
+              {!show && (
+                <Button
+                  variant="outline-danger"
+                  size={props.type === "itinerary" ? "sm" : null}
+                  onClick={() => setShow(true)}
+                  style={{
+                    marginRight: "1rem",
+                    borderRadius: "50px",
+                    float: "right",
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
               <Button
-                onClick={(e) => handleDelete(e, props.task.id)}
-                variant="danger"
+                variant="outline-secondary"
+                size={props.type === "itinerary" ? "sm" : null}
                 style={{
                   marginRight: "1rem",
                   borderRadius: "50px",
                   float: "right",
                 }}
+                onClick={() => setModalShow(true)}
               >
-                Delete
+                Edit
               </Button>
             </div>
-          </Alert>
-
-          {!show && (
-            <Button
-              variant="outline-danger"
-              onClick={() => setShow(true)}
-              style={{
-                marginRight: "1rem",
-                borderRadius: "50px",
-                float: "right",
-              }}
-            >
-              Delete
-            </Button>
-          )}
-          <Button
-            variant="outline-secondary"
-            style={{
-              marginRight: "1rem",
-              borderRadius: "50px",
-              float: "right",
-            }}
-            onClick={() => setModalShow(true)}
-          >
-            Edit
-          </Button>
-          <Card.Link
-            className="mb-2 text-muted"
-            href=""
-            onClick={(e) => {
-              e.preventDefault();
-              setSeeMore(!seeMore);
-            }}
-            style={{ display: "block" }}
-          >
-            {seeMore ? "See Less" : "See More..."}
-          </Card.Link>
+          </div>
         </Card.Body>
       </Card>
       <EditTaskModal

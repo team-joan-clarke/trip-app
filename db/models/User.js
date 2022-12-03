@@ -21,8 +21,10 @@ const User = db.define("User", {
     unique: true,
   },
   password: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(64),
     allowNull: false,
+    //add {64} to regex to check hash length? not incl bc of seed
+    // validate: { is: /^\$2[ayb]\$.{56}$/i },
   },
   token: {
     type: DataTypes.TEXT,
