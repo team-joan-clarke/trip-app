@@ -8,6 +8,7 @@ import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
 import DummyDash from "./DummyDash";
 import NavigationBar from "./Navbar";
+import CuteCarousel from "./Carousel";
 
 // const Root = () => {
 //   let [stuff, setStuff] = useState("root");
@@ -33,6 +34,7 @@ const Root = () => {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/update" element={<UpdateUserForm />} />
         <Route exact path='/dummydash' element={<DummyDash />} />
+        <Route exact path='/home' element={<CuteCarousel />} />
       </Routes>
     </BrowserRouter>
   );

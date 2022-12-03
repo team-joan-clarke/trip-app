@@ -32,6 +32,7 @@
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "mdb-react-ui-kit": "^5.0.0",
     "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "npm": "^9.1.2",
