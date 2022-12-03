@@ -8,6 +8,7 @@ import { fetchSingleTrip } from "../redux/tripReducer";
 import TripTasks from "./TripTasks";
 import TripTaskTodo from "./TripTaskTodo";
 import EditTrip from "./EditTrip";
+import { getCookie } from "../redux/users";
 
 const SingleTrip = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,28 @@ const SingleTrip = () => {
   }, [trip]);
 
   const trip = useSelector((state) => state.trips.singleTripView);
+  const singleTrip = trip?.singleTrip;
+  if (!singleTrip) return null;
+
+  const idOfUserLoggedIn = getCookie("userId");
+  const allUsersInTrip = singleTrip.Users;
+
+  // ensures that that user logged in is owner if so they can edit trip 
+  const userLoggedInRelationshipToTrip = singleTrip.Users.filter((user) => {
+    if (user.id == idOfUserLoggedIn) {
+      if (user.user_trip.role == "owner") {
+        return user;
+      }
+    }
+  });
+
+  // const onlyOwnersAndEditors = singleTrip.Users.filter((user) => {
+  //   return user.user_trip.role == "owner" || "editor";
+  // });
+
+  // const onlyOwners = singleTrip.Users.filter((user) => {
+  //   return user.user_trip.role == "owner";
+  // });
 
   return (
     <div>
@@ -30,33 +53,38 @@ const SingleTrip = () => {
         style={{ width: "100%", alignContent: "center" }}
       >
         <main>
-          <h2>Single Trip {trip.name}</h2>
+          <h1>{trip.singleTrip.name}</h1>
 
-          <div
-            style={{
-              width: "auto",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              padding: "2rem",
-              borderRadius: "5px",
-              boxShadow: "2px 1px 20px grey",
-              marginTop: "3rem",
-            }}
-          >
-            <h3>Edit This Trip</h3>
+          {userLoggedInRelationshipToTrip.length ? (
             <div
               style={{
-                display: "flex",
                 width: "auto",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                padding: "none",
-                justifyContent: "center",
+                padding: "2rem",
+                borderRadius: "5px",
+                boxShadow: "2px 1px 20px grey",
+                marginTop: "3rem",
               }}
             >
-              <EditTrip />
+              <h3>Edit This Trip</h3>
+              <div
+                style={{
+                  display: "flex",
+                  width: "auto",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  padding: "none",
+                  justifyContent: "center",
+                }}
+              >
+                <EditTrip />
+                {/* {userLoggedInRelationshipToTrip.length ? <EditTrip /> : <h1></h1>} */}
+              </div>
             </div>
-          </div>
+          ) : (
+            <h1></h1>
+          )}
 
           <TripTasks trip={trip["singleTrip"]} />
           <TripTaskTodo trip={trip["singleTrip"]} />

@@ -8,6 +8,7 @@ import { Draggable } from "react-beautiful-dnd";
 import EditTaskModal from "./EditTaskModal";
 import { deleteTask, updateTask } from "../../redux/taskReducer";
 import { Avatar, AvatarGroup, List } from "@mui/material";
+import { getCookie } from "../../redux/users";
 
 function timeDisplayConverter(time) {
   const formattedTime = new Date(time).toLocaleTimeString("en-US", {
@@ -52,6 +53,8 @@ const TaskCard = (props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
   const taskStartTime = timeDisplayConverter(props.task.start_date);
+  const idOfUserLoggedIn = getCookie("userId");
+  const usersInTrip = props.trip;
 
   const handleClick = (e, id) => {
     // e.stopPropagation();
@@ -68,6 +71,24 @@ const TaskCard = (props) => {
   };
   const [show, setShow] = useState(false);
   const taskUsers = props.task.Users || [];
+
+  // userLoggedIn is owner so they can delete task ONLY
+  const userLoggedInIsOwnerOfTrip = usersInTrip.filter((user) => {
+    if (user.id == idOfUserLoggedIn) {
+      if (user.user_trip.role == "owner") {
+        return user;
+      }
+    }
+  });
+
+  // user logged in is editor so they can edit task, can delete tasks, can mark as complete
+  const userLoggedInIsEditorOfTrip = usersInTrip.filter((user) => {
+    if (user.id == idOfUserLoggedIn) {
+      if (user.user_trip.role == "editor") {
+        return user;
+      }
+    }
+  });
 
   return (
     <>
@@ -163,7 +184,7 @@ const TaskCard = (props) => {
                 >
                   {seeMore ? "See Less" : "See More..."}
                 </Card.Link>
-                {props.type === "todo" ? (
+                {props.type === "todo" && userLoggedInIsEditorOfTrip.length ? (
                   <Button
                     variant="primary"
                     style={{
@@ -231,7 +252,7 @@ const TaskCard = (props) => {
                       : {}
                   }
                 >
-                  {!show && (
+                  {!show && userLoggedInIsEditorOfTrip.length || userLoggedInIsOwnerOfTrip.length ? 
                     <Button
                       variant="outline-danger"
                       size={props.type === "itinerary" ? "sm" : null}
@@ -243,9 +264,9 @@ const TaskCard = (props) => {
                       }}
                     >
                       Delete
-                    </Button>
-                  )}
-                  <Button
+                    </Button> : <h1></h1>
+                  }
+                  {userLoggedInIsEditorOfTrip.length ? <Button
                     variant="outline-secondary"
                     size={props.type === "itinerary" ? "sm" : null}
                     style={{
@@ -256,7 +277,7 @@ const TaskCard = (props) => {
                     onClick={() => setModalShow(true)}
                   >
                     Edit
-                  </Button>
+                  </Button> : <h1></h1>}
                 </div>
               </div>
             </ListGroup.Item>
