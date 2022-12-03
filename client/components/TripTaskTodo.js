@@ -18,7 +18,7 @@ const TripTaskTodo = (props) => {
   console.log("user logged in id", idOfUserLoggedIn);
   console.log("props in trip taskTodo", props.trip.Users);
 
-  
+
   const userLoggedInRelationshipToTrip = props.trip.Users.filter((user) => {
     if (user.id == idOfUserLoggedIn) {
       if (user.user_trip.role !== "attendee") {
@@ -78,6 +78,7 @@ const TripTaskTodo = (props) => {
           <h1></h1>
         )}
       </div>
+      {/* <TripTasks trip={trip["singleTrip"]} /> */}
       <Card>
         {todo.map((task, i) => {
           return (
@@ -86,6 +87,7 @@ const TripTaskTodo = (props) => {
               task={task}
               type="todo"
               style={{ width: "100%" }}
+              trip={props.trip.Users}
             />
           );
         })}
