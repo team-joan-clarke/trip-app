@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { authenticateSignUp } from "../redux/auth";
+import { useNavigate } from "react-router-dom";
 
-/**
- * COMPONENT
- */
 const SignUpForm = (props) => {
   const { error } = props;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.auth.id) {
+      navigate("/user");
+    }
+  }, []);
+
   let errorMessage;
 
   if (error) {
@@ -131,6 +137,7 @@ const SignUpForm = (props) => {
 const mapSignup = (state) => {
   return {
     error: state.auth.error,
+    auth: state.auth,
   };
 };
 

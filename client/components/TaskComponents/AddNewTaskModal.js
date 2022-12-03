@@ -68,7 +68,7 @@ function AddNewTaskModal(props) {
           <option>Snack</option>
         </Form.Select>
       );
-    } else if (type === "Recreation") {
+    } else if (type === "Activity") {
       return (
         <Form.Select name="subtype" onChange={handleChange}>
           <option>Choose task subtype...</option>
@@ -76,7 +76,7 @@ function AddNewTaskModal(props) {
           <option>Entertainment</option>
           <option>Sports</option>
           <option>Arts</option>
-          <option>Tours</option>
+          <option>Tour</option>
           <option>Other</option>
         </Form.Select>
       );
@@ -86,6 +86,7 @@ function AddNewTaskModal(props) {
           <option>Choose task subtype...</option>
           <option>Meeting</option>
           <option>Presentation</option>
+          <option>Round Table</option>
           <option>Keynote</option>
           <option>Lab</option>
           <option>Mixer</option>

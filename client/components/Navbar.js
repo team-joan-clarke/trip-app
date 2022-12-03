@@ -21,8 +21,9 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
               <Navbar.Brand href="#home">trippn</Navbar.Brand>
               <div
                 style={{
-                  position: "relative",
+                  position: "absolute",
                   right: "5em",
+                  padding: "5em",
                 }}
               >
                 <Nav>
