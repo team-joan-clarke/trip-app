@@ -28,7 +28,6 @@ function AddNewTaskModal(props) {
   const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
   const [addedResStatus, setAddedResStatus] = useState("");
-  const [addingTask, setAddingTask] = useState(false);
 
   const prevTasksRef = useRef();
   useEffect(() => {
@@ -37,7 +36,7 @@ function AddNewTaskModal(props) {
   });
   const { tasks } = props;
   console.log("compare", prevTasksRef.current === tasks);
-  const taskCompare = prevTasksRef.current === tasks;
+  // const taskCompare = prevTasksRef.current === tasks;
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -136,11 +135,9 @@ function AddNewTaskModal(props) {
               "editor"
             )
           );
-          setAddingTask(true);
           console.log("in submit prev", prevTasksRef.current.length);
           console.log("in submit tasks", tasks.length);
-          console.log("in submit tasks", taskCompare);
-          if (taskCompare === false && addingTask(true)) {
+          if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(tasks)) {
             setType("");
             setSubtype("");
             setProvider("");
@@ -153,7 +150,6 @@ function AddNewTaskModal(props) {
             setBookingNum("");
             setLink("");
             setAddedResStatus("success");
-            setAddingTask(false);
           }
         }
       } else {
@@ -264,6 +260,9 @@ function AddNewTaskModal(props) {
       <Modal.Body>
         {addedResStatus === "success" && errors.length === 0 ? (
           <div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <img src="/palmtree_limegreen.png" style={{ height: "20rem" }} />
+            </div>
             <h3>Task Successfully Added!</h3>
             <Button
               variant="primary"
