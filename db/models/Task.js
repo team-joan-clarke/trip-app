@@ -74,9 +74,6 @@ const Task = db.define(
     },
     link: {
       type: DataTypes.TEXT,
-      // validate: {
-      //   isUrl: true,
-      // },
     },
     status: {
       type: DataTypes.ENUM("in progress", "complete"),
