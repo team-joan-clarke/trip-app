@@ -5,7 +5,7 @@ const {
   models: { User, Task, Trip, User_Task, User_Trip },
 } = require("./db");
 
-// PERSISTANT THROUGH TABLE SEEDING UTIL FNS
+// PERSISTENT THROUGH TABLE SEEDING UTIL FNS
 async function getUIDByEmail(email) {
   try {
     const user = await User.findOne({ where: { email } });
