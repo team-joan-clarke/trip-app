@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -127,7 +127,7 @@ function AddNewTaskModal(props) {
                 booking_num,
                 link,
                 status: "in progress",
-                TripId: props.trip,
+                TripId: props.trip.id,
               },
               "editor"
             )
@@ -317,6 +317,8 @@ function AddNewTaskModal(props) {
                   <DatePicker
                     label="Due Date"
                     name="due_date"
+                    minDate={new Date()}
+                    maxDate={new Date(props.trip.end_date)}
                     value={due_date}
                     onChange={(newValue) => {
                       if (errors.includes("Must include dute date.")) {
@@ -345,6 +347,8 @@ function AddNewTaskModal(props) {
                     <DateTimePicker
                       label="Start Date"
                       name="start_date"
+                      minDate={new Date(props.trip.start_date)}
+                      maxDate={new Date(props.trip.end_date)}
                       value={start_date}
                       onChange={(newValue) => {
                         if (
@@ -378,6 +382,8 @@ function AddNewTaskModal(props) {
                     <DatePicker
                       label="End Date"
                       name="end_date"
+                      minDate={new Date(props.trip.start_date)}
+                      maxDate={new Date(props.trip.end_date)}
                       value={end_date}
                       onChange={(newValue) => {
                         if (!start_date) {
