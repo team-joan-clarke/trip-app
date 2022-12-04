@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { Form, FloatingLabel, Row, Col, Alert } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -9,7 +9,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { Link } from "react-router-dom";
+import { end } from "@popperjs/core";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
@@ -17,7 +17,10 @@ const TaskEditForm = (props) => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [success, setSucess] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [timeError, setTimeError] = useState(false);
 
   const [start_date, setStart_Date] = useState(singleTask.start_date || null);
   const [end_date, setEnd_Date] = useState(singleTask.end_date || null);
@@ -33,15 +36,37 @@ const TaskEditForm = (props) => {
   const [booking_num, setBooking_Num] = useState(singleTask.booking_num || "");
   const [link, setLink] = useState(singleTask.link || null);
   const [description, setDescription] = useState(singleTask.description || "");
-  const [checked, setChecked] = useState(false);
 
   const handleChange = () => {
     setChecked(!checked);
   };
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const urlPatternValidation = (URL) => {
+    const regex = new RegExp(
+      "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?"
+    );
+    return regex.test(URL);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (link) {
+      const isValid = urlPatternValidation(link);
+      if (!isValid) {
+        return setAlert(true);
+      }
+    }
+    if (end_date) {
+      let startDate = start_date.toString().slice(0, 10);
+      let endDate = start_date.toString().slice(0, 10);
+      if (startDate === endDate) {
+        if (start_date > end_date) {
+          return setTimeError(true);
+        }
+      }
+    }
     dispatch(
       updateTask(
         {
@@ -57,8 +82,7 @@ const TaskEditForm = (props) => {
         singleTask.id
       )
     );
-    setAlert(true);
-    // handleClose();
+    setSucess(true);
   };
 
   const handleClick = (e, id) => {
@@ -67,8 +91,8 @@ const TaskEditForm = (props) => {
     dispatch(updateTask({ status }, id));
   };
 
-  // "2022-06-17"
-  let currentDate = new Date().toJSON().slice(0, 10);
+  // Time validation:
+  let currentDate = new Date().toJSON().slice(0, 10); // "2022-06-17"
 
   return (
     <div>
@@ -85,22 +109,53 @@ const TaskEditForm = (props) => {
         </Modal.Header>
         <Modal.Body>
           {/* Alert when update is successful: */}
-          <Alert variant="success" show={alert}>
+          <Alert variant="success" show={success}>
             <Alert.Heading>Sucess!</Alert.Heading>
             <hr />
             <p className="mb-0">Your Task was sucessfully updated!</p>
             <div className="d-flex justify-content-end">
-              <Link to={"/user"}>
-                <Button
-                  variant="outline-success"
-                  onClick={() => {
-                    setAlert(false);
-                    handleClose();
-                  }}
-                >
-                  Dashboard
-                </Button>
-              </Link>
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  setSucess(false);
+                  handleClose();
+                }}
+              >
+                Dashboard
+              </Button>
+            </div>
+          </Alert>
+
+          {/* Alert when update unsuccessful: */}
+          <Alert variant="warning" show={alert}>
+            <Alert.Heading>Unsuccessful...</Alert.Heading>
+            <hr />
+            <p className="mb-0">Link address must begin a valid URL </p>
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  setAlert(false);
+                }}
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+
+          <Alert variant="warning" show={timeError}>
+            <Alert.Heading>Unsuccessful...</Alert.Heading>
+            <hr />
+            <p className="mb-0">End time must be later than the start time </p>
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  setTimeError(false);
+                }}
+              >
+                Close
+              </Button>
             </div>
           </Alert>
 
@@ -138,7 +193,6 @@ const TaskEditForm = (props) => {
                       }}
                       renderInput={(params) => <TextField {...params} />}
                       minDate={dayjs(start_date)}
-                      minTime={dayjs(start_date)}
                     />
                   </LocalizationProvider>
                 </Col>
@@ -196,7 +250,7 @@ const TaskEditForm = (props) => {
               <Form.Label>Link</Form.Label>
               <Form.Control
                 type="url"
-                placeholder="link"
+                placeholder="https://www.yourURL"
                 onChange={(e) => setLink(e.target.value)}
               />
             </Form.Group>
