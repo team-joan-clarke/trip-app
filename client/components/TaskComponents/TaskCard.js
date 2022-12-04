@@ -53,8 +53,6 @@ const TaskCard = (props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
   const taskStartTime = timeDisplayConverter(props.task.start_date);
-  const idOfUserLoggedIn = getCookie("userId");
-  const usersInTrip = props.trip;
 
   const handleClick = (e, id) => {
     // e.stopPropagation();
@@ -70,25 +68,61 @@ const TaskCard = (props) => {
     dispatch(deleteTask(id));
   };
   const [show, setShow] = useState(false);
+
+  // ROLE HANDLING
+  const [isTripOwner, setIsTripOwner] = useState(false);
+  const [isTripEditor, setIsTripEditor] = useState(false);
+  const [isTaskEditor, setIsTaskEditor] = useState(false);
+  const idOfUserLoggedIn = getCookie("userId");
+  const { trip } = props;
+  const usersInTrip = trip ? trip : [];
   const taskUsers = props.task.Users || [];
 
-  // userLoggedIn is owner so they can delete task ONLY
-  const userLoggedInIsOwnerOfTrip = usersInTrip.filter((user) => {
-    if (user.id == idOfUserLoggedIn) {
-      if (user.user_trip.role == "owner") {
-        return user;
+  useEffect(() => {
+    // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
+    const userLoggedInIsOwnerOfTrip = usersInTrip.filter((user) => {
+      if (user.id == idOfUserLoggedIn) {
+        if (user.user_trip.role == "owner") {
+          return user;
+        }
       }
-    }
-  });
+    });
 
-  // user logged in is editor so they can edit task, can delete tasks, can mark as complete
-  const userLoggedInIsEditorOfTrip = usersInTrip.filter((user) => {
-    if (user.id == idOfUserLoggedIn) {
-      if (user.user_trip.role == "editor") {
-        return user;
+    // user logged in is editor so they can delete tasks, can mark as complete
+    const userLoggedInIsEditorOfTrip = usersInTrip.filter((user) => {
+      if (user.id == idOfUserLoggedIn) {
+        if (user.user_trip.role == "editor") {
+          return user;
+        }
       }
+    });
+
+    // USER IS EDITOR OF TASK
+    const userLoggedInIsEditorOfTask = props.task.Users.filter((user) => {
+      if (user.id == idOfUserLoggedIn) {
+        if (user.user_task.role === "editor") {
+          return user;
+        }
+      }
+    });
+
+    if (userLoggedInIsOwnerOfTrip.length > 0) {
+      setIsTripOwner(true);
+    } else {
+      setIsTripOwner(false);
     }
-  });
+
+    if (userLoggedInIsEditorOfTrip.length > 0) {
+      setIsTripEditor(true);
+    } else {
+      setIsTripEditor(false);
+    }
+    if (userLoggedInIsEditorOfTask.length > 0) {
+      setIsTaskEditor(true);
+    } else {
+      setIsTaskEditor(false);
+    }
+  }, [props.task.Users, trip]);
 
   return (
     <>
@@ -184,7 +218,7 @@ const TaskCard = (props) => {
                 >
                   {seeMore ? "See Less" : "See More..."}
                 </Card.Link>
-                {props.type === "todo" && userLoggedInIsEditorOfTrip.length ? (
+                {props.type === "todo" && (isTripOwner || isTaskEditor) ? (
                   <Button
                     variant="primary"
                     style={{
@@ -252,7 +286,7 @@ const TaskCard = (props) => {
                       : {}
                   }
                 >
-                  {!show && userLoggedInIsEditorOfTrip.length || userLoggedInIsOwnerOfTrip.length ? 
+                  {!show && (isTripOwner || isTaskEditor) && (
                     <Button
                       variant="outline-danger"
                       size={props.type === "itinerary" ? "sm" : null}
@@ -264,20 +298,22 @@ const TaskCard = (props) => {
                       }}
                     >
                       Delete
-                    </Button> : <h1></h1>
-                  }
-                  {userLoggedInIsEditorOfTrip.length ? <Button
-                    variant="outline-secondary"
-                    size={props.type === "itinerary" ? "sm" : null}
-                    style={{
-                      marginRight: "1rem",
-                      borderRadius: "50px",
-                      float: "right",
-                    }}
-                    onClick={() => setModalShow(true)}
-                  >
-                    Edit
-                  </Button> : <h1></h1>}
+                    </Button>
+                  )}
+                  {(isTripOwner || isTaskEditor) && (
+                    <Button
+                      variant="outline-secondary"
+                      size={props.type === "itinerary" ? "sm" : null}
+                      style={{
+                        marginRight: "1rem",
+                        borderRadius: "50px",
+                        float: "right",
+                      }}
+                      onClick={() => setModalShow(true)}
+                    >
+                      Edit
+                    </Button>
+                  )}
                 </div>
               </div>
             </ListGroup.Item>

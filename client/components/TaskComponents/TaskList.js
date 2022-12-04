@@ -31,7 +31,9 @@ const TaskList = (props) => {
     return (
       <div className="tasklist-container">
         {props.tasks.map((task, i) => {
-          return <TaskCard key={i} type="itinerary" task={task} />;
+          return (
+            <TaskCard key={i} type="itinerary" task={task} trip={props.trip} />
+          );
         })}
       </div>
     );

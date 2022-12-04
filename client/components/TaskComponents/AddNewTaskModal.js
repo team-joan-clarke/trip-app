@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -28,16 +28,12 @@ function AddNewTaskModal(props) {
   const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
   const [addedResStatus, setAddedResStatus] = useState("");
-  const [addingTask, setAddingTask] = useState(false);
 
   const prevTasksRef = useRef();
   useEffect(() => {
     prevTasksRef.current = tasks;
-    console.log("prev", prevTasksRef.current);
   });
   const { tasks } = props;
-  console.log("compare", prevTasksRef.current === tasks);
-  const taskCompare = prevTasksRef.current === tasks;
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -131,16 +127,12 @@ function AddNewTaskModal(props) {
                 booking_num,
                 link,
                 status: "in progress",
-                TripId: props.trip,
+                TripId: props.trip.id,
               },
               "editor"
             )
           );
-          setAddingTask(true);
-          console.log("in submit prev", prevTasksRef.current.length);
-          console.log("in submit tasks", tasks.length);
-          console.log("in submit tasks", taskCompare);
-          if (taskCompare === false && addingTask(true)) {
+          if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(tasks)) {
             setType("");
             setSubtype("");
             setProvider("");
@@ -153,7 +145,6 @@ function AddNewTaskModal(props) {
             setBookingNum("");
             setLink("");
             setAddedResStatus("success");
-            setAddingTask(false);
           }
         }
       } else {
@@ -231,9 +222,6 @@ function AddNewTaskModal(props) {
         "i"
       );
       const linkBool = urlRegex.test(event.target.value);
-      console.log("link", event.target.value);
-      console.log("link length", event.target.value.length);
-      console.log("link type", typeof event.target.value);
 
       if (linkBool || event.target.value.length === 0) {
         if (errors.includes("Link must be a url.")) {
@@ -264,6 +252,9 @@ function AddNewTaskModal(props) {
       <Modal.Body>
         {addedResStatus === "success" && errors.length === 0 ? (
           <div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <img src="/palmtree_limegreen.png" style={{ height: "20rem" }} />
+            </div>
             <h3>Task Successfully Added!</h3>
             <Button
               variant="primary"
@@ -326,6 +317,8 @@ function AddNewTaskModal(props) {
                   <DatePicker
                     label="Due Date"
                     name="due_date"
+                    minDate={new Date()}
+                    maxDate={new Date(props.trip.end_date)}
                     value={due_date}
                     onChange={(newValue) => {
                       if (errors.includes("Must include dute date.")) {
@@ -354,6 +347,8 @@ function AddNewTaskModal(props) {
                     <DateTimePicker
                       label="Start Date"
                       name="start_date"
+                      minDate={new Date(props.trip.start_date)}
+                      maxDate={new Date(props.trip.end_date)}
                       value={start_date}
                       onChange={(newValue) => {
                         if (
@@ -387,6 +382,8 @@ function AddNewTaskModal(props) {
                     <DatePicker
                       label="End Date"
                       name="end_date"
+                      minDate={new Date(props.trip.start_date)}
+                      maxDate={new Date(props.trip.end_date)}
                       value={end_date}
                       onChange={(newValue) => {
                         if (!start_date) {
