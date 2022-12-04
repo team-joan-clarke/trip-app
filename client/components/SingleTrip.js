@@ -29,7 +29,7 @@ const SingleTrip = () => {
   const idOfUserLoggedIn = getCookie("userId");
   const allUsersInTrip = singleTrip.Users;
 
-  // ensures that that user logged in is owner if so they can edit trip 
+  // ensures that that user logged in is owner if so they can edit trip
   const userLoggedInRelationshipToTrip = singleTrip.Users.filter((user) => {
     if (user.id == idOfUserLoggedIn) {
       if (user.user_trip.role == "owner") {
