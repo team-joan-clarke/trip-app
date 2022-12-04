@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
-import { Form, FloatingLabel, Row, Col } from "react-bootstrap";
+import { Form, FloatingLabel, Row, Col, Alert } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { updateTask } from "../../../redux/taskReducer";
 import TextField from "@mui/material/TextField";
@@ -9,13 +9,16 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
-  console.log(singleTask);
 
   const dispatch = useDispatch();
+
   const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState(false);
+
   const [start_date, setStart_Date] = useState(singleTask.start_date || null);
   const [end_date, setEnd_Date] = useState(singleTask.end_date || null);
   const [start_location, setStart_Location] = useState(
@@ -54,7 +57,8 @@ const TaskEditForm = (props) => {
         singleTask.id
       )
     );
-    handleClose();
+    setAlert(true);
+    // handleClose();
   };
 
   const handleClick = (e, id) => {
@@ -80,6 +84,26 @@ const TaskEditForm = (props) => {
           <Modal.Title>{singleTask.type}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {/* Alert when update is successful: */}
+          <Alert variant="success" show={alert}>
+            <Alert.Heading>Sucess!</Alert.Heading>
+            <hr />
+            <p className="mb-0">Your Task was sucessfully updated!</p>
+            <div className="d-flex justify-content-end">
+              <Link to={"/user"}>
+                <Button
+                  variant="outline-success"
+                  onClick={() => {
+                    setAlert(false);
+                    handleClose();
+                  }}
+                >
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
+          </Alert>
+
           <Form>
             <Form.Group className="mb-3" controlId="taskForm">
               <Row className="g-2 ">
@@ -207,5 +231,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-// export default CompletedTrips
 export default connect(mapStateToProps)(TaskEditForm);

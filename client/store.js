@@ -18,9 +18,7 @@ const reducer = combineReducers({
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunkMiddleware.withExtraArgument({ axios }))
+  applyMiddleware(thunkMiddleware.withExtraArgument({ axios }), createLogger())
 );
 
 export default store;
-
-// createLogger() line 21
