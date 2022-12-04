@@ -32,6 +32,7 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/home" element={<CuteCarousel />} />
+              <Route exact path='/dummydash' element={<DummyDash />} />
             </Routes>
           </div>
         ) : (

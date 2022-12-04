@@ -90,7 +90,7 @@ const Searchbar = (props) => {
     props.createNewUserTrip({
       ...userTripInfo,
     });
-    console.log('usertripinfo', userTripInfo)
+    console.log("usertripinfo", userTripInfo);
     setFilteredUsers("");
     setSelectedUserId("");
     setSelectedUser("");
@@ -114,7 +114,16 @@ const Searchbar = (props) => {
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
+      <Button
+        variant="primary"
+        style={{
+          flex: 1,
+          width: "fit-contents",
+          float: "right",
+          marginRight: "1rem",
+        }}
+        onClick={handleShow}
+      >
         Add Attendees
       </Button>
       <Modal show={show} onHide={handleClose} scrollable={true}>
@@ -144,11 +153,13 @@ const Searchbar = (props) => {
                           <Card.Body>
                             <Card.Text className="user__details">
                               <span>
-                                <strong>{user.firstName}{" "}
-                                {user.lastName}{" "}</strong>
+                                <strong>
+                                  {user.firstName} {user.lastName}{" "}
+                                </strong>
                               </span>
                               <span>
-                                {'@'}{user.username}
+                                {"@"}
+                                {user.username}
                               </span>
                             </Card.Text>
                             {showStartingView && (
@@ -180,11 +191,13 @@ const Searchbar = (props) => {
                       <Card.Body>
                         <Card.Text className="user__details">
                           <span>
-                            <strong>Name:</strong> {selectedUser[0].firstName}{" "}
-                            {selectedUser[0].lastName}
+                            <strong>
+                              {selectedUser[0].firstName}{" "}
+                              {selectedUser[0].lastName}{" "}
+                            </strong>
                           </span>
                           <span>
-                            <strong>Username:</strong>{" "}
+                            {"@"}
                             {selectedUser[0].username}
                           </span>
                         </Card.Text>

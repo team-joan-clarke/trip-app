@@ -18,17 +18,21 @@ const TripAttendees = (props) => {
   return (
     <div
       style={{
-        width: "auto",
+        width: "85%",
         flexDirection: "row",
         flexWrap: "wrap",
         padding: "2rem",
         borderRadius: "5px",
         boxShadow: "2px 1px 20px grey",
-        marginTop: "3rem",
+        margin: "2rem auto",
       }}
     >
-      <h3>Trip Attendees</h3>
-      <Searchbar />
+      <div
+        style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
+      >
+        <h3 style={{ flex: 5, width: "fit-contents" }}>Trip Attendees</h3>
+        <Searchbar />
+      </div>
       <div
         style={{
           display: "flex",
@@ -43,15 +47,26 @@ const TripAttendees = (props) => {
           {!usersOnTrip ? (
             <p className="loading">No Users Yet</p>
           ) : (
-            <div>
+            <div
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                padding: "1rem",
+                borderRadius: "5px",
+                boxShadow: "2px 1px 20px grey",
+                margin: "1rem auto",
+              }}
+            >
               {usersOnTrip.map((user) => {
                 return (
                   <Card
                     key={user.id}
                     style={{
-                      width: "15rem",
-                      alignItems: "center",
-                      margin: "2px",
+                      width: "auto",
+                      margin: "1rem",
+                      boxShadow: "0px 1px 1px grey",
+                      padding: "0.8rem",
                     }}
                   >
                     <h3>
