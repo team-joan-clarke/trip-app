@@ -4,8 +4,6 @@ import { Tab, Tabs } from "react-bootstrap";
 import TasksCompleted from "./TasksCompleted";
 import TasksInProgress from "./TasksInProgress";
 
-// ^ to link to a specific trip in trip dashboard
-
 const AllTasks = (props) => {
   return (
     <div
@@ -36,5 +34,4 @@ const AllTasks = (props) => {
   );
 };
 
-// export default CompletedTrips
 export default connect(null)(AllTasks);
