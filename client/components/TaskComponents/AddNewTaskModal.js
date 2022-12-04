@@ -32,11 +32,8 @@ function AddNewTaskModal(props) {
   const prevTasksRef = useRef();
   useEffect(() => {
     prevTasksRef.current = tasks;
-    console.log("prev", prevTasksRef.current);
   });
   const { tasks } = props;
-  console.log("compare", prevTasksRef.current === tasks);
-  // const taskCompare = prevTasksRef.current === tasks;
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -135,8 +132,6 @@ function AddNewTaskModal(props) {
               "editor"
             )
           );
-          console.log("in submit prev", prevTasksRef.current.length);
-          console.log("in submit tasks", tasks.length);
           if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(tasks)) {
             setType("");
             setSubtype("");
@@ -227,9 +222,6 @@ function AddNewTaskModal(props) {
         "i"
       );
       const linkBool = urlRegex.test(event.target.value);
-      console.log("link", event.target.value);
-      console.log("link length", event.target.value.length);
-      console.log("link type", typeof event.target.value);
 
       if (linkBool || event.target.value.length === 0) {
         if (errors.includes("Link must be a url.")) {
