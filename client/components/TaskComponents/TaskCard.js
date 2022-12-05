@@ -55,14 +55,12 @@ const TaskCard = (props) => {
   const taskStartTime = timeDisplayConverter(props.task.start_date);
 
   const handleClick = (e, id) => {
-    // e.stopPropagation();
     e.preventDefault();
     const status = "complete";
     dispatch(updateTask({ status }, id));
   };
 
   const handleDelete = (e, id) => {
-    // e.stopPropagation();
     e.preventDefault();
     setShow(false);
     dispatch(deleteTask(id));
@@ -218,7 +216,9 @@ const TaskCard = (props) => {
                 >
                   {seeMore ? "See Less" : "See More..."}
                 </Card.Link>
-                {props.type === "todo" && (isTripOwner || isTaskEditor) ? (
+                {props.type === "todo" &&
+                (isTripOwner || isTaskEditor) &&
+                !props.status ? (
                   <Button
                     variant="primary"
                     style={{
@@ -286,7 +286,7 @@ const TaskCard = (props) => {
                       : {}
                   }
                 >
-                  {!show && (isTripOwner || isTaskEditor) && (
+                  {!show && (isTripOwner || isTaskEditor) && !props.status && (
                     <Button
                       variant="outline-danger"
                       size={props.type === "itinerary" ? "sm" : null}
@@ -300,7 +300,7 @@ const TaskCard = (props) => {
                       Delete
                     </Button>
                   )}
-                  {(isTripOwner || isTaskEditor) && (
+                  {(isTripOwner || isTaskEditor) && !props.status && (
                     <Button
                       variant="outline-secondary"
                       size={props.type === "itinerary" ? "sm" : null}
@@ -322,6 +322,7 @@ const TaskCard = (props) => {
       </Card>
       <EditTaskModal
         task={props.task}
+        trip={props.trip}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
