@@ -9,6 +9,7 @@ import TripTasks from "./TripTasks";
 import TripTaskTodo from "./TripTaskTodo";
 import EditTrip from "./EditTrip";
 import { getCookie } from "../redux/users";
+import TripAttendees from "./Attendees/TripAttendees";
 
 const SingleTrip = () => {
   const dispatch = useDispatch();
@@ -85,7 +86,7 @@ const SingleTrip = () => {
           ) : (
             <h1></h1>
           )}
-
+          <TripAttendees />
           <TripTasks trip={trip["singleTrip"]} />
           <TripTaskTodo trip={trip["singleTrip"]} />
         </main>

@@ -52,6 +52,7 @@ const setUsersOnTrip = (usersOnTrip) => {
     usersOnTrip,
   };
 };
+
 const updateUser = (user) => {
   return {
     type: UPDATE_USER,
@@ -80,10 +81,10 @@ export const fetchUser = () => async (dispatch) => {
 export const fetchAllUsers = () => {
   return async (dispatch) => {
     try {
-      const { data: users } = await axios.get("api/users");
+      const { data: users } = await axios.get("/api/users");
       dispatch(setAllUsers(users));
     } catch (error) {
-      console.log.error(error);
+      console.error(error);
     }
   };
 };

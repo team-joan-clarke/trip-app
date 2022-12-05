@@ -1,7 +1,7 @@
 const userTripsRouter = require("express").Router();
 const {
-    models: { User, User_Trip },
-  } = require("../../db/index");
+  models: { User, User_Trip },
+} = require("../../db/index");
 const Sequelize = require("sequelize");
 
 //GET ROUTE
@@ -13,14 +13,14 @@ userTripsRouter.get("/:tripId", async (req, res, next) => {
     });
 
     const allUsersOnTrip = await Promise.all(
-        findAllUsersOnTrip.map(async (user) => {
-          return await User.findOne({
-            where: {
-              id: user.UserId,
-            },
-          });
-        })
-      );
+      findAllUsersOnTrip.map(async (user) => {
+        return await User.findOne({
+          where: {
+            id: user.UserId,
+          },
+        });
+      })
+    );
 
     res.send(allUsersOnTrip).status(200);
   } catch (error) {
@@ -34,6 +34,41 @@ userTripsRouter.post("/", async (req, res, next) => {
   try {
     const createUserTrip = await User_Trip.create(req.body);
     res.status(200).send(createUserTrip);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//PUT ROUTE
+//update user trip
+userTripsRouter.put("/:tripId", async (req, res, next) => {
+  try {
+    const findUserTrip = await User_Trip.findOne({
+      where: {
+        UserId: req.body.UserId,
+        TripId: req.params.tripId,
+      },
+    });
+
+    await findUserTrip.update(req.body);
+    res.send(findUserTrip);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//DELETE ROUTE
+//delete user trip
+userTripsRouter.delete("/:tripId/:userId", async (req, res, next) => {
+  try {
+    const findUserTrip = await User_Trip.findOne({
+      where: {
+        UserId: req.params.userId,
+        TripId: req.params.tripId,
+      },
+    });
+    await findUserTrip.destroy();
+    res.send(findUserTrip);
   } catch (error) {
     next(error);
   }
