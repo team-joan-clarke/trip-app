@@ -9,6 +9,7 @@ import TripTasks from "./TripTasks";
 import TripTaskTodo from "./TripTaskTodo";
 import EditTrip from "./EditTrip";
 import { getCookie } from "../redux/users";
+import TripAttendees from "./Attendees/TripAttendees";
 
 const SingleTrip = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const SingleTrip = () => {
   const idOfUserLoggedIn = getCookie("userId");
   const allUsersInTrip = singleTrip.Users;
 
-  // ensures that that user logged in is owner if so they can edit trip 
+  // ensures that that user logged in is owner if so they can edit trip
   const userLoggedInRelationshipToTrip = singleTrip.Users.filter((user) => {
     if (user.id == idOfUserLoggedIn) {
       if (user.user_trip.role == "owner") {
@@ -85,7 +86,7 @@ const SingleTrip = () => {
           ) : (
             <h1></h1>
           )}
-
+          <TripAttendees />
           <TripTasks trip={trip["singleTrip"]} />
           <TripTaskTodo trip={trip["singleTrip"]} />
         </main>

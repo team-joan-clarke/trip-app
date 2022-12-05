@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { fetchAllUsers } from "../redux/users";
-import { createNewUserTrip } from "../redux/tripReducer";
+import { fetchAllUsers } from "../../redux/users";
+import { createNewUserTrip } from "../../redux/tripReducer";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { Card } from "react-bootstrap";
-import { Form } from "react-bootstrap";
+import { Card, Form } from "react-bootstrap";
 
 const Searchbar = (props) => {
   const [users, setUsers] = useState(props.users.allUsers);
@@ -27,7 +27,7 @@ const Searchbar = (props) => {
   const inputRef = useRef();
 
   //update to use useparams
-  let tripId = 1;
+  const { tripId } = useParams();
 
   useEffect(() => {
     props.fetchAllUsers();
