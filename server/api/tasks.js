@@ -7,7 +7,7 @@ const User_Trip = require("../../db/models/User_Trip");
 const { requireToken } = require("./gatekeepingmiddleware");
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
-taskRouter.get("/user/:userId", async (req, res, next) => {
+taskRouter.get("/user/:userId", requireToken, async (req, res, next) => {
   try {
     const { userId } = req.params;
     const user = await User.findByPk(userId);
@@ -47,7 +47,7 @@ taskRouter.get("/user/:userId", async (req, res, next) => {
 });
 
 // GET TASKS BY TRIP ID (1 TRIP -> TRIP TASKS FOR ALL USERS)
-taskRouter.get("/trip/:tripId", async (req, res, next) => {
+taskRouter.get("/trip/:tripId", requireToken, async (req, res, next) => {
   try {
     const { tripId } = req.params;
     const trip = await User.findByPk(tripId);
@@ -75,7 +75,8 @@ taskRouter.get("/trip/:tripId", async (req, res, next) => {
 });
 
 // POST A NEW TASK AND ASSIGN TO USER (MUST BE ASSIGNED TO A USER)
-taskRouter.post("/", async (req, res, next) => {
+// adding new task in trip dash
+taskRouter.post("/", requireToken, async (req, res, next) => {
   try {
     const {
       type,
@@ -141,7 +142,8 @@ taskRouter.post("/", async (req, res, next) => {
 });
 
 // DELETE TASK
-taskRouter.delete("/:taskId", async (req, res, next) => {
+// deleting a task both views 
+taskRouter.delete("/:taskId", requireToken, async (req, res, next) => {
   try {
     const { taskId } = req.params;
     const data = await Task.findByPk(taskId);
@@ -161,8 +163,8 @@ taskRouter.delete("/:taskId", async (req, res, next) => {
 });
 
 // UPDATE TASK
-taskRouter.put("/:taskId", async (req, res, next) => {
-  console.log("req.headers in update task", req.headers.authorization)
+//updating a task both views 
+taskRouter.put("/:taskId", requireToken, async (req, res, next) => {
   try {
     const checkedFields = {};
     const { body } = req;
@@ -226,7 +228,11 @@ taskRouter.put("/:taskId", async (req, res, next) => {
 });
 
 // ADD ADDITIONAL USER TO EXISTING TASK
-taskRouter.post("/task-user", async (req, res, next) => {
+// adding, editing, and deleting from users tasks in trip
+// task editor and trip owner can do this ^ 
+// task editor can only edit their tasks 
+taskRouter.post("/task-user", requireToken, async (req, res, next) => {
+  console.log("add another user to task")
   try {
     const { userId, taskId, role } = req.body;
     const data = await Task.findByPk(taskId);
@@ -274,7 +280,7 @@ taskRouter.post("/task-user", async (req, res, next) => {
 });
 
 // UPDATE USER ROLE ON EXISTING TASK
-taskRouter.put("/task-user", async (req, res, next) => {
+taskRouter.put("/task-user", requireToken, async (req, res, next) => {
   try {
     const { taskId, userId, role } = req.body;
     const data = await Task.findByPk(taskId);
@@ -327,7 +333,7 @@ taskRouter.put("/task-user", async (req, res, next) => {
 });
 
 // REMOVE USER FROM EXISTING TASK
-taskRouter.delete("/task-user", async (req, res, next) => {
+taskRouter.delete("/task-user", requireToken, async (req, res, next) => {
   try {
     const { taskId, userId } = req.body;
     const data = await Task.findByPk(taskId);
