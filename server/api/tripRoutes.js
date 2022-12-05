@@ -66,6 +66,7 @@ tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
   for (let i = 0; i < activeTrips.length; i++) {
     for (let j = 0; j < findAllTripsForUser.length; j++) {
       if (activeTrips[i].id === findAllTripsForUser[j].TripId) {
+        console.log("active trips", activeTrips[i])
         activeTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
       }
     }
@@ -76,6 +77,7 @@ tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
 
 // get route for trips dashboard gets completed Trips
 tripRouter.get("/completedTrips/:userId", requireToken, async (req, res, next) => {
+
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });

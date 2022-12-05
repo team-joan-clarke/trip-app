@@ -7,7 +7,7 @@ const User_Trip = require("../../db/models/User_Trip");
 const { requireToken } = require("./gatekeepingmiddleware");
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
-taskRouter.get("/user/:userId", requireToken, async (req, res, next) => {
+taskRouter.get("/user/:userId", async (req, res, next) => {
   try {
     const { userId } = req.params;
     const user = await User.findByPk(userId);
@@ -47,7 +47,7 @@ taskRouter.get("/user/:userId", requireToken, async (req, res, next) => {
 });
 
 // GET TASKS BY TRIP ID (1 TRIP -> TRIP TASKS FOR ALL USERS)
-taskRouter.get("/trip/:tripId", requireToken, async (req, res, next) => {
+taskRouter.get("/trip/:tripId", async (req, res, next) => {
   try {
     const { tripId } = req.params;
     const trip = await User.findByPk(tripId);
@@ -162,6 +162,7 @@ taskRouter.delete("/:taskId", async (req, res, next) => {
 
 // UPDATE TASK
 taskRouter.put("/:taskId", async (req, res, next) => {
+  console.log("req.headers in update task", req.headers.authorization)
   try {
     const checkedFields = {};
     const { body } = req;

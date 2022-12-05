@@ -51,7 +51,6 @@ export const getTasksByTrip = (tripId) => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      console.log("token in tasksbytrip", token);
       const { data } = await axios.get(`/api/tasks/trip/${tripId}`, {
         headers: { authorization: token },
       });
@@ -68,11 +67,16 @@ export const addNewTask = (task, role) => {
   return async (dispatch) => {
     try {
       const userId = getCookie("userId");
-      const { data } = await axios.post("/api/tasks", {
-        ...task,
-        userId,
-        role,
-      });
+      const token = getCookie("token");
+      const { data } = await axios.post(
+        "/api/tasks",
+        {
+          ...task,
+          userId,
+          role,
+        },
+        { headers: { authorization: token } }
+      );
       if (data) {
         dispatch(addedNewTask(data));
       }
@@ -85,6 +89,8 @@ export const addNewTask = (task, role) => {
 export const updateTask = (updatedData, taskId) => {
   return async (dispatch) => {
     try {
+      const token = getCookie("token");
+      console.log("token in update thunk", token)
       const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData);
       if (data) {
         dispatch(updatedTask(data));
