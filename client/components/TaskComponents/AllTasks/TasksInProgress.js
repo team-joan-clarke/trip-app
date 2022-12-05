@@ -32,7 +32,7 @@ const TasksInProgress = (props) => {
       return task.Trip.name;
     }
   });
-  console.log(tripsWithPermission);
+
   return (
     <div>
       <h3>Current Tasks</h3>
@@ -111,7 +111,9 @@ const TasksInProgress = (props) => {
                   </Row>
                   <Card.Text>Link: {singleTask.link}</Card.Text>
                   <Card.Text>Description: {singleTask.description}</Card.Text>
-                  <TaskModal singleTask={singleTask} />
+                  {singleTask.user_task.role === "editor" && (
+                    <TaskModal singleTask={singleTask} />
+                  )}
                 </Card.Body>
               </Card>
             );
