@@ -7,15 +7,14 @@ import { Row, Col } from "react-bootstrap";
 import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
 import { flexbox } from "@mui/system";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const TasksInProgress = (props) => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getTasksByUser());
-    // navigate("/user");
   }, []);
 
   const handleDelete = (e, id) => {
@@ -28,7 +27,12 @@ const TasksInProgress = (props) => {
 
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks.filter((task) => task.status === "in progress");
-
+  let tripsWithPermission = tasks.filter((task) => {
+    if (task.user_task.role === "editor") {
+      return task.Trip.name;
+    }
+  });
+  console.log(tripsWithPermission);
   return (
     <div>
       <h3>Current Tasks</h3>
@@ -71,7 +75,7 @@ const TasksInProgress = (props) => {
                     </div>
                   </Alert>
 
-                  {!show && (
+                  {!show && singleTask.user_task.role === "editor" && (
                     <div
                       style={{
                         position: "absolute",
@@ -87,8 +91,9 @@ const TasksInProgress = (props) => {
                       </Button>
                     </div>
                   )}
+
                   <Card.Title>{singleTask.type} </Card.Title>
-                  {/* <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text> */}
+                  <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
                   <Card.Text>
                     Provider Name: {singleTask.provider_name}
