@@ -42,6 +42,7 @@ const TaskEditForm = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //URL validation:
   const urlPatternValidation = (URL) => {
     const regex = new RegExp(
       "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?"
@@ -51,12 +52,14 @@ const TaskEditForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    //checking URL:
     if (link) {
       const isValid = urlPatternValidation(link);
       if (!isValid) {
         return setAlert(true);
       }
     }
+    //checking end time is after start time:
     if (end_date) {
       let startDate = start_date.toString().slice(0, 10);
       let endDate = start_date.toString().slice(0, 10);
@@ -90,7 +93,7 @@ const TaskEditForm = (props) => {
     dispatch(updateTask({ status }, id));
   };
 
-  // Time validation:
+  // for maxTime validation:
   let currentDate = new Date().toJSON().slice(0, 10); // "2022-06-17"
 
   return (

@@ -3,11 +3,11 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, OverlayTrigger } from "react-bootstrap";
 import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
-import { flexbox } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import { AvatarGroup, Avatar, Tooltip } from "@mui/material";
 
 const TasksInProgress = (props) => {
   const dispatch = useDispatch();
@@ -27,11 +27,36 @@ const TasksInProgress = (props) => {
 
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks.filter((task) => task.status === "in progress");
-  let tripsWithPermission = tasks.filter((task) => {
-    if (task.user_task.role === "editor") {
-      return task.Trip.name;
+
+  //Avatar Things:
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
-  });
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
 
   return (
     <div>
@@ -50,6 +75,15 @@ const TasksInProgress = (props) => {
                 key={singleTask.id}
               >
                 <Card.Body>
+                  <AvatarGroup style={{ flex: 1 }}>
+                    {singleTask.Users.length > 0 &&
+                      singleTask.Users.map((user, i) => {
+                        const nameArr = [user.firstName, user.lastName];
+                        const fullName = nameArr.join(" ");
+                        return <Avatar {...stringAvatar(fullName)} key={i} />;
+                      })}
+                  </AvatarGroup>
+
                   <Alert show={show} variant="danger">
                     <Alert.Heading>
                       Are you sure you want to delete this task?
@@ -75,23 +109,6 @@ const TasksInProgress = (props) => {
                     </div>
                   </Alert>
 
-                  {!show && singleTask.user_task.role === "editor" && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "2em",
-                      }}
-                    >
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => setShow(true)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  )}
-
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
@@ -111,6 +128,24 @@ const TasksInProgress = (props) => {
                   </Row>
                   <Card.Text>Link: {singleTask.link}</Card.Text>
                   <Card.Text>Description: {singleTask.description}</Card.Text>
+
+                  {!show && singleTask.user_task.role === "editor" && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "2em",
+                      }}
+                    >
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => setShow(true)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  )}
+
                   {singleTask.user_task.role === "editor" && (
                     <TaskModal singleTask={singleTask} />
                   )}
