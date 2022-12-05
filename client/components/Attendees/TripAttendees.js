@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Card, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import { getCookie } from "../../redux/users";
 import { fetchSingleTrip } from "../../redux/tripReducer";
 import {
   updateThisUserTrip,
@@ -25,7 +25,7 @@ const TripAttendees = (props) => {
   useEffect(() => {
     props.fetchSingleTrip(tripId);
   }, []);
-  
+
   useEffect(() => {
     if (userId !== "") {
       props.updateThisUserTrip(parseInt(tripId), { ...userTripInfo });
@@ -45,6 +45,16 @@ const TripAttendees = (props) => {
     props.deleteThisUserTrip(tripId, userId);
   };
 
+  const idOfUserLoggedIn = getCookie("userId");
+
+  const userHasPermissions = usersOnTrip.filter((user) => {
+    if (user.id == idOfUserLoggedIn) {
+      if (user.user_trip.role === "owner" || user.user_trip.role === "editor") {
+        return user;
+      }
+    }
+  });
+
   return (
     <div
       style={{
@@ -61,7 +71,7 @@ const TripAttendees = (props) => {
         style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
       >
         <h3 style={{ flex: 5, width: "fit-contents" }}>Trip Attendees</h3>
-        <Searchbar />
+        {userHasPermissions.length ? <Searchbar /> : null}
       </div>
       <div
         style={{
@@ -75,7 +85,7 @@ const TripAttendees = (props) => {
       >
         <DragDropContext>
           {!usersOnTrip ? (
-            <p className="loading">There are no attendees on this trip yet</p>
+            <h6 className="loading">There are no attendees on this trip yet</h6>
           ) : (
             <div
               style={{
@@ -100,43 +110,57 @@ const TripAttendees = (props) => {
                     }}
                   >
                     <Card.Body>
-                      <Card.Text>
-                        <strong
-                          style={{
-                            fontSize: "18px",
-                          }}
-                        >
-                          {user.firstName} {user.lastName}
-                        </strong>
-                        <Button
-                          onClick={(e) => handleDelete(e, user.id)}
-                          style={{
-                            margin: "7px",
-                            float: "right",
-                          }}
-                        >
-                          Delete Attendee
-                        </Button>
-                        <Form.Select
-                          defaultValue={user.user_trip.role}
-                          onChange={handleAccess}
-                          onClick={() => {
-                            setUserId(user.id);
-                          }}
-                          style={{
-                            width: "200px",
-                            margin: "none",
-                            boxShadow: "0px 1px 1px grey",
-                            padding: "0.8rem",
-                            float: "right",
-                            fontSize: "14px",
-                          }}
-                        >
-                          <option value="attendee">Attendee</option>
-                          <option value="editor">Editor</option>
-                          <option value="owner">Owner</option>
-                        </Form.Select>
-                      </Card.Text>
+                      <strong
+                        style={{
+                          fontSize: "18px",
+                        }}
+                      >
+                        {user.firstName} {user.lastName}
+                      </strong>
+                      {userHasPermissions.length ? (
+                        <section>
+                          {user.user_trip.role === "owner" ? (
+                            <h6
+                              style={{
+                                float: "right",
+                              }}
+                            >
+                              Trip Owner
+                            </h6>
+                          ) : (
+                            <section>
+                              <Button
+                                onClick={(e) => handleDelete(e, user.id)}
+                                style={{
+                                  margin: "7px",
+                                  float: "right",
+                                }}
+                              >
+                                Delete Attendee
+                              </Button>
+                              <Form.Select
+                                defaultValue={user.user_trip.role}
+                                onChange={handleAccess}
+                                onClick={() => {
+                                  setUserId(user.id);
+                                }}
+                                style={{
+                                  width: "200px",
+                                  margin: "none",
+                                  boxShadow: "0px 1px 1px grey",
+                                  padding: "0.8rem",
+                                  float: "right",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                <option value="attendee">Attendee</option>
+                                <option value="editor">Editor</option>
+                                <option value="owner">Owner</option>
+                              </Form.Select>
+                            </section>
+                          )}
+                        </section>
+                      ) : null}
                     </Card.Body>
                   </Card>
                 );
