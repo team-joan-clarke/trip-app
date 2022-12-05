@@ -3,11 +3,12 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
-import { Row, Col, OverlayTrigger } from "react-bootstrap";
+import { Row, Col, Stack } from "react-bootstrap";
 import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
 import { useNavigate } from "react-router-dom";
 import { AvatarGroup, Avatar, Tooltip } from "@mui/material";
+import { getCookie } from "../../../redux/users";
 
 //Avatar Things:
 function stringToColor(string) {
@@ -81,13 +82,7 @@ const TasksInProgress = (props) => {
     dispatch(getTasksByUser());
   }, []);
 
-  const handleDelete = (e, id) => {
-    e.stopPropagation();
-    setShow(false);
-    dispatch(deleteTask(id));
-  };
-
-  const [show, setShow] = useState(false);
+  const [seeMore, setSeeMore] = useState(false);
 
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks
@@ -119,104 +114,94 @@ const TasksInProgress = (props) => {
                         return <Avatar {...stringAvatar(fullName)} key={i} />;
                       })}
                   </AvatarGroup>
-
-                  <Alert show={show} variant="danger">
-                    <Alert.Heading>
-                      Are you sure you want to delete this task?
-                    </Alert.Heading>
-                    <p>
-                      To delete, press the delete button. To cancel request,
-                      press cancel.
-                    </p>
-                    <hr />
-                    <div className="d-flex justify-content-end">
-                      <Button
-                        onClick={() => setShow(false)}
-                        variant="secondary"
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={(e) => handleDelete(e, singleTask.id)}
-                        variant="danger"
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </Alert>
-
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>
                     Task Due Date:{" "}
                     {new Date(singleTask.due_date).toLocaleDateString()}
                   </Card.Text>
-                  <Card.Text>
-                    Provider Name: {singleTask.provider_name}
-                  </Card.Text>
-                  <Card.Text>
-                    Booking Number: {singleTask.booking_num}
-                  </Card.Text>
-                  <Row>
-                    {singleTask.start_date && (
-                      <div>
-                        <Col>
-                          <Card.Text>
-                            Start Date:
-                            {new Date(
-                              singleTask.start_date
-                            ).toLocaleDateString()}
-                          </Card.Text>
-                        </Col>
-                        <Col>
-                          <Card.Text>
-                            Start Time:
-                            {timeDisplayConverter(singleTask.start_date)}
-                          </Card.Text>
-                        </Col>
-                      </div>
-                    )}
-                    {singleTask.end_date && (
-                      <div>
-                        <Col>
-                          <Card.Text>
-                            End Date:
-                            {new Date(singleTask.end_date).toLocaleDateString()}
-                          </Card.Text>
-                        </Col>
-                        <Col>
-                          <Card.Text>
-                            End Time:
-                            {timeDisplayConverter(singleTask.end_date)}
-                          </Card.Text>
-                        </Col>
-                      </div>
-                    )}
-                  </Row>
-
-                  <Card.Text>Link: {singleTask.link}</Card.Text>
-                  <Card.Text>Description: {singleTask.description}</Card.Text>
-
-                  {!show && singleTask.user_task.role === "editor" && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "2em",
-                      }}
-                    >
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => setShow(true)}
+                  {!seeMore && (
+                    <div>
+                      <Card.Link
+                        className="mb-2 text-muted"
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSeeMore(true);
+                        }}
+                        style={{ float: "left" }}
                       >
-                        Delete
-                      </Button>
+                        "See More..."
+                      </Card.Link>
                     </div>
                   )}
+                  {seeMore && (
+                    <div>
+                      <Card.Text>
+                        Provider Name: {singleTask.provider_name}
+                      </Card.Text>
+                      <Card.Text>
+                        Booking Number: {singleTask.booking_num}
+                      </Card.Text>
+                      <Row>
+                        {singleTask.start_date && (
+                          <div>
+                            <Col>
+                              <Card.Text>
+                                Start Date:
+                                {new Date(
+                                  singleTask.start_date
+                                ).toLocaleDateString()}
+                              </Card.Text>
+                            </Col>
+                            <Col>
+                              <Card.Text>
+                                Start Time:
+                                {timeDisplayConverter(singleTask.start_date)}
+                              </Card.Text>
+                            </Col>
+                          </div>
+                        )}
+                        {singleTask.end_date && (
+                          <div>
+                            <Col>
+                              <Card.Text>
+                                End Date:
+                                {new Date(
+                                  singleTask.end_date
+                                ).toLocaleDateString()}
+                              </Card.Text>
+                            </Col>
+                            <Col>
+                              <Card.Text>
+                                End Time:
+                                {timeDisplayConverter(singleTask.end_date)}
+                              </Card.Text>
+                            </Col>
+                          </div>
+                        )}
+                      </Row>
 
-                  {singleTask.user_task.role === "editor" && (
-                    <TaskModal singleTask={singleTask} />
+                      <Card.Text>Link: {singleTask.link}</Card.Text>
+                      <Card.Text>
+                        Description: {singleTask.description}
+                      </Card.Text>
+                      <Card.Link
+                        className="mb-2 text-muted"
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSeeMore(false);
+                        }}
+                        style={{ float: "left" }}
+                      >
+                        "See Less"
+                      </Card.Link>
+                    </div>
                   )}
+                  <div>
+                    <TaskModal singleTask={singleTask} />
+                  </div>
                 </Card.Body>
               </Card>
             );
