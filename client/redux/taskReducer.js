@@ -90,8 +90,10 @@ export const updateTask = (updatedData, taskId) => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      console.log("token in update thunk", token)
-      const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData);
+      console.log("token in update thunk", token);
+      const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData, {
+        headers: { authorization: token },
+      });
       if (data) {
         dispatch(updatedTask(data));
       }
@@ -104,7 +106,10 @@ export const updateTask = (updatedData, taskId) => {
 export const deleteTask = (taskId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/tasks/${taskId}`);
+      const token = getCookie("token");
+      const { data } = await axios.delete(`/api/tasks/${taskId}`, {
+        headers: { authorization: token },
+      });
       if (data) {
         dispatch(deletedTask(data));
       }
@@ -117,31 +122,44 @@ export const deleteTask = (taskId) => {
 export const updateTaskUser = (userId, taskId, role = null, action) => {
   return async (dispatch) => {
     try {
+      const token = getCookie("token");
       if (action === "add") {
         // route to User_Task create
-        const { data } = await axios.post("/api/tasks/task-user", {
-          userId,
-          taskId,
-          role,
-        });
+        const { data } = await axios.post(
+          "/api/tasks/task-user",
+          {
+            userId,
+            taskId,
+            role,
+          },
+          { headers: { authorization: token } }
+        );
         if (data) {
           dispatch(updatedTaskUser(data));
         }
       } else if (action === "remove") {
         // route to User_Task delete
-        const { data } = await axios.delete("/api/tasks/task-user", {
-          userId,
-          taskId,
-        });
+        const { data } = await axios.delete(
+          "/api/tasks/task-user",
+          {
+            userId,
+            taskId,
+          },
+          { headers: { authorization: token } }
+        );
         if (data) {
           dispatch(updatedTaskUser(data));
         }
       } else if (action === "updateRole") {
-        const { data } = await axios.put("/api/tasks/task-user", {
-          userId,
-          taskId,
-          role,
-        });
+        const { data } = await axios.put(
+          "/api/tasks/task-user",
+          {
+            userId,
+            taskId,
+            role,
+          },
+          { headers: { authorization: token } }
+        );
         if (data) {
           dispatch(updatedTaskUser(data));
         }
