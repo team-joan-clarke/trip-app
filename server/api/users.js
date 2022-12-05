@@ -3,8 +3,9 @@ const {
   models: { User },
 } = require("../../db");
 const Sequelize = require("sequelize");
+const { requireToken } = require("./gatekeepingmiddleware");
 
-users.get("/", async (req, res, next) => {
+users.get("/", requireToken, async (req, res, next) => {
   try {
     const data = await User.findAll();
     res.status(200).send(data);
@@ -13,7 +14,7 @@ users.get("/", async (req, res, next) => {
   }
 });
 
-users.get("/:id", async (req, res, next) => {
+users.get("/:id", requireToken, async (req, res, next) => {
   try {
     const data = await User.findByPk(req.params.id);
     res.status(200).send(data);
@@ -22,7 +23,8 @@ users.get("/:id", async (req, res, next) => {
   }
 });
 
-users.put("/:id/update", async (req, res, next) => {
+users.put("/:id/update", requireToken, async (req, res, next) => {
+  console.log("update user route", req.headers.cookie)
   try {
     const { firstName, lastName, username, email, password, phoneNumber } =
       req.body;
@@ -41,8 +43,9 @@ users.put("/:id/update", async (req, res, next) => {
   }
 });
 
-users.delete("/:id", async (req, res, next) => {
+users.delete("/:id", requireToken, async (req, res, next) => {
   try {
+    console.log("req in delete", req.headers)
     const user = await User.findByPk(req.params.id);
     await user.destroy();
     res.status(202).send(user);

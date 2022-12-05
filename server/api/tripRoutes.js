@@ -3,9 +3,10 @@ const {
   models: { Trip, Task, User, User_Trip },
 } = require("../../db/index");
 const Sequelize = require("sequelize");
+const { requireToken } = require("./gatekeepingmiddleware");
 
 // get route to get a single Trip uses trip id includes users and their role
-tripRouter.get("/singleTrip/:tripId", async (req, res, next) => {
+tripRouter.get("/singleTrip/:tripId", requireToken, async (req, res, next) => {
   try {
     const findSingleTripAndUsers = await Trip.findOne({
       where: { id: req.params.tripId },
@@ -38,9 +39,7 @@ tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 });
 
 // get route for trips dashboard gets active trips
-tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
-  console.log("in active route");
-
+tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
   // gets role
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
@@ -67,6 +66,7 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
   for (let i = 0; i < activeTrips.length; i++) {
     for (let j = 0; j < findAllTripsForUser.length; j++) {
       if (activeTrips[i].id === findAllTripsForUser[j].TripId) {
+        console.log("active trips", activeTrips[i])
         activeTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
       }
     }
@@ -76,7 +76,8 @@ tripRouter.get("/activeTrips/:userId", async (req, res, next) => {
 });
 
 // get route for trips dashboard gets completed Trips
-tripRouter.get("/completedTrips/:userId", async (req, res, next) => {
+tripRouter.get("/completedTrips/:userId", requireToken, async (req, res, next) => {
+
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });
@@ -106,12 +107,11 @@ tripRouter.get("/completedTrips/:userId", async (req, res, next) => {
     }
   }
 
-  console.log("complete trip", completedTrips)
   res.send(completedTrips).status(200);
 });
 
 // post route to create a trip
-tripRouter.post("/", async (req, res, next) => {
+tripRouter.post("/", requireToken, async (req, res, next) => {
   try {
     const makeNewTrip = await Trip.create(req.body);
     res.send(makeNewTrip).status(200);
@@ -121,7 +121,8 @@ tripRouter.post("/", async (req, res, next) => {
 });
 
 // put route to edit a trip uses tripId to search for specific trip
-tripRouter.put("/singleTrip/:tripId", async (req, res, next) => {
+tripRouter.put("/singleTrip/:tripId", requireToken, async (req, res, next) => {
+  console.log("req headers in update route", req.headers)
   try {
     const findTripToUpdate = await Trip.findByPk(req.params.tripId);
     findTripToUpdate.update(req.body);
@@ -132,7 +133,7 @@ tripRouter.put("/singleTrip/:tripId", async (req, res, next) => {
 });
 
 // delete route to delete a trip uses tripId to search for specific trip
-tripRouter.delete("/:tripId", async (req, res, next) => {
+tripRouter.delete("/:tripId", requireToken, async (req, res, next) => {
   try {
     const findTripToDelete = await Trip.findByPk(req.params.tripId);
     findTripToDelete.destroy();

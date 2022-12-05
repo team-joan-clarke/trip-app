@@ -4,6 +4,7 @@ const {
 } = require("../../db");
 const Sequelize = require("sequelize");
 const User_Trip = require("../../db/models/User_Trip");
+const { requireToken } = require("./gatekeepingmiddleware");
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
 taskRouter.get("/user/:userId", async (req, res, next) => {
@@ -161,6 +162,7 @@ taskRouter.delete("/:taskId", async (req, res, next) => {
 
 // UPDATE TASK
 taskRouter.put("/:taskId", async (req, res, next) => {
+  console.log("req.headers in update task", req.headers.authorization)
   try {
     const checkedFields = {};
     const { body } = req;

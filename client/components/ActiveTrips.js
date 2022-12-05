@@ -82,7 +82,7 @@ const ActiveTrips = (props) => {
                   >
                   <Card.Img variant="top" src={singleTrip.imageUrl} />
                   <Card.Body>
-                    <Card.Title>{singleTrip.name}</Card.Title>
+                    <Card.Title><strong>{singleTrip.name}</strong></Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
                     <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
                     <Card.Text>

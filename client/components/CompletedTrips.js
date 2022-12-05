@@ -42,9 +42,11 @@ const CompletedTrips = (props) => {
                 >
                   <Card.Img variant="top" src={singleTrip.imageUrl} />
                   <Card.Body>
-                    <Card.Title>{singleTrip.name}</Card.Title>
+                    <Card.Title>
+                      <strong>{singleTrip.name}</strong>
+                    </Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
-                    <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
+                    <Card.Text>Trip role: {singleTrip.role}</Card.Text>
                     <Card.Text>
                       Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
                       {singleTrip.end_date.toString().slice(3, 15)}
