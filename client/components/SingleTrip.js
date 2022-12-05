@@ -24,14 +24,14 @@ const SingleTrip = () => {
   }, [trip]);
 
   const trip = useSelector((state) => state.trips.singleTripView);
-  const singleTrip = trip?.singleTrip;
-  if (!singleTrip) return null;
+  const singleTripUsers = trip?.Users
+  if (!singleTripUsers) return null;
 
   const idOfUserLoggedIn = getCookie("userId");
-  const allUsersInTrip = singleTrip.Users;
+  const allUsersInTrip = singleTripUsers;
 
   // ensures that that user logged in is owner if so they can edit trip
-  const userLoggedInRelationshipToTrip = singleTrip.Users.filter((user) => {
+  const userLoggedInRelationshipToTrip = singleTripUsers.filter((user) => {
     if (user.id == idOfUserLoggedIn) {
       if (user.user_trip.role == "owner") {
         return user;
@@ -54,7 +54,7 @@ const SingleTrip = () => {
         style={{ width: "100%", alignContent: "center" }}
       >
         <main>
-          <h1>{trip.singleTrip.name}</h1>
+          <h1>{trip.name}</h1>
 
           {userLoggedInRelationshipToTrip.length ? (
             <div
@@ -87,8 +87,8 @@ const SingleTrip = () => {
             <h1></h1>
           )}
           <TripAttendees />
-          <TripTasks trip={trip["singleTrip"]} />
-          <TripTaskTodo trip={trip["singleTrip"]} />
+          <TripTasks trip={trip} />
+          <TripTaskTodo trip={trip} />
         </main>
       </div>
     </div>

@@ -14,7 +14,7 @@ const EditTrip = (props) => {
   let initialStartDate;
   let initialEndDate;
 
-  const { singleTrip } = props.trips.singleTripView;
+  const singleTrip = props.trips.singleTripView;
   let { tripId } = useParams();
 
   if (singleTrip) {
@@ -51,7 +51,6 @@ const EditTrip = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //dummy id
     if (singleTrip) {
       props.updateThisTrip({ ...singleTrip, ...tripInfo }, tripId);
       setTripInfo({
@@ -65,6 +64,7 @@ const EditTrip = (props) => {
       });
     }
   };
+  
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 

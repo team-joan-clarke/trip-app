@@ -90,6 +90,7 @@ const Searchbar = (props) => {
     props.createNewUserTrip({
       ...userTripInfo,
     });
+    console.log('selecteduser', selectedUser)
     console.log("usertripinfo", userTripInfo);
     setFilteredUsers("");
     setSelectedUserId("");
