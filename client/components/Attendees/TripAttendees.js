@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Card, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { fetchAllUsersOnTrip } from "../../redux/users";
+import { fetchSingleTrip } from "../../redux/tripReducer";
 import {
   updateThisUserTrip,
   deleteThisUserTrip,
@@ -13,9 +13,8 @@ import {
 import Searchbar from "./Searchbar";
 
 const TripAttendees = (props) => {
-  //dummyid change to useparams
   const { tripId } = useParams();
-  const usersOnTrip = useSelector((state) => state.users.usersOnTrip);
+  const usersOnTrip = useSelector((state) => state.trips.singleTripView.Users);
   const [userId, setUserId] = useState("");
   const [userTripInfo, setUserTripInfo] = useState({
     role: "",
@@ -24,9 +23,9 @@ const TripAttendees = (props) => {
   });
 
   useEffect(() => {
-    props.fetchAllUsersOnTrip(tripId);
+    props.fetchSingleTrip(tripId);
   }, []);
-
+  
   useEffect(() => {
     if (userId !== "") {
       props.updateThisUserTrip(parseInt(tripId), { ...userTripInfo });
@@ -44,8 +43,6 @@ const TripAttendees = (props) => {
   const handleDelete = (e, userId) => {
     e.stopPropagation();
     props.deleteThisUserTrip(tripId, userId);
-    //refactor SPA
-    window.location.reload();
   };
 
   return (
@@ -77,7 +74,7 @@ const TripAttendees = (props) => {
         }}
       >
         <DragDropContext>
-          {!usersOnTrip.length ? (
+          {!usersOnTrip ? (
             <p className="loading">There are no attendees on this trip yet</p>
           ) : (
             <div
@@ -121,6 +118,7 @@ const TripAttendees = (props) => {
                           Delete Attendee
                         </Button>
                         <Form.Select
+                          defaultValue={user.user_trip.role}
                           onChange={handleAccess}
                           onClick={() => {
                             setUserId(user.id);
@@ -134,7 +132,6 @@ const TripAttendees = (props) => {
                             fontSize: "14px",
                           }}
                         >
-                          <option>Access</option>
                           <option value="attendee">Attendee</option>
                           <option value="editor">Editor</option>
                           <option value="owner">Owner</option>
@@ -154,12 +151,12 @@ const TripAttendees = (props) => {
 
 const mapState = (state) => {
   return {
-    usersOnTrip: state.usersOnTrip,
+    trips: state.trips,
   };
 };
 
 const mapDispatch = (dispatch) => ({
-  fetchAllUsersOnTrip: (tripId) => dispatch(fetchAllUsersOnTrip(tripId)),
+  fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
   updateThisUserTrip: (tripId, userTrip) =>
     dispatch(updateThisUserTrip(tripId, userTrip)),
   deleteThisUserTrip: (tripId, userId) =>

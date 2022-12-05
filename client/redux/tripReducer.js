@@ -264,18 +264,27 @@ export default function tripReducer(state = initialState, action) {
       const currentActiveTrips = state.active;
       return { ...state, active: [...currentActiveTrips, action.trip] };
     case CREATE_USER_TRIP:
-      const currentUserTrips = state.active;
-      return { ...state, active: [...currentUserTrips, action.userTrip] };
+      const activeTrips = state.active;
+      return { ...state, active: [...activeTrips, action.userTrip] };
     case UPDATE_USER_TRIP:
-      const filteredUserTrips = state.active.filter(
-        (userTrip) => userTrip.id !== action.userTrip.id
+      const filteredUsers = state.singleTripView.Users.filter(
+        (user) => user.id !== action.userTrip.UserId
       );
-      return { ...state, active: [...filteredUserTrips, action.userTrip] };
+      const [userToUpdate] = state.singleTripView.Users.filter(
+        (user) => user.id == action.userTrip.UserId
+      );
+      //does this count as not modifying state directly?
+      const updatedUser = userToUpdate;
+      updatedUser.user_trip = action.userTrip;
+      return {
+        ...state,
+        singleTripView: { Users: [...filteredUsers, updatedUser] },
+      };
     case DELETE_USER_TRIP:
-      const userTripsToKeep = state.active.filter(
-        (userTrip) => userTrip.id !== action.userTrip.id
+      const userTripsToKeep = state.singleTripView.Users.filter(
+        (user) => user.id !== action.userTrip.UserId
       );
-      return { ...state, active: [...userTripsToKeep] };
+      return { ...state, singleTripView: { Users: [...userTripsToKeep] } };
     case DELETE_ACTIVE_TRIP:
       const filteredActiveTrips = state.active.filter((trip) => {
         return trip.id !== action.trip.id;
@@ -306,7 +315,7 @@ export default function tripReducer(state = initialState, action) {
       }
 
     case GET_SINGLE_TRIP:
-      return { ...state, singleTripView: { singleTrip: action.trip } };
+      return { ...state, singleTripView: action.trip };
     default:
       return state;
   }

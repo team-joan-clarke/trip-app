@@ -27,7 +27,6 @@ export function getCookie(cname) {
 //action types
 const SET_USER = "SET_USER";
 const GET_ALL_USERS = "GET_ALL_USERS";
-const GET_USERS_ON_TRIP = "GET_USERS_ON_TRIP";
 const UPDATE_USER = "UPDATE_USER";
 const DELETE_USER = "DELETE_USER";
 
@@ -43,13 +42,6 @@ const setAllUsers = (users) => {
   return {
     type: GET_ALL_USERS,
     users,
-  };
-};
-
-const setUsersOnTrip = (usersOnTrip) => {
-  return {
-    type: GET_USERS_ON_TRIP,
-    usersOnTrip,
   };
 };
 
@@ -95,17 +87,6 @@ export const fetchAllUsers = () => {
   };
 };
 
-export const fetchAllUsersOnTrip = (tripId) => {
-  return async (dispatch) => {
-    try {
-      const { data: usersOnTrip } = await axios.get(`/api/userTrips/${tripId}`);
-      dispatch(setUsersOnTrip(usersOnTrip));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
-
 export const updatingUser = (info) => async (dispatch) => {
   try {
     const id = getCookie("userId");
@@ -142,8 +123,6 @@ const usersReducer = (state = initialState, action) => {
       return { ...state, allUsers: action.user };
     case GET_ALL_USERS:
       return { ...state, allUsers: action.users };
-    case GET_USERS_ON_TRIP:
-      return { ...state, usersOnTrip: action.usersOnTrip };
     case UPDATE_USER:
       return { ...state, allUsers: action.users };
     case DELETE_USER:
