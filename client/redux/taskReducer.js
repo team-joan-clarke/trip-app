@@ -36,7 +36,10 @@ export const getTasksByUser = () => {
   return async (dispatch) => {
     try {
       const id = getCookie("userId");
-      const { data } = await axios.get(`api/tasks/user/${id}`);
+      const token = getCookie("token");
+      const { data } = await axios.get(`api/tasks/user/${id}`, {
+        headers: { authorization: token },
+      });
       dispatch(gotTasks(data));
     } catch (error) {
       console.error(error);
@@ -47,7 +50,11 @@ export const getTasksByUser = () => {
 export const getTasksByTrip = (tripId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/tasks/trip/${tripId}`);
+      const token = getCookie("token");
+      console.log("token in tasksbytrip", token);
+      const { data } = await axios.get(`/api/tasks/trip/${tripId}`, {
+        headers: { authorization: token },
+      });
       if (data) {
         dispatch(gotTasks(data));
       }

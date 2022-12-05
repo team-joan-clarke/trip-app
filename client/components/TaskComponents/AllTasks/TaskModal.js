@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
-  console.log(singleTask);
+  // console.log(singleTask);
 
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);

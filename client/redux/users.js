@@ -70,7 +70,10 @@ const deleteUser = (user) => {
 export const fetchUser = () => async (dispatch) => {
   try {
     const id = getCookie("userId");
-    const { data: user } = await axios.get(`/api/users/${id}`);
+    const token = getCookie("token");
+    const { data: user } = await axios.get(`/api/users/${id}`, {
+      headers: { authorization: token },
+    });
     dispatch(setUser(user));
   } catch (error) {
     console.error(error);
@@ -80,9 +83,13 @@ export const fetchUser = () => async (dispatch) => {
 export const fetchAllUsers = () => {
   return async (dispatch) => {
     try {
-      const { data: users } = await axios.get("api/users");
+      const token = getCookie("token");
+      const { data: users } = await axios.get(`api/users`, {
+        headers: { authorization: token },
+      });
       dispatch(setAllUsers(users));
     } catch (error) {
+      console.log("no token");
       console.log.error(error);
     }
   };
@@ -102,7 +109,10 @@ export const fetchAllUsersOnTrip = (tripId) => {
 export const updatingUser = (info) => async (dispatch) => {
   try {
     const id = getCookie("userId");
-    const { data: user } = await axios.put(`/api/users/${id}/update`, info);
+    const token = getCookie("token");
+    const { data: user } = await axios.put(`/api/users/${id}/update`, info, {
+      headers: { authorization: token },
+    });
     dispatch(updateUser(user));
   } catch (error) {
     return dispatch(updateUser({ error: error }));
@@ -112,7 +122,12 @@ export const updatingUser = (info) => async (dispatch) => {
 export const deletingUser = () => async (dispatch) => {
   try {
     const id = getCookie("userId");
-    const { data: user } = await axios.delete(`/api/users/${id}`);
+    const token = getCookie("token");
+    const { data: user } = await axios.delete(`/api/users/${id}`, {
+      headers: {
+        authorization: token,
+      },
+    });
     logout();
     dispatch(deleteUser());
   } catch (error) {
