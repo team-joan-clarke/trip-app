@@ -7,12 +7,15 @@ import { Row, Col } from "react-bootstrap";
 import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
 import { flexbox } from "@mui/system";
-// ^ to link to a specific trip in trip dashboard
+// import { useNavigate } from "react-router-dom";
 
 const TasksInProgress = (props) => {
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(getTasksByUser());
+    // navigate("/user");
   }, []);
 
   const handleDelete = (e, id) => {
@@ -38,7 +41,7 @@ const TasksInProgress = (props) => {
               <Card
                 className="mb-4"
                 style={{
-                  width: "40rem",
+                  width: "auto",
                 }}
                 key={singleTask.id}
               >
@@ -85,7 +88,7 @@ const TasksInProgress = (props) => {
                     </div>
                   )}
                   <Card.Title>{singleTask.type} </Card.Title>
-                  <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
+                  {/* <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text> */}
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
                   <Card.Text>
                     Provider Name: {singleTask.provider_name}
