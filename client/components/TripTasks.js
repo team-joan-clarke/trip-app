@@ -77,7 +77,14 @@ const TripTasks = (props) => {
       >
         <DragDropContext>
           {columns.map((col, i) => {
-            return <Column key={i} col={col} tasks={colTasks[col.date]} />;
+            return (
+              <Column
+                key={i}
+                col={col}
+                tasks={colTasks[col.date]}
+                trip={props.trip.Users}
+              />
+            );
           })}
         </DragDropContext>
       </div>

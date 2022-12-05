@@ -1,4 +1,5 @@
 import axios from "axios";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 import { getCookie } from "./users";
 
 //action types
@@ -7,6 +8,8 @@ const GET_ALL_ACTIVE_TRIP = "GET_ALL_ACTIVE_TRIPS";
 const GET_SINGLE_TRIP = "GET_SINGLE_TRIP";
 const CREATE_TRIP = "CREATE_TRIP";
 const CREATE_USER_TRIP = "CREATE_USER_TRIP";
+const UPDATE_USER_TRIP = "UPDATE_USER_TRIP";
+const DELETE_USER_TRIP = "DELETE_USER_TRIP";
 const DELETE_ACTIVE_TRIP = "DELETE_ACTIVE_TRIP";
 const DELETE_COMPLETE_TRIP = "DELETE_COMPLETE_TRIP";
 const UPDATE_TRIP = "UPDATE_TRIP";
@@ -36,6 +39,20 @@ const createTrip = (trip) => {
 const createUserTrip = (userTrip) => {
   return {
     type: CREATE_USER_TRIP,
+    userTrip,
+  };
+};
+
+const updateUserTrip = (userTrip) => {
+  return {
+    type: UPDATE_USER_TRIP,
+    userTrip,
+  };
+};
+
+const deleteUserTrip = (userTrip) => {
+  return {
+    type: DELETE_USER_TRIP,
     userTrip,
   };
 };
@@ -125,6 +142,28 @@ export const createNewUserTrip = (userTrip) => {
     try {
       const { data } = await axios.post(`/api/userTrips`, userTrip);
       dispatch(createUserTrip(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const updateThisUserTrip = (tripId, userTrip) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/userTrips/${tripId}`, userTrip);
+      dispatch(updateUserTrip(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const deleteThisUserTrip = (tripId, userId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/api/userTrips/${tripId}/${userId}`);
+      dispatch(deleteUserTrip(data));
     } catch (error) {
       console.error(error);
     }
@@ -227,6 +266,16 @@ export default function tripReducer(state = initialState, action) {
     case CREATE_USER_TRIP:
       const currentUserTrips = state.active;
       return { ...state, active: [...currentUserTrips, action.userTrip] };
+    case UPDATE_USER_TRIP:
+      const filteredUserTrips = state.active.filter(
+        (userTrip) => userTrip.id !== action.userTrip.id
+      );
+      return { ...state, active: [...filteredUserTrips, action.userTrip] };
+    case DELETE_USER_TRIP:
+      const userTripsToKeep = state.active.filter(
+        (userTrip) => userTrip.id !== action.userTrip.id
+      );
+      return { ...state, active: [...userTripsToKeep] };
     case DELETE_ACTIVE_TRIP:
       const filteredActiveTrips = state.active.filter((trip) => {
         return trip.id !== action.trip.id;

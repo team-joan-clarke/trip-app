@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
+import { Row, Col } from "react-bootstrap";
 import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
+import { flexbox } from "@mui/system";
 // ^ to link to a specific trip in trip dashboard
 
 const TasksInProgress = (props) => {
@@ -35,7 +37,9 @@ const TasksInProgress = (props) => {
             return (
               <Card
                 className="mb-4"
-                style={{ width: "40rem" }}
+                style={{
+                  width: "40rem",
+                }}
                 key={singleTask.id}
               >
                 <Card.Body>
@@ -81,11 +85,24 @@ const TasksInProgress = (props) => {
                     </div>
                   )}
                   <Card.Title>{singleTask.type} </Card.Title>
-                  <Card.Text>Trip: {singleTask.Trip.name}</Card.Text>
+                  <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>Task Due Date: {singleTask.due_date}</Card.Text>
                   <Card.Text>
                     Provider Name: {singleTask.provider_name}
                   </Card.Text>
+                  <Card.Text>
+                    Booking Number: {singleTask.booking_num}
+                  </Card.Text>
+                  <Row>
+                    <Col>
+                      <Card.Text>Start Date: {singleTask.start_date}</Card.Text>
+                    </Col>
+                    <Col>
+                      <Card.Text>End Date: {singleTask.end_date}</Card.Text>
+                    </Col>
+                  </Row>
+                  <Card.Text>Link: {singleTask.link}</Card.Text>
+                  <Card.Text>Description: {singleTask.description}</Card.Text>
                   <TaskModal singleTask={singleTask} />
                 </Card.Body>
               </Card>

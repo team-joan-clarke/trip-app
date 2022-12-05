@@ -119,18 +119,29 @@ export const updateTaskUser = (userId, taskId, role = null, action) => {
     try {
       if (action === "add") {
         // route to User_Task create
-        const { data } = await axios.post("/api/tasks/task-user");
+        const { data } = await axios.post("/api/tasks/task-user", {
+          userId,
+          taskId,
+          role,
+        });
         if (data) {
           dispatch(updatedTaskUser(data));
         }
       } else if (action === "remove") {
         // route to User_Task delete
-        const { data } = await axios.delete("/api/tasks/task-user");
+        const { data } = await axios.delete("/api/tasks/task-user", {
+          userId,
+          taskId,
+        });
         if (data) {
           dispatch(updatedTaskUser(data));
         }
       } else if (action === "updateRole") {
-        const { data } = await axios.put("/api/tasks/task-user");
+        const { data } = await axios.put("/api/tasks/task-user", {
+          userId,
+          taskId,
+          role,
+        });
         if (data) {
           dispatch(updatedTaskUser(data));
         }

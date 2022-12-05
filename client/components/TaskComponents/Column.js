@@ -8,7 +8,7 @@ const Column = (props) => {
   return (
     <Card style={{ width: "15rem", alignItems: "center", margin: "2px" }}>
       <h3>{props.col.date}</h3>
-      <TaskList tasks={props.tasks} />
+      <TaskList tasks={props.tasks} trip={props.trip} />
     </Card>
   );
 };

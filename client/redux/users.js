@@ -52,6 +52,7 @@ const setUsersOnTrip = (usersOnTrip) => {
     usersOnTrip,
   };
 };
+
 const updateUser = (user) => {
   return {
     type: UPDATE_USER,
@@ -89,7 +90,6 @@ export const fetchAllUsers = () => {
       });
       dispatch(setAllUsers(users));
     } catch (error) {
-      console.log("no token");
       console.log.error(error);
     }
   };

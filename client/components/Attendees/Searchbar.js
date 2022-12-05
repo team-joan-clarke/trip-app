@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { fetchAllUsers } from "../redux/users";
-import { createNewUserTrip } from "../redux/tripReducer";
+import { fetchAllUsers } from "../../redux/users";
+import { createNewUserTrip } from "../../redux/tripReducer";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { Card } from "react-bootstrap";
-import { Form } from "react-bootstrap";
+import { Card, Form } from "react-bootstrap";
 
 const Searchbar = (props) => {
   const [users, setUsers] = useState(props.users.allUsers);
@@ -27,7 +27,7 @@ const Searchbar = (props) => {
   const inputRef = useRef();
 
   //update to use useparams
-  let tripId = 1;
+  const { tripId } = useParams();
 
   useEffect(() => {
     props.fetchAllUsers();
@@ -90,7 +90,7 @@ const Searchbar = (props) => {
     props.createNewUserTrip({
       ...userTripInfo,
     });
-    console.log('usertripinfo', userTripInfo)
+    console.log("usertripinfo", userTripInfo);
     setFilteredUsers("");
     setSelectedUserId("");
     setSelectedUser("");
@@ -114,7 +114,16 @@ const Searchbar = (props) => {
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
+      <Button
+        variant="primary"
+        style={{
+          flex: 1,
+          width: "fit-contents",
+          float: "right",
+          marginRight: "1rem",
+        }}
+        onClick={handleShow}
+      >
         Add Attendees
       </Button>
       <Modal show={show} onHide={handleClose} scrollable={true}>
@@ -144,11 +153,13 @@ const Searchbar = (props) => {
                           <Card.Body>
                             <Card.Text className="user__details">
                               <span>
-                                <strong>{user.firstName}{" "}
-                                {user.lastName}{" "}</strong>
+                                <strong>
+                                  {user.firstName} {user.lastName}{" "}
+                                </strong>
                               </span>
                               <span>
-                                {'@'}{user.username}
+                                {"@"}
+                                {user.username}
                               </span>
                             </Card.Text>
                             {showStartingView && (
@@ -180,11 +191,13 @@ const Searchbar = (props) => {
                       <Card.Body>
                         <Card.Text className="user__details">
                           <span>
-                            <strong>Name:</strong> {selectedUser[0].firstName}{" "}
-                            {selectedUser[0].lastName}
+                            <strong>
+                              {selectedUser[0].firstName}{" "}
+                              {selectedUser[0].lastName}{" "}
+                            </strong>
                           </span>
                           <span>
-                            <strong>Username:</strong>{" "}
+                            {"@"}
                             {selectedUser[0].username}
                           </span>
                         </Card.Text>

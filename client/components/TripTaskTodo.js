@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Tab, Tabs } from "react-bootstrap";
 import TaskCard from "./TaskComponents/TaskCard";
 import AddNewTaskModal from "./TaskComponents/AddNewTaskModal";
 import { getCookie } from "../redux/users";
@@ -14,30 +14,61 @@ function dueDateCompare(a, b) {
 }
 
 const TripTaskTodo = (props) => {
-  const idOfUserLoggedIn = getCookie("userId");
-
-  const userLoggedInRelationshipToTrip = props.trip.Users.filter((user) => {
-    if (user.id == idOfUserLoggedIn) {
-      if (user.user_trip.role !== "attendee") {
-        return user;
-      }
-    }
-  });
-
   const dispatch = useDispatch();
-  // const { tripId } = useParams();
   const { trip } = props;
   const tasks = useSelector((state) => state.tasks.allItineraryTasks);
   const [todo, setTodo] = useState([]);
+  const [done, setDone] = useState([]);
   const [modalShow, setModalShow] = React.useState(false);
-  //const trip = useSelector((state) => state.trip.singleTrip);
 
   useEffect(() => {
     // SORTING TASKS BY DUE DATE
     const todoTasks = tasks.filter((task) => task.status === "in progress");
+    const doneTasks = tasks.filter((task) => task.status === "complete");
     todoTasks.sort(dueDateCompare);
+    doneTasks.sort(dueDateCompare);
     setTodo(todoTasks);
+    setDone(doneTasks);
   }, [tasks]);
+
+  // ROLE HANDLING
+  const [isTripOwner, setIsTripOwner] = useState(false);
+  const [isTripEditor, setIsTripEditor] = useState(false);
+  const idOfUserLoggedIn = getCookie("userId");
+  const tripUsers = trip.Users;
+  const usersInTrip = tripUsers ? tripUsers : [];
+
+  useEffect(() => {
+    // userLoggedIn is owner so they can create new tasks
+    const userLoggedInIsOwnerOfTrip = usersInTrip.filter((user) => {
+      if (user.id == idOfUserLoggedIn) {
+        if (user.user_trip.role == "owner") {
+          return user;
+        }
+      }
+    });
+
+    // user logged in is editor so they can create tasks
+    const userLoggedInIsEditorOfTrip = usersInTrip.filter((user) => {
+      if (user.id == idOfUserLoggedIn) {
+        if (user.user_trip.role == "editor") {
+          return user;
+        }
+      }
+    });
+
+    if (userLoggedInIsOwnerOfTrip.length > 0) {
+      setIsTripOwner(true);
+    } else {
+      setIsTripOwner(false);
+    }
+
+    if (userLoggedInIsEditorOfTrip.length > 0) {
+      setIsTripEditor(true);
+    } else {
+      setIsTripEditor(false);
+    }
+  }, [trip.Users, tasks]);
 
   return (
     <div
@@ -54,9 +85,9 @@ const TripTaskTodo = (props) => {
       <div
         style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
       >
-        <h3 style={{ flex: 5, width: "fit-contents" }}>In Progress</h3>
+        <h3 style={{ flex: 5, width: "fit-contents" }}>Tasks</h3>
         {/* conditional render here to allow only editors and owners to add a new task to trip */}
-        {userLoggedInRelationshipToTrip.length ? (
+        {isTripOwner || isTripEditor ? (
           <Button
             variant="primary"
             style={{
@@ -73,21 +104,50 @@ const TripTaskTodo = (props) => {
           <h1></h1>
         )}
       </div>
-      <Card>
-        {todo.map((task, i) => {
-          return (
-            <TaskCard
-              key={i}
-              task={task}
-              type="todo"
-              style={{ width: "100%" }}
-              trip={props.trip.Users}
-            />
-          );
-        })}
-      </Card>
+      <Tabs defaultActiveKey="inProgress" id="uncontrolled-tab-example" fill>
+        <Tab
+          tabClassName="in-progress"
+          eventKey="inProgress"
+          title="In Progress"
+        >
+          <div>
+            {todo.map((task, i) => {
+              return (
+                <TaskCard
+                  key={i}
+                  task={task}
+                  type="todo"
+                  style={{ width: "100%" }}
+                  trip={props.trip.Users}
+                />
+              );
+            })}
+          </div>
+        </Tab>
+        <Tab
+          tabClassName="completed"
+          eventKey="completed"
+          title="Completed"
+          transition={false}
+        >
+          <div>
+            {done.map((task, i) => {
+              return (
+                <TaskCard
+                  key={i}
+                  task={task}
+                  type="todo"
+                  status="done"
+                  style={{ width: "100%" }}
+                  trip={props.trip.Users}
+                />
+              );
+            })}
+          </div>
+        </Tab>
+      </Tabs>
       <AddNewTaskModal
-        trip={trip ? trip.id : null}
+        trip={trip ? trip : null}
         show={modalShow}
         onHide={() => setModalShow(false)}
         tasks={tasks}

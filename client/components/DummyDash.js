@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import TripAttendees from "./TripAttendees";
+import TripAttendees from "./Attendees/TripAttendees";
 
 /**
  * COMPONENT
@@ -11,7 +11,7 @@ export const DummyDash = (props) => {
   return (
     <div>
       <h3>Welcome {username}</h3>
-      <TripAttendees />
+      {/* <TripAttendees /> */}
     </div>
   );
 };
