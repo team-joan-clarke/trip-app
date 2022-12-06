@@ -111,6 +111,7 @@ const TasksInProgress = (props) => {
                         return <Avatar {...stringAvatar(fullName)} key={i} />;
                       })}
                   </AvatarGroup>
+
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>

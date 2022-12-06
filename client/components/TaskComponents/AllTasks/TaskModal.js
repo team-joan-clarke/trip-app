@@ -10,6 +10,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { getCookie } from "../../../redux/users";
+import Searchbar from "../../Attendees/Searchbar";
+import EditTaskAttendees from "./EditTaskAttendees";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
@@ -138,7 +140,7 @@ const TaskEditForm = (props) => {
             <hr />
 
             <div className="d-flex justify-content-end">
-              <Button onClick={() => setShow(false)} variant="secondary">
+              <Button onClick={() => setDeleteTask(false)} variant="secondary">
                 Cancel
               </Button>
               <Button
@@ -150,13 +152,22 @@ const TaskEditForm = (props) => {
             </div>
           </Alert>
           <br></br>
-          <Button variant="primary" onClick={handleShow}>
+          <div style={{ float: "left" }}>
+            <EditTaskAttendees singleTask={singleTask} />
+          </div>
+
+          <Button
+            variant="primary"
+            onClick={handleShow}
+            style={{ flex: "row", float: "left", marginRight: "1em" }}
+          >
             Edit Task
           </Button>
 
           <Button
             variant="primary"
             onClick={(e) => handleClick(e, singleTask.id)}
+            style={{ flex: "row", float: "left" }}
           >
             Completed
           </Button>
