@@ -6,8 +6,29 @@ import TaskList from "./TaskList";
 
 const Column = (props) => {
   return (
-    <Card style={{ width: "15rem", alignItems: "center", margin: "2px" }}>
-      <h3>{props.col.date}</h3>
+    <Card
+      style={{
+        width: "15rem",
+        alignItems: "center",
+        margin: "2px",
+        borderTop: "none",
+      }}
+    >
+      <Card.Header
+        className="text-center"
+        style={{
+          width: "15rem",
+          alignItems: "center",
+          margin: "2px",
+          backgroundColor: "lightseagreen",
+          color: "#F8F9FA",
+          fontSize: "1.5rem",
+          fontWeight: "600",
+        }}
+      >
+        {props.col.date}
+      </Card.Header>
+      <TaskList tasks={props.ongoingTasks} trip={props.trip} type="ongoing" />
       <TaskList tasks={props.tasks} trip={props.trip} />
     </Card>
   );
