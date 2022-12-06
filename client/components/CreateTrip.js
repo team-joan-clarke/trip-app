@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { createNewTrip } from "../redux/tripReducer";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Button from "react-bootstrap/Button";
-import { Form, Alert } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
+import {
+  Form,
+  Alert,
+  Button,
+  Modal,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
+import { createNewTrip } from "../redux/tripReducer";
 
 const CreateTrip = (props) => {
   const [name, setName] = useState("");
@@ -19,7 +24,7 @@ const CreateTrip = (props) => {
   const [end_date, setEndDate] = useState("");
   const [status, setStatus] = useState("active");
   const [show, setShow] = useState(false);
-  const [showSuccessMessage, setSuccessMessage] = useState(false);
+  const [showSuccessToast, setSuccessToast] = useState(false);
   const [showErrorMessage, setErrorMessage] = useState(false);
 
   const errorDictionary = {
@@ -43,52 +48,53 @@ const CreateTrip = (props) => {
 
   //if two error messages are not associated with that field, second errorId defaults to zero
   const getFilteredErrors = (errorId1, errorId2 = 0) => {
-    const filteredErrors = errors.filter((error) => error[0] !== errorId1 && error[0] !== errorId2)
+    const filteredErrors = errors.filter(
+      (error) => error[0] !== errorId1 && error[0] !== errorId2
+    );
     return filteredErrors;
-  }
+  };
 
   //ERROR MESSAGE
   useEffect(() => {
     if (errors.length < 1) {
       setErrorMessage(false);
-    } 
+    }
   }, [errors]);
 
   //SPECIFIC ERROR HANDLING
   useEffect(() => {
     if (!name) {
       if (!inCurrentErrors(1)) {
-        errors.push(errorDictionary.nameError)
+        errors.push(errorDictionary.nameError);
       }
     } else {
-      setErrors(getFilteredErrors(1))
+      setErrors(getFilteredErrors(1));
     }
 
     if (!country) {
       if (!inCurrentErrors(2)) {
-        errors.push(errorDictionary.countryError)
+        errors.push(errorDictionary.countryError);
       }
     } else {
-      setErrors(getFilteredErrors(2))
+      setErrors(getFilteredErrors(2));
     }
 
     if (!start_date) {
       if (!inCurrentErrors(3)) {
-        errors.push(errorDictionary.startDateError)
+        errors.push(errorDictionary.startDateError);
       }
     } else {
-      setErrors(getFilteredErrors(3, 5))
+      setErrors(getFilteredErrors(3, 5));
     }
 
     if (!end_date) {
       if (!inCurrentErrors(4)) {
-        errors.push(errorDictionary.endDateError)
+        errors.push(errorDictionary.endDateError);
       }
     } else {
-      setErrors(getFilteredErrors(4, 6))
+      setErrors(getFilteredErrors(4, 6));
     }
   }, [name, country, start_date, end_date]);
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -110,9 +116,11 @@ const CreateTrip = (props) => {
         setStartDate("");
         setEndDate("");
         setStatus("active");
+        setSuccessToast(true);
+        setShow(false);
       }
     } else {
-      setErrorMessage(true)
+      setErrorMessage(true);
     }
   };
 
@@ -143,20 +151,40 @@ const CreateTrip = (props) => {
           errors.push(errorDictionary.endDateAfterError);
         }
       } else {
-        setEndDate(newValue)
+        setEndDate(newValue);
       }
     }
   };
 
   const handleClose = () => {
-    setShow(false)
-    setErrorMessage(false)
+    setShow(false);
+    setErrorMessage(false);
   };
 
   const handleShow = () => setShow(true);
 
   return (
     <div>
+      <ToastContainer position="top-end">
+        <Toast
+          bg="info"
+          onClose={() => setSuccessToast(false)}
+          show={showSuccessToast}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">trippn</strong>
+            <small>Now</small>
+          </Toast.Header>
+          <Toast.Body>Pack your bags. You just created a trip.</Toast.Body>
+        </Toast>
+      </ToastContainer>
       <Button variant="primary" onClick={handleShow}>
         Create Trip
       </Button>
@@ -265,14 +293,6 @@ const CreateTrip = (props) => {
                   return <li key={i}>{error[1]}</li>;
                 })}
               </ul>
-            </div>
-            <hr />
-          </Alert>
-          <Alert show={showSuccessMessage} variant="success">
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <Alert.Heading>
-                Pack your bags. This trip has been created!
-              </Alert.Heading>
             </div>
             <hr />
           </Alert>

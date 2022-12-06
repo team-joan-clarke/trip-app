@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Button from "react-bootstrap/Button";
-import { Form, Alert } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import { useParams } from "react-router-dom";
+import { Form, Alert, Button, Modal, Toast, ToastContainer } from "react-bootstrap";
 import { updateThisTrip, fetchSingleTrip } from "../redux/tripReducer";
 
 const EditTrip = (props) => {
@@ -35,6 +33,7 @@ const EditTrip = (props) => {
   const [end_date, setEndDate] = useState("");
   const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
+  const [showSuccessToast, setSuccessToast] = useState(false);
   const [showErrorMessage, setErrorMessage] = useState(false);
 
   const errorDictionary = {
@@ -70,7 +69,7 @@ const EditTrip = (props) => {
       setEndDate(singleTrip.end_date);
     }
     setTripInfo(singleTrip);
-  }, [initialStartDate, initialEndDate]);
+  }, [initialStartDate, initialEndDate, showSuccessToast]);
 
   //ERROR MESSAGE
   useEffect(() => {
@@ -120,6 +119,7 @@ const EditTrip = (props) => {
         });
         setErrors([]);
         setShow(false);
+        setSuccessToast(true);
         setErrorMessage(false);
       } else {
         setErrorMessage(true);
@@ -154,6 +154,26 @@ const EditTrip = (props) => {
     <div>
       {singleTrip ? (
         <div>
+          <ToastContainer position="top-end">
+            <Toast
+              bg="info"
+              onClose={() => setSuccessToast(false)}
+              show={showSuccessToast}
+              delay={3000}
+              autohide
+            >
+              <Toast.Header>
+                <img
+                  src="holder.js/20x20?text=%20"
+                  className="rounded me-2"
+                  alt=""
+                />
+                <strong className="me-auto">trippn</strong>
+                <small>Now</small>
+              </Toast.Header>
+              <Toast.Body>You just edited your trip.</Toast.Body>
+            </Toast>
+          </ToastContainer>
           <Button variant="primary" onClick={handleShow}>
             Edit Trip
           </Button>
