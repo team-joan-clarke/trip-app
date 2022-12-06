@@ -56,8 +56,12 @@ const TaskCard = (props) => {
 
   const handleClick = (e, id) => {
     e.preventDefault();
-    const status = "complete";
-    dispatch(updateTask({ status }, id));
+    if (props.task.start_date) {
+      const status = "complete";
+      dispatch(updateTask({ status }, id));
+    } else {
+      setShowMarkAlert(true);
+    }
   };
 
   const handleDelete = (e, id) => {
@@ -66,6 +70,7 @@ const TaskCard = (props) => {
     dispatch(deleteTask(id));
   };
   const [show, setShow] = useState(false);
+  const [showMarkAlert, setShowMarkAlert] = useState(false);
 
   // ROLE HANDLING
   const [isTripOwner, setIsTripOwner] = useState(false);
@@ -105,6 +110,7 @@ const TaskCard = (props) => {
     });
 
     if (userLoggedInIsOwnerOfTrip.length > 0) {
+      console.log("owner true");
       setIsTripOwner(true);
     } else {
       setIsTripOwner(false);
@@ -246,6 +252,7 @@ const TaskCard = (props) => {
                 >
                   {seeMore ? "See Less" : "See More..."}
                 </Card.Link>
+                {console.log("isTripOwner", isTripOwner)}
                 {props.type === "todo" &&
                 (isTripOwner || isTaskEditor) &&
                 !props.status ? (
@@ -302,6 +309,38 @@ const TaskCard = (props) => {
                       }}
                     >
                       Delete
+                    </Button>
+                  </div>
+                </Alert>
+                <Alert
+                  show={showMarkAlert}
+                  variant="danger"
+                  style={{ flexDirection: "column" }}
+                >
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Alert.Heading style={{ float: "left" }}>
+                      Please fix these errors before proceeding:
+                    </Alert.Heading>
+                    <p style={{ display: "block" }}>
+                      This task does not have a start date. Please add a start
+                      date before marking as complete.
+                    </p>
+                  </div>
+                  <hr />
+                  <div
+                    className="d-flex justify-content-end"
+                    style={{ width: "100%" }}
+                  >
+                    <Button
+                      onClick={() => setShowMarkAlert(false)}
+                      variant="secondary"
+                      style={{
+                        marginRight: "1rem",
+                        borderRadius: "50px",
+                        float: "right",
+                      }}
+                    >
+                      Close
                     </Button>
                   </div>
                 </Alert>
