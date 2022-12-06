@@ -132,7 +132,7 @@ const EditTaskAttendees = (props) => {
     const users = singleTask.Users || [];
     const userIds = users.map((user) => user.id);
     const isPartOfTrip = userIds.filter((userId) => {
-      if (userId == event.target.value) {
+      if (userId == selectedUserId) {
         return true;
       }
     });
@@ -142,7 +142,7 @@ const EditTaskAttendees = (props) => {
     if (!isPartOfTrip[0]) {
       return setDeleteAttendee(true);
     }
-    dispatch(updateTaskUser(event.target.value, singleTask.id, role, "remove"));
+    dispatch(updateTaskUser(selectedUserId, singleTask.id, role, "remove"));
 
     setFilteredUsers("");
     setSelectedUserId("");
@@ -318,13 +318,6 @@ const EditTaskAttendees = (props) => {
                           <option value="editor">Editor</option>
                         </Form.Select>
                       </Card.Body>
-                      <Button
-                        variant="secondary"
-                        value={selectedUser[0].id}
-                        onClick={handleDelete}
-                      >
-                        Delete Attendee/Editor
-                      </Button>
                     </Card>
                   </React.Fragment>
                 )}
@@ -336,6 +329,9 @@ const EditTaskAttendees = (props) => {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
+          </Button>
+          <Button variant="outline-danger" onClick={handleDelete}>
+            Delete Attendee/Editor
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
             Add or Update Role

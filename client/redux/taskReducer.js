@@ -139,14 +139,9 @@ export const updateTaskUser = (userId, taskId, role = null, action) => {
         }
       } else if (action === "remove") {
         // route to User_Task delete
-        const { data } = await axios.delete(
-          "/api/tasks/task-user",
-          {
-            userId,
-            taskId,
-          },
-          { headers: { authorization: token } }
-        );
+        const { data } = await axios.delete(`/api/tasks/${userId}/${taskId}`, {
+          headers: { authorization: token },
+        });
         if (data) {
           dispatch(updatedTaskUser(data));
         }

@@ -334,9 +334,9 @@ taskRouter.put("/task-user", requireToken, async (req, res, next) => {
 });
 
 // REMOVE USER FROM EXISTING TASK
-taskRouter.delete("/task-user", requireToken, async (req, res, next) => {
+taskRouter.delete("/:userId/:taskId", requireToken, async (req, res, next) => {
   try {
-    const { taskId, userId } = req.body;
+    const { taskId, userId } = req.params;
     console.log("taskId ======>", taskId);
     console.log("userId ======>", userId);
 
