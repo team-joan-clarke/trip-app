@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
-import { Row, Col, Stack } from "react-bootstrap";
+import { Row, Col, Stack, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { getTasksByUser } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
 import { useNavigate } from "react-router-dom";
@@ -108,7 +108,23 @@ const TasksInProgress = (props) => {
                       singleTask.Users.map((user, i) => {
                         const nameArr = [user.firstName, user.lastName];
                         const fullName = nameArr.join(" ");
-                        return <Avatar {...stringAvatar(fullName)} key={i} />;
+                        return (
+                          <div>
+                            {["top"].map((placement) => (
+                              <OverlayTrigger
+                                key={placement}
+                                placement={placement}
+                                overlay={
+                                  <Tooltip id={`tooltip-${placement}`}>
+                                    {fullName}
+                                  </Tooltip>
+                                }
+                              >
+                                <Avatar {...stringAvatar(fullName)} key={i} />
+                              </OverlayTrigger>
+                            ))}
+                          </div>
+                        );
                       })}
                   </AvatarGroup>
 
@@ -142,38 +158,42 @@ const TasksInProgress = (props) => {
                       <Row>
                         {singleTask.start_date && (
                           <div>
-                            <Col>
-                              <Card.Text>
-                                Start Date:
-                                {new Date(
-                                  singleTask.start_date
-                                ).toLocaleDateString()}
-                              </Card.Text>
-                            </Col>
-                            <Col>
-                              <Card.Text>
-                                Start Time:
-                                {timeDisplayConverter(singleTask.start_date)}
-                              </Card.Text>
-                            </Col>
+                            <Row>
+                              <Col>
+                                <Card.Text>
+                                  Start Date:
+                                  {new Date(
+                                    singleTask.start_date
+                                  ).toLocaleDateString()}
+                                </Card.Text>
+                              </Col>
+                              <Col>
+                                <Card.Text>
+                                  Start Time:
+                                  {timeDisplayConverter(singleTask.start_date)}
+                                </Card.Text>
+                              </Col>
+                            </Row>
                           </div>
                         )}
                         {singleTask.end_date && (
                           <div>
-                            <Col>
-                              <Card.Text>
-                                End Date:
-                                {new Date(
-                                  singleTask.end_date
-                                ).toLocaleDateString()}
-                              </Card.Text>
-                            </Col>
-                            <Col>
-                              <Card.Text>
-                                End Time:
-                                {timeDisplayConverter(singleTask.end_date)}
-                              </Card.Text>
-                            </Col>
+                            <Row>
+                              <Col>
+                                <Card.Text>
+                                  End Date:
+                                  {new Date(
+                                    singleTask.end_date
+                                  ).toLocaleDateString()}
+                                </Card.Text>
+                              </Col>
+                              <Col>
+                                <Card.Text>
+                                  End Time:
+                                  {timeDisplayConverter(singleTask.end_date)}
+                                </Card.Text>
+                              </Col>
+                            </Row>
                           </div>
                         )}
                       </Row>

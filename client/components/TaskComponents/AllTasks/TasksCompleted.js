@@ -49,7 +49,7 @@ const TasksCompleted = (props) => {
             return (
               <Card
                 className="mb-4"
-                style={{ width: "40rem" }}
+                style={{ width: "auto" }}
                 key={singleTask.id}
               >
                 <CompletedTaskCard singleTask={singleTask} />

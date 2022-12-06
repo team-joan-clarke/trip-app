@@ -143,7 +143,7 @@ taskRouter.post("/", requireToken, async (req, res, next) => {
 });
 
 // DELETE TASK
-// deleting a task both views 
+// deleting a task both views
 taskRouter.delete("/:taskId", requireToken, async (req, res, next) => {
   try {
     const { taskId } = req.params;
@@ -164,7 +164,7 @@ taskRouter.delete("/:taskId", requireToken, async (req, res, next) => {
 });
 
 // UPDATE TASK
-//updating a task both views 
+//updating a task both views
 taskRouter.put("/:taskId", requireToken, async (req, res, next) => {
   try {
     const checkedFields = {};
@@ -230,10 +230,10 @@ taskRouter.put("/:taskId", requireToken, async (req, res, next) => {
 
 // ADD ADDITIONAL USER TO EXISTING TASK
 // adding, editing, and deleting from users tasks in trip
-// task editor and trip owner can do this ^ 
-// task editor can only edit their tasks 
+// task editor and trip owner can do this ^
+// task editor can only edit their tasks
 taskRouter.post("/task-user", requireToken, async (req, res, next) => {
-  console.log("add another user to task")
+  console.log("add another user to task");
   try {
     const { userId, taskId, role } = req.body;
     const data = await Task.findByPk(taskId);
@@ -334,13 +334,18 @@ taskRouter.put("/task-user", requireToken, async (req, res, next) => {
 });
 
 // REMOVE USER FROM EXISTING TASK
-taskRouter.delete("/task-user", requireToken, async (req, res, next) => {
+taskRouter.delete("/:userId/:taskId", requireToken, async (req, res, next) => {
   try {
-    const { taskId, userId } = req.body;
+    const { taskId, userId } = req.params;
+    console.log("taskId ======>", taskId);
+    console.log("userId ======>", userId);
+
     const data = await Task.findByPk(taskId);
     const user = await User.findByPk(userId);
     if (data && user) {
       const userRemovedFromTask = await user.removeTask(data);
+
+      console.log("removed in this route", userRemovedFromTask);
       if (userRemovedFromTask) {
         const tasksWithUpdatedTask = await Trip.findAll({
           where: { id: data.TripId },

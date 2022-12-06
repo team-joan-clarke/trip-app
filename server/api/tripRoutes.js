@@ -66,7 +66,7 @@ tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
   for (let i = 0; i < activeTrips.length; i++) {
     for (let j = 0; j < findAllTripsForUser.length; j++) {
       if (activeTrips[i].id === findAllTripsForUser[j].TripId) {
-        console.log("active trips", activeTrips[i]);
+
         activeTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
       }
     }
@@ -132,7 +132,7 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
 
 // put route to edit a trip uses tripId to search for specific trip
 tripRouter.put("/singleTrip/:tripId", requireToken, async (req, res, next) => {
-  console.log("req headers in update route", req.headers);
+
   try {
     const findTripToUpdate = await Trip.findByPk(req.params.tripId);
     findTripToUpdate.update(req.body);

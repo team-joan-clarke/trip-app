@@ -90,7 +90,6 @@ export const updateTask = (updatedData, taskId) => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      console.log("token in update thunk", token);
       const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData, {
         headers: { authorization: token },
       });
@@ -139,14 +138,9 @@ export const updateTaskUser = (userId, taskId, role = null, action) => {
         }
       } else if (action === "remove") {
         // route to User_Task delete
-        const { data } = await axios.delete(
-          "/api/tasks/task-user",
-          {
-            userId,
-            taskId,
-          },
-          { headers: { authorization: token } }
-        );
+        const { data } = await axios.delete(`/api/tasks/${userId}/${taskId}`, {
+          headers: { authorization: token },
+        });
         if (data) {
           dispatch(updatedTaskUser(data));
         }
