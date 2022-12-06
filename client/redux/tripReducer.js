@@ -93,7 +93,7 @@ export const getAllCompletedTripsThunk = () => {
       const id = getCookie("userId");
       const token = getCookie("token");
       const { data: trips } = await axios.get(
-        `/api/trips/completedTrips/${id}`,
+        `/api/trips/completedTrips/${id}`, 
         {
           headers: { authorization: token },
         }
@@ -191,6 +191,7 @@ export const deleteActiveTripThunk = (tripId) => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
+      const id = getCookie("userId");
       console.log("token in active thunk", token);
       const { data } = await axios.delete(`/api/trips/${tripId}`, {
         headers: { authorization: token },
