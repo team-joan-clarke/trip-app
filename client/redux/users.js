@@ -77,7 +77,7 @@ export const fetchAllUsers = () => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      const { data: users } = await axios.get(`api/users`, {
+      const { data: users } = await axios.get(`/api/users`, {
         headers: { authorization: token },
       });
       dispatch(setAllUsers(users));

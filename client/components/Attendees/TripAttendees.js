@@ -105,14 +105,22 @@ const TripAttendees = (props) => {
                     style={{
                       width: "auto",
                       margin: "1rem",
+                      height: "70px",
                       boxShadow: "0px 1px 1px grey",
-                      padding: "0.8rem",
+                      padding: "none",
                     }}
                   >
-                    <Card.Body>
+                    <Card.Body
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: 'center',
+                        padding: "none",
+                      }}
+                    >
                       <strong
                         style={{
-                          fontSize: "18px",
+                          fontSize: "16px",
                         }}
                       >
                         {user.firstName} {user.lastName}
@@ -123,6 +131,7 @@ const TripAttendees = (props) => {
                             <h6
                               style={{
                                 float: "right",
+                                fontSize: "14px",
                               }}
                             >
                               Trip Owner
@@ -131,12 +140,17 @@ const TripAttendees = (props) => {
                             <section>
                               <Button
                                 onClick={(e) => handleDelete(e, user.id)}
+                                variant="outline-danger"
                                 style={{
-                                  margin: "7px",
+                                  height: "35px",
+                                  marginLeft: "10px",
                                   float: "right",
+                                  position: "float",
+                                  padding: "0.5rem",
+                                  fontSize: "12px",
                                 }}
                               >
-                                Delete Attendee
+                                Delete
                               </Button>
                               <Form.Select
                                 defaultValue={user.user_trip.role}
@@ -145,12 +159,12 @@ const TripAttendees = (props) => {
                                   setUserId(user.id);
                                 }}
                                 style={{
-                                  width: "200px",
-                                  margin: "none",
+                                  width: "150px",
+                                  height: "35px",
                                   boxShadow: "0px 1px 1px grey",
-                                  padding: "0.8rem",
+                                  padding: "0.5rem",
                                   float: "right",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
                               >
                                 <option value="attendee">Attendee</option>
