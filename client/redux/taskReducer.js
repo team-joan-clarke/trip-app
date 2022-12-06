@@ -64,7 +64,6 @@ export const getTasksByTrip = (tripId) => {
 };
 
 export const addNewTask = (task, role) => {
-  console.log("task", task.TripId)
   return async (dispatch) => {
     try {
       const userId = getCookie("userId");
@@ -88,11 +87,12 @@ export const addNewTask = (task, role) => {
 };
 
 export const updateTask = (updatedData, taskId) => {
+  console.log("task", updatedData)
   return async (dispatch) => {
     try {
       const token = getCookie("token");
       console.log("token in update thunk", token);
-      const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData, {
+      const { data } = await axios.put(`/api/tasks/${taskId}/${updatedData.TripId}`, updatedData, {
         headers: { authorization: token },
       });
       if (data) {
@@ -104,13 +104,15 @@ export const updateTask = (updatedData, taskId) => {
   };
 };
 
-export const deleteTask = (taskId) => {
+export const deleteTask = (taskId, tripId) => {
+  console.log("tripId in delete", tripId)
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      const { data } = await axios.delete(`/api/tasks/${taskId}`, {
+      const { data } = await axios.delete(`/api/tasks/${taskId}/${tripId}`, {
         headers: { authorization: token },
       });
+      console.log("data from backend")
       if (data) {
         dispatch(deletedTask(data));
       }

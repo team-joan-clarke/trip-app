@@ -3,6 +3,8 @@ const {
   models: { User, User_Trip },
 } = require("../../db/index");
 const Sequelize = require("sequelize");
+const { requireToken, isOwnerOrEditorOfTrip} = require("./gatekeepingmiddleware");
+
 
 //GET ROUTE
 //get all users on a single trip
@@ -30,7 +32,7 @@ userTripsRouter.get("/:tripId", async (req, res, next) => {
 
 //POST ROUTE
 //add new user trip
-userTripsRouter.post("/", async (req, res, next) => {
+userTripsRouter.post("/", requireToken, isOwnerOrEditorOfTrip, async (req, res, next) => {
   try {
     const createUserTrip = await User_Trip.create(req.body);
     res.status(200).send(createUserTrip);
@@ -41,7 +43,7 @@ userTripsRouter.post("/", async (req, res, next) => {
 
 //PUT ROUTE
 //update user trip
-userTripsRouter.put("/:tripId", async (req, res, next) => {
+userTripsRouter.put("/:tripId", requireToken, isOwnerOrEditorOfTrip, async (req, res, next) => {
   try {
     const findUserTrip = await User_Trip.findOne({
       where: {
@@ -59,7 +61,7 @@ userTripsRouter.put("/:tripId", async (req, res, next) => {
 
 //DELETE ROUTE
 //delete user trip
-userTripsRouter.delete("/:tripId/:userId", async (req, res, next) => {
+userTripsRouter.delete("/:tripId/:userId", requireToken, isOwnerOrEditorOfTrip, async (req, res, next) => {
   try {
     const findUserTrip = await User_Trip.findOne({
       where: {

@@ -19,23 +19,24 @@ function timeDisplayConverter(time) {
   return formattedTime;
 }
 
+
 function stringToColor(string) {
   let hash = 0;
   let i;
-
+  
   /* eslint-disable no-bitwise */
   for (i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
-
+  
   let color = "#";
-
+  
   for (i = 0; i < 3; i += 1) {
     const value = (hash >> (i * 8)) & 0xff;
     color += `00${value.toString(16)}`.slice(-2);
   }
   /* eslint-enable no-bitwise */
-
+  
   return color;
 }
 
@@ -53,17 +54,18 @@ const TaskCard = (props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
   const taskStartTime = timeDisplayConverter(props.task.start_date);
-
+  
   const handleClick = (e, id) => {
     e.preventDefault();
     const status = "complete";
     dispatch(updateTask({ status }, id));
   };
-
+  
   const handleDelete = (e, id) => {
     e.preventDefault();
     setShow(false);
-    dispatch(deleteTask(id));
+    console.log("tripId in trip card", props.task.TripId)
+    dispatch(deleteTask(id, props.task.TripId));
   };
   const [show, setShow] = useState(false);
 
@@ -75,6 +77,8 @@ const TaskCard = (props) => {
   const { trip } = props;
   const usersInTrip = trip ? trip : [];
   const taskUsers = props.task.Users || [];
+
+  console.log("props in task card", props)
 
   useEffect(() => {
     // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks

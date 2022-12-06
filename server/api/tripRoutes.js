@@ -121,7 +121,6 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
 });
 
 // put route to edit a trip uses tripId to search for specific trip
-// breaks bcs you cant be trip editor and owner at the same time 
 tripRouter.put("/singleTrip/:tripId", requireToken, isOwnerofTrip, async (req, res, next) => {
   console.log("req headers in update route", req.headers)
   try {
