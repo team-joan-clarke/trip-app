@@ -680,6 +680,7 @@ async function seed() {
   const brennans = await getTAIDByName("Brennan's");
   const fifimahoney = await getTAIDByName("Fifi Mahoney's");
   const cemeterytour = await getTAIDByName("Cemetery Tour");
+  const bourbon = await getTAIDByName("Bourbon Orleans Hotel");
   const tbdFlight = await getTAIDByName("T.B.D.");
   const tipitinas = await getTAIDByName("Tipitina's");
   // KYLE'S BDAY
@@ -845,6 +846,11 @@ async function seed() {
       role: "editor",
       UserId: neil,
       TaskId: tbdFlight,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: neil,
+      TaskId: bourbon,
     }),
     User_Task.create({
       role: "editor",
