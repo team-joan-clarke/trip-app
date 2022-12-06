@@ -100,11 +100,15 @@ const EditTaskAttendees = (props) => {
         return role;
       }
     });
-    let accessRole = access[0].user_task.role;
-    console.log(accessRole);
-    if (accessRole === userAccess) {
-      return setAlreadyAttending(true);
+    // Validation for already on trip and same role
+    if (access.length > 0) {
+      let accessRole = access[0].user_task.role;
+      if (accessRole === userAccess) {
+        return setAlreadyAttending(true);
+      }
     }
+
+    // validation for no role chosen for person:
     if (userAccess === "") {
       return setRole(true);
     }

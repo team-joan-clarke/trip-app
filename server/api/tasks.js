@@ -339,10 +339,12 @@ taskRouter.delete("/task-user", requireToken, async (req, res, next) => {
     const { taskId, userId } = req.body;
     console.log("taskId ======>", taskId);
     console.log("userId ======>", userId);
+
     const data = await Task.findByPk(taskId);
     const user = await User.findByPk(userId);
     if (data && user) {
       const userRemovedFromTask = await user.removeTask(data);
+
       console.log("removed in this route", userRemovedFromTask);
       if (userRemovedFromTask) {
         const tasksWithUpdatedTask = await Trip.findAll({
