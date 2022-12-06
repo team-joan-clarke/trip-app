@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
 import { AvatarGroup, Avatar } from "@mui/material";
+import { getCookie } from "../../../redux/users";
+import CompletedTaskCard from "./CompletedTaskCard";
 
 //Time Display:
 function timeDisplayConverter(time) {
@@ -76,6 +78,9 @@ const TasksCompleted = (props) => {
     dispatch(getTasksByUser());
   }, []);
 
+  // USER IS EDITOR OF TASK:
+  const idOfUserLoggedIn = getCookie("userId");
+
   const handleClick = (e, id) => {
     e.stopPropagation();
     dispatch(deleteTask(id));
@@ -102,7 +107,8 @@ const TasksCompleted = (props) => {
                 style={{ width: "40rem" }}
                 key={singleTask.id}
               >
-                <Card.Body>
+                <CompletedTaskCard singleTask={singleTask} />
+                {/* <Card.Body>
                   <Alert show={show} variant="danger">
                     <Alert.Heading>
                       Are you sure you want to delete this task from your
@@ -230,7 +236,7 @@ const TasksCompleted = (props) => {
                       Delete
                     </Button>
                   )}
-                </Card.Body>
+                </Card.Body> */}
               </Card>
             );
           })
