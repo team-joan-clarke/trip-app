@@ -66,7 +66,7 @@ tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
   for (let i = 0; i < activeTrips.length; i++) {
     for (let j = 0; j < findAllTripsForUser.length; j++) {
       if (activeTrips[i].id === findAllTripsForUser[j].TripId) {
-        console.log("active trips", activeTrips[i])
+        console.log("active trips", activeTrips[i]);
         activeTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
       }
     }
@@ -76,44 +76,54 @@ tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
 });
 
 // get route for trips dashboard gets completed Trips
-tripRouter.get("/completedTrips/:userId", requireToken, async (req, res, next) => {
+tripRouter.get(
+  "/completedTrips/:userId",
+  requireToken,
+  async (req, res, next) => {
+    const findAllTripsForUser = await User_Trip.findAll({
+      where: { UserId: req.params.userId },
+    });
 
-  const findAllTripsForUser = await User_Trip.findAll({
-    where: { UserId: req.params.userId },
-  });
+    const allCompletedTripsForUser = await Promise.all(
+      findAllTripsForUser.map(async (trip) => {
+        return await Trip.findOne({
+          where: {
+            id: trip.TripId,
+            status: "complete",
+          },
+        });
+      })
+    );
 
-  const allCompletedTripsForUser = await Promise.all(
-    findAllTripsForUser.map(async (trip) => {
-      return await Trip.findOne({
-        where: {
-          id: trip.TripId,
-          status: "complete",
-        },
-      });
-    })
-  );
+    const completedTrips = allCompletedTripsForUser.filter((singleTrip) => {
+      if (singleTrip) {
+        return singleTrip;
+      }
+    });
 
-  const completedTrips = allCompletedTripsForUser.filter((singleTrip) => {
-    if (singleTrip) {
-      return singleTrip;
-    }
-  });
-
-  for (let i = 0; i < completedTrips.length; i++) {
-    for (let j = 0; j < findAllTripsForUser.length; j++) {
-      if (completedTrips[i].id === findAllTripsForUser[j].TripId) {
-        completedTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
+    for (let i = 0; i < completedTrips.length; i++) {
+      for (let j = 0; j < findAllTripsForUser.length; j++) {
+        if (completedTrips[i].id === findAllTripsForUser[j].TripId) {
+          completedTrips[i].dataValues["role"] = findAllTripsForUser[j].role;
+        }
       }
     }
-  }
 
-  res.send(completedTrips).status(200);
-});
+    res.send(completedTrips).status(200);
+  }
+);
 
 // post route to create a trip
 tripRouter.post("/", requireToken, async (req, res, next) => {
   try {
+    const { userId } = req.body;
     const makeNewTrip = await Trip.create(req.body);
+
+    await User_Trip.create({
+      role: "owner",
+      UserId: userId,
+      TripId: makeNewTrip.dataValues.id,
+    });
     res.send(makeNewTrip).status(200);
   } catch (error) {
     next(error);
@@ -122,7 +132,7 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
 
 // put route to edit a trip uses tripId to search for specific trip
 tripRouter.put("/singleTrip/:tripId", requireToken, async (req, res, next) => {
-  console.log("req headers in update route", req.headers)
+  console.log("req headers in update route", req.headers);
   try {
     const findTripToUpdate = await Trip.findByPk(req.params.tripId);
     findTripToUpdate.update(req.body);

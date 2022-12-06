@@ -13,6 +13,7 @@ import {
   ToastContainer,
 } from "react-bootstrap";
 import { createNewTrip } from "../redux/tripReducer";
+import { getCookie } from "../redux/users";
 
 const CreateTrip = (props) => {
   const [name, setName] = useState("");
@@ -26,6 +27,7 @@ const CreateTrip = (props) => {
   const [show, setShow] = useState(false);
   const [showSuccessToast, setSuccessToast] = useState(false);
   const [showErrorMessage, setErrorMessage] = useState(false);
+  const userId = getCookie("userId");
 
   const errorDictionary = {
     nameError: [1, "Must include a trip name"],
@@ -108,6 +110,7 @@ const CreateTrip = (props) => {
           start_date,
           end_date,
           status,
+          userId,
         });
         setName("");
         setCity("");
