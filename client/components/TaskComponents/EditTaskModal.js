@@ -30,9 +30,8 @@ function EditTaskModal(props) {
 
   const prevTasksRef = useRef();
   useEffect(() => {
-    prevTasksRef.current = tasks;
+    prevTasksRef.current = JSON.stringify(props.task);
   });
-  const { tasks } = props;
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -44,10 +43,22 @@ function EditTaskModal(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (
+      errors.includes(
+        "Error: Could not update task at this time. Please try again later."
+      )
+    ) {
+      const filtered = errors.filter(
+        (error) =>
+          error !==
+          "Error: Could not update task at this time. Please try again later."
+      );
+      setErrors(filtered);
+    }
     try {
       if (due_date) {
         if (errors.length === 0) {
-          await dispatch(
+          dispatch(
             updateTask(
               {
                 due_date,
@@ -64,17 +75,24 @@ function EditTaskModal(props) {
               props.task.id
             )
           );
-          if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(tasks)) {
-            setDueDate(null);
-            setStartDate(null);
-            setEndDate(null);
-            setStartLocation("");
-            setEndLocation("");
-            setDescription("");
-            setBookingNum("");
-            setLink("");
-            setAddedResStatus("success");
-          }
+          setTimeout(() => {
+            if (prevTasksRef.current !== JSON.stringify(props.task)) {
+              setDueDate(null);
+              setStartDate(null);
+              setEndDate(null);
+              setStartLocation("");
+              setEndLocation("");
+              setDescription("");
+              setBookingNum("");
+              setLink("");
+              setAddedResStatus("success");
+            } else {
+              setErrors([
+                ...errors,
+                "Error: Could not update task at this time. Please try again later.",
+              ]);
+            }
+          }, "1000");
         }
       } else {
         if (!due_date) {
@@ -140,7 +158,7 @@ function EditTaskModal(props) {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <img src="/palmtree_limegreen.png" style={{ height: "20rem" }} />
             </div>
-            <h3>Task Successfully Added!</h3>
+            <h3>Task Successfully Updated!</h3>
             <Button
               variant="primary"
               type="submit"

@@ -118,7 +118,7 @@ const TripTaskTodo = (props) => {
                   task={task}
                   type="todo"
                   style={{ width: "100%" }}
-                  trip={props.trip.Users}
+                  trip={props.trip}
                 />
               );
             })}
