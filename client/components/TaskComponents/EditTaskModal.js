@@ -27,15 +27,16 @@ function EditTaskModal(props) {
   const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
   const [addedResStatus, setAddedResStatus] = useState("");
+  const [task, setTask] = useState(props.task);
 
   const prevTasksRef = useRef();
   useEffect(() => {
     return () => {
       console.log("in use effect");
-      return (prevTasksRef.current = props.task);
+      return (prevTasksRef.current = JSON.stringify(props.task));
     };
-  }, [handleSubmit, dispatch]);
-  const { task } = props;
+  });
+  // const { task } = props;
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -50,7 +51,7 @@ function EditTaskModal(props) {
     try {
       if (due_date) {
         if (errors.length === 0) {
-          await dispatch(
+          dispatch(
             updateTask(
               {
                 due_date,
@@ -69,11 +70,11 @@ function EditTaskModal(props) {
           );
           console.log(
             "task BOOL",
-            JSON.stringify(prevTasksRef.current) === JSON.stringify(task)
+            prevTasksRef.current === JSON.stringify(task)
           );
-          console.log("TASK", task);
+          console.log("TASK", props.task);
           console.log("PREV", prevTasksRef.current);
-          if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(task)) {
+          if (prevTasksRef.current !== JSON.stringify(props.task)) {
             console.log("stuff");
             setDueDate(null);
             setStartDate(null);
