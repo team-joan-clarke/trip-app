@@ -24,7 +24,7 @@ users.get("/:id", requireToken, async (req, res, next) => {
 });
 
 users.put("/:id/update", requireToken, async (req, res, next) => {
-  console.log("update user route", req.headers.cookie)
+  console.log("update user route", req.headers.cookie);
   try {
     const { firstName, lastName, username, email, password, phoneNumber } =
       req.body;
@@ -45,7 +45,7 @@ users.put("/:id/update", requireToken, async (req, res, next) => {
 
 users.delete("/:id", requireToken, async (req, res, next) => {
   try {
-    console.log("req in delete", req.headers)
+    console.log("req in delete", req.headers);
     const user = await User.findByPk(req.params.id);
     await user.destroy();
     res.status(202).send(user);
