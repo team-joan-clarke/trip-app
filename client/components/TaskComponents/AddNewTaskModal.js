@@ -109,6 +109,18 @@ function AddNewTaskModal(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (
+      errors.includes(
+        "Error: Could not add task at this time. Please try again later."
+      )
+    ) {
+      const filtered = errors.filter(
+        (error) =>
+          error !==
+          "Error: Could not add task at this time. Please try again later."
+      );
+      setErrors(filtered);
+    }
     try {
       if (due_date && type && subtype && provider_name) {
         if (errors.length === 0) {
@@ -145,6 +157,11 @@ function AddNewTaskModal(props) {
             setBookingNum("");
             setLink("");
             setAddedResStatus("success");
+          } else {
+            setErrors([
+              ...errors,
+              "Error: Could not update task at this time. Please try again later.",
+            ]);
           }
         }
       } else {
