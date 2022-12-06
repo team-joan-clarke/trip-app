@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { Row, Col } from "react-bootstrap";
-import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
+import { deleteTask, updateTask } from "../../../redux/taskReducer";
 import { AvatarGroup, Avatar } from "@mui/material";
 import { getCookie } from "../../../redux/users";
 
@@ -74,6 +74,7 @@ function dueDateCompare(a, b) {
 
 const CompletedTaskCard = (props) => {
   const { singleTask } = props;
+  const dispatch = useDispatch();
 
   // USER IS EDITOR OF TASK:
   const idOfUserLoggedIn = getCookie("userId");
@@ -99,6 +100,12 @@ const CompletedTaskCard = (props) => {
   const handleClick = (e, id) => {
     e.stopPropagation();
     dispatch(deleteTask(id));
+  };
+
+  const handleRestore = (e, id) => {
+    e.stopPropagation();
+    const status = "in progress";
+    dispatch(updateTask({ status }, id));
   };
   const [show, setShow] = useState(false);
   const [seeMore, setSeeMore] = useState(false);
@@ -210,14 +217,25 @@ const CompletedTaskCard = (props) => {
         )}
 
         {!show && isTaskEditor && (
-          <div style={{ position: "absolute", right: "1em", bottom: "1em" }}>
-            <Button
-              variant="outline-danger"
-              size="sm"
-              onClick={() => setShow(true)}
-            >
-              Delete
-            </Button>
+          <div>
+            <div style={{ position: "absolute", right: "5em", bottom: "1em" }}>
+              <Button
+                variant="primary"
+                onClick={(e) => handleRestore(e, singleTask.id)}
+              >
+                Return to In Progress
+              </Button>
+            </div>
+
+            <div style={{ position: "absolute", right: "1em", bottom: "1em" }}>
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={() => setShow(true)}
+              >
+                Delete
+              </Button>
+            </div>
           </div>
         )}
       </Card.Body>

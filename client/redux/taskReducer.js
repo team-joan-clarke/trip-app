@@ -90,7 +90,6 @@ export const updateTask = (updatedData, taskId) => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      console.log("token in update thunk", token);
       const { data } = await axios.put(`/api/tasks/${taskId}`, updatedData, {
         headers: { authorization: token },
       });
