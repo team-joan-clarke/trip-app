@@ -11,6 +11,9 @@ import {
   Modal,
   Toast,
   ToastContainer,
+  Tab,
+  Tabs,
+  Card,
 } from "react-bootstrap";
 import { createNewTrip } from "../redux/tripReducer";
 import { getCookie } from "../redux/users";
@@ -23,11 +26,21 @@ const CreateTrip = (props) => {
   const [errors, setErrors] = useState([]);
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
+  const [imageUrl, setImageUrl] = useState(
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU"
+  );
   const [status, setStatus] = useState("active");
   const [show, setShow] = useState(false);
+  const [key, setKey] = useState("create");
   const [showSuccessToast, setSuccessToast] = useState(false);
   const [showErrorMessage, setErrorMessage] = useState(false);
   const userId = getCookie("userId");
+
+  const stockTripImages = [
+    "/stock-header-images/image1.jpg",
+    "/stock-header-images/image5.jpg",
+    "/stock-header-images/image4.jpg",
+  ];
 
   const errorDictionary = {
     nameError: [1, "Must include a trip name"],
@@ -109,6 +122,7 @@ const CreateTrip = (props) => {
           country,
           start_date,
           end_date,
+          imageUrl,
           status,
           userId,
         });
@@ -159,6 +173,10 @@ const CreateTrip = (props) => {
     }
   };
 
+  const handleImg = (event) => {
+    setImageUrl(event.target.value);
+  };
+
   const handleClose = () => {
     setShow(false);
     setErrorMessage(false);
@@ -196,87 +214,121 @@ const CreateTrip = (props) => {
           <Modal.Title>Create Trip</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="edit-trip-form">
-              <small style={{ float: "right", color: "red" }}>*</small>
-              <Form.Control
-                type="text"
-                name="name"
-                placeholder="Trip Name"
-                value={name}
-                onChange={handleChange}
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
+          <Tabs
+            id="create-trip-tabs"
+            activeKey={key}
+            onSelect={(k) => setKey(k)}
+            className="mb-3"
+            fill
+          >
+            <Tab eventKey="create" title="Create">
+              <Form>
+                <Form.Group className="mb-3" controlId="edit-trip-form">
+                  <small style={{ float: "right", color: "red" }}>*</small>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    placeholder="Trip Name"
+                    value={name}
+                    onChange={handleChange}
+                    style={{ width: "98%", margin: "auto" }}
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3" controlId="edit-trip-form">
-              <Form.Control
-                type="text"
-                name="city"
-                placeholder="City"
-                value={city}
-                onChange={handleChange}
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
+                <Form.Group className="mb-3" controlId="edit-trip-form">
+                  <Form.Control
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    value={city}
+                    onChange={handleChange}
+                    style={{ width: "98%", margin: "auto" }}
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3" controlId="edit-trip-form">
-              <Form.Control
-                type="text"
-                name="state"
-                placeholder="State"
-                value={state}
-                onChange={handleChange}
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
+                <Form.Group className="mb-3" controlId="edit-trip-form">
+                  <Form.Control
+                    type="text"
+                    name="state"
+                    placeholder="State"
+                    value={state}
+                    onChange={handleChange}
+                    style={{ width: "98%", margin: "auto" }}
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3" controlId="edit-trip-form">
-              <small style={{ float: "right", color: "red" }}>*</small>
-              <Form.Control
-                type="text"
-                name="country"
-                placeholder="Country"
-                value={country}
-                onChange={handleChange}
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
+                <Form.Group className="mb-3" controlId="edit-trip-form">
+                  <small style={{ float: "right", color: "red" }}>*</small>
+                  <Form.Control
+                    type="text"
+                    name="country"
+                    placeholder="Country"
+                    value={country}
+                    onChange={handleChange}
+                    style={{ width: "98%", margin: "auto" }}
+                  />
+                </Form.Group>
 
-            <div>
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                className="date-picker"
-              >
-                <DatePicker
-                  label="Start Date"
-                  name="start_date"
-                  value={start_date}
-                  onChange={handleStartDate}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-              <small style={{ position: "float", color: "red" }}>*</small>
-            </div>
-            <div>
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                className="date-picker"
-              >
-                <DatePicker
-                  label="End Date"
-                  name="end_date"
-                  value={end_date}
-                  onChange={handleEndDate}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-              <small style={{ position: "float", color: "red" }}>*</small>
-            </div>
-          </Form>
-          <small style={{ float: "right", color: "red" }}>
-            * indicates required field
-          </small>
+                <div>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    className="date-picker"
+                  >
+                    <DatePicker
+                      label="Start Date"
+                      name="start_date"
+                      value={start_date}
+                      onChange={handleStartDate}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                  <small style={{ position: "float", color: "red" }}>*</small>
+                </div>
+                <div>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    className="date-picker"
+                  >
+                    <DatePicker
+                      label="End Date"
+                      name="end_date"
+                      value={end_date}
+                      onChange={handleEndDate}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                  <small style={{ position: "float", color: "red" }}>*</small>
+                </div>
+              </Form>
+              <small style={{ float: "right", color: "red" }}>
+                * indicates required field
+              </small>
+            </Tab>
+            <Tab eventKey="trip-image" title="Select Trip Image">
+              <Form style={{display: 'flex', justifyContent: 'center'}}>
+                {stockTripImages.map((img) => (
+                  <Card key={img} style={{ width: "18rem" }}>
+                    <Card.Img
+                      variant="top"
+                      src={img}
+                      height="180rem"
+                      fluid="true"
+                    />
+                    <Card.Body>
+                      <Form.Check
+                        type="radio"
+                        id="default-radio"
+                        label="Select"
+                        name="image-radio"
+                        value={img}
+                        onClick={handleImg}
+                      />
+                    </Card.Body>
+                  </Card>
+                ))}
+              </Form>
+            </Tab>
+          </Tabs>
         </Modal.Body>
 
         <Modal.Footer>
