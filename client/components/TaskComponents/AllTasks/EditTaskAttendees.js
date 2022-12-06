@@ -11,6 +11,7 @@ import { updateTaskUser } from "../../../redux/taskReducer";
 
 const EditTaskAttendees = (props) => {
   const { singleTask } = props;
+  const { tripId } = useParams();
   const dispatch = useDispatch();
 
   const [users, setUsers] = useState(props.users.allUsers);
@@ -28,10 +29,9 @@ const EditTaskAttendees = (props) => {
   const [showStartingView, setStartingView] = useState(true);
   const [showSelectedView, setSelectedView] = useState(false);
   const [role, setRole] = useState(false);
+  const [deleteAttendee, setDeleteAttendee] = useState(false);
+  const [alreadyAttending, setAlreadyAttending] = useState(false);
   const inputRef = useRef();
-
-  //update to use useparams
-  const { tripId } = useParams();
 
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -92,11 +92,53 @@ const EditTaskAttendees = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
+    const users = singleTask.Users || [];
+    const userIds = users.map((user) => user.id);
+    let access = users.filter((user) => {
+      if (user.id == selectedUserId) {
+        const { role } = user.user_task;
+        return role;
+      }
+    });
+    let accessRole = access[0].user_task.role;
+    console.log(accessRole);
+    if (accessRole === userAccess) {
+      return setAlreadyAttending(true);
+    }
     if (userAccess === "") {
       return setRole(true);
     }
     dispatch(updateTaskUser(selectedUserId, singleTask.id, userAccess, "add"));
+
+    setFilteredUsers("");
+    setSelectedUserId("");
+    setSelectedUser("");
+    setUserAccess("");
+    setUserTripInfo("");
+    setShow(false);
+    setStartingView(true);
+    setSelectedView(false);
+    window.location.reload();
+  };
+
+  const handleDelete = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const users = singleTask.Users || [];
+    const userIds = users.map((user) => user.id);
+    const isPartOfTrip = userIds.filter((userId) => {
+      if (userId == event.target.value) {
+        return true;
+      }
+    });
+
+    console.log("part", isPartOfTrip[0]);
+
+    if (!isPartOfTrip[0]) {
+      return setDeleteAttendee(true);
+    }
+    dispatch(updateTaskUser(event.target.value, singleTask.id, role, "remove"));
 
     setFilteredUsers("");
     setSelectedUserId("");
@@ -143,13 +185,50 @@ const EditTaskAttendees = (props) => {
             <Alert.Heading>Unsuccessful...</Alert.Heading>
             <hr />
             <p className="mb-0">
-              You must assign a role to the person being added to this task{" "}
+              You must assign a role to the person being added to this task
             </p>
             <div className="d-flex justify-content-end">
               <Button
                 variant="outline-success"
                 onClick={() => {
                   setRole(false);
+                }}
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+
+          {/* Alert when attendee is already a apart of the trip */}
+          <Alert variant="warning" show={alreadyAttending}>
+            <Alert.Heading>Unsuccessful...</Alert.Heading>
+            <hr />
+            <p className="mb-0">
+              Person selected is already part of the trip as the selected role.
+              Did you mean to change their role?
+            </p>
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  setAlreadyAttending(false);
+                }}
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+
+          {/* Alert when attendee is not part of task*/}
+          <Alert variant="warning" show={deleteAttendee}>
+            <Alert.Heading>Unsuccessful...</Alert.Heading>
+            <hr />
+            <p className="mb-0">Person selected is not part of this task.</p>
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  setDeleteAttendee(false);
                 }}
               >
                 Close
@@ -189,13 +268,15 @@ const EditTaskAttendees = (props) => {
                               </span>
                             </Card.Text>
                             {showStartingView && (
-                              <Button
-                                variant="secondary"
-                                value={user.id}
-                                onClick={handleSelect}
-                              >
-                                Add
-                              </Button>
+                              <div>
+                                <Button
+                                  variant="secondary"
+                                  value={user.id}
+                                  onClick={handleSelect}
+                                >
+                                  Select
+                                </Button>
+                              </div>
                             )}
                           </Card.Body>
                         </Card>
@@ -233,6 +314,13 @@ const EditTaskAttendees = (props) => {
                           <option value="editor">Editor</option>
                         </Form.Select>
                       </Card.Body>
+                      <Button
+                        variant="secondary"
+                        value={selectedUser[0].id}
+                        onClick={handleDelete}
+                      >
+                        Delete Attendee/Editor
+                      </Button>
                     </Card>
                   </React.Fragment>
                 )}
@@ -246,7 +334,7 @@ const EditTaskAttendees = (props) => {
             Close
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Add Attendee
+            Add or Update Role
           </Button>
         </Modal.Footer>
       </Modal>
