@@ -22,6 +22,7 @@ taskRouter.get("/user/:userId", requireToken, async (req, res, next) => {
                 model: Trip,
                 attributes: ["name"],
               },
+              { model: User, through: "User_Trip" },
             ],
           },
         ],
