@@ -87,7 +87,9 @@ export const addNewTask = (task, role) => {
 };
 
 export const updateTask = (updatedData, taskId) => {
-  console.log("task", updatedData)
+  //somehow need to send trip Id to back end
+  console.log("in thunk for update")
+  console.log("task trip id", updatedData.TripId)
   return async (dispatch) => {
     try {
       const token = getCookie("token");
@@ -96,6 +98,7 @@ export const updateTask = (updatedData, taskId) => {
         headers: { authorization: token },
       });
       if (data) {
+        console.log("in thunk 102")
         dispatch(updatedTask(data));
       }
     } catch (error) {

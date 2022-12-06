@@ -41,7 +41,8 @@ function EditTaskModal(props) {
       setShow(false);
     }
   }, [errors]);
-
+  
+  console.log("in edit modal tripId", props.tripId)
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -59,7 +60,7 @@ function EditTaskModal(props) {
                 booking_num,
                 link,
                 status: "in progress",
-                TripId: props.trip.id,
+                TripId: props.tripId,
               },
               props.task.id
             )

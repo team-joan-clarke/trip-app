@@ -60,7 +60,7 @@ const isOwnerOrEditorOfTrip = async (req, res, next) => {
   ) {
     return res.status(403).send("You don't have access");
   } else {
-    console.log("I HAVE ACCESS bcs I'm trip owner or editor");
+    console.log("I HAVE ACCESS bcs I'm trip owner or trip editor");
     next();
   }
 };

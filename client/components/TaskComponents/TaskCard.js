@@ -78,7 +78,10 @@ const TaskCard = (props) => {
   const usersInTrip = trip ? trip : [];
   const taskUsers = props.task.Users || [];
 
-  console.log("props in task card", props)
+  console.log("trip id in task card", props.task.TripId)
+  const tripId = props.task.TripId || 0
+
+  console.log("ojala", tripId)
 
   useEffect(() => {
     // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
@@ -326,6 +329,7 @@ const TaskCard = (props) => {
       </Card>
       <EditTaskModal
         task={props.task}
+        tripId={tripId}
         trip={props.trip}
         show={modalShow}
         onHide={() => setModalShow(false)}
