@@ -6,7 +6,7 @@ import { connect, useDispatch } from "react-redux";
 import { fetchAllUsers } from "../../../redux/users";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { Card, Form } from "react-bootstrap";
+import { Card, Form, Alert } from "react-bootstrap";
 import { updateTaskUser } from "../../../redux/taskReducer";
 
 const EditTaskAttendees = (props) => {
@@ -27,6 +27,7 @@ const EditTaskAttendees = (props) => {
   const [show, setShow] = useState(false);
   const [showStartingView, setStartingView] = useState(true);
   const [showSelectedView, setSelectedView] = useState(false);
+  const [role, setRole] = useState(false);
   const inputRef = useRef();
 
   //update to use useparams
@@ -91,6 +92,10 @@ const EditTaskAttendees = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (userAccess === "") {
+      return setRole(true);
+    }
     dispatch(updateTaskUser(selectedUserId, singleTask.id, userAccess, "add"));
 
     setFilteredUsers("");
@@ -133,6 +138,25 @@ const EditTaskAttendees = (props) => {
           <Modal.Title>Add Attendees To Your Trip</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {/* Alert when update without role */}
+          <Alert variant="warning" show={role}>
+            <Alert.Heading>Unsuccessful...</Alert.Heading>
+            <hr />
+            <p className="mb-0">
+              You must assign a role to the person being added to this task{" "}
+            </p>
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  setRole(false);
+                }}
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+
           {showStartingView && (
             <div>
               <header className="header">
