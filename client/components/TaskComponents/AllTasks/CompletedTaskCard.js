@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { deleteTask, updateTask } from "../../../redux/taskReducer";
 import { AvatarGroup, Avatar } from "@mui/material";
 import { getCookie } from "../../../redux/users";
@@ -138,7 +138,23 @@ const CompletedTaskCard = (props) => {
             singleTask.Users.map((user, i) => {
               const nameArr = [user.firstName, user.lastName];
               const fullName = nameArr.join(" ");
-              return <Avatar {...stringAvatar(fullName)} key={i} />;
+              return (
+                <div>
+                  {["top"].map((placement) => (
+                    <OverlayTrigger
+                      key={placement}
+                      placement={placement}
+                      overlay={
+                        <Tooltip id={`tooltip-${placement}`}>
+                          {fullName}
+                        </Tooltip>
+                      }
+                    >
+                      <Avatar {...stringAvatar(fullName)} key={i} />
+                    </OverlayTrigger>
+                  ))}
+                </div>
+              );
             })}
         </AvatarGroup>
         <Card.Title>{singleTask.type}</Card.Title>

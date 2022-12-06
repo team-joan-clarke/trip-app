@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
-import { Row, Col, Stack } from "react-bootstrap";
+import { Row, Col, Stack, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { getTasksByUser } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
 import { useNavigate } from "react-router-dom";
@@ -108,7 +108,23 @@ const TasksInProgress = (props) => {
                       singleTask.Users.map((user, i) => {
                         const nameArr = [user.firstName, user.lastName];
                         const fullName = nameArr.join(" ");
-                        return <Avatar {...stringAvatar(fullName)} key={i} />;
+                        return (
+                          <div>
+                            {["top"].map((placement) => (
+                              <OverlayTrigger
+                                key={placement}
+                                placement={placement}
+                                overlay={
+                                  <Tooltip id={`tooltip-${placement}`}>
+                                    {fullName}
+                                  </Tooltip>
+                                }
+                              >
+                                <Avatar {...stringAvatar(fullName)} key={i} />
+                              </OverlayTrigger>
+                            ))}
+                          </div>
+                        );
                       })}
                   </AvatarGroup>
 
