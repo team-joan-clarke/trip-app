@@ -24,7 +24,7 @@ const SingleTrip = () => {
   }, [trip]);
 
   const trip = useSelector((state) => state.trips.singleTripView);
-  const singleTripUsers = trip?.Users
+  const singleTripUsers = trip?.Users;
   if (!singleTripUsers) return null;
 
   const idOfUserLoggedIn = getCookie("userId");
