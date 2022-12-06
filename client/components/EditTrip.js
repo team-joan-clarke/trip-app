@@ -5,7 +5,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "react-bootstrap/Button";
-import { Form } from "react-bootstrap";
+import { Form, Alert } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useParams } from "react-router-dom";
 import { updateThisTrip, fetchSingleTrip } from "../redux/tripReducer";
@@ -33,10 +33,37 @@ const EditTrip = (props) => {
   });
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
+  const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
+  const [showErrorMessage, setErrorMessage] = useState(false);
+
+  const errorDictionary = {
+    endDateAfterError: [6, "End date must come after start date"],
+  };
+
+  //check if error exists already
+  const inCurrentErrors = (errorId) => {
+    let isACurrentError;
+    if (errors.length) {
+      isACurrentError = errors.filter((error) => error[0] === errorId);
+
+      if (isACurrentError.length) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  //get updated errors
+  const getFilteredErrors = (errorId) => {
+    const filteredErrors = errors.filter((error) => error[0] !== errorId);
+    return filteredErrors;
+  };
 
   useEffect(() => {
-    //dummy id, update when in trip dashboard
     props.fetchSingleTrip(tripId);
     if (singleTrip) {
       setStartDate(singleTrip.start_date);
@@ -45,6 +72,34 @@ const EditTrip = (props) => {
     setTripInfo(singleTrip);
   }, [initialStartDate, initialEndDate]);
 
+  //ERROR MESSAGE
+  useEffect(() => {
+    if (errors.length < 1) {
+      setErrorMessage(false);
+    } else {
+      setErrorMessage(true);
+    }
+  }, [errors]);
+
+  //SPECIFIC ERROR HANDLING
+  useEffect(() => {
+    if (start_date > end_date) {
+      if (!inCurrentErrors(6)) {
+        errors.push(errorDictionary.endDateAfterError);
+      }
+    } else {
+      setErrors(getFilteredErrors(6));
+    }
+
+    if (end_date < start_date) {
+      if (!inCurrentErrors(6)) {
+        errors.push(errorDictionary.endDateAfterError);
+      }
+    } else {
+      setErrors(getFilteredErrors(6));
+    }
+  }, [start_date, end_date]);
+
   const handleChange = (event) => {
     setTripInfo({ ...tripInfo, [event.target.name]: event.target.value });
   };
@@ -52,20 +107,47 @@ const EditTrip = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (singleTrip) {
-      props.updateThisTrip({ ...singleTrip, ...tripInfo }, tripId);
-      setTripInfo({
-        name: "",
-        city: "",
-        state: "",
-        country: "",
-        start_date: "",
-        end_date: "",
-        status: "active",
-      });
+      if (errors.length === 0) {
+        props.updateThisTrip({ ...singleTrip, ...tripInfo }, tripId);
+        setTripInfo({
+          name: "",
+          city: "",
+          state: "",
+          country: "",
+          start_date: "",
+          end_date: "",
+          status: "active",
+        });
+        setErrors([]);
+        setShow(false);
+        setErrorMessage(false);
+      } else {
+        setErrorMessage(true);
+      }
     }
   };
-  
-  const handleClose = () => setShow(false);
+
+  const handleStartDate = (newValue) => {
+    //casts date into comparable value
+    let compValue = newValue.$d.toISOString();
+
+    setStartDate(compValue);
+    setTripInfo({ ...tripInfo, start_date: compValue });
+  };
+
+  const handleEndDate = (newValue) => {
+    //casts date into comparable value
+    let compValue = newValue.$d.toISOString();
+
+    setEndDate(compValue);
+    setTripInfo({ ...tripInfo, end_date: compValue });
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setErrorMessage(false);
+  };
+
   const handleShow = () => setShow(true);
 
   return (
@@ -130,10 +212,7 @@ const EditTrip = (props) => {
                       label="Start Date"
                       name="start_date"
                       value={start_date}
-                      onChange={(newValue) => {
-                        setStartDate(newValue);
-                        setTripInfo({ ...tripInfo, start_date: newValue });
-                      }}
+                      onChange={handleStartDate}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -147,10 +226,7 @@ const EditTrip = (props) => {
                       label="End Date"
                       name="end_date"
                       value={end_date}
-                      onChange={(newValue) => {
-                        setEndDate(newValue);
-                        setTripInfo({ ...tripInfo, end_date: newValue });
-                      }}
+                      onChange={handleEndDate}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -165,6 +241,19 @@ const EditTrip = (props) => {
               <Button variant="primary" onClick={handleSubmit}>
                 Save Changes
               </Button>
+              <Alert show={showErrorMessage} variant="danger">
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <Alert.Heading>
+                    Please fix required fields before proceeding
+                  </Alert.Heading>
+                  <ul>
+                    {errors.map((error, i) => {
+                      return <li key={i}>{error[1]}</li>;
+                    })}
+                  </ul>
+                </div>
+                <hr />
+              </Alert>
             </Modal.Footer>
           </Modal>
         </div>
