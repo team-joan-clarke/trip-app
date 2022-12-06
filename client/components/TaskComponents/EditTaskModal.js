@@ -30,10 +30,11 @@ function EditTaskModal(props) {
 
   const prevTasksRef = useRef();
   useEffect(() => {
-    prevTasksRef.current = props.task;
-    console.log("props will change");
-  }, [handleSubmit]);
-  const { tasks } = props;
+    return () => {
+      console.log("in use effect");
+      return (prevTasksRef.current = props.task);
+    };
+  }, [handleSubmit, dispatch]);
   const { task } = props;
 
   useEffect(() => {
@@ -70,6 +71,8 @@ function EditTaskModal(props) {
             "task BOOL",
             JSON.stringify(prevTasksRef.current) === JSON.stringify(task)
           );
+          console.log("TASK", task);
+          console.log("PREV", prevTasksRef.current);
           if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(task)) {
             console.log("stuff");
             setDueDate(null);
@@ -149,7 +152,7 @@ function EditTaskModal(props) {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <img src="/palmtree_limegreen.png" style={{ height: "20rem" }} />
             </div>
-            <h3>Task Successfully Added!</h3>
+            <h3>Task Successfully Updated!</h3>
             <Button
               variant="primary"
               type="submit"
