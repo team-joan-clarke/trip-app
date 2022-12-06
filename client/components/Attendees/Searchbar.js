@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import _ from "lodash";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { Card, Form } from "react-bootstrap";
+import { Card, Form, Alert } from "react-bootstrap";
 import { fetchAllUsers } from "../../redux/users";
 import { createNewUserTrip } from "../../redux/tripReducer";
 
@@ -21,13 +21,61 @@ const Searchbar = (props) => {
     TripId: "",
   });
 
+  const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
   const [showStartingView, setStartingView] = useState(true);
   const [showSelectedView, setSelectedView] = useState(false);
+  const [showErrorMessage, setErrorMessage] = useState(false);
   const inputRef = useRef();
 
   //update to use useparams
   const { tripId } = useParams();
+
+  const errorDictionary = {
+    roleError: [7, "Must select a valid role for attendee"],
+  };
+
+  //check if error exists already
+  const inCurrentErrors = (errorId) => {
+    let isACurrentError;
+    if (errors.length) {
+      isACurrentError = errors.filter((error) => error[0] === errorId);
+
+      if (isACurrentError.length) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  //get updated errors
+  const getFilteredErrors = (errorId) => {
+    const filteredErrors = errors.filter((error) => error[0] !== errorId);
+    return filteredErrors;
+  };
+
+  //ERROR MESSAGE
+  useEffect(() => {
+    if (errors.length < 1) {
+      setErrorMessage(false);
+    } else {
+      setErrorMessage(true);
+    }
+  }, [errors]);
+
+  //SPECIFIC ERROR HANDLING
+  useEffect(() => {
+    if (!userAccess || userAccess === 'Choose a role') {
+      if (!inCurrentErrors(7)) {
+        errors.push(errorDictionary.roleError);
+      }
+    } else {
+      setErrors(getFilteredErrors(7));
+    }
+  }, [userAccess]);
 
   useEffect(() => {
     props.fetchAllUsers();
@@ -87,20 +135,22 @@ const Searchbar = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.createNewUserTrip({
-      ...userTripInfo,
-    });
-    console.log('selecteduser', selectedUser)
-    console.log("usertripinfo", userTripInfo);
-    setFilteredUsers("");
-    setSelectedUserId("");
-    setSelectedUser("");
-    setUserAccess("");
-    setUserTripInfo("");
-    setShow(false);
-    setStartingView(true);
-    setSelectedView(false);
-    window.location.reload();
+    if (errors.length === 0) {
+      props.createNewUserTrip({
+        ...userTripInfo,
+      });
+      setFilteredUsers("");
+      setSelectedUserId("");
+      setSelectedUser("");
+      setUserAccess("");
+      setUserTripInfo("");
+      setShow(false);
+      setStartingView(true);
+      setSelectedView(false);
+      window.location.reload();
+    } else {
+      setErrorMessage(true);
+    }
   };
 
   const handleClose = () => {
@@ -109,6 +159,7 @@ const Searchbar = (props) => {
     setSelectedUser("");
     setStartingView(true);
     setSelectedView(false);
+    setErrorMessage(false);
   };
 
   const handleShow = () => setShow(true);
@@ -203,7 +254,7 @@ const Searchbar = (props) => {
                           </span>
                         </Card.Text>
                         <Form.Select onChange={handleAccess}>
-                          <option>Access</option>
+                          <option>Choose a role</option>
                           <option value="attendee">Attendee</option>
                           <option value="editor">Editor</option>
                           <option value="owner">Owner</option>
@@ -224,6 +275,19 @@ const Searchbar = (props) => {
           <Button variant="primary" onClick={handleSubmit}>
             Add Attendee
           </Button>
+          <Alert show={showErrorMessage} variant="danger">
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Alert.Heading>
+                Please fix required fields before proceeding
+              </Alert.Heading>
+              <ul>
+                {errors.map((error, i) => {
+                  return <li key={i}>{error[1]}</li>;
+                })}
+              </ul>
+            </div>
+            <hr />
+          </Alert>
         </Modal.Footer>
       </Modal>
     </div>
