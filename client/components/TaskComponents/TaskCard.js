@@ -73,7 +73,7 @@ const TaskCard = (props) => {
   const [isTaskEditor, setIsTaskEditor] = useState(false);
   const idOfUserLoggedIn = getCookie("userId");
   const { trip } = props;
-  const usersInTrip = trip ? trip : [];
+  const usersInTrip = trip.Users ? trip.Users : [];
   const taskUsers = props.task.Users || [];
 
   useEffect(() => {
@@ -120,14 +120,18 @@ const TaskCard = (props) => {
     } else {
       setIsTaskEditor(false);
     }
-  }, [props.task.Users, trip]);
+  }, [props.task.Users, trip.Users]);
 
   return (
     <>
       <Card
         style={
           props.type === "todo"
-            ? { width: "auto", margin: "1rem", boxShadow: "0px 1px 1px grey" }
+            ? {
+                width: "auto",
+                margin: "1rem",
+                boxShadow: "0px 1px 1px grey",
+              }
             : {
                 width: "13rem",
                 marginTop: ".5rem",
@@ -176,13 +180,39 @@ const TaskCard = (props) => {
               </div>
               {props.type === "todo" ? (
                 <Card.Text>
-                  Due: {new Date(props.task.due_date).toLocaleDateString()}
+                  <strong>Due:</strong>{" "}
+                  {new Date(props.task.due_date).toLocaleDateString()}
                 </Card.Text>
               ) : (
-                <Card.Text>Start: {taskStartTime}</Card.Text>
+                <Card.Text>
+                  <strong>Start:</strong> {taskStartTime}
+                </Card.Text>
               )}
               {props.task.description && seeMore ? (
-                <Card.Text>Description: {props.task.description}</Card.Text>
+                <Card.Text>
+                  <strong>Description:</strong> {props.task.description}
+                </Card.Text>
+              ) : (
+                <></>
+              )}
+              {props.task.start_location && seeMore ? (
+                <Card.Text>
+                  <strong>Start Location:</strong> {props.task.start_location}
+                </Card.Text>
+              ) : (
+                <></>
+              )}
+              {props.task.end_location && seeMore ? (
+                <Card.Text>
+                  <strong>End Location:</strong> {props.task.end_location}
+                </Card.Text>
+              ) : (
+                <></>
+              )}
+              {props.task.booking_num && seeMore ? (
+                <Card.Text>
+                  <strong>Booking Number:</strong> {props.task.booking_num}
+                </Card.Text>
               ) : (
                 <></>
               )}
