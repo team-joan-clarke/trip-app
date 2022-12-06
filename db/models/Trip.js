@@ -31,9 +31,9 @@ const Trip = db.define(
     },
     imageUrl: {
       type: DataTypes.TEXT,
-      validate: {
-        isUrl: true,
-      },
+      // validate: {
+      //   isUrl: true,
+      // },
       defaultValue:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPalFmzItiv41uwG0LGteZ-243tFftPPUb1xfU8MQNo-iEOpBBT_Kflw56iuun22IgT-M&usqp=CAU",
     },
