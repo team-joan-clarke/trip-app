@@ -267,15 +267,6 @@ export default function tripReducer(state = initialState, action) {
       const activeTrips = state.active;
       return { ...state, active: [...activeTrips, action.userTrip] };
     case UPDATE_USER_TRIP:
-      // const filteredUsers = state.singleTripView.Users.filter(
-      //   (user) => user.id !== action.userTrip.UserId
-      // );
-      // const [userToUpdate] = state.singleTripView.Users.filter(
-      //   (user) => user.id == action.userTrip.UserId
-      // );
-      // //does this count as not modifying state directly?
-      // const updatedUser = userToUpdate;
-      // updatedUser.user_trip = action.userTrip;
       const currentSingleTripView = state.singleTripView
       const newUsersArray = state.singleTripView.Users.map((user) => {
         if (user.id === action.userTrip.UserId) {
