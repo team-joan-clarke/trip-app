@@ -38,7 +38,7 @@ function CuteCarousel() {
         <Carousel.Caption>
           {/* <h3>Second slide label</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
-          <h1>Plan your perfect trip with trippin</h1>
+          <h1>Plan your perfect trip with trippn</h1>
           <Button className="mb-5" onClick={handleClick} variant="primary">
             Start Planning
           </Button>
@@ -56,7 +56,7 @@ function CuteCarousel() {
           <p>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur.
           </p> */}
-         <h1>Plan your perfect trip with trippin</h1>
+         <h1>Plan your perfect trip with trippn</h1>
           <Button className="mb-5" onClick={handleClick} variant="primary">
             Start Planning
           </Button>

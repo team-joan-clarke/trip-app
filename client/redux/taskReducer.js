@@ -64,12 +64,13 @@ export const getTasksByTrip = (tripId) => {
 };
 
 export const addNewTask = (task, role) => {
+  console.log("task", task.TripId)
   return async (dispatch) => {
     try {
       const userId = getCookie("userId");
       const token = getCookie("token");
       const { data } = await axios.post(
-        "/api/tasks",
+        `/api/tasks/${task.TripId}`,
         {
           ...task,
           userId,

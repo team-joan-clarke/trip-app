@@ -4,7 +4,7 @@ const {
 } = require("../../db");
 const Sequelize = require("sequelize");
 const User_Trip = require("../../db/models/User_Trip");
-const { requireToken } = require("./gatekeepingmiddleware");
+const { requireToken, isOwnerofTrip, isEditorOfTrip, isEditorOfTask} = require("./gatekeepingmiddleware");
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
 taskRouter.get("/user/:userId", requireToken, async (req, res, next) => {
@@ -76,7 +76,9 @@ taskRouter.get("/trip/:tripId", requireToken, async (req, res, next) => {
 
 // POST A NEW TASK AND ASSIGN TO USER (MUST BE ASSIGNED TO A USER)
 // adding new task in trip dash
-taskRouter.post("/", requireToken, async (req, res, next) => {
+// if I add isOwnerOfTrip middlware it wont let trip editors add a new task 
+// gonna take it off for rn 
+taskRouter.post("/:tripId", requireToken, async (req, res, next) => {
   try {
     const {
       type,
@@ -143,7 +145,8 @@ taskRouter.post("/", requireToken, async (req, res, next) => {
 
 // DELETE TASK
 // deleting a task both views 
-taskRouter.delete("/:taskId", requireToken, async (req, res, next) => {
+// task editors can delete tasks
+taskRouter.delete("/:taskId", requireToken, isEditorOfTask, async (req, res, next) => {
   try {
     const { taskId } = req.params;
     const data = await Task.findByPk(taskId);
@@ -164,7 +167,9 @@ taskRouter.delete("/:taskId", requireToken, async (req, res, next) => {
 
 // UPDATE TASK
 //updating a task both views 
-taskRouter.put("/:taskId", requireToken, async (req, res, next) => {
+// task editors can update a task 
+taskRouter.put("/:taskId", requireToken, isEditorOfTask,  async (req, res, next) => {
+  console.log("in task update route")
   try {
     const checkedFields = {};
     const { body } = req;

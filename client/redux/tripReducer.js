@@ -192,6 +192,7 @@ export const deleteActiveTripThunk = (tripId) => {
     try {
       const token = getCookie("token");
       const id = getCookie("userId");
+      console.log("id in dleete thunk", id)
       console.log("token in active thunk", token);
       const { data } = await axios.delete(`/api/trips/${tripId}`, {
         headers: { authorization: token },
