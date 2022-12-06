@@ -90,6 +90,7 @@ const EditTaskAttendees = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     dispatch(updateTaskUser(selectedUserId, singleTask.id, userAccess, "add"));
 
     setFilteredUsers("");
