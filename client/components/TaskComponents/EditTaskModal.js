@@ -27,16 +27,11 @@ function EditTaskModal(props) {
   const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
   const [addedResStatus, setAddedResStatus] = useState("");
-  const [task, setTask] = useState(props.task);
 
   const prevTasksRef = useRef();
   useEffect(() => {
-    return () => {
-      console.log("in use effect");
-      return (prevTasksRef.current = JSON.stringify(props.task));
-    };
+    prevTasksRef.current = JSON.stringify(props.task);
   });
-  // const { task } = props;
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -48,6 +43,18 @@ function EditTaskModal(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (
+      errors.includes(
+        "Error: Could not update task at this time. Please try again later."
+      )
+    ) {
+      const filtered = errors.filter(
+        (error) =>
+          error !==
+          "Error: Could not update task at this time. Please try again later."
+      );
+      setErrors(filtered);
+    }
     try {
       if (due_date) {
         if (errors.length === 0) {
@@ -68,26 +75,24 @@ function EditTaskModal(props) {
               props.task.id
             )
           );
-          console.log(
-            "task BOOL",
-            prevTasksRef.current === JSON.stringify(task)
-          );
-          console.log("TASK", props.task);
-          console.log("PREV", prevTasksRef.current);
-          if (prevTasksRef.current !== JSON.stringify(props.task)) {
-            console.log("stuff");
-            setDueDate(null);
-            setStartDate(null);
-            setEndDate(null);
-            setStartLocation("");
-            setEndLocation("");
-            setDescription("");
-            setBookingNum("");
-            setLink("");
-            setAddedResStatus("success");
-            console.log("props inner", props);
-          }
-          console.log("props outer", props);
+          setTimeout(() => {
+            if (prevTasksRef.current !== JSON.stringify(props.task)) {
+              setDueDate(null);
+              setStartDate(null);
+              setEndDate(null);
+              setStartLocation("");
+              setEndLocation("");
+              setDescription("");
+              setBookingNum("");
+              setLink("");
+              setAddedResStatus("success");
+            } else {
+              setErrors([
+                ...errors,
+                "Error: Could not update task at this time. Please try again later.",
+              ]);
+            }
+          }, "1000");
         }
       } else {
         if (!due_date) {
@@ -161,7 +166,6 @@ function EditTaskModal(props) {
               onClick={(e) => {
                 setAddedResStatus("");
                 props.onHide(e);
-                console.log("more props", props);
               }}
             >
               Done
