@@ -4,11 +4,10 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { Row, Col, Stack } from "react-bootstrap";
-import { getTasksByUser, deleteTask } from "../../../redux/taskReducer";
+import { getTasksByUser } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
 import { useNavigate } from "react-router-dom";
-import { AvatarGroup, Avatar, Tooltip } from "@mui/material";
-import { getCookie } from "../../../redux/users";
+import { AvatarGroup, Avatar } from "@mui/material";
 
 //Avatar Things:
 function stringToColor(string) {
@@ -117,7 +116,7 @@ const TasksInProgress = (props) => {
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>
-                    Task Due Date:{" "}
+                    Task Due Date:
                     {new Date(singleTask.due_date).toLocaleDateString()}
                   </Card.Text>
                   {!seeMore && (
