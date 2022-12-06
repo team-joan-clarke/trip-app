@@ -393,7 +393,10 @@ const TaskCard = (props) => {
         task={props.task}
         trip={props.trip}
         show={modalShow}
-        onHide={() => setModalShow(false)}
+        onHide={() => {
+          console.log("will hide");
+          setModalShow(false);
+        }}
       />
     </>
   );

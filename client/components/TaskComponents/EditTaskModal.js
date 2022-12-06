@@ -30,9 +30,11 @@ function EditTaskModal(props) {
 
   const prevTasksRef = useRef();
   useEffect(() => {
-    prevTasksRef.current = tasks;
-  });
+    prevTasksRef.current = props.task;
+    console.log("props will change");
+  }, [handleSubmit]);
   const { tasks } = props;
+  const { task } = props;
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -64,7 +66,12 @@ function EditTaskModal(props) {
               props.task.id
             )
           );
-          if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(tasks)) {
+          console.log(
+            "task BOOL",
+            JSON.stringify(prevTasksRef.current) === JSON.stringify(task)
+          );
+          if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(task)) {
+            console.log("stuff");
             setDueDate(null);
             setStartDate(null);
             setEndDate(null);
@@ -74,7 +81,9 @@ function EditTaskModal(props) {
             setBookingNum("");
             setLink("");
             setAddedResStatus("success");
+            console.log("props inner", props);
           }
+          console.log("props outer", props);
         }
       } else {
         if (!due_date) {
@@ -148,6 +157,7 @@ function EditTaskModal(props) {
               onClick={(e) => {
                 setAddedResStatus("");
                 props.onHide(e);
+                console.log("more props", props);
               }}
             >
               Done
