@@ -136,6 +136,7 @@ const TaskEditForm = (props) => {
               cancel.
             </p>
             <hr />
+
             <div className="d-flex justify-content-end">
               <Button onClick={() => setShow(false)} variant="secondary">
                 Cancel
@@ -148,10 +149,11 @@ const TaskEditForm = (props) => {
               </Button>
             </div>
           </Alert>
-
+          <br></br>
           <Button variant="primary" onClick={handleShow}>
             Edit Task
           </Button>
+
           <Button
             variant="primary"
             onClick={(e) => handleClick(e, singleTask.id)}
@@ -161,8 +163,9 @@ const TaskEditForm = (props) => {
 
           <div
             style={{
-              // position: ",
-              right: "2em",
+              position: "absolute",
+              right: "1em",
+              bottom: "1em",
             }}
           >
             <Button

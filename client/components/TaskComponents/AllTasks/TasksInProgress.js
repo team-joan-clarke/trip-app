@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import { Row, Col, Stack } from "react-bootstrap";
 import { getTasksByUser } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
@@ -120,19 +118,17 @@ const TasksInProgress = (props) => {
                     {new Date(singleTask.due_date).toLocaleDateString()}
                   </Card.Text>
                   {!seeMore && (
-                    <div>
-                      <Card.Link
-                        className="mb-2 text-muted"
-                        href=""
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setSeeMore(true);
-                        }}
-                        style={{ float: "left" }}
-                      >
-                        "See More..."
-                      </Card.Link>
-                    </div>
+                    <Card.Link
+                      className="mb-2 text-muted"
+                      href=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setSeeMore(true);
+                      }}
+                      style={{ float: "left" }}
+                    >
+                      "See More..."
+                    </Card.Link>
                   )}
                   {seeMore && (
                     <div>
@@ -198,9 +194,8 @@ const TasksInProgress = (props) => {
                       </Card.Link>
                     </div>
                   )}
-                  <div>
-                    <TaskModal singleTask={singleTask} />
-                  </div>
+                  <br></br>
+                  <TaskModal singleTask={singleTask} />
                 </Card.Body>
               </Card>
             );
