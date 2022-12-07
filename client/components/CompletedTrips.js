@@ -27,8 +27,10 @@ const CompletedTrips = (props) => {
 
   return (
     <div>
-      <h1>Past Trips</h1>
-      <div>
+      <br></br>
+      <h1>Your past trips</h1>
+      <br></br>
+      <div className="addFlex">
         {trips.complete.length == 0 ? (
           <h5>No past trips</h5>
         ) : (
@@ -40,7 +42,7 @@ const CompletedTrips = (props) => {
                   style={{ width: "18rem" }}
                   key={singleTrip.id}
                 >
-                  <Card.Img variant="top" src={singleTrip.imageUrl} />
+                  <Card.Img variant="top" className="heightAndWidth" src={singleTrip.imageUrl} />
                   <Card.Body>
                     <Card.Title>
                       <strong>{singleTrip.name}</strong>
@@ -63,6 +65,7 @@ const CompletedTrips = (props) => {
                         name={singleTrip.id}
                         onClick={handleRemove}
                         variant="outline-danger"
+                        className="marginLeft"
                       >
                         Delete
                       </Button>

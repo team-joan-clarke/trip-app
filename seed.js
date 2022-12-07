@@ -128,6 +128,26 @@ const trips = [
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO1y52-cuFMKc2cVCwlBsLPqfr-rC_MTPWg&usqp=CAU",
   },
+  {
+    name: "Cancun Trip",
+    city: "Cancun",
+    state: "Cancun",
+    country: "Mexico",
+    start_date: new Date(2023, 7, 5),
+    end_date: new Date(2023, 7, 23),
+    status: "active",
+    imageUrl: "https://i.pinimg.com/736x/3c/7f/fa/3c7ffa6e84ec56fad2d48d9fa2f4f3e4.jpg"
+  },
+  {
+    name: "Trip to Vancover",
+    city: "Vancover",
+    state: "Vancover",
+    country: "Canada",
+    start_date: new Date(2023, 4, 5),
+    end_date: new Date(2023, 4, 23),
+    status: "active",
+    imageUrl: "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg"
+  },
 ];
 
 /**
@@ -298,6 +318,8 @@ async function seed() {
   const laguna = await getTRIDByName("Trip to Laguna");
   const teashop = await getTRIDByName("Trip to Tea Shop");
   const joshuatree = await getTRIDByName("Kylie's Bday");
+  const cancun = await getTRIDByName("Cancun Trip")
+  const vancouver = await getTRIDByName("Trip to Vancover")
 
   const tasks = [
     {
@@ -528,6 +550,15 @@ async function seed() {
       status: "complete",
       TripId: mardigras,
     },
+    {
+      type: "Lodging",
+      subtype: "Hotel",
+      provider_name: "AirBnB",
+      due_date: new Date(2023, 7, 3),
+      description: "Look for airBnb",
+      status: "in progress",
+      TripId: cancun,
+    },
   ];
 
   await Promise.all(
@@ -664,6 +695,31 @@ async function seed() {
       UserId: murphy,
       TripId: laguna,
     }),
+    User_Trip.create({
+      role: "attendee",
+      UserId: anahis,
+      TripId: cancun,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: anahis,
+      TripId: vancouver,
+    }),
+    User_Trip.create({
+      role: "attendee",
+      UserId: yuri,
+      TripId: cancun,
+    }),
+    User_Trip.create({
+      role: "attendee",
+      UserId: collin,
+      TripId: cancun,
+    }),
+    User_Trip.create({
+      role: "attendee",
+      UserId: murphy,
+      TripId: cancun,
+    }),
   ]);
 
   // DISNEY
@@ -695,6 +751,8 @@ async function seed() {
   // TEA SHOP
   const teatime = await getTAIDByName("Tea shop in NYC");
   const nycsubway = await getTAIDByName("NYC Subway");
+ //cancun
+  const airBNBForCancun = await getTAIDByName("AirBnB");
 
   await Promise.all([
     User_Task.create({
@@ -931,6 +989,11 @@ async function seed() {
       role: "editor",
       UserId: anahis,
       TaskId: nycsubway,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: anahis,
+      TaskId: airBNBForCancun,
     }),
   ]);
 
