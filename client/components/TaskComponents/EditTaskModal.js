@@ -40,7 +40,7 @@ function EditTaskModal(props) {
       setShow(false);
     }
   }, [errors]);
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (
@@ -77,14 +77,14 @@ function EditTaskModal(props) {
           );
           setTimeout(() => {
             if (prevTasksRef.current !== JSON.stringify(props.task)) {
-              setDueDate(null);
-              setStartDate(null);
-              setEndDate(null);
-              setStartLocation("");
-              setEndLocation("");
-              setDescription("");
-              setBookingNum("");
-              setLink("");
+              setDueDate(props.task.due_date);
+              setStartDate(props.task.start_date);
+              setEndDate(props.task.end_date);
+              setStartLocation(props.task.start_locaion);
+              setEndLocation(props.task.end_date);
+              setDescription(props.task.description);
+              setBookingNum(props.task.booking_num);
+              setLink(props.task.link);
               setAddedResStatus("success");
             } else {
               setErrors([

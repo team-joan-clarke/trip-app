@@ -130,14 +130,14 @@ export const deleteTask = (taskId, tripId) => {
   };
 };
 
-export const updateTaskUser = (userId, taskId, role = null, action) => {
+export const updateTaskUser = (userId, taskId, role = null, action, tripId) => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
       if (action === "add") {
         // route to User_Task create
         const { data } = await axios.post(
-          "/api/tasks/task-user",
+          `/api/tasks/task-user/${tripId}`,
           {
             userId,
             taskId,
@@ -150,16 +150,19 @@ export const updateTaskUser = (userId, taskId, role = null, action) => {
         }
       } else if (action === "remove") {
         // route to User_Task delete
-        const { data } = await axios.delete(`/api/tasks/${userId}/${taskId}`, {
-          headers: { authorization: token },
-        });
+        const { data } = await axios.delete(
+          `/api/tasks/${userId}/${taskId}/${tripId}`,
+          {
+            headers: { authorization: token },
+          }
+        );
         if (data) {
           dispatch(updatedTaskUser(data));
         }
       } else if (action === "updateRole") {
         console.log("in thunk ====>", role);
         const { data } = await axios.put(
-          "/api/tasks/task-user",
+          `/api/tasks/task-user/${tripId}`,
           {
             userId,
             taskId,
@@ -186,12 +189,12 @@ const taskReducer = (state = initialState, action) => {
         allItineraryTasks: [...state.allItineraryTasks, action.task],
       };
     case UPDATE_TASK: {
-      const filteredTasks = state.allItineraryTasks.filter(
-        (task) => task.id !== action.task.id
+      const updatedTaskArr = state.allItineraryTasks.map((task) =>
+        task.id === action.task.id ? action.task : task
       );
       return {
         ...state,
-        allItineraryTasks: [...filteredTasks, action.task],
+        allItineraryTasks: [...updatedTaskArr],
       };
     }
     case DELETE_TASK: {
