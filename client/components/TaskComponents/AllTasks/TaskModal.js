@@ -23,7 +23,7 @@ const TaskEditForm = (props) => {
   const [checked, setChecked] = useState(false);
   const [success, setSucess] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [deleteTask, setDeleteTask] = useState(false);
+  const [delete_Task, setDelete_Task] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [isTaskEditor, setIsTaskEditor] = useState(false);
   const [showMarkAlert, setShowMarkAlert] = useState(false);
@@ -128,8 +128,8 @@ const TaskEditForm = (props) => {
 
   const handleDelete = (e, id) => {
     e.stopPropagation();
-    setDeleteTask(false);
-    dispatch(deleteTask(id));
+    setDelete_Task(false);
+    dispatch(deleteTask(id, TripId));
   };
 
   // for maxTime validation:
@@ -139,7 +139,7 @@ const TaskEditForm = (props) => {
     <div>
       {isTaskEditor && (
         <div>
-          <Alert show={deleteTask} variant="danger">
+          <Alert show={delete_Task} variant="danger">
             <Alert.Heading>
               Are you sure you want to delete this task?
             </Alert.Heading>
@@ -217,7 +217,7 @@ const TaskEditForm = (props) => {
             <Button
               variant="outline-danger"
               size="sm"
-              onClick={() => setDeleteTask(true)}
+              onClick={() => setDelete_Task(true)}
             >
               Delete
             </Button>
