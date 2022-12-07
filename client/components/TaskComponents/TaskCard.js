@@ -115,7 +115,7 @@ const TaskCard = (props) => {
     });
 
     if (userLoggedInIsOwnerOfTrip.length > 0) {
-      console.log("owner true");
+      // console.log("owner true");
       setIsTripOwner(true);
     } else {
       setIsTripOwner(false);
@@ -259,7 +259,7 @@ const TaskCard = (props) => {
                 >
                   {seeMore ? "See Less" : "See More..."}
                 </Card.Link>
-                {console.log("isTripOwner", isTripOwner)}
+                {/* {console.log("isTripOwner", isTripOwner)} */}
                 {props.type === "todo" &&
                 (isTripOwner || isTaskEditor) &&
                 !props.status ? (

@@ -161,7 +161,7 @@ const EditTaskAttendeesTripView = (props) => {
     if (userAccess === "") {
       return setRole(true);
     }
-    console.log(selectedUserId);
+    // console.log(selectedUserId);
     dispatch(
       updateTaskUser(selectedUserId, task.id, userAccess, "updateRole", tripId)
     );
@@ -189,7 +189,7 @@ const EditTaskAttendeesTripView = (props) => {
       }
     });
 
-    console.log("part", isPartOfTrip[0]);
+    // console.log("part", isPartOfTrip[0]);
 
     if (!isPartOfTrip[0]) {
       return setDeleteAttendee(true);
@@ -219,7 +219,6 @@ const EditTaskAttendeesTripView = (props) => {
   };
 
   const handleShow = () => setShow(true);
-  console.log(props.type);
 
   return (
     <div>
