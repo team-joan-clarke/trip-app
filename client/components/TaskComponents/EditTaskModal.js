@@ -80,7 +80,7 @@ function EditTaskModal(props) {
               setDueDate(props.task.due_date);
               setStartDate(props.task.start_date);
               setEndDate(props.task.end_date);
-              setStartLocation(props.task.start_date);
+              setStartLocation(props.task.start_locaion);
               setEndLocation(props.task.end_date);
               setDescription(props.task.description);
               setBookingNum(props.task.booking_num);
