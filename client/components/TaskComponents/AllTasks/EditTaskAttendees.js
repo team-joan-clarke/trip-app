@@ -125,6 +125,56 @@ const EditTaskAttendees = (props) => {
     window.location.reload();
   };
 
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const users = singleTask.Users || [];
+    const userIds = users.map((user) => user.id);
+    let access = users.filter((user) => {
+      if (user.id == selectedUserId) {
+        const { role } = user.user_task;
+        return role;
+      }
+    });
+    //Validation for on trip:
+    const isPartOfTrip = userIds.filter((userId) => {
+      if (userId == selectedUserId) {
+        return true;
+      }
+    });
+
+    if (!isPartOfTrip[0]) {
+      return setDeleteAttendee(true);
+    }
+
+    // Validation for already on trip and same role
+    if (access.length > 0) {
+      let accessRole = access[0].user_task.role;
+      if (accessRole === userAccess) {
+        return setAlreadyAttending(true);
+      }
+    }
+
+    // validation for no role chosen for person:
+    if (userAccess === "") {
+      return setRole(true);
+    }
+    console.log(selectedUserId);
+    dispatch(
+      updateTaskUser(selectedUserId, singleTask.id, userAccess, "updateRole")
+    );
+
+    setFilteredUsers("");
+    setSelectedUserId("");
+    setSelectedUser("");
+    setUserAccess("");
+    setUserTripInfo("");
+    setShow(false);
+    setStartingView(true);
+    setSelectedView(false);
+    window.location.reload();
+  };
+
   const handleDelete = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -157,6 +207,9 @@ const EditTaskAttendees = (props) => {
 
   const handleClose = () => {
     setShow(false);
+    setAlreadyAttending(false);
+    setDeleteAttendee(false);
+    setRole(false);
     setFilteredUsers("");
     setSelectedUser("");
     setStartingView(true);
@@ -188,9 +241,7 @@ const EditTaskAttendees = (props) => {
           <Alert variant="warning" show={role}>
             <Alert.Heading>Unsuccessful...</Alert.Heading>
             <hr />
-            <p className="mb-0">
-              You must assign a role to the person being added to this task
-            </p>
+            <p className="mb-0">A role must be assigned.</p>
             <div className="d-flex justify-content-end">
               <Button
                 variant="outline-success"
@@ -331,10 +382,13 @@ const EditTaskAttendees = (props) => {
             Close
           </Button>
           <Button variant="outline-danger" onClick={handleDelete}>
-            Delete Attendee/Editor
+            Delete
+          </Button>
+          <Button variant="primary" onClick={handleUpdate}>
+            Update Role
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Add or Update Role
+            Add
           </Button>
         </Modal.Footer>
       </Modal>
