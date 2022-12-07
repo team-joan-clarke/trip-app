@@ -224,7 +224,7 @@ const EditTaskAttendeesTripView = (props) => {
   return (
     <div>
       <Button
-        variant="outline-secondary"
+        variant="primary"
         size={props.type === "itinerary" ? "sm" : null}
         style={
           props.type === "itinerary"
