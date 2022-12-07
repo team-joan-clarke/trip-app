@@ -86,10 +86,11 @@ export const addNewTask = (task, role) => {
   };
 };
 
-export const updateTask = (updatedData, taskId, TripId) => {
+export const updateTask = (updatedData, taskId) => {
   //somehow need to send trip Id to back end
   console.log("in thunk for update");
-  console.log("task trip id", TripId);
+  console.log("task trip id", updatedData.TripId);
+  const { TripId } = updatedData;
   return async (dispatch) => {
     try {
       const token = getCookie("token");

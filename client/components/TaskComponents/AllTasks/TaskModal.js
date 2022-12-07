@@ -15,6 +15,7 @@ import EditTaskAttendees from "./EditTaskAttendees";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
+  const { TripId } = singleTask;
 
   const dispatch = useDispatch();
 
@@ -76,7 +77,6 @@ const TaskEditForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { TripId } = singleTask;
     //checking URL:
     if (link) {
       const isValid = urlPatternValidation(link);
@@ -97,6 +97,7 @@ const TaskEditForm = (props) => {
     dispatch(
       updateTask(
         {
+          TripId,
           start_date,
           end_date,
           start_location,
@@ -106,8 +107,7 @@ const TaskEditForm = (props) => {
           link,
           description,
         },
-        singleTask.id,
-        TripId
+        singleTask.id
       )
     );
     setSucess(true);
@@ -120,7 +120,7 @@ const TaskEditForm = (props) => {
     console.log("I am in the click");
     if (start_date) {
       const status = "complete";
-      dispatch(updateTask({ status }, id));
+      dispatch(updateTask({ status, TripId }, id));
     } else {
       setShowMarkAlert(true);
     }
