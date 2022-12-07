@@ -136,7 +136,8 @@ const trips = [
     start_date: new Date(2023, 7, 5),
     end_date: new Date(2023, 7, 23),
     status: "active",
-    imageUrl: "https://i.pinimg.com/736x/3c/7f/fa/3c7ffa6e84ec56fad2d48d9fa2f4f3e4.jpg"
+    imageUrl:
+      "https://i.pinimg.com/736x/3c/7f/fa/3c7ffa6e84ec56fad2d48d9fa2f4f3e4.jpg",
   },
   {
     name: "Trip to Vancover",
@@ -146,7 +147,8 @@ const trips = [
     start_date: new Date(2023, 4, 5),
     end_date: new Date(2023, 4, 23),
     status: "active",
-    imageUrl: "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg"
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
   },
 ];
 
@@ -318,8 +320,8 @@ async function seed() {
   const laguna = await getTRIDByName("Trip to Laguna");
   const teashop = await getTRIDByName("Trip to Tea Shop");
   const joshuatree = await getTRIDByName("Kylie's Bday");
-  const cancun = await getTRIDByName("Cancun Trip")
-  const vancouver = await getTRIDByName("Trip to Vancover")
+  const cancun = await getTRIDByName("Cancun Trip");
+  const vancouver = await getTRIDByName("Trip to Vancover");
 
   const tasks = [
     {
@@ -696,7 +698,7 @@ async function seed() {
       TripId: laguna,
     }),
     User_Trip.create({
-      role: "attendee",
+      role: "owner",
       UserId: anahis,
       TripId: cancun,
     }),
@@ -751,7 +753,7 @@ async function seed() {
   // TEA SHOP
   const teatime = await getTAIDByName("Tea shop in NYC");
   const nycsubway = await getTAIDByName("NYC Subway");
- //cancun
+  //cancun
   const airBNBForCancun = await getTAIDByName("AirBnB");
 
   await Promise.all([
