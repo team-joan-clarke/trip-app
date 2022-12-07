@@ -40,7 +40,7 @@ function EditTaskModal(props) {
       setShow(false);
     }
   }, [errors]);
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (
@@ -70,7 +70,7 @@ function EditTaskModal(props) {
                 booking_num,
                 link,
                 status: "in progress",
-                TripId: props.trip.id,
+                TripId: props.tripId,
               },
               props.task.id
             )

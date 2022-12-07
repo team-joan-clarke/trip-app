@@ -19,23 +19,24 @@ function timeDisplayConverter(time) {
   return formattedTime;
 }
 
+
 function stringToColor(string) {
   let hash = 0;
   let i;
-
+  
   /* eslint-disable no-bitwise */
   for (i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
-
+  
   let color = "#";
-
+  
   for (i = 0; i < 3; i += 1) {
     const value = (hash >> (i * 8)) & 0xff;
     color += `00${value.toString(16)}`.slice(-2);
   }
   /* eslint-enable no-bitwise */
-
+  
   return color;
 }
 
@@ -53,7 +54,7 @@ const TaskCard = (props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
   const taskStartTime = timeDisplayConverter(props.task.start_date);
-
+  
   const handleClick = (e, id) => {
     e.preventDefault();
     if (props.task.start_date) {
@@ -63,11 +64,12 @@ const TaskCard = (props) => {
       setShowMarkAlert(true);
     }
   };
-
+  
   const handleDelete = (e, id) => {
     e.preventDefault();
     setShow(false);
-    dispatch(deleteTask(id));
+    console.log("tripId in trip card", props.task.TripId)
+    dispatch(deleteTask(id, props.task.TripId));
   };
   const [show, setShow] = useState(false);
   const [showMarkAlert, setShowMarkAlert] = useState(false);
@@ -80,6 +82,7 @@ const TaskCard = (props) => {
   const { trip } = props;
   const usersInTrip = trip.Users ? trip.Users : [];
   const taskUsers = props.task.Users || [];
+  const tripId = props.task.TripId || 0
 
   useEffect(() => {
     // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
@@ -391,6 +394,7 @@ const TaskCard = (props) => {
       </Card>
       <EditTaskModal
         task={props.task}
+        tripId={tripId}
         trip={props.trip}
         show={modalShow}
         onHide={() => {

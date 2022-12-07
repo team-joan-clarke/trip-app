@@ -3,7 +3,9 @@ const {
   models: { Task, User, Trip, User_Task },
 } = require("../../db");
 const Sequelize = require("sequelize");
-const { requireToken } = require("./gatekeepingmiddleware");
+const User_Trip = require("../../db/models/User_Trip");
+const { requireToken, isOwnerofTrip, isEditorOfTask, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner} = require("./gatekeepingmiddleware");
+
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
 //Used in Single User to render task for complete and in progress tabs
@@ -77,7 +79,9 @@ taskRouter.get("/trip/:tripId", requireToken, async (req, res, next) => {
 
 // POST A NEW TASK AND ASSIGN TO USER (MUST BE ASSIGNED TO A USER)
 // adding new task in trip dash
-taskRouter.post("/", requireToken, async (req, res, next) => {
+// trip owners and editors can add new task 
+taskRouter.post("/:tripId", requireToken, isOwnerOrEditorOfTrip,  async (req, res, next) => {
+  console.log("in post route to add a new task")
   try {
     const {
       type,
@@ -203,8 +207,9 @@ taskRouter.put("/task-user", requireToken, async (req, res, next) => {
 });
 
 // DELETE TASK
-// deleting a task both views
-taskRouter.delete("/:taskId", requireToken, async (req, res, next) => {
+// trip owner can delete a task 
+// if you are a trip editor lets make sure you are editor of that task
+taskRouter.delete("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
   try {
     const { taskId } = req.params;
     const data = await Task.findByPk(taskId);
@@ -224,8 +229,10 @@ taskRouter.delete("/:taskId", requireToken, async (req, res, next) => {
 });
 
 // UPDATE TASK
-//updating a task both views
-taskRouter.put("/:taskId", requireToken, async (req, res, next) => {
+// trip owner can edit a task
+// if you are a trip editor lets make sure you are editor of that task
+taskRouter.put("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
+  console.log("in task update route")
   try {
     const checkedFields = {};
     const { body } = req;
@@ -288,10 +295,13 @@ taskRouter.put("/:taskId", requireToken, async (req, res, next) => {
   }
 });
 
+
 // ADD ADDITIONAL USER TO EXISTING TASK
-// adding users tasks
-// task editor and trip owner can do this ^
-// task editor can only edit their tasks
+
+// adding, editing, and deleting users from a trip task
+// task editor and trip owner can do this ^ 
+// task editor can only edit their tasks 
+
 taskRouter.post("/task-user", requireToken, async (req, res, next) => {
   try {
     const { userId, taskId, role } = req.body;
@@ -340,7 +350,9 @@ taskRouter.post("/task-user", requireToken, async (req, res, next) => {
 });
 
 // REMOVE USER FROM EXISTING TASK
-//remove from single user attendee/editor
+
+// owner can do 
+
 taskRouter.delete("/:userId/:taskId", requireToken, async (req, res, next) => {
   try {
     const { taskId, userId } = req.params;
