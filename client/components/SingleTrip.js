@@ -60,12 +60,13 @@ const SingleTrip = () => {
             <div
               style={{
                 width: "auto",
-                flexDirection: "row",
-                flexWrap: "wrap",
                 padding: "2rem",
                 borderRadius: "5px",
                 boxShadow: "2px 1px 20px grey",
                 marginTop: "3rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: 'center'
               }}
             >
               <h3>Edit This Trip</h3>
@@ -75,7 +76,7 @@ const SingleTrip = () => {
                   width: "auto",
                   flexDirection: "row",
                   flexWrap: "wrap",
-                  padding: "none",
+                  padding: "0.7rem",
                   justifyContent: "center",
                 }}
               >
