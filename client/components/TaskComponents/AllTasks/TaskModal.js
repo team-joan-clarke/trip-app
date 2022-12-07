@@ -323,6 +323,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Starting Address"
+                    value={start_location}
                     onChange={(e) => setStart_Location(e.target.value)}
                   />
                 </Form.Group>
@@ -342,6 +343,7 @@ const TaskEditForm = (props) => {
                     <Form.Control
                       type="text"
                       placeholder="Ending Address"
+                      value={end_location}
                       onChange={(e) => setEnd_Location(e.target.value)}
                     />
                   </Form.Group>
@@ -352,6 +354,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Hotel Name, Airline, etc..."
+                    value={provider_name}
                     onChange={(e) => setProvider_Namer(e.target.value)}
                   />
                 </Form.Group>
@@ -361,6 +364,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="booking/confirmation number"
+                    value={booking_num}
                     onChange={(e) => setBooking_Num(e.target.value)}
                   />
                 </Form.Group>
@@ -370,6 +374,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="url"
                     placeholder="https://www.yourURL"
+                    value={link}
                     onChange={(e) => setLink(e.target.value)}
                   />
                 </Form.Group>
@@ -379,6 +384,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     as="textarea"
                     rows={5}
+                    value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </Form.Group>

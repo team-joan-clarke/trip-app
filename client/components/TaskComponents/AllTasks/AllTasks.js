@@ -17,16 +17,16 @@ const AllTasks = (props) => {
         margin: "5rem auto",
       }}
     >
-      <h2> Tasks </h2>
+      <h2> Todo </h2>
       <Tabs
-        defaultActiveKey="inProgress"
+        defaultActiveKey="Planning"
         id="uncontrolled-tab-example"
         animation="false"
       >
-        <Tab eventKey="inProgress" title="In Progress">
+        <Tab eventKey="Planning" title="Planning">
           <TasksInProgress />
         </Tab>
-        <Tab eventKey="completed" title="Completed" transition={false}>
+        <Tab eventKey="Finalized" title="Finalized" transition={false}>
           <TasksCompleted />
         </Tab>
       </Tabs>

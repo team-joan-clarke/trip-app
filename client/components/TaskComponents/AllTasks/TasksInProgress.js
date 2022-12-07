@@ -88,7 +88,7 @@ const TasksInProgress = (props) => {
 
   return (
     <div>
-      <h3>Current Tasks</h3>
+      <br></br>
       <div>
         {inProgressTasks.length == 0 ? (
           <h2>No past tasks</h2>
