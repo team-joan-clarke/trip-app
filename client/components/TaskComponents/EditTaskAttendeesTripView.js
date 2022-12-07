@@ -219,17 +219,33 @@ const EditTaskAttendeesTripView = (props) => {
   };
 
   const handleShow = () => setShow(true);
+  console.log(props.type);
 
   return (
     <div>
       <Button
-        variant="primary"
-        style={{
-          flex: 1,
-          width: "fit-contents",
-          float: "right",
-          marginRight: "1rem",
-        }}
+        variant="outline-secondary"
+        size={props.type === "itinerary" ? "sm" : null}
+        style={
+          props.type === "itinerary"
+            ? {
+                flex: 1,
+                width: "fit-content",
+                marginRight: "1rem",
+                borderRadius: "50px",
+                float: "left",
+                whiteSpace: "nowrap",
+                marginTop: "1rem",
+              }
+            : {
+                flex: 1,
+                width: "fit-content",
+                marginRight: "1rem",
+                borderRadius: "50px",
+                float: "right",
+                whiteSpace: "nowrap",
+              }
+        }
         onClick={handleShow}
       >
         Edit Attendees
@@ -249,6 +265,14 @@ const EditTaskAttendeesTripView = (props) => {
                 variant="outline-success"
                 onClick={() => {
                   setRole(false);
+                }}
+                style={{
+                  flex: 1,
+                  width: "fit-content",
+                  marginRight: "1rem",
+                  borderRadius: "50px",
+                  float: "right",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Close
@@ -270,6 +294,14 @@ const EditTaskAttendeesTripView = (props) => {
                 onClick={() => {
                   setAlreadyAttending(false);
                 }}
+                style={{
+                  flex: 1,
+                  width: "fit-content",
+                  marginRight: "1rem",
+                  borderRadius: "50px",
+                  float: "right",
+                  whiteSpace: "nowrap",
+                }}
               >
                 Close
               </Button>
@@ -286,6 +318,14 @@ const EditTaskAttendeesTripView = (props) => {
                 variant="outline-success"
                 onClick={() => {
                   setDeleteAttendee(false);
+                }}
+                style={{
+                  flex: 1,
+                  width: "fit-content",
+                  marginRight: "1rem",
+                  borderRadius: "50px",
+                  float: "right",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Close
@@ -330,6 +370,14 @@ const EditTaskAttendeesTripView = (props) => {
                                   variant="secondary"
                                   value={user.id}
                                   onClick={handleSelect}
+                                  style={{
+                                    flex: 1,
+                                    width: "fit-content",
+                                    marginRight: "1rem",
+                                    borderRadius: "50px",
+                                    float: "right",
+                                    whiteSpace: "nowrap",
+                                  }}
                                 >
                                   Select
                                 </Button>
@@ -380,16 +428,60 @@ const EditTaskAttendeesTripView = (props) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            style={{
+              flex: 1,
+              width: "fit-content",
+              marginRight: "1rem",
+              borderRadius: "50px",
+              float: "right",
+              whiteSpace: "nowrap",
+            }}
+          >
             Close
           </Button>
-          <Button variant="outline-danger" onClick={handleDelete}>
+          <Button
+            variant="outline-danger"
+            onClick={handleDelete}
+            style={{
+              flex: 1,
+              width: "fit-content",
+              marginRight: "1rem",
+              borderRadius: "50px",
+              float: "right",
+              whiteSpace: "nowrap",
+            }}
+          >
             Delete
           </Button>
-          <Button variant="primary" onClick={handleUpdate}>
+          <Button
+            variant="primary"
+            onClick={handleUpdate}
+            style={{
+              flex: 1,
+              width: "fit-content",
+              marginRight: "1rem",
+              borderRadius: "50px",
+              float: "right",
+              whiteSpace: "nowrap",
+            }}
+          >
             Update Role
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button
+            variant="primary"
+            onClick={handleSubmit}
+            style={{
+              flex: 1,
+              width: "fit-content",
+              marginRight: "1rem",
+              borderRadius: "50px",
+              float: "right",
+              whiteSpace: "nowrap",
+            }}
+          >
             Add
           </Button>
         </Modal.Footer>
