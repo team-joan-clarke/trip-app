@@ -4,8 +4,13 @@ const {
 } = require("../../db");
 const Sequelize = require("sequelize");
 const User_Trip = require("../../db/models/User_Trip");
-const { requireToken, isOwnerofTrip, isEditorOfTask, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner} = require("./gatekeepingmiddleware");
-
+const {
+  requireToken,
+  isOwnerofTrip,
+  isEditorOfTask,
+  isOwnerOrEditorOfTrip,
+  isEditorOfTaskOrTripOwner,
+} = require("./gatekeepingmiddleware");
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
 //Used in Single User to render task for complete and in progress tabs
@@ -77,74 +82,126 @@ taskRouter.get("/trip/:tripId", requireToken, async (req, res, next) => {
   }
 });
 
-// POST A NEW TASK AND ASSIGN TO USER (MUST BE ASSIGNED TO A USER)
-// adding new task in trip dash
-// trip owners and editors can add new task 
-taskRouter.post("/:tripId", requireToken, isOwnerOrEditorOfTrip,  async (req, res, next) => {
-  console.log("in post route to add a new task")
+taskRouter.post("/task-user", requireToken, async (req, res, next) => {
   try {
-    const {
-      type,
-      subtype,
-      provider_name,
-      due_date,
-      start_date,
-      end_date,
-      start_time,
-      end_time,
-      checkin_time,
-      start_location,
-      end_location,
-      description,
-      booking_num,
-      link,
-      status,
-      TripId,
-      userId,
-      role,
-    } = req.body;
-    const data = await Task.create({
-      type,
-      subtype,
-      provider_name,
-      due_date,
-      start_date,
-      end_date,
-      start_time,
-      end_time,
-      checkin_time,
-      start_location,
-      end_location,
-      description,
-      booking_num,
-      link,
-      status,
-      TripId,
-    });
+    const { userId, taskId, role } = req.body;
+    const data = await Task.findByPk(taskId);
     const user = await User.findByPk(userId);
     if (data && user) {
       const userAddedToTask = await user.addTask(data, {
         through: { role },
       });
-      const tasksWithNewTask = await Trip.findAll({
-        where: { id: data.TripId },
-        include: [
-          { model: Task, where: { id: data.id }, include: [{ model: User }] },
-        ],
-      });
-      if (tasksWithNewTask[0]["Tasks"]) {
-        const tasks = tasksWithNewTask[0]["Tasks"];
-        res.status(201).send(tasks[0]);
+      if (userAddedToTask) {
+        const tasksWithUpdatedTask = await Trip.findAll({
+          where: { id: data.TripId },
+          include: [
+            {
+              model: Task,
+              where: { id: data.id },
+              include: [
+                { model: User },
+                {
+                  model: Trip,
+                  attributes: ["name"],
+                },
+              ],
+            },
+          ],
+        });
+        if (tasksWithUpdatedTask) {
+          const tasks = tasksWithUpdatedTask[0]["Tasks"];
+          res.status(201).send(tasks[0]);
+        } else {
+          console.log(new Error("Error returning tasks in Create Task User."));
+        }
       } else {
-        console.log(new Error("Error returning tasks in Create New Task."));
+        console.log(
+          new Error("Error adding user to task in Create Task User.")
+        );
       }
     } else {
-      console.log(new Error("Error creating new Task."));
+      console.log(
+        new Error("Error fetching task or user data in Create Task User.")
+      );
     }
   } catch (error) {
     next(error);
   }
 });
+
+// POST A NEW TASK AND ASSIGN TO USER (MUST BE ASSIGNED TO A USER)
+// adding new task in trip dash
+// trip owners and editors can add new task
+taskRouter.post(
+  "/:tripId",
+  requireToken,
+  isOwnerOrEditorOfTrip,
+  async (req, res, next) => {
+    console.log("in post route to add a new task");
+    try {
+      const {
+        type,
+        subtype,
+        provider_name,
+        due_date,
+        start_date,
+        end_date,
+        start_time,
+        end_time,
+        checkin_time,
+        start_location,
+        end_location,
+        description,
+        booking_num,
+        link,
+        status,
+        TripId,
+        userId,
+        role,
+      } = req.body;
+      const data = await Task.create({
+        type,
+        subtype,
+        provider_name,
+        due_date,
+        start_date,
+        end_date,
+        start_time,
+        end_time,
+        checkin_time,
+        start_location,
+        end_location,
+        description,
+        booking_num,
+        link,
+        status,
+        TripId,
+      });
+      const user = await User.findByPk(userId);
+      if (data && user) {
+        const userAddedToTask = await user.addTask(data, {
+          through: { role },
+        });
+        const tasksWithNewTask = await Trip.findAll({
+          where: { id: data.TripId },
+          include: [
+            { model: Task, where: { id: data.id }, include: [{ model: User }] },
+          ],
+        });
+        if (tasksWithNewTask[0]["Tasks"]) {
+          const tasks = tasksWithNewTask[0]["Tasks"];
+          res.status(201).send(tasks[0]);
+        } else {
+          console.log(new Error("Error returning tasks in Create New Task."));
+        }
+      } else {
+        console.log(new Error("Error creating new Task."));
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 // UPDATE USER ROLE ON EXISTING TASK
 // update on single view attendees/editor roles
@@ -207,151 +264,115 @@ taskRouter.put("/task-user", requireToken, async (req, res, next) => {
 });
 
 // DELETE TASK
-// trip owner can delete a task 
+// trip owner can delete a task
 // if you are a trip editor lets make sure you are editor of that task
-taskRouter.delete("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
-  try {
-    const { taskId } = req.params;
-    const data = await Task.findByPk(taskId);
-    if (data) {
-      const deleted = await data.destroy();
-      if (deleted) {
-        res.status(200).send(data);
+taskRouter.delete(
+  "/:taskId/:tripId",
+  requireToken,
+  isOwnerOrEditorOfTrip,
+  isEditorOfTaskOrTripOwner,
+  async (req, res, next) => {
+    try {
+      const { taskId } = req.params;
+      const data = await Task.findByPk(taskId);
+      if (data) {
+        const deleted = await data.destroy();
+        if (deleted) {
+          res.status(200).send(data);
+        } else {
+          console.log(new Error("Error deleting task in Delete Task."));
+        }
       } else {
-        console.log(new Error("Error deleting task in Delete Task."));
+        console.log(new Error("Error fetching task in Delete Task"));
       }
-    } else {
-      console.log(new Error("Error fetching task in Delete Task"));
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 // UPDATE TASK
 // trip owner can edit a task
 // if you are a trip editor lets make sure you are editor of that task
-taskRouter.put("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
-  console.log("in task update route")
-  try {
-    const checkedFields = {};
-    const { body } = req;
-    const taskFields = [
-      "provider_name",
-      "due_date",
-      "start_date",
-      "end_date",
-      "start_time",
-      "end_time",
-      "checkin_time",
-      "start_location",
-      "end_location",
-      "description",
-      "booking_num",
-      "link",
-      "status",
-    ];
-    for (const [key, value] of Object.entries(body)) {
-      if (taskFields.includes(key)) {
-        checkedFields[key] = value;
+taskRouter.put(
+  "/:taskId/:tripId",
+  requireToken,
+  isOwnerOrEditorOfTrip,
+  isEditorOfTaskOrTripOwner,
+  async (req, res, next) => {
+    console.log("in task update route");
+    try {
+      const checkedFields = {};
+      const { body } = req;
+      const taskFields = [
+        "provider_name",
+        "due_date",
+        "start_date",
+        "end_date",
+        "start_time",
+        "end_time",
+        "checkin_time",
+        "start_location",
+        "end_location",
+        "description",
+        "booking_num",
+        "link",
+        "status",
+      ];
+      for (const [key, value] of Object.entries(body)) {
+        if (taskFields.includes(key)) {
+          checkedFields[key] = value;
+        }
       }
-    }
-    const { taskId } = req.params;
-    const data = await Task.findByPk(taskId);
+      const { taskId } = req.params;
+      const data = await Task.findByPk(taskId);
 
-    if (data) {
-      const updated = await data.update(checkedFields);
-      if (updated) {
-        const tasksWithUpdatedTask = await Trip.findAll({
-          where: { id: data.TripId },
-          include: [
-            {
-              model: Task,
-              where: { id: data.id },
-              include: [
-                {
-                  model: Trip,
-                  attributes: ["name"],
-                },
-                { model: User },
-              ],
-            },
-          ],
-        });
-        if (tasksWithUpdatedTask[0]["Tasks"]) {
-          const tasks = tasksWithUpdatedTask[0]["Tasks"];
-          res.status(200).send(tasks[0]);
+      if (data) {
+        const updated = await data.update(checkedFields);
+        if (updated) {
+          const tasksWithUpdatedTask = await Trip.findAll({
+            where: { id: data.TripId },
+            include: [
+              {
+                model: Task,
+                where: { id: data.id },
+                include: [
+                  {
+                    model: Trip,
+                    attributes: ["name"],
+                  },
+                  { model: User },
+                ],
+              },
+            ],
+          });
+          if (tasksWithUpdatedTask[0]["Tasks"]) {
+            const tasks = tasksWithUpdatedTask[0]["Tasks"];
+            res.status(200).send(tasks[0]);
+          } else {
+            console.log(new Error("Error returning tasks in Update Task."));
+          }
         } else {
-          console.log(new Error("Error returning tasks in Update Task."));
+          console.log(new Error("Error updating task in Update Task."));
         }
       } else {
-        console.log(new Error("Error updating task in Update Task."));
+        console.log(new Error("Error fetching task in Update Task."));
       }
-    } else {
-      console.log(new Error("Error fetching task in Update Task."));
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
-
+);
 
 // ADD ADDITIONAL USER TO EXISTING TASK
 
 // adding, editing, and deleting users from a trip task
-// task editor and trip owner can do this ^ 
-// task editor can only edit their tasks 
-
-taskRouter.post("/task-user", requireToken, async (req, res, next) => {
-  try {
-    const { userId, taskId, role } = req.body;
-    const data = await Task.findByPk(taskId);
-    const user = await User.findByPk(userId);
-    if (data && user) {
-      const userAddedToTask = await user.addTask(data, {
-        through: { role },
-      });
-      if (userAddedToTask) {
-        const tasksWithUpdatedTask = await Trip.findAll({
-          where: { id: data.TripId },
-          include: [
-            {
-              model: Task,
-              where: { id: data.id },
-              include: [
-                { model: User },
-                {
-                  model: Trip,
-                  attributes: ["name"],
-                },
-              ],
-            },
-          ],
-        });
-        if (tasksWithUpdatedTask) {
-          const tasks = tasksWithUpdatedTask[0]["Tasks"];
-          res.status(201).send(tasks[0]);
-        } else {
-          console.log(new Error("Error returning tasks in Create Task User."));
-        }
-      } else {
-        console.log(
-          new Error("Error adding user to task in Create Task User.")
-        );
-      }
-    } else {
-      console.log(
-        new Error("Error fetching task or user data in Create Task User.")
-      );
-    }
-  } catch (error) {
-    next(error);
-  }
-});
+// task editor and trip owner can do this ^
+// task editor can only edit their tasks
 
 // REMOVE USER FROM EXISTING TASK
 
-// owner can do 
+// owner can do
 
 taskRouter.delete("/:userId/:taskId", requireToken, async (req, res, next) => {
   try {
