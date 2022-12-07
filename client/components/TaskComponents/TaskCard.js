@@ -9,6 +9,7 @@ import EditTaskModal from "./EditTaskModal";
 import { deleteTask, updateTask } from "../../redux/taskReducer";
 import { Avatar, AvatarGroup, List } from "@mui/material";
 import { getCookie } from "../../redux/users";
+import EditTaskAttendeesTripView from "./EditTaskAttendeesTripView";
 
 function timeDisplayConverter(time) {
   const formattedTime = new Date(time).toLocaleTimeString("en-US", {
@@ -19,24 +20,23 @@ function timeDisplayConverter(time) {
   return formattedTime;
 }
 
-
 function stringToColor(string) {
   let hash = 0;
   let i;
-  
+
   /* eslint-disable no-bitwise */
   for (i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
-  
+
   let color = "#";
-  
+
   for (i = 0; i < 3; i += 1) {
     const value = (hash >> (i * 8)) & 0xff;
     color += `00${value.toString(16)}`.slice(-2);
   }
   /* eslint-enable no-bitwise */
-  
+
   return color;
 }
 
@@ -54,21 +54,23 @@ const TaskCard = (props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
   const taskStartTime = timeDisplayConverter(props.task.start_date);
-  
+
+  const TripId = props.trip.id;
+
   const handleClick = (e, id) => {
+    setShowMarkAlert(false);
     e.preventDefault();
     if (props.task.start_date) {
       const status = "complete";
-      dispatch(updateTask({ status }, id));
+      dispatch(updateTask({ status, TripId }, id));
     } else {
       setShowMarkAlert(true);
     }
   };
-  
+
   const handleDelete = (e, id) => {
     e.preventDefault();
     setShow(false);
-    console.log("tripId in trip card", props.task.TripId)
     dispatch(deleteTask(id, props.task.TripId));
   };
   const [show, setShow] = useState(false);
@@ -82,7 +84,7 @@ const TaskCard = (props) => {
   const { trip } = props;
   const usersInTrip = trip.Users ? trip.Users : [];
   const taskUsers = props.task.Users || [];
-  const tripId = props.task.TripId || 0
+  const tripId2 = props.task.TripId || null;
 
   useEffect(() => {
     // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
@@ -386,6 +388,14 @@ const TaskCard = (props) => {
                       Edit
                     </Button>
                   )}
+                  {console.log("card trip", props.trip)}
+                  {(isTripOwner || isTaskEditor) && !props.status && (
+                    <EditTaskAttendeesTripView
+                      trip={props.trip}
+                      task={props.task}
+                      type={props.type}
+                    />
+                  )}
                 </div>
               </div>
             </ListGroup.Item>
@@ -394,11 +404,10 @@ const TaskCard = (props) => {
       </Card>
       <EditTaskModal
         task={props.task}
-        tripId={tripId}
+        tripId={tripId2}
         trip={props.trip}
         show={modalShow}
         onHide={() => {
-          console.log("will hide");
           setModalShow(false);
         }}
       />
