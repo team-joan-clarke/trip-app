@@ -188,12 +188,12 @@ const taskReducer = (state = initialState, action) => {
         allItineraryTasks: [...state.allItineraryTasks, action.task],
       };
     case UPDATE_TASK: {
-      const filteredTasks = state.allItineraryTasks.filter(
-        (task) => task.id !== action.task.id
+      const updatedTaskArr = state.allItineraryTasks.map((task) =>
+        task.id === action.task.id ? action.task : task
       );
       return {
         ...state,
-        allItineraryTasks: [...filteredTasks, action.task],
+        allItineraryTasks: [...updatedTaskArr],
       };
     }
     case DELETE_TASK: {
