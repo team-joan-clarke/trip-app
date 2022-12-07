@@ -124,7 +124,7 @@ const usersReducer = (state = initialState, action) => {
     case GET_ALL_USERS:
       return { ...state, allUsers: action.users };
     case UPDATE_USER:
-      return { ...state, allUsers: action.users };
+      return { ...state, allUsers: action.user };
     case DELETE_USER:
       return { ...state, allUsers: action.users };
     default:

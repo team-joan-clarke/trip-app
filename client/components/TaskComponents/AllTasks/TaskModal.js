@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import { Form, FloatingLabel, Row, Col, Alert } from "react-bootstrap";
+import {
+  Form,
+  FloatingLabel,
+  Row,
+  Col,
+  Alert,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { updateTask, deleteTask } from "../../../redux/taskReducer";
 import TextField from "@mui/material/TextField";
@@ -27,6 +35,7 @@ const TaskEditForm = (props) => {
   const [timeError, setTimeError] = useState(false);
   const [isTaskEditor, setIsTaskEditor] = useState(false);
   const [showMarkAlert, setShowMarkAlert] = useState(false);
+  const [showSuccessToast, setSuccessToast] = useState(false);
 
   const [start_date, setStart_Date] = useState(singleTask.start_date || null);
   const [end_date, setEnd_Date] = useState(singleTask.end_date || null);
@@ -110,7 +119,8 @@ const TaskEditForm = (props) => {
         singleTask.id
       )
     );
-    setSucess(true);
+    setShow(false);
+    setSuccessToast(true);
   };
 
   const handleClick = (e, id) => {
@@ -136,6 +146,28 @@ const TaskEditForm = (props) => {
     <div>
       {isTaskEditor && (
         <div>
+          {/* Toast when update is successful: */}
+          <ToastContainer position="top-end">
+            <Toast
+              bg="info"
+              onClose={() => setSuccessToast(false)}
+              show={showSuccessToast}
+              delay={4000}
+              autohide
+            >
+              <Toast.Header>
+                <img
+                  src="holder.js/20x20?text=%20"
+                  className="rounded me-2"
+                  alt=""
+                />
+                <strong className="me-auto">trippn</strong>
+                <small>Now</small>
+              </Toast.Header>
+              <Toast.Body>You just edited this task.</Toast.Body>
+            </Toast>
+          </ToastContainer>
+
           <Alert show={delete_Task} variant="danger">
             <Alert.Heading>
               Are you sure you want to delete this task?
@@ -225,24 +257,6 @@ const TaskEditForm = (props) => {
               <Modal.Title>{singleTask.type}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {/* Alert when update is successful: */}
-              <Alert variant="success" show={success}>
-                <Alert.Heading>Sucess!</Alert.Heading>
-                <hr />
-                <p className="mb-0">Your Task was sucessfully updated!</p>
-                <div className="d-flex justify-content-end">
-                  <Button
-                    variant="outline-success"
-                    onClick={() => {
-                      setSucess(false);
-                      handleClose();
-                    }}
-                  >
-                    Dashboard
-                  </Button>
-                </div>
-              </Alert>
-
               {/* Alert when update unsuccessful: */}
               <Alert variant="warning" show={alert}>
                 <Alert.Heading>Unsuccessful...</Alert.Heading>
@@ -323,6 +337,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Starting Address"
+                    value={start_location}
                     onChange={(e) => setStart_Location(e.target.value)}
                   />
                 </Form.Group>
@@ -342,6 +357,7 @@ const TaskEditForm = (props) => {
                     <Form.Control
                       type="text"
                       placeholder="Ending Address"
+                      value={end_location}
                       onChange={(e) => setEnd_Location(e.target.value)}
                     />
                   </Form.Group>
@@ -352,6 +368,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Hotel Name, Airline, etc..."
+                    value={provider_name}
                     onChange={(e) => setProvider_Namer(e.target.value)}
                   />
                 </Form.Group>
@@ -361,6 +378,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="booking/confirmation number"
+                    value={booking_num}
                     onChange={(e) => setBooking_Num(e.target.value)}
                   />
                 </Form.Group>
@@ -370,6 +388,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     type="url"
                     placeholder="https://www.yourURL"
+                    value={link}
                     onChange={(e) => setLink(e.target.value)}
                   />
                 </Form.Group>
@@ -379,6 +398,7 @@ const TaskEditForm = (props) => {
                   <Form.Control
                     as="textarea"
                     rows={5}
+                    value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </Form.Group>

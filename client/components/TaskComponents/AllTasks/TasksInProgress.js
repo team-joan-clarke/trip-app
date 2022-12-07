@@ -88,7 +88,7 @@ const TasksInProgress = (props) => {
 
   return (
     <div>
-      <h3>Current Tasks</h3>
+      <br></br>
       <div>
         {inProgressTasks.length == 0 ? (
           <h2>No past tasks</h2>
@@ -129,9 +129,12 @@ const TasksInProgress = (props) => {
                   </AvatarGroup>
 
                   <Card.Title>{singleTask.type} </Card.Title>
-                  <Card.Text>Trip Name: {singleTask.Trip.name}</Card.Text>
                   <Card.Text>
-                    Task Due Date:
+                    <strong>Trip Name:</strong>
+                    {singleTask.Trip.name}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Due:</strong>
                     {new Date(singleTask.due_date).toLocaleDateString()}
                   </Card.Text>
                   {!seeMore && (
@@ -144,16 +147,18 @@ const TasksInProgress = (props) => {
                       }}
                       style={{ float: "left" }}
                     >
-                      "See More..."
+                      See More...
                     </Card.Link>
                   )}
                   {seeMore && (
                     <div>
                       <Card.Text>
-                        Provider Name: {singleTask.provider_name}
+                        <strong> Provider Name:</strong>
+                        {singleTask.provider_name}
                       </Card.Text>
                       <Card.Text>
-                        Booking Number: {singleTask.booking_num}
+                        <strong>Booking Number:</strong>
+                        {singleTask.booking_num}
                       </Card.Text>
                       <Row>
                         {singleTask.start_date && (
@@ -161,7 +166,7 @@ const TasksInProgress = (props) => {
                             <Row>
                               <Col>
                                 <Card.Text>
-                                  Start Date:
+                                  <strong>Start Date:</strong>
                                   {new Date(
                                     singleTask.start_date
                                   ).toLocaleDateString()}
@@ -169,7 +174,7 @@ const TasksInProgress = (props) => {
                               </Col>
                               <Col>
                                 <Card.Text>
-                                  Start Time:
+                                  <strong>Start Time:</strong>
                                   {timeDisplayConverter(singleTask.start_date)}
                                 </Card.Text>
                               </Col>
@@ -181,7 +186,7 @@ const TasksInProgress = (props) => {
                             <Row>
                               <Col>
                                 <Card.Text>
-                                  End Date:
+                                  <strong>End Date:</strong>
                                   {new Date(
                                     singleTask.end_date
                                   ).toLocaleDateString()}
@@ -189,7 +194,7 @@ const TasksInProgress = (props) => {
                               </Col>
                               <Col>
                                 <Card.Text>
-                                  End Time:
+                                  <strong>End Time:</strong>
                                   {timeDisplayConverter(singleTask.end_date)}
                                 </Card.Text>
                               </Col>
@@ -198,9 +203,12 @@ const TasksInProgress = (props) => {
                         )}
                       </Row>
 
-                      <Card.Text>Link: {singleTask.link}</Card.Text>
                       <Card.Text>
-                        Description: {singleTask.description}
+                        <strong>Link: </strong>
+                        {singleTask.link}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Description:</strong> {singleTask.description}
                       </Card.Text>
                       <Card.Link
                         className="mb-2 text-muted"
@@ -211,7 +219,7 @@ const TasksInProgress = (props) => {
                         }}
                         style={{ float: "left" }}
                       >
-                        "See Less"
+                        See Less
                       </Card.Link>
                     </div>
                   )}
