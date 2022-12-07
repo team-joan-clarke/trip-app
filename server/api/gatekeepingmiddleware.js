@@ -64,7 +64,6 @@ const isOwnerOrEditorOfTrip = async (req, res, next) => {
   }
 };
 
-
 // isEditorOfTrip
 // const isEditorOfTrip = async (req, res, next) => {
 //   console.log("in editor of trip");
@@ -117,7 +116,10 @@ const isEditorOfTaskOrTripOwner = async (req, res, next) => {
       TaskId: req.params.taskId,
       role: "editor",
     },
+    raw: true,
   });
+  console.log("in gatekeeping trip", req.params.tripId);
+  console.log("in gatekeeping user", req.user.id);
 
   //are they also ownerOfTrip
   const isOwnerOfTrip = await User_Trip.findOne({
@@ -126,10 +128,12 @@ const isEditorOfTaskOrTripOwner = async (req, res, next) => {
       TripId: req.params.tripId,
       role: "owner",
     },
+    raw: true,
   });
+  console.log("isOwner---", isOwnerOfTrip.role);
 
-  console.log("is editor of trip", isEditorOfTask);
-  if (isEditorOfTask.role == "editor" || isOwnerOfTrip.role == "owner") {
+  console.log("is editor of trip---", isEditorOfTask);
+  if (isEditorOfTask == "editor" || isOwnerOfTrip.role == "owner") {
     console.log("I HAVE ACCESS bcs I am task Editor or trip owner");
     next();
   } else {
