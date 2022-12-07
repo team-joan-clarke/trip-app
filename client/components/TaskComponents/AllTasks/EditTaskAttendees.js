@@ -8,13 +8,16 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Card, Form, Alert } from "react-bootstrap";
 import { updateTaskUser } from "../../../redux/taskReducer";
+import { fetchSingleTrip } from "../../../redux/tripReducer";
 
 const EditTaskAttendees = (props) => {
   const { singleTask } = props;
-  const { tripId } = useParams();
+  const { allUsers } = props.users;
+  const { Users } = props.tripUsers.singleTripView;
+
   const dispatch = useDispatch();
 
-  const [users, setUsers] = useState(props.users.allUsers);
+  const [users, setUsers] = useState(allUsers);
   const [filteredUsers, setFilteredUsers] = useState("");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [selectedUser, setSelectedUser] = useState([]);
@@ -31,6 +34,7 @@ const EditTaskAttendees = (props) => {
   const [role, setRole] = useState(false);
   const [deleteAttendee, setDeleteAttendee] = useState(false);
   const [alreadyAttending, setAlreadyAttending] = useState(false);
+  const [notOwner_or_Editor, setNotOwner_or_Editor] = useState(false);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -38,6 +42,10 @@ const EditTaskAttendees = (props) => {
 
     // initialize debounce function to search once user has stopped typing every half second
     inputRef.current = _.debounce(onSearchText, 500);
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchSingleTrip(singleTask.TripId));
   }, []);
 
   useEffect(() => {
@@ -51,7 +59,7 @@ const EditTaskAttendees = (props) => {
       setUserTripInfo({
         role: userAccess,
         UserId: selectedUserId,
-        TripId: tripId,
+        TripId: singleTask.TripId,
       });
     }
   }, [props.users, selectedUserId, userAccess]);
@@ -94,12 +102,30 @@ const EditTaskAttendees = (props) => {
     event.stopPropagation();
     const users = singleTask.Users || [];
     const userIds = users.map((user) => user.id);
+
+    //Validation for Trip Owner or Trip Editor:
+    let justTripAttendees = Users.map((user) => {
+      const { role } = user.user_trip;
+      if (role === "owner" || role === "editor") {
+        return user.id;
+      }
+    });
+
+    if (
+      !justTripAttendees.includes(selectedUserId) &&
+      userAccess !== "attendee"
+    ) {
+      return setNotOwner_or_Editor(true);
+    }
+
+    //Validation for Trip Attendee:
     let access = users.filter((user) => {
       if (user.id == selectedUserId) {
         const { role } = user.user_task;
         return role;
       }
     });
+
     // Validation for already on trip and same role
     if (access.length > 0) {
       let accessRole = access[0].user_task.role;
@@ -254,12 +280,32 @@ const EditTaskAttendees = (props) => {
             </div>
           </Alert>
 
-          {/* Alert when attendee is already a apart of the trip */}
+          {/* Alert when adding a trip Attendee */}
+          <Alert variant="warning" show={notOwner_or_Editor}>
+            <Alert.Heading>Unauthorized...</Alert.Heading>
+            <hr />
+            <p className="mb-0">
+              To assign a role to this person, please change their trip
+              privileges to owner or editor
+            </p>
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  setNotOwner_or_Editor(false);
+                }}
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+
+          {/* Alert when attendee is already a apart of the task */}
           <Alert variant="warning" show={alreadyAttending}>
             <Alert.Heading>Unsuccessful...</Alert.Heading>
             <hr />
             <p className="mb-0">
-              Person selected is already part of the trip as the selected role.
+              Person selected is already part of the task as the selected role.
               Did you mean to change their role?
             </p>
             <div className="d-flex justify-content-end">
@@ -398,6 +444,7 @@ const EditTaskAttendees = (props) => {
 
 const mapState = (state) => ({
   users: state.users,
+  tripUsers: state.trips,
 });
 
 export default connect(mapState)(EditTaskAttendees);
