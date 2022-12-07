@@ -115,9 +115,6 @@ const TaskEditForm = (props) => {
 
   const handleClick = (e, id) => {
     e.stopPropagation();
-    // const status = "complete";
-    // dispatch(updateTask({ status }, id));
-    console.log("I am in the click");
     if (start_date) {
       const status = "complete";
       dispatch(updateTask({ status, TripId }, id));
