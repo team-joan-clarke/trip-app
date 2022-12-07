@@ -34,7 +34,8 @@ userTripsRouter.get("/:tripId", async (req, res, next) => {
 //add new user trip
 // isOwnerOrEditorOfTrip
 // add trip id here 
-userTripsRouter.post("/", requireToken, isOwnerOrEditorOfTrip, async (req, res, next) => {
+
+userTripsRouter.post("/:tripId", requireToken, isOwnerOrEditorOfTrip, async (req, res, next) => {
   try {
     const createUserTrip = await User_Trip.create(req.body);
     res.status(200).send(createUserTrip);
@@ -64,6 +65,7 @@ userTripsRouter.put("/:tripId", requireToken, isOwnerOrEditorOfTrip, async (req,
 //DELETE ROUTE
 //delete user trip
 userTripsRouter.delete("/:tripId/:userId", requireToken, isOwnerOrEditorOfTrip, async (req, res, next) => {
+  console.log("in delete router")
   try {
     const findUserTrip = await User_Trip.findOne({
       where: {

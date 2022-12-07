@@ -42,6 +42,7 @@ const TripAttendees = (props) => {
   };
 
   const handleDelete = (e, userId) => {
+    console.log("delete in attendees", tripId)
     e.stopPropagation();
     props.deleteThisUserTrip(tripId, userId);
   };
