@@ -5,7 +5,6 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { Card, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { getCookie } from "../../redux/users";
-import { fetchSingleTrip } from "../../redux/tripReducer";
 import {
   updateThisUserTrip,
   deleteThisUserTrip,
@@ -21,11 +20,8 @@ const TripAttendees = (props) => {
     UserId: "",
     TripId: "",
   });
-  const [showSuccess, setShowSuccess] = useState(false);
 
-  useEffect(() => {
-    props.fetchSingleTrip(tripId);
-  }, []);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (userId !== "") {
@@ -217,7 +213,6 @@ const mapState = (state) => {
 };
 
 const mapDispatch = (dispatch) => ({
-  fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
   updateThisUserTrip: (tripId, userTrip) =>
     dispatch(updateThisUserTrip(tripId, userTrip)),
   deleteThisUserTrip: (tripId, userId) =>
