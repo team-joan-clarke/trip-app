@@ -162,7 +162,6 @@ taskRouter.post(
 // task editor and trip owner can do this ^
 // task editor can only edit their tasks
 
-
 taskRouter.post("/task-user/:tripId", requireToken, async (req, res, next) => {
   try {
     const { userId, taskId, role } = req.body;
@@ -211,45 +210,53 @@ taskRouter.post("/task-user/:tripId", requireToken, async (req, res, next) => {
 });
 
 // REMOVE USER FROM EXISTING TASK
-
 // owner can do
+taskRouter.delete(
+  "/task-user/:userId/:taskId/:tripId",
+  requireToken,
+  async (req, res, next) => {
+    try {
+      const { taskId, userId } = req.params;
 
-taskRouter.delete("/:userId/:taskId", requireToken, async (req, res, next) => {
-  try {
-    const { taskId, userId } = req.params;
-
-    const data = await Task.findByPk(taskId);
-    const user = await User.findByPk(userId);
-    if (data && user) {
-      const userRemovedFromTask = await user.removeTask(data);
-      console.log("removed in this route", userRemovedFromTask);
-      if (userRemovedFromTask) {
-        const tasksWithUpdatedTask = await Trip.findAll({
-          where: { id: data.TripId },
-          include: [
-            { model: Task, where: { id: data.id }, include: [{ model: User }] },
-          ],
-        });
-        if (tasksWithUpdatedTask) {
-          const tasks = tasksWithUpdatedTask[0]["Tasks"];
-          res.status(200).send(tasks[0]);
+      const data = await Task.findByPk(taskId);
+      const user = await User.findByPk(userId);
+      if (data && user) {
+        const userRemovedFromTask = await user.removeTask(data);
+        console.log("removed in this route", userRemovedFromTask);
+        if (userRemovedFromTask) {
+          const tasksWithUpdatedTask = await Trip.findAll({
+            where: { id: data.TripId },
+            include: [
+              {
+                model: Task,
+                where: { id: data.id },
+                include: [{ model: User }],
+              },
+            ],
+          });
+          if (tasksWithUpdatedTask) {
+            const tasks = tasksWithUpdatedTask[0]["Tasks"];
+            res.status(200).send(tasks[0]);
+          } else {
+            console.log(
+              new Error("Error returning tasks in Delete Task User.")
+            );
+          }
         } else {
-          console.log(new Error("Error returning tasks in Delete Task User."));
+          console.log(
+            new Error("Error removing user to task in Delete Task User.")
+          );
         }
       } else {
         console.log(
-          new Error("Error removing user to task in Delete Task User.")
+          new Error("Error fetching task or user data in Delete Task User.")
         );
       }
-    } else {
-      console.log(
-        new Error("Error fetching task or user data in Delete Task User.")
-      );
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 // UPDATE USER ROLE ON EXISTING TASK
 // update on single view attendees/editor roles
