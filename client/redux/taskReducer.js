@@ -86,19 +86,23 @@ export const addNewTask = (task, role) => {
   };
 };
 
-export const updateTask = (updatedData, taskId) => {
+export const updateTask = (updatedData, taskId, TripId) => {
   //somehow need to send trip Id to back end
-  console.log("in thunk for update")
-  console.log("task trip id", updatedData.TripId)
+  console.log("in thunk for update");
+  console.log("task trip id", TripId);
   return async (dispatch) => {
     try {
       const token = getCookie("token");
       console.log("token in update thunk", token);
-      const { data } = await axios.put(`/api/tasks/${taskId}/${updatedData.TripId}`, updatedData, {
-        headers: { authorization: token },
-      });
+      const { data } = await axios.put(
+        `/api/tasks/${taskId}/${TripId}`,
+        updatedData,
+        {
+          headers: { authorization: token },
+        }
+      );
       if (data) {
-        console.log("in thunk 102")
+        console.log("in thunk 102");
         dispatch(updatedTask(data));
       }
     } catch (error) {
@@ -108,14 +112,14 @@ export const updateTask = (updatedData, taskId) => {
 };
 
 export const deleteTask = (taskId, tripId) => {
-  console.log("tripId in delete", tripId)
+  console.log("tripId in delete", tripId);
   return async (dispatch) => {
     try {
       const token = getCookie("token");
       const { data } = await axios.delete(`/api/tasks/${taskId}/${tripId}`, {
         headers: { authorization: token },
       });
-      console.log("data from backend")
+      console.log("data from backend");
       if (data) {
         dispatch(deletedTask(data));
       }
@@ -219,5 +223,5 @@ const taskReducer = (state = initialState, action) => {
 
 export default taskReducer;
 
-// trip owner or trip editor can edit tasks 
+// trip owner or trip editor can edit tasks
 // can edit bcs task editor or i am task owner

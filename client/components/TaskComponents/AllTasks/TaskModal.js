@@ -76,6 +76,7 @@ const TaskEditForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const { TripId } = singleTask;
     //checking URL:
     if (link) {
       const isValid = urlPatternValidation(link);
@@ -105,7 +106,8 @@ const TaskEditForm = (props) => {
           link,
           description,
         },
-        singleTask.id
+        singleTask.id,
+        TripId
       )
     );
     setSucess(true);
