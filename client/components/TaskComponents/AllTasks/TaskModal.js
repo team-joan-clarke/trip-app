@@ -158,34 +158,36 @@ const TaskEditForm = (props) => {
               </Button>
             </div>
           </Alert>
+          {/* {Adding start date before marking complete:} */}
+          <div>
+            <Alert show={showMarkAlert} variant="warning">
+              <Alert.Heading>
+                Please add a start date before proceeding:
+              </Alert.Heading>
+              <p style={{ display: "block" }}>
+                In order to mark as complete a start date is required. Please
+                edit task to input a start date.
+              </p>
+              <hr />
+              <div className="d-flex justify-content-end">
+                <Button
+                  onClick={() => setShowMarkAlert(false)}
+                  variant="secondary"
+                  style={{
+                    marginRight: "1rem",
+                    borderRadius: "50px",
+                    float: "right",
+                  }}
+                >
+                  Close
+                </Button>
+              </div>
+            </Alert>
+          </div>
           <br></br>
           <div style={{ float: "left" }}>
             <EditTaskAttendees singleTask={singleTask} />
           </div>
-
-          <Alert show={showMarkAlert} variant="warning">
-            <Alert.Heading>
-              Please fix these errors before proceeding:
-            </Alert.Heading>
-            <p style={{ display: "block" }}>
-              This task does not have a start date. Please add a start date
-              before marking as complete.
-            </p>
-            <hr />
-            <div className="d-flex justify-content-end">
-              <Button
-                onClick={() => setShowMarkAlert(false)}
-                variant="secondary"
-                style={{
-                  marginRight: "1rem",
-                  borderRadius: "50px",
-                  float: "right",
-                }}
-              >
-                Close
-              </Button>
-            </div>
-          </Alert>
 
           <Button
             variant="primary"
