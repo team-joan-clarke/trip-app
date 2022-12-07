@@ -32,6 +32,8 @@ userTripsRouter.get("/:tripId", async (req, res, next) => {
 
 //POST ROUTE
 //add new user trip
+// isOwnerOrEditorOfTrip
+// add trip id here 
 userTripsRouter.post("/", requireToken, isOwnerOrEditorOfTrip, async (req, res, next) => {
   try {
     const createUserTrip = await User_Trip.create(req.body);

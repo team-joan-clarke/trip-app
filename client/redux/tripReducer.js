@@ -137,10 +137,9 @@ export const createNewTrip = (trip) => {
 };
 
 export const createNewUserTrip = (userTrip) => {
-  // come back to add requireToken in backend
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/userTrips`, userTrip);
+      const { data } = await axios.post(`/api/userTrips/`, userTrip);
       dispatch(createUserTrip(data));
     } catch (error) {
       console.error(error);
@@ -192,6 +191,7 @@ export const deleteActiveTripThunk = (tripId) => {
     try {
       const token = getCookie("token");
       const id = getCookie("userId");
+      console.log("id")
       console.log("id in dleete thunk", id)
       console.log("token in active thunk", token);
       const { data } = await axios.delete(`/api/trips/${tripId}`, {
@@ -207,6 +207,7 @@ export const deleteActiveTripThunk = (tripId) => {
 export const deleteCompleteTripThunk = (tripId) => {
   return async (dispatch) => {
     const token = getCookie("token");
+    const id = getCookie("userId");
     try {
       const { data } = await axios.delete(`/api/trips/${tripId}`, {
         headers: { authorization: token },

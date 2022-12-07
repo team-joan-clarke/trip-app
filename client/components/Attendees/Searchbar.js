@@ -134,6 +134,7 @@ const Searchbar = (props) => {
   }
 
   const handleSubmit = (event) => {
+    console.log("in search bar", userTripInfo)
     event.preventDefault();
     if (errors.length === 0) {
       props.createNewUserTrip({
