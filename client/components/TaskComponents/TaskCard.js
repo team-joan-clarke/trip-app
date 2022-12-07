@@ -167,7 +167,9 @@ const TaskCard = (props) => {
             <ListGroup.Item>
               <div style={{ display: "flex" }}>
                 <div style={{ flex: 1 }}>
-                  <Card.Title>{props.task.provider_name}</Card.Title>
+                  <Card.Title style={{ wordBreak: "break-word" }}>
+                    {props.task.provider_name}
+                  </Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
                     {props.task.type}:{" "}
                     {props.task.subtype ? props.task.subtype : ""}
