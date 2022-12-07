@@ -25,6 +25,7 @@ const TaskEditForm = (props) => {
   const [deleteTask, setDeleteTask] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [isTaskEditor, setIsTaskEditor] = useState(false);
+  const [showMarkAlert, setShowMarkAlert] = useState(false);
 
   const [start_date, setStart_Date] = useState(singleTask.start_date || null);
   const [end_date, setEnd_Date] = useState(singleTask.end_date || null);
@@ -112,8 +113,15 @@ const TaskEditForm = (props) => {
 
   const handleClick = (e, id) => {
     e.stopPropagation();
-    const status = "complete";
-    dispatch(updateTask({ status }, id));
+    // const status = "complete";
+    // dispatch(updateTask({ status }, id));
+    console.log("I am in the click");
+    if (start_date) {
+      const status = "complete";
+      dispatch(updateTask({ status }, id));
+    } else {
+      setShowMarkAlert(true);
+    }
   };
 
   const handleDelete = (e, id) => {
@@ -138,7 +146,6 @@ const TaskEditForm = (props) => {
               cancel.
             </p>
             <hr />
-
             <div className="d-flex justify-content-end">
               <Button onClick={() => setDeleteTask(false)} variant="secondary">
                 Cancel
@@ -155,6 +162,30 @@ const TaskEditForm = (props) => {
           <div style={{ float: "left" }}>
             <EditTaskAttendees singleTask={singleTask} />
           </div>
+
+          <Alert show={showMarkAlert} variant="warning">
+            <Alert.Heading>
+              Please fix these errors before proceeding:
+            </Alert.Heading>
+            <p style={{ display: "block" }}>
+              This task does not have a start date. Please add a start date
+              before marking as complete.
+            </p>
+            <hr />
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={() => setShowMarkAlert(false)}
+                variant="secondary"
+                style={{
+                  marginRight: "1rem",
+                  borderRadius: "50px",
+                  float: "right",
+                }}
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
 
           <Button
             variant="primary"
