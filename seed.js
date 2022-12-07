@@ -367,7 +367,20 @@ async function seed() {
       type: "Dining",
       subtype: "Breakfast",
       provider_name: "Cafe du Monde",
-      due_date: new Date(2023, 1, 30),
+      due_date: new Date(2023, 0, 30),
+      start_date: new Date(2023, 1, 16, 0, 0, 0),
+      description:
+        "BEIGNETS! Look into Cafe du Monde. Maybe do at night instead?",
+      status: "in progress",
+      TripId: mardigras,
+    },
+    {
+      type: "Lodging",
+      subtype: "Hotel",
+      provider_name: "Bourbon Orleans Hotel",
+      due_date: new Date(2023, 0, 15),
+      start_date: new Date(2023, 1, 15, 15, 0, 0),
+      end_date: new Date(2023, 1, 22, 11, 0, 0),
       description:
         "BEIGNETS! Look into Cafe du Monde. Maybe do at night instead?",
       status: "in progress",
@@ -377,7 +390,7 @@ async function seed() {
       type: "Dining",
       subtype: "Lunch",
       provider_name: "Johnny's Poboys",
-      due_date: new Date(2023, 1, 30),
+      due_date: new Date(2023, 0, 30),
       description: "Johnny's Poboys or similar--check on veggie options",
       status: "in progress",
       TripId: mardigras,
@@ -386,7 +399,7 @@ async function seed() {
       type: "Dining",
       subtype: "Dinner",
       provider_name: "Brennan's",
-      due_date: new Date(2023, 1, 15),
+      due_date: new Date(2023, 0, 15),
       start_date: new Date(2023, 1, 16, 15, 55),
       description:
         "Friday res at Brennan's in the dining room. (THE place to get Banana's Foster). Spoke to Jimmy.",
@@ -398,7 +411,7 @@ async function seed() {
       type: "Activity",
       subtype: "Other",
       provider_name: "Fifi Mahoney's",
-      due_date: new Date(2023, 1, 10),
+      due_date: new Date(2023, 0, 10),
       description: "Check on when wigs will be avail for pickup",
       status: "in progress",
       TripId: mardigras,
@@ -407,8 +420,9 @@ async function seed() {
       type: "Activity",
       subtype: "Tour",
       provider_name: "Cemetery Tour",
-      due_date: new Date(2023, 2, 10),
+      due_date: new Date(2023, 0, 10),
       start_date: new Date(2023, 1, 16, 12, 15),
+      start_location: "Outside Lafayette Cemetery No. 1",
       description: "Book walking tour of one of the cemeteries?",
       status: "complete",
       TripId: mardigras,
@@ -417,7 +431,7 @@ async function seed() {
       type: "Transportation",
       subtype: "Flight",
       provider_name: "T.B.D.",
-      due_date: new Date(2023, 1, 25),
+      due_date: new Date(2023, 0, 25),
       description: "Book flights",
       status: "in progress",
       TripId: mardigras,
@@ -666,6 +680,7 @@ async function seed() {
   const brennans = await getTAIDByName("Brennan's");
   const fifimahoney = await getTAIDByName("Fifi Mahoney's");
   const cemeterytour = await getTAIDByName("Cemetery Tour");
+  const bourbon = await getTAIDByName("Bourbon Orleans Hotel");
   const tbdFlight = await getTAIDByName("T.B.D.");
   const tipitinas = await getTAIDByName("Tipitina's");
   // KYLE'S BDAY
@@ -831,6 +846,11 @@ async function seed() {
       role: "editor",
       UserId: neil,
       TaskId: tbdFlight,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: neil,
+      TaskId: bourbon,
     }),
     User_Task.create({
       role: "editor",

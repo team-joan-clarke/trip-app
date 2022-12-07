@@ -21,6 +21,7 @@ const TripAttendees = (props) => {
     UserId: "",
     TripId: "",
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     props.fetchSingleTrip(tripId);
@@ -29,6 +30,10 @@ const TripAttendees = (props) => {
   useEffect(() => {
     if (userId !== "") {
       props.updateThisUserTrip(parseInt(tripId), { ...userTripInfo });
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
     }
   }, [userTripInfo]);
 
@@ -105,14 +110,22 @@ const TripAttendees = (props) => {
                     style={{
                       width: "auto",
                       margin: "1rem",
+                      height: "70px",
                       boxShadow: "0px 1px 1px grey",
-                      padding: "0.8rem",
+                      padding: "none",
                     }}
                   >
-                    <Card.Body>
+                    <Card.Body
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "none",
+                      }}
+                    >
                       <strong
                         style={{
-                          fontSize: "18px",
+                          fontSize: "16px",
                         }}
                       >
                         {user.firstName} {user.lastName}
@@ -123,6 +136,7 @@ const TripAttendees = (props) => {
                             <h6
                               style={{
                                 float: "right",
+                                fontSize: "14px",
                               }}
                             >
                               Trip Owner
@@ -131,12 +145,17 @@ const TripAttendees = (props) => {
                             <section>
                               <Button
                                 onClick={(e) => handleDelete(e, user.id)}
+                                variant="outline-danger"
                                 style={{
-                                  margin: "7px",
+                                  height: "35px",
+                                  marginLeft: "10px",
                                   float: "right",
+                                  position: "float",
+                                  padding: "0.5rem",
+                                  fontSize: "12px",
                                 }}
                               >
-                                Delete Attendee
+                                Delete
                               </Button>
                               <Form.Select
                                 defaultValue={user.user_trip.role}
@@ -145,18 +164,36 @@ const TripAttendees = (props) => {
                                   setUserId(user.id);
                                 }}
                                 style={{
-                                  width: "200px",
-                                  margin: "none",
+                                  width: "150px",
+                                  height: "35px",
                                   boxShadow: "0px 1px 1px grey",
-                                  padding: "0.8rem",
+                                  padding: "0.5rem",
                                   float: "right",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
                               >
                                 <option value="attendee">Attendee</option>
                                 <option value="editor">Editor</option>
                                 <option value="owner">Owner</option>
                               </Form.Select>
+                              {user.id === userId
+                                ? showSuccess && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="25"
+                                      height="25"
+                                      fill="green"
+                                      className="bi bi-check-lg"
+                                      viewBox="0 0 16 16"
+                                      style={{
+                                        margin: '0.3rem',
+                                        marginRight: '1rem'
+                                      }}
+                                    >
+                                      <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                    </svg>
+                                  )
+                                : null}
                             </section>
                           )}
                         </section>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import Column from "./TaskComponents/Column";
+import TaskList from "./TaskComponents/TaskList";
 
 const TripTasks = (props) => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const TripTasks = (props) => {
   const tasks = useSelector((state) => state.tasks.allItineraryTasks);
   const [columns, setColumns] = useState([]);
   const [colTasks, setColTasks] = useState({});
+  const [colOngoingTasks, setColOngoingTasks] = useState({});
 
   const { trip } = props;
   useEffect(() => {
@@ -26,16 +28,22 @@ const TripTasks = (props) => {
 
       const dayArr = [];
       const taskMap = {};
+      const taskOngoingMap = {};
+      const taskOngoingMapDate = {};
 
+      // MAKE ARR OF TRIP DAYS
       for (let i = 0; i < tripDuration; i++) {
         const startDate = new Date(start);
         startDate.setDate(startDate.getDate() + i);
         const dateStr = startDate.toDateString();
         dayArr.push({ date: dateStr });
         taskMap[dateStr] = [];
+        taskOngoingMapDate[startDate] = [];
+        taskOngoingMap[dateStr] = [];
       }
-
+      // ASSIGN TASKS TO DAYS
       tasks.forEach((task) => {
+        // ASSIGN TASK TO START DATE
         if (task.start_date) {
           const startDate = new Date(task.start_date);
           startDate.setDate(startDate.getDate());
@@ -46,9 +54,36 @@ const TripTasks = (props) => {
             taskMap[taskDate] = taskArr;
           }
         }
+        if (
+          task.end_date &&
+          new Date(task.end_date).getDate() >
+            new Date(task.start_date).getDate()
+        ) {
+          // ASSIGN TASK ONGOING DURATION
+          const endDate = new Date(task.end_date);
+          endDate.setDate(endDate.getDate());
+          const taskEndDate = endDate.toDateString();
+          const taskEndArr = taskMap[taskEndDate];
+          if (taskEndArr) {
+            for (const date in taskOngoingMapDate) {
+              if (
+                new Date(date).getDate() >=
+                  new Date(task.start_date).getDate() &&
+                new Date(date).getDate() <= new Date(task.end_date).getDate()
+              ) {
+                const mapDate = new Date(date);
+                mapDate.setDate(mapDate.getDate(date));
+                const taskOngoingArr = taskOngoingMapDate[date];
+                taskOngoingArr.push(task);
+                taskOngoingMap[mapDate.toDateString()] = taskOngoingArr;
+              }
+            }
+          }
+        }
       });
       setColumns(dayArr);
       setColTasks(taskMap);
+      setColOngoingTasks(taskOngoingMap);
     }
   }, [tasks, trip]);
 
@@ -82,7 +117,8 @@ const TripTasks = (props) => {
                 key={i}
                 col={col}
                 tasks={colTasks[col.date]}
-                trip={props.trip.Users}
+                ongoingTasks={colOngoingTasks[col.date]}
+                trip={props.trip}
               />
             );
           })}

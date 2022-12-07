@@ -4,10 +4,9 @@ const {
 
 // user is logged in
 const requireToken = async (req, res, next) => {
-  console.log("in require token authorization", req.headers.authorization);
+  // console.log("in require token authorization", req.headers.authorization);
   try {
     const token = req.headers.authorization;
-    console.log("token", token);
     const user = await User.findByToken(token);
     // include user_trip to get user role in trip
     req.user = user;
@@ -65,7 +64,7 @@ const isOwnerOrEditorOfTrip = async (req, res, next) => {
   }
 };
 
-// task editor will be trip editor YES
+
 // isEditorOfTrip
 // const isEditorOfTrip = async (req, res, next) => {
 //   console.log("in editor of trip");

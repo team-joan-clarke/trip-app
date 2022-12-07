@@ -57,8 +57,12 @@ const TaskCard = (props) => {
   
   const handleClick = (e, id) => {
     e.preventDefault();
-    const status = "complete";
-    dispatch(updateTask({ status }, id));
+    if (props.task.start_date) {
+      const status = "complete";
+      dispatch(updateTask({ status }, id));
+    } else {
+      setShowMarkAlert(true);
+    }
   };
   
   const handleDelete = (e, id) => {
@@ -68,6 +72,7 @@ const TaskCard = (props) => {
     dispatch(deleteTask(id, props.task.TripId));
   };
   const [show, setShow] = useState(false);
+  const [showMarkAlert, setShowMarkAlert] = useState(false);
 
   // ROLE HANDLING
   const [isTripOwner, setIsTripOwner] = useState(false);
@@ -75,7 +80,7 @@ const TaskCard = (props) => {
   const [isTaskEditor, setIsTaskEditor] = useState(false);
   const idOfUserLoggedIn = getCookie("userId");
   const { trip } = props;
-  const usersInTrip = trip ? trip : [];
+  const usersInTrip = trip.Users ? trip.Users : [];
   const taskUsers = props.task.Users || [];
   const tripId = props.task.TripId || 0
 
@@ -108,6 +113,7 @@ const TaskCard = (props) => {
     });
 
     if (userLoggedInIsOwnerOfTrip.length > 0) {
+      console.log("owner true");
       setIsTripOwner(true);
     } else {
       setIsTripOwner(false);
@@ -123,14 +129,18 @@ const TaskCard = (props) => {
     } else {
       setIsTaskEditor(false);
     }
-  }, [props.task.Users, trip]);
+  }, [props.task.Users, trip.Users]);
 
   return (
     <>
       <Card
         style={
           props.type === "todo"
-            ? { width: "auto", margin: "1rem", boxShadow: "0px 1px 1px grey" }
+            ? {
+                width: "auto",
+                margin: "1rem",
+                boxShadow: "0px 1px 1px grey",
+              }
             : {
                 width: "13rem",
                 marginTop: ".5rem",
@@ -179,13 +189,39 @@ const TaskCard = (props) => {
               </div>
               {props.type === "todo" ? (
                 <Card.Text>
-                  Due: {new Date(props.task.due_date).toLocaleDateString()}
+                  <strong>Due:</strong>{" "}
+                  {new Date(props.task.due_date).toLocaleDateString()}
                 </Card.Text>
               ) : (
-                <Card.Text>Start: {taskStartTime}</Card.Text>
+                <Card.Text>
+                  <strong>Start:</strong> {taskStartTime}
+                </Card.Text>
               )}
               {props.task.description && seeMore ? (
-                <Card.Text>Description: {props.task.description}</Card.Text>
+                <Card.Text>
+                  <strong>Description:</strong> {props.task.description}
+                </Card.Text>
+              ) : (
+                <></>
+              )}
+              {props.task.start_location && seeMore ? (
+                <Card.Text>
+                  <strong>Start Location:</strong> {props.task.start_location}
+                </Card.Text>
+              ) : (
+                <></>
+              )}
+              {props.task.end_location && seeMore ? (
+                <Card.Text>
+                  <strong>End Location:</strong> {props.task.end_location}
+                </Card.Text>
+              ) : (
+                <></>
+              )}
+              {props.task.booking_num && seeMore ? (
+                <Card.Text>
+                  <strong>Booking Number:</strong> {props.task.booking_num}
+                </Card.Text>
               ) : (
                 <></>
               )}
@@ -219,6 +255,7 @@ const TaskCard = (props) => {
                 >
                   {seeMore ? "See Less" : "See More..."}
                 </Card.Link>
+                {console.log("isTripOwner", isTripOwner)}
                 {props.type === "todo" &&
                 (isTripOwner || isTaskEditor) &&
                 !props.status ? (
@@ -278,6 +315,38 @@ const TaskCard = (props) => {
                     </Button>
                   </div>
                 </Alert>
+                <Alert
+                  show={showMarkAlert}
+                  variant="danger"
+                  style={{ flexDirection: "column" }}
+                >
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Alert.Heading style={{ float: "left" }}>
+                      Please fix these errors before proceeding:
+                    </Alert.Heading>
+                    <p style={{ display: "block" }}>
+                      This task does not have a start date. Please add a start
+                      date before marking as complete.
+                    </p>
+                  </div>
+                  <hr />
+                  <div
+                    className="d-flex justify-content-end"
+                    style={{ width: "100%" }}
+                  >
+                    <Button
+                      onClick={() => setShowMarkAlert(false)}
+                      variant="secondary"
+                      style={{
+                        marginRight: "1rem",
+                        borderRadius: "50px",
+                        float: "right",
+                      }}
+                    >
+                      Close
+                    </Button>
+                  </div>
+                </Alert>
                 <div
                   style={
                     props.type === "itinerary"
@@ -328,7 +397,10 @@ const TaskCard = (props) => {
         tripId={tripId}
         trip={props.trip}
         show={modalShow}
-        onHide={() => setModalShow(false)}
+        onHide={() => {
+          console.log("will hide");
+          setModalShow(false);
+        }}
       />
     </>
   );

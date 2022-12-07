@@ -23,6 +23,7 @@ taskRouter.get("/user/:userId", requireToken, async (req, res, next) => {
                 model: Trip,
                 attributes: ["name"],
               },
+              { model: User, through: "User_Trip" },
             ],
           },
         ],
@@ -145,7 +146,7 @@ taskRouter.post("/:tripId", requireToken, isOwnerOrEditorOfTrip,  async (req, re
 });
 
 // DELETE TASK
-// trip owner can delete a trip 
+// trip owner can delete a task 
 // if you are a trip editor lets make sure you are editor of that task
 taskRouter.delete("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
   try {
@@ -167,7 +168,7 @@ taskRouter.delete("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEdi
 });
 
 // UPDATE TASK
-// trip owner can delete a trip 
+// trip owner can edit a task
 // if you are a trip editor lets make sure you are editor of that task
 taskRouter.put("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
   console.log("in task update route")
@@ -235,12 +236,11 @@ taskRouter.put("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditor
 
 
 // ADD ADDITIONAL USER TO EXISTING TASK
-// adding, editing, and deleting from users tasks in trip
+// adding, editing, and deleting users from a trip task
 // task editor and trip owner can do this ^ 
 // task editor can only edit their tasks 
-
 taskRouter.post("/task-user", requireToken, async (req, res, next) => {
-  console.log("add another user to task")
+  console.log("add another user to task");
   try {
     const { userId, taskId, role } = req.body;
     const data = await Task.findByPk(taskId);
@@ -342,13 +342,18 @@ taskRouter.put("/task-user", requireToken, async (req, res, next) => {
 
 // REMOVE USER FROM EXISTING TASK
 // owner can do 
-taskRouter.delete("/task-user", requireToken, async (req, res, next) => {
+taskRouter.delete("/:userId/:taskId", requireToken, async (req, res, next) => {
   try {
-    const { taskId, userId } = req.body;
+    const { taskId, userId } = req.params;
+    console.log("taskId ======>", taskId);
+    console.log("userId ======>", userId);
+
     const data = await Task.findByPk(taskId);
     const user = await User.findByPk(userId);
     if (data && user) {
       const userRemovedFromTask = await user.removeTask(data);
+
+      console.log("removed in this route", userRemovedFromTask);
       if (userRemovedFromTask) {
         const tasksWithUpdatedTask = await Trip.findAll({
           where: { id: data.TripId },
