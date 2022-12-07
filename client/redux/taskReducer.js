@@ -90,12 +90,13 @@ export const updateTask = (updatedData, taskId) => {
   //somehow need to send trip Id to back end
   console.log("in thunk for update");
   console.log("task trip id", updatedData.TripId);
+  const { TripId } = updatedData;
   return async (dispatch) => {
     try {
       const token = getCookie("token");
       console.log("token in update thunk", token);
       const { data } = await axios.put(
-        `/api/tasks/${taskId}/${updatedData.TripId}`,
+        `/api/tasks/${taskId}/${TripId}`,
         updatedData,
         {
           headers: { authorization: token },

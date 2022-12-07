@@ -162,6 +162,7 @@ taskRouter.post(
 // task editor and trip owner can do this ^
 // task editor can only edit their tasks
 
+
 taskRouter.post("/task-user/:tripId", requireToken, async (req, res, next) => {
   try {
     const { userId, taskId, role } = req.body;

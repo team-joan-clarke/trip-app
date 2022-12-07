@@ -40,18 +40,12 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
                     <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                      <NavDropdown.Item href="#action/3.1">
-                        Dead Link
-                      </NavDropdown.Item>
                       <NavDropdown.Item href="/update">
                         Update Profile
                       </NavDropdown.Item>
+                      <NavDropdown.Divider />
                       <NavDropdown.Item href="/login" onClick={handleClick}>
                         Sign Out
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item href="/dummydash">
-                        dummy dash
                       </NavDropdown.Item>
                     </NavDropdown>
                   </Nav>

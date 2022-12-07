@@ -15,6 +15,7 @@ import EditTaskAttendees from "./EditTaskAttendees";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
+  const { TripId } = singleTask;
 
   const dispatch = useDispatch();
 
@@ -22,9 +23,10 @@ const TaskEditForm = (props) => {
   const [checked, setChecked] = useState(false);
   const [success, setSucess] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [deleteTask, setDeleteTask] = useState(false);
+  const [delete_Task, setDelete_Task] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [isTaskEditor, setIsTaskEditor] = useState(false);
+  const [showMarkAlert, setShowMarkAlert] = useState(false);
 
   const [start_date, setStart_Date] = useState(singleTask.start_date || null);
   const [end_date, setEnd_Date] = useState(singleTask.end_date || null);
@@ -95,6 +97,7 @@ const TaskEditForm = (props) => {
     dispatch(
       updateTask(
         {
+          TripId,
           start_date,
           end_date,
           start_location,
@@ -112,14 +115,18 @@ const TaskEditForm = (props) => {
 
   const handleClick = (e, id) => {
     e.stopPropagation();
-    const status = "complete";
-    dispatch(updateTask({ status }, id));
+    if (start_date) {
+      const status = "complete";
+      dispatch(updateTask({ status, TripId }, id));
+    } else {
+      setShowMarkAlert(true);
+    }
   };
 
   const handleDelete = (e, id) => {
     e.stopPropagation();
-    setDeleteTask(false);
-    dispatch(deleteTask(id));
+    setDelete_Task(false);
+    dispatch(deleteTask(id, TripId));
   };
 
   // for maxTime validation:
@@ -129,7 +136,7 @@ const TaskEditForm = (props) => {
     <div>
       {isTaskEditor && (
         <div>
-          <Alert show={deleteTask} variant="danger">
+          <Alert show={delete_Task} variant="danger">
             <Alert.Heading>
               Are you sure you want to delete this task?
             </Alert.Heading>
@@ -138,7 +145,6 @@ const TaskEditForm = (props) => {
               cancel.
             </p>
             <hr />
-
             <div className="d-flex justify-content-end">
               <Button onClick={() => setDeleteTask(false)} variant="secondary">
                 Cancel
@@ -151,6 +157,32 @@ const TaskEditForm = (props) => {
               </Button>
             </div>
           </Alert>
+          {/* {Adding start date before marking complete:} */}
+          <div>
+            <Alert show={showMarkAlert} variant="warning">
+              <Alert.Heading>
+                Please add a start date before proceeding:
+              </Alert.Heading>
+              <p style={{ display: "block" }}>
+                In order to mark as complete a start date is required. Please
+                edit task to input a start date.
+              </p>
+              <hr />
+              <div className="d-flex justify-content-end">
+                <Button
+                  onClick={() => setShowMarkAlert(false)}
+                  variant="secondary"
+                  style={{
+                    marginRight: "1rem",
+                    borderRadius: "50px",
+                    float: "right",
+                  }}
+                >
+                  Close
+                </Button>
+              </div>
+            </Alert>
+          </div>
           <br></br>
           <div style={{ float: "left" }}>
             <EditTaskAttendees singleTask={singleTask} />
@@ -182,7 +214,7 @@ const TaskEditForm = (props) => {
             <Button
               variant="outline-danger"
               size="sm"
-              onClick={() => setDeleteTask(true)}
+              onClick={() => setDelete_Task(true)}
             >
               Delete
             </Button>

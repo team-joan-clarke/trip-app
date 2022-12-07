@@ -74,6 +74,8 @@ function dueDateCompare(a, b) {
 
 const CompletedTaskCard = (props) => {
   const { singleTask } = props;
+  const { TripId } = singleTask;
+
   const dispatch = useDispatch();
 
   // USER IS EDITOR OF TASK:
@@ -99,13 +101,13 @@ const CompletedTaskCard = (props) => {
 
   const handleClick = (e, id) => {
     e.stopPropagation();
-    dispatch(deleteTask(id));
+    dispatch(deleteTask(id, TripId));
   };
 
   const handleRestore = (e, id) => {
     e.stopPropagation();
     const status = "in progress";
-    dispatch(updateTask({ status }, id));
+    dispatch(updateTask({ status, TripId }, id));
   };
   const [show, setShow] = useState(false);
   const [seeMore, setSeeMore] = useState(false);

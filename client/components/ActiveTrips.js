@@ -9,47 +9,6 @@ import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
-// import Card from 'react-bootstrap/Card';
-// import Col from 'react-bootstrap/Col';
-// import Row from 'react-bootstrap/Row';
-
-
-// function ActiveTrips(props) {
-//   useEffect(() => {
-//     props.getTrips();
-//   }, []);
-
-//   const { trips } = props;
-//   const navigate = useNavigate();
-
-//   const handleClick = (event) => {
-//     navigate(`/trip/${event.target.name}`);
-//   };
-
-//   const handleRemove = (event) => {
-//     props.deleteTrip(event.target.name);
-//   };
-
-//   return (
-//     <Row xs={1} md={2} className="g-4">
-//       {Array.from({ length: 4 }).map((_, idx) => (
-//         <Col>
-//           <Card>
-//             <Card.Img variant="top" src="holder.js/100px160" />
-//             <Card.Body>
-//               <Card.Title>Card title</Card.Title>
-//               <Button variant="primary" onClick={handleClick}> View Trip</Button>
-//               <Button variant="primary" onClick={handleRemove}>Remove</Button>
-//             </Card.Body>
-//           </Card>
-//         </Col>
-//       ))}
-//     </Row>
-//   );
-// }
-
-
-
 const ActiveTrips = (props) => {
   useEffect(() => {
     props.getTrips(); 
@@ -67,8 +26,10 @@ const ActiveTrips = (props) => {
   };
   return (
     <div>  
-      <h1>Current Trips</h1>
-      <div>
+      <br></br>
+      <h1>Your current trips</h1>
+      <br></br>
+      <div className="addFlex">
         {trips.active.length == 0 ? (
           <h5>No active Trips</h5>  
           ) : (
@@ -80,7 +41,7 @@ const ActiveTrips = (props) => {
                   style={{ width: "18rem" }}
                   key={singleTrip.id}
                   >
-                  <Card.Img variant="top" src={singleTrip.imageUrl} />
+                  <Card.Img variant="top" className="heightAndWidth" src={singleTrip.imageUrl} />
                   <Card.Body>
                     <Card.Title><strong>{singleTrip.name}</strong></Card.Title>
                     <Card.Text>Status: {singleTrip.status}</Card.Text>
@@ -98,7 +59,7 @@ const ActiveTrips = (props) => {
                       View Trip
                     </Button>
                     {singleTrip.role == "owner" ? 
-                    <Button name={singleTrip.id} onClick={handleRemove} variant="outline-danger">
+                    <Button name={singleTrip.id} onClick={handleRemove} variant="outline-danger" className="marginLeft">
                       Delete
                     </Button> : <h1></h1>}
                   </Card.Body>
