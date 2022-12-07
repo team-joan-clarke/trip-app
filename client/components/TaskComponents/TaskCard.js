@@ -390,7 +390,6 @@ const TaskCard = (props) => {
                       Edit
                     </Button>
                   )}
-                  {console.log("card trip", props.trip)}
                   {(isTripOwner || isTaskEditor) && !props.status && (
                     <EditTaskAttendeesTripView
                       trip={props.trip}
