@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import {
-  Form,
-  FloatingLabel,
-  Row,
-  Col,
-  Alert,
-  Toast,
-  ToastContainer,
-} from "react-bootstrap";
+import { Form, Row, Col, Alert, Toast, ToastContainer } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { updateTask, deleteTask } from "../../../redux/taskReducer";
 import TextField from "@mui/material/TextField";
@@ -18,12 +10,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { getCookie } from "../../../redux/users";
-import Searchbar from "../../Attendees/Searchbar";
 import EditTaskAttendees from "./EditTaskAttendees";
+import { fetchSingleTrip } from "../../../redux/tripReducer";
 
 const TaskEditForm = (props) => {
   const { singleTask } = props;
   const { TripId } = singleTask;
+  const Users = props.tripUsers.singleTripView.Users || [];
 
   const dispatch = useDispatch();
 
@@ -34,6 +27,7 @@ const TaskEditForm = (props) => {
   const [delete_Task, setDelete_Task] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [isTaskEditor, setIsTaskEditor] = useState(false);
+  const [isTripOwner, setIsTripOwner] = useState(false);
   const [showMarkAlert, setShowMarkAlert] = useState(false);
   const [showSuccessToast, setSuccessToast] = useState(false);
 
@@ -66,7 +60,11 @@ const TaskEditForm = (props) => {
     return regex.test(URL);
   };
 
-  // USER IS EDITOR OF TASK:
+  useEffect(() => {
+    dispatch(fetchSingleTrip(TripId));
+  }, []);
+
+  // USER IS EDITOR OF TASK or OWNER OF TRIP:
   const idOfUserLoggedIn = getCookie("userId");
   useEffect(() => {
     const userLoggedInIsEditorOfTask = singleTask.Users.filter((user) => {
@@ -77,12 +75,27 @@ const TaskEditForm = (props) => {
       }
     });
 
+    // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
+    const userLoggedInIsOwnerOfTrip = Users.filter((user) => {
+      if (user.id == idOfUserLoggedIn) {
+        if (user.user_trip.role == "owner") {
+          return user;
+        }
+      }
+    });
+
+    if (userLoggedInIsOwnerOfTrip.length > 0) {
+      setIsTripOwner(true);
+    } else {
+      setIsTripOwner(false);
+    }
+
     if (userLoggedInIsEditorOfTask.length > 0) {
       setIsTaskEditor(true);
     } else {
       setIsTaskEditor(false);
     }
-  }, []);
+  }, [Users]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -144,7 +157,7 @@ const TaskEditForm = (props) => {
 
   return (
     <div>
-      {isTaskEditor && (
+      {(isTaskEditor || isTripOwner) && (
         <div>
           {/* Toast when update is successful: */}
           <ToastContainer position="top-end">
@@ -217,7 +230,7 @@ const TaskEditForm = (props) => {
           </div>
           <br></br>
           <div style={{ float: "left" }}>
-            <EditTaskAttendees singleTask={singleTask} />
+            <EditTaskAttendees singleTask={singleTask} Users={Users} />
           </div>
 
           <Button
@@ -423,6 +436,7 @@ const TaskEditForm = (props) => {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks,
+    tripUsers: state.trips,
   };
 };
 

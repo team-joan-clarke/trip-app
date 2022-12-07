@@ -8,12 +8,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Card, Form, Alert } from "react-bootstrap";
 import { updateTaskUser } from "../../../redux/taskReducer";
-import { fetchSingleTrip } from "../../../redux/tripReducer";
 
 const EditTaskAttendees = (props) => {
-  const { singleTask } = props;
+  const { singleTask, Users } = props;
   const { allUsers } = props.users;
-  const { Users } = props.tripUsers.singleTripView;
 
   const dispatch = useDispatch();
 
@@ -44,9 +42,9 @@ const EditTaskAttendees = (props) => {
     inputRef.current = _.debounce(onSearchText, 500);
   }, []);
 
-  useEffect(() => {
-    dispatch(fetchSingleTrip(singleTask.TripId));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchSingleTrip(singleTask.TripId));
+  // }, []);
 
   useEffect(() => {
     if (props.users.allUsers.length > 0) {
@@ -285,8 +283,8 @@ const EditTaskAttendees = (props) => {
             <Alert.Heading>Unauthorized...</Alert.Heading>
             <hr />
             <p className="mb-0">
-              To assign a role to this person, please change their trip
-              privileges to owner or editor
+              To assign this person as editor, please change their trip
+              privileges to owner or editor.
             </p>
             <div className="d-flex justify-content-end">
               <Button
@@ -444,7 +442,7 @@ const EditTaskAttendees = (props) => {
 
 const mapState = (state) => ({
   users: state.users,
-  tripUsers: state.trips,
+  // tripUsers: state.trips,
 });
 
 export default connect(mapState)(EditTaskAttendees);
