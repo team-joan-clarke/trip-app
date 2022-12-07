@@ -145,6 +145,7 @@ export const updateTaskUser = (userId, taskId, role = null, action) => {
           dispatch(updatedTaskUser(data));
         }
       } else if (action === "updateRole") {
+        console.log("in thunk ====>", role);
         const { data } = await axios.put(
           "/api/tasks/task-user",
           {
