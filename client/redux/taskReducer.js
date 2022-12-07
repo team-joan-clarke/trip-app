@@ -151,7 +151,7 @@ export const updateTaskUser = (userId, taskId, role = null, action, tripId) => {
       } else if (action === "remove") {
         // route to User_Task delete
         const { data } = await axios.delete(
-          `/api/tasks/${userId}/${taskId}/${tripId}`,
+          `/api/tasks/task-user/${userId}/${taskId}/${tripId}`,
           {
             headers: { authorization: token },
           }
