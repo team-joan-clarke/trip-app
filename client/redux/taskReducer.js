@@ -222,3 +222,6 @@ const taskReducer = (state = initialState, action) => {
 };
 
 export default taskReducer;
+
+// trip owner or trip editor can edit tasks 
+// can edit bcs task editor or i am task owner

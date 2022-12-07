@@ -42,7 +42,6 @@ function EditTaskModal(props) {
     }
   }, [errors]);
   
-  console.log("in edit modal tripId", props.tripId)
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

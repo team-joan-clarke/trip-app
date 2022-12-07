@@ -7,7 +7,6 @@ const User_Trip = require("../../db/models/User_Trip");
 const { requireToken, isOwnerofTrip, isEditorOfTask, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner} = require("./gatekeepingmiddleware");
 
 
-// trip owner need access to task editiing 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
 taskRouter.get("/user/:userId", requireToken, async (req, res, next) => {
   try {
@@ -78,6 +77,7 @@ taskRouter.get("/trip/:tripId", requireToken, async (req, res, next) => {
 
 // POST A NEW TASK AND ASSIGN TO USER (MUST BE ASSIGNED TO A USER)
 // adding new task in trip dash
+// trip owners and editors can add new task 
 taskRouter.post("/:tripId", requireToken, isOwnerOrEditorOfTrip,  async (req, res, next) => {
   console.log("in post route to add a new task")
   try {
@@ -145,9 +145,8 @@ taskRouter.post("/:tripId", requireToken, isOwnerOrEditorOfTrip,  async (req, re
 });
 
 // DELETE TASK
-// deleting a task both views 
-// task editors can delete tasks
-// ownwer can alo delete a task even though they arent assigned to that task 
+// trip owner can delete a trip 
+// if you are a trip editor lets make sure you are editor of that task
 taskRouter.delete("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
   try {
     const { taskId } = req.params;
@@ -167,17 +166,9 @@ taskRouter.delete("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEdi
   }
 });
 
-// trip editor just exits to add new task to trip 
-
 // UPDATE TASK
-// updating a task both views 
-// task editors can update a task but so can trip Owner 
-// trip owner need to be task editor by defaullt
-// isEditorOfTaskAndtriponwer
-// task editor can only edit their task 
-// isAttendee of trip if true cannot edit tasks 
-// i can be trip editor and task editor 
-// i can be trip owner and still edit task 
+// trip owner can delete a trip 
+// if you are a trip editor lets make sure you are editor of that task
 taskRouter.put("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner, async (req, res, next) => {
   console.log("in task update route")
   try {
@@ -242,10 +233,12 @@ taskRouter.put("/:taskId/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditor
   }
 });
 
+
 // ADD ADDITIONAL USER TO EXISTING TASK
 // adding, editing, and deleting from users tasks in trip
 // task editor and trip owner can do this ^ 
 // task editor can only edit their tasks 
+
 taskRouter.post("/task-user", requireToken, async (req, res, next) => {
   console.log("add another user to task")
   try {

@@ -34,7 +34,6 @@ function AddNewTaskModal(props) {
     prevTasksRef.current = tasks;
   });
   const { tasks } = props;
-  console.log("props", tasks[0])
 
   useEffect(() => {
     if (errors.length > 0) {
