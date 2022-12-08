@@ -10,6 +10,7 @@ import TripTaskTodo from "./TripTaskTodo";
 import EditTrip from "./EditTrip";
 import { getCookie } from "../redux/users";
 import TripAttendees from "./Attendees/TripAttendees";
+import { Image } from "react-bootstrap";
 
 const SingleTrip = () => {
   const dispatch = useDispatch();
@@ -54,39 +55,41 @@ const SingleTrip = () => {
         style={{ width: "100%", alignContent: "center" }}
       >
         <main>
-          <h1>{trip.name}</h1>
-
-          {userLoggedInRelationshipToTrip.length ? (
+          <div
+            style={{
+              width: "auto",
+              padding: "1.5rem",
+              borderRadius: "5px",
+              boxShadow: "2px 1px 20px grey",
+              marginTop: "1rem",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "white",
+            }}
+          >
+            <Image
+              src={trip.imageUrl}
+              thumbnail
+              style={{ width: "18rem", height: "18rem" }}
+            />
             <div
               style={{
-                width: "auto",
-                padding: "2rem",
-                borderRadius: "5px",
-                boxShadow: "2px 1px 20px grey",
-                marginTop: "3rem",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: 'center'
+                padding: "2rem",
               }}
             >
-              <h3>Edit This Trip</h3>
-              <div
-                style={{
-                  display: "flex",
-                  width: "auto",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  padding: "0.7rem",
-                  justifyContent: "center",
-                }}
-              >
-                <EditTrip />
-                {/* {userLoggedInRelationshipToTrip.length ? <EditTrip /> : <h1></h1>} */}
-              </div>
+              <h1 className='spicy-text'>{trip.name}</h1>
+              <h4 style={{marginBottom: '1.5rem'}}>
+                Dates: {new Date(trip.start_date).toLocaleDateString()}-{" "}
+                {new Date(trip.end_date).toLocaleDateString()}
+              </h4>
+              {userLoggedInRelationshipToTrip.length ? <EditTrip /> : null}
             </div>
-          ) : (
-            <h1></h1>
-          )}
+          </div>
+
           <TripAttendees />
           <TripTasks trip={trip} />
           <TripTaskTodo trip={trip} />

@@ -28,7 +28,7 @@ const CompletedTrips = (props) => {
   return (
     <div>
       <br></br>
-      <h1>Your past trips</h1>
+      <h1 className='spicy-text'>Your past trips</h1>
       <br></br>
       <div className="addFlex">
         {trips.complete.length == 0 ? (

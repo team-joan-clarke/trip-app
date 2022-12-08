@@ -27,7 +27,7 @@ const ActiveTrips = (props) => {
   return (
     <div>  
       <br></br>
-      <h1>Your current trips</h1>
+      <h1 className='spicy-text'>Your current trips</h1>
       <br></br>
       <div className="addFlex">
         {trips.active.length == 0 ? (
