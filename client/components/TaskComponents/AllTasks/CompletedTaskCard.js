@@ -8,6 +8,7 @@ import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { deleteTask, updateTask } from "../../../redux/taskReducer";
 import { AvatarGroup, Avatar } from "@mui/material";
 import { getCookie } from "../../../redux/users";
+import { fetchSingleTrip } from "../../../redux/tripReducer";
 
 //Time Display:
 function timeDisplayConverter(time) {
@@ -75,6 +76,7 @@ function dueDateCompare(a, b) {
 const CompletedTaskCard = (props) => {
   const { singleTask } = props;
   const { TripId } = singleTask;
+  const Users = props.tripUsers.singleTripView.Users || [];
 
   const dispatch = useDispatch();
 
@@ -82,6 +84,7 @@ const CompletedTaskCard = (props) => {
   const idOfUserLoggedIn = getCookie("userId");
 
   const [isTaskEditor, setIsTaskEditor] = useState(false);
+  const [isTripOwner, setIsTripOwner] = useState(false);
 
   useEffect(() => {
     const userLoggedInIsEditorOfTask = singleTask.Users.filter((user) => {
@@ -91,6 +94,21 @@ const CompletedTaskCard = (props) => {
         }
       }
     });
+
+    // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
+    const userLoggedInIsOwnerOfTrip = Users.filter((user) => {
+      if (user.id == idOfUserLoggedIn) {
+        if (user.user_trip.role == "owner") {
+          return user;
+        }
+      }
+    });
+    console.log("inside", Users);
+    if (userLoggedInIsOwnerOfTrip.length > 0) {
+      setIsTripOwner(true);
+    } else {
+      setIsTripOwner(false);
+    }
 
     if (userLoggedInIsEditorOfTask.length > 0) {
       setIsTaskEditor(true);
@@ -161,7 +179,13 @@ const CompletedTaskCard = (props) => {
         </AvatarGroup>
         <Card.Title>{singleTask.type}</Card.Title>
         <Card.Text>
-          Task Due Date:
+          <span>
+            <strong>Trip Name: </strong>
+            {singleTask.Trip ? <span>{singleTask.Trip.name}</span> : null}
+          </span>
+        </Card.Text>
+        <Card.Text>
+          <strong>Task Due Date:</strong>
           {new Date(singleTask.due_date).toLocaleDateString()}
         </Card.Text>
         {!seeMore && (
@@ -175,51 +199,67 @@ const CompletedTaskCard = (props) => {
               }}
               style={{ float: "left" }}
             >
-              "See More..."
+              See More...
             </Card.Link>
           </div>
         )}
         {seeMore && (
           <div>
-            <Card.Text>Provider Name: {singleTask.provider_name}</Card.Text>
-            <Card.Text>Booking Number: {singleTask.booking_num}</Card.Text>
+            <Card.Text>
+              <strong>Provider Name: </strong>
+              {singleTask.provider_name}
+            </Card.Text>
+            <Card.Text>
+              <strong>Booking Number:</strong> {singleTask.booking_num}
+            </Card.Text>
             <Row>
               {singleTask.start_date && (
                 <div>
-                  <Col>
-                    <Card.Text>
-                      Start Date:
-                      {new Date(singleTask.start_date).toLocaleDateString()}
-                    </Card.Text>
-                  </Col>
-                  <Col>
-                    <Card.Text>
-                      Start Time:
-                      {timeDisplayConverter(singleTask.start_date)}
-                    </Card.Text>
-                  </Col>
+                  <Row>
+                    <Col>
+                      <Card.Text>
+                        <strong>Start Date:</strong>
+                        {new Date(singleTask.start_date).toLocaleDateString()}
+                      </Card.Text>
+                    </Col>
+                    <Col>
+                      <Card.Text>
+                        <strong>Start Time:</strong>
+                        {timeDisplayConverter(singleTask.start_date)}
+                      </Card.Text>
+                    </Col>
+                  </Row>
                 </div>
               )}
               {singleTask.end_date && (
                 <div>
-                  <Col>
-                    <Card.Text>
-                      End Date:
-                      {new Date(singleTask.end_date).toLocaleDateString()}
-                    </Card.Text>
-                  </Col>
-                  <Col>
-                    <Card.Text>
-                      End Time:
-                      {timeDisplayConverter(singleTask.end_date)}
-                    </Card.Text>
-                  </Col>
+                  <Row>
+                    <Col>
+                      <Card.Text>
+                        <strong>End Date:</strong>
+                        {new Date(singleTask.end_date).toLocaleDateString()}
+                      </Card.Text>
+                    </Col>
+                    <Col>
+                      <Card.Text>
+                        <strong>End Time:</strong>
+                        {timeDisplayConverter(singleTask.end_date)}
+                      </Card.Text>
+                    </Col>
+                  </Row>
                 </div>
               )}
             </Row>
 
-            <Card.Text>Link: {singleTask.link}</Card.Text>
-            <Card.Text>Description: {singleTask.description}</Card.Text>
+            <Card.Text>
+              {" "}
+              <strong>Link:</strong>
+              {singleTask.link}
+            </Card.Text>
+            <Card.Text>
+              <strong>Description:</strong>
+              {singleTask.description}
+            </Card.Text>
             <Card.Link
               className="mb-2 text-muted"
               href=""
@@ -229,12 +269,12 @@ const CompletedTaskCard = (props) => {
               }}
               style={{ float: "left" }}
             >
-              "See Less"
+              See Less
             </Card.Link>
           </div>
         )}
 
-        {!show && isTaskEditor && (
+        {!show && (isTaskEditor || isTripOwner) && (
           <div>
             <div style={{ position: "absolute", right: "5em", bottom: "1em" }}>
               <Button
@@ -261,4 +301,10 @@ const CompletedTaskCard = (props) => {
   );
 };
 
-export default connect(null)(CompletedTaskCard);
+const mapStateToProps = (state) => {
+  return {
+    tripUsers: state.trips,
+  };
+};
+
+export default connect(mapStateToProps)(CompletedTaskCard);

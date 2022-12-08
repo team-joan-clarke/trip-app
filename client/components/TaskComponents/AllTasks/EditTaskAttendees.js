@@ -8,9 +8,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Card, Form, Alert } from "react-bootstrap";
 import { updateTaskUser } from "../../../redux/taskReducer";
+import { fetchSingleTrip } from "../../../redux/tripReducer";
 
 const EditTaskAttendees = (props) => {
-  const { singleTask, Users } = props;
+  const { singleTask } = props;
   const { allUsers } = props.users;
 
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const EditTaskAttendees = (props) => {
   // }, []);
 
   useEffect(() => {
-    if (Users.length > 0) {
+    if (allUsers.length > 0) {
       setUsers(allUsers);
     }
     if (selectedUserId) {
@@ -63,9 +64,11 @@ const EditTaskAttendees = (props) => {
   }, [props.users, selectedUserId, userAccess]);
 
   function onSearchText(text, props) {
+    dispatch(fetchSingleTrip(singleTask.TripId));
     let filtered;
-    if (text && props.Users.length) {
-      filtered = props.Users.filter(
+    const Users = props.tripUsers.singleTripView.Users || [];
+    if (text && Users.length) {
+      filtered = Users.filter(
         (user) =>
           user.firstName.toLowerCase().includes(text.toLowerCase()) ||
           user.lastName.toLowerCase().includes(text.toLowerCase()) ||
@@ -98,6 +101,9 @@ const EditTaskAttendees = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    dispatch(fetchSingleTrip(singleTask.TripId));
+    const Users = props.tripUsers.singleTripView.Users || [];
+
     const users = singleTask.Users || [];
     const userIds = users.map((user) => user.id);
 
@@ -152,6 +158,7 @@ const EditTaskAttendees = (props) => {
   const handleUpdate = (event) => {
     event.preventDefault();
     event.stopPropagation();
+
     const users = singleTask.Users || [];
     const userIds = users.map((user) => user.id);
     let access = users.filter((user) => {
@@ -440,7 +447,7 @@ const EditTaskAttendees = (props) => {
 
 const mapState = (state) => ({
   users: state.users,
-  // tripUsers: state.trips,
+  tripUsers: state.trips,
 });
 
 export default connect(mapState)(EditTaskAttendees);

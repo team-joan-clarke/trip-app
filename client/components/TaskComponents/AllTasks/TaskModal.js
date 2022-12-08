@@ -46,6 +46,8 @@ const TaskEditForm = (props) => {
   const [link, setLink] = useState(singleTask.link || null);
   const [description, setDescription] = useState(singleTask.description || "");
 
+  const [addPeople, setAddPeople] = useState("");
+
   const handleChange = () => {
     setChecked(!checked);
   };

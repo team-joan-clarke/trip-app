@@ -1,4 +1,4 @@
-import React, { useEffect }from "react";
+import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
 import AllTasks from "./TaskComponents/AllTasks/AllTasks";
@@ -34,7 +34,7 @@ const SingleUser = () => {
             {!firstName && (
               <h3 className=" error"> User does not exist in the system!</h3>
             )}
-            <h1 className='spicy-text'> Hello {firstName}</h1>
+            <h1 className="spicy-text"> Hello {firstName}</h1>
             <h4>Get Started</h4>
             <div
               style={{
@@ -49,7 +49,6 @@ const SingleUser = () => {
               <CreateTrip />
             </div>
           </div>
-
           <ActiveTrips />
           <CompletedTrips />
           <AllTasks />
