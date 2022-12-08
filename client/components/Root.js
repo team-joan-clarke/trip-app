@@ -6,7 +6,7 @@ import UpdateUserForm from "./UpdateUserForm";
 import SingleTrip from "./SingleTrip";
 import { Signup } from "./SignupForm";
 import { Login } from "./LoginForm";
-import DummyDash from "./DummyDash";
+import NotFound from "./NotFound";
 import NavigationBar from "./Navbar";
 import CuteCarousel from "./Carousel";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,6 +35,7 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/home" element={<CuteCarousel />} />
               <Route exact path="/dummydash" element={<DummyDash />} />
               <Route exact path="/demo" element={<Demo />} />
+              <Route path='*' element={<NotFound />} />
             </Routes>
           </div>
         ) : (

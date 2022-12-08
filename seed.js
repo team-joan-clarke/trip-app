@@ -227,6 +227,7 @@ const trips = [
     status: "active",
     imageUrl:
       "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+
   },
 ];
 
@@ -1088,7 +1089,7 @@ async function seed() {
       TripId: laguna,
     }),
     User_Trip.create({
-      role: "attendee",
+      role: "owner",
       UserId: anahis,
       TripId: cancun,
     }),

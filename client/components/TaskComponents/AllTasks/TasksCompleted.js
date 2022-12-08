@@ -40,7 +40,7 @@ const TasksCompleted = (props) => {
 
   return (
     <div>
-      <h3>Past Tasks</h3>
+      <br></br>
       <div>
         {completeTasks.length == 0 ? (
           <h4>No past tasks</h4>

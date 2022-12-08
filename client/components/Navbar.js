@@ -26,9 +26,9 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                   padding: "5em",
                 }}
               >
-                <Nav>
-                  <Nav.Link href="/user">{auth.firstName} </Nav.Link>
-                </Nav>
+                <Link to="/user" className="navbar-link-user">
+                  {auth.firstName}
+                </Link>
               </div>
               <div
                 style={{
@@ -62,9 +62,9 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="/login">Login</Nav.Link>
-                  <Nav.Link href="/signup">Signup</Nav.Link>
-                  <Nav.Link href="/demo">Demo</Nav.Link>
+                  <Link to="/login" className='navbar-link'>Login</Link>
+                  <Link to="/signup" className='navbar-link'>Signup</Link>
+                  <Link to="/demo" className='navbar-link'>Demo</Link>
                 </Nav>
               </Navbar.Collapse>
             </Container>

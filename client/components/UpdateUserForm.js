@@ -49,9 +49,9 @@ export class UpdateUser extends React.Component {
       [event.target.name]: event.target.value,
     });
   }
-  
+
   handleClick(e, id) {
-    console.log("props in update user form", id)
+    console.log("props in update user form", id);
     this.props.deleteUser(id);
     this.handleShow(false);
   }
@@ -60,7 +60,6 @@ export class UpdateUser extends React.Component {
     this.setState({ show: boolean });
   }
 
-  
   render() {
     const { handleChange, handleSubmit, handleClick, handleShow } = this;
     const firstName = this.props.user.firstName || "";
@@ -96,7 +95,10 @@ export class UpdateUser extends React.Component {
               <Button onClick={() => handleShow(false)} variant="secondary">
                 Cancel
               </Button>
-              <Button onClick={(e) => handleClick(e, this.props.user.id)} variant="danger">
+              <Button
+                onClick={(e) => handleClick(e, this.props.user.id)}
+                variant="danger"
+              >
                 Delete
               </Button>
             </div>

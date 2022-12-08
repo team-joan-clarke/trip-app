@@ -67,6 +67,9 @@
 /* .dropdown:hover .dropdown-content {
   display: block;
 } */
+html, body {
+  background: #f5f1f9;
+}
 
 /* trip cards */
 
@@ -189,4 +192,40 @@
 
 .marginLeft {
   margin-left: 10px;
+}
+
+/* navbar */
+
+.navbar-link {
+  font-size: 1rem;
+  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
+  text-decoration: none;
+  color: #9b9d9e;
+  padding: 0.7rem;
+}
+
+.navbar-link-user {
+  font-size: 1rem;
+  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #9b9d9e;
+  padding: 0.7rem;
+}
+
+.navbar-link:hover,
+.navbar-link-user:hover {
+  color: #ab95d0;
+}
+
+/* sign-in */
+.sign-in-link {
+  color: black;
+  text-decoration: none;
+}
+
+.sign-in-link:hover {
+  color: lightseagreen;
 }

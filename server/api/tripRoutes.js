@@ -142,7 +142,7 @@ tripRouter.put("/singleTrip/:tripId", requireToken, isOwnerofTrip, async (req, r
 });
 
 // delete route to delete a trip uses tripId to search for specific trip
-tripRouter.delete("/:tripId/:userId", requireToken, isOwnerofTrip, async (req, res, next) => {
+tripRouter.delete("/:tripId", requireToken, isOwnerofTrip, async (req, res, next) => {
   console.log("in delete")
   try {
     const findTripToDelete = await Trip.findByPk(req.params.tripId);

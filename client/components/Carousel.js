@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 function CuteCarousel() {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate(`/signup`);
-  };
+  // const handleClick = () => {
+  //   navigate(`/signup`);
+  // };
 
   return (
     <div>
@@ -23,7 +23,7 @@ function CuteCarousel() {
           {/* <h3>First slide label</h3> */}
           {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
           <h1>Plan your perfect trip with trippn</h1>
-          <Button onClick={handleClick} variant="primary">
+          <Button href='/signup' variant="primary">
             Start Planning
           </Button>
         </Carousel.Caption>
@@ -39,7 +39,7 @@ function CuteCarousel() {
           {/* <h3>Second slide label</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
           <h1>Plan your perfect trip with trippn</h1>
-          <Button className="mb-5" onClick={handleClick} variant="primary">
+          <Button className="mb-5" href='/signup' variant="primary">
             Start Planning
           </Button>
         </Carousel.Caption>
@@ -57,7 +57,7 @@ function CuteCarousel() {
             Praesent commodo cursus magna, vel scelerisque nisl consectetur.
           </p> */}
          <h1>Plan your perfect trip with trippn</h1>
-          <Button className="mb-5" onClick={handleClick} variant="primary">
+          <Button className="mb-5" href='/signup' variant="primary">
             Start Planning
           </Button>
         </Carousel.Caption>

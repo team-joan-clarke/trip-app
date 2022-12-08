@@ -35,6 +35,7 @@ const SingleUser = () => {
               borderRadius: "5px",
               boxShadow: "2px 1px 20px grey",
               marginTop: "3rem",
+              background: 'white'
             }}
           >
             <h3>Get Started</h3>

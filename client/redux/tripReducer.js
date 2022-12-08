@@ -93,7 +93,7 @@ export const getAllCompletedTripsThunk = () => {
       const id = getCookie("userId");
       const token = getCookie("token");
       const { data: trips } = await axios.get(
-        `/api/trips/completedTrips/${id}`, 
+        `/api/trips/completedTrips/${id}`,
         {
           headers: { authorization: token },
         }
@@ -136,11 +136,16 @@ export const createNewTrip = (trip) => {
   };
 };
 
+// send token
 export const createNewUserTrip = (userTrip) => {
-  // come back to add requireToken in backend
+  console.log("add new user to trip", userTrip.TripId);
+  console.log("in create new user thunk");
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/userTrips`, userTrip);
+      const token = getCookie("token");
+      const { data } = await axios.post(`/api/userTrips/${userTrip.TripId}`, userTrip, {
+        headers: { authorization: token },
+      });
       dispatch(createUserTrip(data));
     } catch (error) {
       console.error(error);
@@ -151,7 +156,10 @@ export const createNewUserTrip = (userTrip) => {
 export const updateThisUserTrip = (tripId, userTrip) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/userTrips/${tripId}`, userTrip);
+      const token = getCookie("token");
+      const { data } = await axios.put(`/api/userTrips/${tripId}`, userTrip, {
+        headers: { authorization: token },
+      });
       dispatch(updateUserTrip(data));
     } catch (error) {
       console.error(error);
@@ -160,9 +168,14 @@ export const updateThisUserTrip = (tripId, userTrip) => {
 };
 
 export const deleteThisUserTrip = (tripId, userId) => {
+  console.log("trip id in delete thunk", tripId, userId)
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/userTrips/${tripId}/${userId}`);
+      const token = getCookie("token");
+      const { data } = await axios.delete(
+        `/api/userTrips/${tripId}/${userId}`,
+        { headers: { authorization: token } }
+      );
       dispatch(deleteUserTrip(data));
     } catch (error) {
       console.error(error);
@@ -192,7 +205,8 @@ export const deleteActiveTripThunk = (tripId) => {
     try {
       const token = getCookie("token");
       const id = getCookie("userId");
-      console.log("id in dleete thunk", id)
+      console.log("id");
+      console.log("id in dleete thunk", id);
       console.log("token in active thunk", token);
       const { data } = await axios.delete(`/api/trips/${tripId}`, {
         headers: { authorization: token },
@@ -207,6 +221,7 @@ export const deleteActiveTripThunk = (tripId) => {
 export const deleteCompleteTripThunk = (tripId) => {
   return async (dispatch) => {
     const token = getCookie("token");
+    const id = getCookie("userId");
     try {
       const { data } = await axios.delete(`/api/trips/${tripId}`, {
         headers: { authorization: token },
@@ -267,17 +282,17 @@ export default function tripReducer(state = initialState, action) {
       return { ...state, active: [...currentActiveTrips, action.trip] };
     case CREATE_USER_TRIP:
       const activeTrips = state.active;
-      return { ...state, active: [...activeTrips, action.userTrip] };
+      return { ...state, active: [...activeTrips, action.userTrip]};
     case UPDATE_USER_TRIP:
-      const currentSingleTripView = state.singleTripView
+      const currentSingleTripView = state.singleTripView;
       const newUsersArray = state.singleTripView.Users.map((user) => {
         if (user.id === action.userTrip.UserId) {
-          user.user_trip = action.userTrip
-          return user
+          user.user_trip = action.userTrip;
+          return user;
         } else {
-          return user
+          return user;
         }
-      })
+      });
       return {
         ...state,
         singleTripView: { ...currentSingleTripView, Users: newUsersArray },

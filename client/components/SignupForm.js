@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { authenticateSignUp } from "../redux/auth";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const SignUpForm = (props) => {
   const { error } = props;
@@ -54,11 +55,13 @@ const SignUpForm = (props) => {
         style={{
           width: "40%",
           flexDirection: "row",
-          flexWrap: "wrap",
           padding: "2rem",
           borderRadius: "5px",
           boxShadow: "2px 1px 20px grey",
           margin: "5rem auto",
+          backgroundImage: "url(/gradient2.png)",
+          opacity: '0.9',
+          backgroundSize: 'cover'
         }}
       >
         <div
@@ -66,73 +69,71 @@ const SignUpForm = (props) => {
             display: "flex",
             width: "80%",
             margin: "auto",
-            flexDirection: "row",
-            flexWrap: "wrap",
+            flexDirection: "column",
             padding: "none",
             justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <h3>Create Account</h3>
-          <div>
-            <form onSubmit={handleSubmit} className="trip-form">
-              <div>
-                <input
-                  name="firstName"
-                  placeholder="First Name"
-                  type="text"
-                  required
-                />
-              </div>
-              <div>
-                <input
-                  name="lastName"
-                  placeholder="Last Name"
-                  type="text"
-                  required
-                />
-              </div>
-              <div>
-                <input
-                  name="username"
-                  placeholder="Username"
-                  type="text"
-                  required
-                />
-              </div>
-              <div>
-                <input
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                  minLength="8"
-                  maxLength="16"
-                  required
-                />
-              </div>
-              <div>
-                <input name="email" placeholder="Email" type="text" required />
-              </div>
-              <div>
-                <input
-                  type="tel"
-                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                  placeholder="Phone: 000-000-0000"
-                  name="phoneNumber"
-                />
-              </div>
-              <div>
-                <button className="btn-primary" type="submit">
-                  Register
-                </button>
-                <Link  style={{ color: "black", textDecoration: "none"}} to={`/login`} >
-                  <p>Already have an account?</p>
-                </Link>
-
-              </div>
-              {/* {error && error.response && <div> {error.response.data} </div>} */}
-              {error && error.response && <div> {errorMessage} </div>}
-            </form>
-          </div>
+          <form onSubmit={handleSubmit} className="trip-form">
+            <div>
+              <input
+                name="firstName"
+                placeholder="First Name"
+                type="text"
+                required
+              />
+            </div>
+            <div>
+              <input
+                name="lastName"
+                placeholder="Last Name"
+                type="text"
+                required
+              />
+            </div>
+            <div>
+              <input
+                name="username"
+                placeholder="Username"
+                type="text"
+                required
+              />
+            </div>
+            <div>
+              <input
+                name="password"
+                placeholder="Password"
+                type="password"
+                minLength="8"
+                maxLength="16"
+                required
+              />
+            </div>
+            <div>
+              <input name="email" placeholder="Email" type="text" required />
+            </div>
+            <div>
+              <input
+                type="tel"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                placeholder="Phone: 000-000-0000"
+                name="phoneNumber"
+              />
+            </div>
+            <Button style={{ margin: "0.6rem 3.5rem" }} type="submit">
+              Register
+            </Button>
+            <Link
+              className='sign-in-link'
+              to={`/login`}
+            >
+              <p style={{ marginLeft: "0.5rem" }}>Already have an account?</p>
+            </Link>
+            {/* {error && error.response && <div> {error.response.data} </div>} */}
+            {error && error.response && <div> {errorMessage} </div>}
+          </form>
         </div>
       </div>
     </div>
