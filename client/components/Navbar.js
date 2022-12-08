@@ -18,7 +18,19 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
         <div>
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-              <Navbar.Brand href="/home">trippn</Navbar.Brand>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  padding: "0.2rem",
+                }}
+              >
+                <img src="/logo.png" width="45px" height="45px"></img>
+                <Navbar.Brand href="/home" style={{ marginLeft: "1rem" }}>
+                  trippn
+                </Navbar.Brand>
+              </div>
               <div
                 style={{
                   position: "absolute",
@@ -40,6 +52,10 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
                     <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+                      <NavDropdown.Item href="/demo" onClick={handleClick}>
+                        Browse Demos
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
                       <NavDropdown.Item href="/update">
                         Update Profile
                       </NavDropdown.Item>
@@ -58,13 +74,31 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
         <div>
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-              <Navbar.Brand href="/home">trippn</Navbar.Brand>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  padding: "0.2rem",
+                }}
+              >
+                <img src="/logo.png" width="45px" height="45px"></img>
+                <Navbar.Brand href="/home" style={{ marginLeft: "1rem" }}>
+                  trippn
+                </Navbar.Brand>
+              </div>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                  <Link to="/login" className='navbar-link'>Login</Link>
-                  <Link to="/signup" className='navbar-link'>Signup</Link>
-                  <Link to="/demo" className='navbar-link'>Demo</Link>
+                  <Link to="/login" className="navbar-link">
+                    Login
+                  </Link>
+                  <Link to="/signup" className="navbar-link">
+                    Signup
+                  </Link>
+                  <Link to="/demo" className="navbar-link">
+                    Demo
+                  </Link>
                 </Nav>
               </Navbar.Collapse>
             </Container>
