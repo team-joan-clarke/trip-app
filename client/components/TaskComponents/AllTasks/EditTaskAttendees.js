@@ -136,7 +136,7 @@ const EditTaskAttendees = (props) => {
     if (userAccess === "") {
       return setRole(true);
     }
-    dispatch(updateTaskUser(selectedUserId, singleTask.id, userAccess, "add"));
+    dispatch(updateTaskUser(selectedUserId, singleTask.id, userAccess, "add", props.singleTask.TripId));
 
     setFilteredUsers("");
     setSelectedUserId("");
@@ -185,7 +185,7 @@ const EditTaskAttendees = (props) => {
     }
     console.log(selectedUserId);
     dispatch(
-      updateTaskUser(selectedUserId, singleTask.id, userAccess, "updateRole")
+      updateTaskUser(selectedUserId, singleTask.id, userAccess, "updateRole", props.singleTask.TripId)
     );
 
     setFilteredUsers("");
@@ -214,7 +214,7 @@ const EditTaskAttendees = (props) => {
     if (!isPartOfTask[0]) {
       return setDeleteAttendee(true);
     }
-    dispatch(updateTaskUser(selectedUserId, singleTask.id, role, "remove"));
+    dispatch(updateTaskUser(selectedUserId, singleTask.id, role, "remove", props.singleTask.TripId));
 
     setFilteredUsers("");
     setSelectedUserId("");
