@@ -14,7 +14,6 @@ function dueDateCompare(a, b) {
 }
 
 const TripTaskTodo = (props) => {
-  const dispatch = useDispatch();
   const { trip } = props;
   const tasks = useSelector((state) => state.tasks.allItineraryTasks);
   const [todo, setTodo] = useState([]);
@@ -85,7 +84,12 @@ const TripTaskTodo = (props) => {
       <div
         style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
       >
-        <h3 style={{ flex: 5, width: "fit-contents" }}>Tasks</h3>
+        <h3 style={{ flex: 5, width: "fit-contents" }}>
+          Task Planning Checklist
+        </h3>
+        <a href="https://www.flaticon.com/free-icons/info" title="info icons">
+          Info icons created by Stockio - Flaticon
+        </a>
         {/* conditional render here to allow only editors and owners to add a new task to trip */}
         {isTripOwner || isTripEditor ? (
           <Button
@@ -105,11 +109,7 @@ const TripTaskTodo = (props) => {
         )}
       </div>
       <Tabs defaultActiveKey="inProgress" id="uncontrolled-tab-example" fill>
-        <Tab
-          tabClassName="in-progress"
-          eventKey="inProgress"
-          title="In Progress"
-        >
+        <Tab tabClassName="in-progress" eventKey="inProgress" title="Planning">
           <div>
             {todo.map((task, i) => {
               return (
@@ -127,7 +127,7 @@ const TripTaskTodo = (props) => {
         <Tab
           tabClassName="completed"
           eventKey="completed"
-          title="Completed"
+          title="Finalized"
           transition={false}
         >
           <div>
