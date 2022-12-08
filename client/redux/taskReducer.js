@@ -87,14 +87,10 @@ export const addNewTask = (task, role) => {
 };
 
 export const updateTask = (updatedData, taskId) => {
-  //somehow need to send trip Id to back end
-  console.log("in thunk for update");
-  console.log("task trip id", updatedData.TripId);
   const { TripId } = updatedData;
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      console.log("token in update thunk", token);
       const { data } = await axios.put(
         `/api/tasks/${taskId}/${TripId}`,
         updatedData,
@@ -103,7 +99,6 @@ export const updateTask = (updatedData, taskId) => {
         }
       );
       if (data) {
-        console.log("in thunk 102");
         dispatch(updatedTask(data));
       }
     } catch (error) {
@@ -113,14 +108,12 @@ export const updateTask = (updatedData, taskId) => {
 };
 
 export const deleteTask = (taskId, tripId) => {
-  console.log("tripId in delete", tripId);
   return async (dispatch) => {
     try {
       const token = getCookie("token");
       const { data } = await axios.delete(`/api/tasks/${taskId}/${tripId}`, {
         headers: { authorization: token },
       });
-      console.log("data from backend");
       if (data) {
         dispatch(deletedTask(data));
       }
@@ -131,7 +124,6 @@ export const deleteTask = (taskId, tripId) => {
 };
 
 export const updateTaskUser = (userId, taskId, role = null, action, tripId) => {
-  console.log("tripId in update thunk", tripId)
   return async (dispatch) => {
     try {
       const token = getCookie("token");
@@ -161,7 +153,6 @@ export const updateTaskUser = (userId, taskId, role = null, action, tripId) => {
           dispatch(updatedTaskUser(data));
         }
       } else if (action === "updateRole") {
-        console.log("in thunk ====>", role);
         const { data } = await axios.put(
           `/api/tasks/task-user/${tripId}`,
           {

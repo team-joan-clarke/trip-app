@@ -25,7 +25,7 @@ const EditTaskAttendees = (props) => {
     UserId: "",
     TripId: "",
   });
-console.log("props in edit attendees", props.singleTask.TripId)
+
   const [show, setShow] = useState(false);
   const [showStartingView, setStartingView] = useState(true);
   const [showSelectedView, setSelectedView] = useState(false);
