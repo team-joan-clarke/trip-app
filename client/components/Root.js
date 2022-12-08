@@ -11,6 +11,7 @@ import NavigationBar from "./Navbar";
 import CuteCarousel from "./Carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { verified } from "../redux/auth";
+import Demo from "./Demo";
 
 const Root = ({ isLoggedIn }) => {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/home" element={<CuteCarousel />} />
+              <Route exact path="/dummydash" element={<DummyDash />} />
+              <Route exact path="/demo" element={<Demo />} />
               <Route path='*' element={<NotFound />} />
             </Routes>
           </div>
@@ -42,6 +45,7 @@ const Root = ({ isLoggedIn }) => {
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/signup" element={<Signup />} />
                 <Route exact path="/home" element={<CuteCarousel />} />
+                <Route exact path="/demo" element={<Demo />} />
               </Routes>
             </div>
           </div>

@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import _ from "lodash";
 import { connect, useDispatch } from "react-redux";
-import { fetchSingleTrip } from "../../redux/tripReducer";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Card, Form, Alert } from "react-bootstrap";
@@ -34,8 +33,6 @@ const EditTaskAttendeesTripView = (props) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    dispatch(fetchSingleTrip(tripId));
-
     // initialize debounce function to search once user has stopped typing every half second
     inputRef.current = _.debounce(onSearchText, 500);
   }, []);

@@ -64,6 +64,7 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                 <Nav className="me-auto">
                   <Link to="/login" className='navbar-link'>Login</Link>
                   <Link to="/signup" className='navbar-link'>Signup</Link>
+                  <Link to="/demo" className='navbar-link'>Demo</Link>
                 </Nav>
               </Navbar.Collapse>
             </Container>

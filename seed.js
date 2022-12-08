@@ -150,6 +150,85 @@ const trips = [
     imageUrl:
       "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
   },
+  // DEMO
+  {
+    name: "Jen's Birthday 30th Birthday",
+    city: "Nashville",
+    state: "Tennessee",
+    country: "United States",
+    start_date: new Date(2023, 2, 23),
+    end_date: new Date(2023, 2, 26),
+    status: "active",
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+  },
+  {
+    name: "Bogota 2023!!",
+    city: "Bogota",
+    state: "D.C.",
+    country: "Colombia",
+    start_date: new Date(2023, 5, 5),
+    end_date: new Date(2023, 5, 21),
+    status: "active",
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+  },
+  {
+    name: "Quiet Weekend Upstate",
+    city: "Hudson",
+    state: "New York",
+    country: "United States",
+    start_date: new Date(2023, 0, 12),
+    end_date: new Date(2023, 0, 17),
+    status: "active",
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+  },
+  {
+    name: "F1 Miami 2023",
+    city: "Miami",
+    state: "Florida",
+    country: "United States",
+    start_date: new Date(2023, 4, 3),
+    end_date: new Date(2023, 4, 9),
+    status: "active",
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+  },
+  {
+    name: "Aspen Food and Wine",
+    city: "Aspen",
+    state: "Colorado",
+    country: "United States",
+    start_date: new Date(2023, 5, 14),
+    end_date: new Date(2023, 5, 18),
+    status: "active",
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+  },
+  {
+    name: "Pick Matt Up From College",
+    city: "Buffalo",
+    state: "New York",
+    country: "United States",
+    start_date: new Date(2023, 4, 12),
+    end_date: new Date(2023, 4, 14),
+    status: "active",
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+  },
+  {
+    name: "NYC Staycation",
+    city: "New York",
+    state: "New York",
+    country: "United States",
+    start_date: new Date(2023, 3, 15),
+    end_date: new Date(2023, 3, 16),
+    status: "active",
+    imageUrl:
+      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+
+  },
 ];
 
 /**
@@ -303,7 +382,97 @@ async function seed() {
       username: "elise",
       password: "pw35",
       email: "ebenjamin@trippntest.com",
-      phoneNumber: "212-3-3333",
+      phoneNumber: "212-334-3333",
+    }),
+
+    // DEMO
+    User.create({
+      firstName: "Sara Demo",
+      lastName: "Petrova",
+      username: "sara2",
+      password: "pwsara",
+      email: "sara@trippntestdemo.com",
+      phoneNumber: "212-111-2222",
+    }),
+    User.create({
+      firstName: "Connor",
+      lastName: "Petrova",
+      username: "connor",
+      password: "pwconnor",
+      email: "connor@trippntestdemo.com",
+      phoneNumber: "212-111-3333",
+    }),
+    User.create({
+      firstName: "Jen",
+      lastName: "Petrova",
+      username: "jen",
+      password: "pwjen",
+      email: "jen@trippntestdemo.com",
+      phoneNumber: "212-111-1414",
+    }),
+    User.create({
+      firstName: "Bradley",
+      lastName: "Jones",
+      username: "bradley",
+      password: "pwbradley",
+      email: "bradley@trippntestdemo.com",
+      phoneNumber: "212-111-4444",
+    }),
+    User.create({
+      firstName: "Darian Demo",
+      lastName: "Fink",
+      username: "darian",
+      password: "pwdarian",
+      email: "darian@trippntestdemo.com",
+      phoneNumber: "212-111-5555",
+    }),
+    User.create({
+      firstName: "Gemma",
+      lastName: "Smith",
+      username: "gemma",
+      password: "pwgemma",
+      email: "gemma@trippntestdemo.com",
+      phoneNumber: "212-111-6666",
+    }),
+    User.create({
+      firstName: "Sue",
+      lastName: "Smith",
+      username: "sue2",
+      password: "pwsue",
+      email: "sue@trippntestdemo.com",
+      phoneNumber: "212-111-7777",
+    }),
+    User.create({
+      firstName: "Bella",
+      lastName: "Fortuna",
+      username: "bella",
+      password: "pwbella",
+      email: "bella@trippntestdemo.com",
+      phoneNumber: "212-111-8888",
+    }),
+    User.create({
+      firstName: "Ben Demo",
+      lastName: "Bart",
+      username: "ben",
+      password: "pwben",
+      email: "ben@trippntestdemo.com",
+      phoneNumber: "212-111-9999",
+    }),
+    User.create({
+      firstName: "Devon",
+      lastName: "Granger",
+      username: "devon",
+      password: "pwdevon",
+      email: "devon@trippntestdemo.com",
+      phoneNumber: "212-111-1010",
+    }),
+    User.create({
+      firstName: "Mariah",
+      lastName: "Boden",
+      username: "mariah",
+      password: "pwmariah",
+      email: "mariah@trippntestdemo.com",
+      phoneNumber: "212-111-1212",
     }),
   ]);
 
@@ -322,6 +491,14 @@ async function seed() {
   const joshuatree = await getTRIDByName("Kylie's Bday");
   const cancun = await getTRIDByName("Cancun Trip");
   const vancouver = await getTRIDByName("Trip to Vancover");
+  // DEMO
+  const jensBday = await getTRIDByName("Jen's Birthday 30th Birthday");
+  const bogota = await getTRIDByName("Bogota 2023!!");
+  const upstate = await getTRIDByName("Quiet Weekend Upstate");
+  const miami = await getTRIDByName("F1 Miami 2023");
+  const aspen = await getTRIDByName("Aspen Food and Wine");
+  const college = await getTRIDByName("Pick Matt Up From College");
+  const staycation = await getTRIDByName("NYC Staycation");
 
   const tasks = [
     {
@@ -555,11 +732,212 @@ async function seed() {
     {
       type: "Lodging",
       subtype: "Hotel",
-      provider_name: "AirBnB",
-      due_date: new Date(2023, 7, 3),
+      provider_name: "AirBnB in Cancun",
+      due_date: new Date(2023, 2, 3),
       description: "Look for airBnb",
       status: "in progress",
       TripId: cancun,
+    },
+    // DEMO
+    {
+      type: "Transportation",
+      subtype: "Car",
+      provider_name: "Drive down",
+      due_date: new Date(2023, 2, 7),
+      start_date: new Date(2023, 2, 23, 6, 30),
+      description: "Pick up Jen in Dover",
+      status: "complete",
+      TripId: jensBday,
+    },
+    {
+      type: "Dining",
+      subtype: "Dinner",
+      provider_name: "Casa Rosa",
+      due_date: new Date(2023, 2, 10),
+      start_date: new Date(2023, 2, 24, 20, 30),
+      description:
+        "dining with live music and drinks. make res for 4 in case Jerry is able to come.",
+      status: "complete",
+      TripId: jensBday,
+    },
+    {
+      type: "Lodging",
+      subtype: "Private Rental",
+      provider_name: "AirBnB near casa rosa",
+      due_date: new Date(2023, 1, 15),
+      description: "Look for airBnb walkable to Casa Rosa",
+      status: "in progress",
+      TripId: jensBday,
+    },
+    {
+      type: "Activity",
+      subtype: "Tour",
+      provider_name: "Grand Ole Opre Tour",
+      due_date: new Date(2023, 1, 15),
+      description: "NEED TIX IN ADVANCE",
+      status: "in progress",
+      TripId: jensBday,
+    },
+    {
+      type: "Transportation",
+      subtype: "Flight",
+      provider_name: "American Airlines",
+      due_date: new Date(2023, 4, 7),
+      start_date: new Date(2023, 5, 5),
+      description: "2 carry ons, AA1058",
+      booking_num: "3948372A",
+      status: "complete",
+      TripId: bogota,
+    },
+    {
+      type: "Transportation",
+      subtype: "Flight",
+      provider_name: "American Airlines",
+      due_date: new Date(2023, 4, 7),
+      description: "2 carry ons, AA1122, check on seat upgrade",
+      booking_num: "5679455A",
+      status: "in progress",
+      TripId: bogota,
+    },
+    {
+      type: "Lodging",
+      subtype: "Hotel",
+      provider_name: "hotel ibis bogota museo",
+      due_date: new Date(2023, 3, 15),
+      start_date: new Date(2023, 0, 5, 5, 0, 0),
+      end_date: new Date(2023, 0, 5, 20, 0, 0),
+      description: "mark's recc, otherwise maybe look for flat",
+      status: "in progress",
+      TripId: bogota,
+    },
+    {
+      type: "Transportation",
+      subtype: "Train",
+      provider_name: "Amtrak",
+      due_date: new Date(2022, 11, 30),
+      description: "1 carry on?",
+      status: "in progress",
+      TripId: upstate,
+    },
+    {
+      type: "Lodging",
+      subtype: "Private Rental",
+      provider_name: "AirBnB in nature",
+      due_date: new Date(2022, 11, 30),
+      start_date: new Date(2023, 0, 12, 15, 0, 0),
+      end_date: new Date(2023, 0, 16, 11, 0, 0),
+      description: "Norma + Jake's Mountain Cottage",
+      booking_num: "7462736",
+      status: "complete",
+      TripId: upstate,
+    },
+    {
+      type: "Dining",
+      subtype: "Breakfast",
+      provider_name: "Breadfolks",
+      due_date: new Date(2023, 0, 12),
+      start_date: new Date(2023, 0, 13, 9, 30, 0),
+      description: "cafe breakfast, maybe get to go and walk around?",
+      status: "complete",
+      link: "https://www.instagram.com/breadfolksbakery/",
+      TripId: upstate,
+    },
+    {
+      type: "Activity",
+      subtype: "Other",
+      provider_name: "Bodhi Spa",
+      due_date: new Date(2023, 12, 15),
+      status: "in progress",
+      TripId: upstate,
+    },
+    {
+      type: "Dining",
+      subtype: "Snack",
+      provider_name: "Verdigris Hot Chocolate",
+      due_date: new Date(2023, 0, 12),
+      start_date: new Date(2023, 0, 14, 16, 0, 0),
+      description:
+        "gourmet hot chocolate and tea shop. open 10-6. will be open for holiday monday as well.",
+      status: "complete",
+      link: "https://www.verdigristea.com/pages/cafe",
+      TripId: upstate,
+    },
+    {
+      type: "Transportation",
+      subtype: "Flight",
+      provider_name: "AA JFK",
+      due_date: new Date(2023, 2, 10),
+      description: "use points",
+      status: "in progress",
+      TripId: miami,
+    },
+    {
+      type: "Lodging",
+      subtype: "Friends and Family",
+      provider_name: "Stay with Gemma",
+      due_date: new Date(2023, 3, 30),
+      start_date: new Date(2023, 4, 3, 17, 0, 0),
+      end_date: new Date(2023, 4, 5, 13, 0, 0),
+      description: "Southern Dade area",
+      status: "complete",
+      TripId: miami,
+    },
+    {
+      type: "Lodging",
+      subtype: "Friends and Family",
+      provider_name: "Stay with Aunt Jean",
+      due_date: new Date(2023, 3, 30),
+      start_date: new Date(2023, 4, 5, 17, 0, 0),
+      end_date: new Date(2023, 4, 8, 13, 0, 0),
+      description: "Fort Lauderdale",
+      status: "complete",
+      TripId: miami,
+    },
+    {
+      type: "Dining",
+      subtype: "Dinner",
+      provider_name: "CVI.CHE 105",
+      due_date: new Date(2023, 4, 4),
+      status: "in progress",
+      TripId: miami,
+    },
+    {
+      type: "Activity",
+      subtype: "Sports",
+      provider_name: "Quals",
+      due_date: new Date(2022, 12, 1),
+      start_date: new Date(2023, 4, 6, 15, 0, 0),
+      status: "complete",
+      TripId: miami,
+    },
+    {
+      type: "Activity",
+      subtype: "Sports",
+      provider_name: "Finals",
+      due_date: new Date(2022, 12, 1),
+      start_date: new Date(2023, 4, 7, 11, 0, 0),
+      status: "complete",
+      TripId: miami,
+    },
+    {
+      type: "Activity",
+      subtype: "Sports",
+      provider_name: "Race Day!!",
+      due_date: new Date(2022, 12, 1),
+      start_date: new Date(2023, 4, 8, 9, 30, 0),
+      status: "complete",
+      TripId: miami,
+    },
+    {
+      type: "Dining",
+      subtype: "Dinner",
+      provider_name: "Marion Miami",
+      due_date: new Date(2023, 4, 16),
+      due_date: new Date(2023, 4, 7, 20, 0, 0),
+      description: "need res",
+      status: "in progress",
+      link: "https://www.marionmiami.com/",
+      TripId: miami,
     },
   ];
 
@@ -585,6 +963,19 @@ async function seed() {
   const jessie = await getUIDByEmail("jcanon@trippntest.com");
   const delia = await getUIDByEmail("dharley@trippntest.com");
   const elise = await getUIDByEmail("ebenjamin@trippntest.com");
+
+  // DEMO
+  const sarap = await getUIDByEmail("sara@trippntestdemo.com");
+  const connor = await getUIDByEmail("connor@trippntestdemo.com");
+  const jen = await getUIDByEmail("jen@trippntestdemo.com");
+  const bradley = await getUIDByEmail("bradley@trippntestdemo.com");
+  const darian = await getUIDByEmail("darian@trippntestdemo.com");
+  const gemma = await getUIDByEmail("gemma@trippntestdemo.com");
+  const sue = await getUIDByEmail("sue@trippntestdemo.com");
+  const bella = await getUIDByEmail("bella@trippntestdemo.com");
+  const ben = await getUIDByEmail("ben@trippntestdemo.com");
+  const devon = await getUIDByEmail("devon@trippntestdemo.com");
+  const mariah = await getUIDByEmail("mariah@trippntestdemo.com");
 
   await Promise.all([
     User_Trip.create({
@@ -722,6 +1113,87 @@ async function seed() {
       UserId: murphy,
       TripId: cancun,
     }),
+    // DEMO
+    User_Trip.create({
+      role: "owner",
+      UserId: sarap,
+      TripId: jensBday,
+    }),
+    User_Trip.create({
+      role: "editor",
+      UserId: jen,
+      TripId: jensBday,
+    }),
+    User_Trip.create({
+      role: "editor",
+      UserId: connor,
+      TripId: jensBday,
+    }),
+    User_Trip.create({
+      role: "attendee",
+      UserId: bradley,
+      TripId: jensBday,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: ben,
+      TripId: bogota,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: ben,
+      TripId: aspen,
+    }),
+    User_Trip.create({
+      role: "editor",
+      UserId: sue,
+      TripId: aspen,
+    }),
+    User_Trip.create({
+      role: "editor",
+      UserId: jen,
+      TripId: aspen,
+    }),
+    User_Trip.create({
+      role: "editor",
+      UserId: darian,
+      TripId: upstate,
+    }),
+    User_Trip.create({
+      role: "attendee",
+      UserId: bella,
+      TripId: upstate,
+    }),
+    User_Trip.create({
+      role: "attendee",
+      UserId: mariah,
+      TripId: upstate,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: devon,
+      TripId: upstate,
+    }),
+    User_Trip.create({
+      role: "editor",
+      UserId: gemma,
+      TripId: upstate,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: ben,
+      TripId: miami,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: gemma,
+      TripId: miami,
+    }),
+    User_Trip.create({
+      role: "editor",
+      UserId: darian,
+      TripId: miami,
+    }),
   ]);
 
   // DISNEY
@@ -754,7 +1226,26 @@ async function seed() {
   const teatime = await getTAIDByName("Tea shop in NYC");
   const nycsubway = await getTAIDByName("NYC Subway");
   //cancun
-  const airBNBForCancun = await getTAIDByName("AirBnB");
+  const airBNBForCancun = await getTAIDByName("AirBnB in Cancun");
+
+  // DEMO
+  const nashdrive = await getTAIDByName("Drive down");
+  const casarosa = await getTAIDByName("Casa Rosa");
+  const airBnBNash = await getTAIDByName("AirBnB near casa rosa");
+  const opre = await getTAIDByName("Grand Ole Opre Tour");
+  const miamiflight = await getTAIDByName("AA JFK");
+  const staygemma = await getTAIDByName("Stay with Gemma");
+  const stayaunt = await getTAIDByName("Stay with Aunt Jean");
+  const ceviche = await getTAIDByName("CVI.CHE 105");
+  const quals = await getTAIDByName("Quals");
+  const finals = await getTAIDByName("Finals");
+  const raceday = await getTAIDByName("Race Day!!");
+  const marion = await getTAIDByName("Marion Miami");
+  const bodhi = await getTAIDByName("Bodhi Spa");
+  const amtrak = await getTAIDByName("Amtrak");
+  const natureAirbnb = await getTAIDByName("AirBnB in nature");
+  const verdegris = await getTAIDByName("Verdigris Hot Chocolate");
+  const breadfolks = await getTAIDByName("Breadfolks");
 
   await Promise.all([
     User_Task.create({
@@ -996,6 +1487,203 @@ async function seed() {
       role: "editor",
       UserId: anahis,
       TaskId: airBNBForCancun,
+    }),
+    // DEMO
+    User_Task.create({
+      role: "editor",
+      UserId: sara,
+      TaskId: nashdrive,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: sara,
+      TaskId: casarosa,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: connor,
+      TaskId: airBnBNash,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: sara,
+      TaskId: airBnBNash,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: jen,
+      TaskId: opre,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: sara,
+      TaskId: opre,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: ben,
+      TaskId: miamiflight,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: darian,
+      TaskId: quals,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: ben,
+      TaskId: quals,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: darian,
+      TaskId: finals,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: ben,
+      TaskId: finals,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: darian,
+      TaskId: raceday,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: ben,
+      TaskId: raceday,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: ben,
+      TaskId: staygemma,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: ben,
+      TaskId: stayaunt,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: gemma,
+      TaskId: ceviche,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: ben,
+      TaskId: ceviche,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: ben,
+      TaskId: marion,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: gemma,
+      TaskId: marion,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: darian,
+      TaskId: marion,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: gemma,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: devon,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: darian,
+      TaskId: amtrak,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: amtrak,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: amtrak,
+    }),
+
+    User_Task.create({
+      role: "editor",
+      UserId: gemma,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: darian,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: devon,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: darian,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: gemma,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: verdegris,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: verdegris,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: gemma,
+      TaskId: verdegris,
     }),
   ]);
 
