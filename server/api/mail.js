@@ -1,50 +1,26 @@
+// const mailRouter = require("express").Router();
+// const sendgridTransport = require("nodemailer-sendgrid-transport");
 // const nodemailer = require("nodemailer");
-const sendgridTransport = require("nodemailer-sendgrid-transport");
+
 
 // mailRouter.post("/text-mail", (req, res) => {
-//   nodemailer.createTestAccount((err, account) => {
-//     // create reusable transporter object using the default SMTP transport
-//     let transporter = nodemailer.createTransport({
-//       host: "smtp.ethereal.email",
-//       port: 587,
-//       secure: false, // true for 465, false for other ports
+//   const transport = nodemailer.createTransport(
+//     sendgridTransport({
 //       auth: {
-//         user: account.user, // generated ethereal user
-//         pass: account.pass, // generated ethereal password
+//         api_key: "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",
 //       },
-//       tls: {
-//         rejectUnauthorized: false,
-//       }
-//     });
+//     })
+//   );
 
-//     const { to, subject, text } = req.body;
-
-//     const mailData = {
-//       from: "smtp.ethereal.email",
-//       to: to,
-//       subject: subject,
-//       text: text,
-//     };
-
-//     console.log("mail data", mailData);
-//     transporter.sendMail(mailData, (error, info) => {
-//       if (error) {
-//         return console.log("theres been an error :(");
-//       }
-
-//       res
-//         .status(200)
-//         .send({ message: "Mail send", message_id: info.messageId });
-//     });
-
-//     transporter.verify(function (error, success) {
-//       if (error) {
-//         console.log("transporter error");
-//       } else {
-//         console.log("Server is ready to take our messages");
-//       }
-//     });
-//   });
+//   transport
+//     .sendMail({
+//       to: `${req.body.email}`,
+//       from: "trippnwebsite@gmail.com",
+//       subject: "Test Email",
+//       html: "<h2>Please Like Share Comment And Subscribe</h2>",
+//     })
+//     .then(console.log("Success!"))
+//     .catch((err) => console.log(err));
 // });
 
 // module.exports = mailRouter;
