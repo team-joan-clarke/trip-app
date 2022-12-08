@@ -14,7 +14,7 @@ const requireToken = async (req, res, next) => {
   }
 };
 
-// checks if user logged in is OwnerofTrip
+// checks if user logged in is owner of trip
 const isOwnerofTrip = async (req, res, next) => {
   console.log("in ownerOfTrip");
   console.log("in owner userId", req.user.id);
