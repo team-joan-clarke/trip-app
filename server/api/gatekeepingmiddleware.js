@@ -16,10 +16,6 @@ const requireToken = async (req, res, next) => {
 
 // checks if user logged in is owner of trip
 const isOwnerofTrip = async (req, res, next) => {
-  console.log("in ownerOfTrip");
-  console.log("in owner userId", req.user.id);
-  console.log("req.params", req.params.id);
-  console.log("tripid", req.params.tripId);
   const isOwnerOfTrip = await User_Trip.findOne({
     where: {
       UserId: req.user.id,
@@ -29,7 +25,7 @@ const isOwnerofTrip = async (req, res, next) => {
   });
 
   if (!isOwnerOfTrip.role == "owner") {
-    return res.status(403).send("You don't have access");
+    return res.status(403).send("You don't have access bcs you are not trip owner");
   } else {
     console.log("I HAVE ACCESS bcs I'm trip owner");
     next();
