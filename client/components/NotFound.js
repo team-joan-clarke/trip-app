@@ -35,7 +35,7 @@ export const NotFound = (props) => {
           </div>
           {firstName ? (<h3>Hey {firstName}!</h3>) : (<h3>Sorry!</h3>)}
           <h6>The page you were looking for does not exist.</h6>
-          <Button href="/user">Go back to User Dashboard</Button>
+          <Button href="/home">Go back to Home</Button>
         </div>
       </div>
   );
