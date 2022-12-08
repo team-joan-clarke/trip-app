@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-import { Button, Card, Tab, Tabs } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Tab,
+  Tabs,
+  OverlayTrigger,
+  Popover,
+} from "react-bootstrap";
 import TaskCard from "./TaskComponents/TaskCard";
 import AddNewTaskModal from "./TaskComponents/AddNewTaskModal";
 import { getCookie } from "../redux/users";
@@ -12,6 +19,18 @@ import { getCookie } from "../redux/users";
 function dueDateCompare(a, b) {
   return new Date(a.due_date) - new Date(b.due_date);
 }
+
+const popover = (
+  <Popover id="popover-basic">
+    <Popover.Header as="h3">How to use this checklist</Popover.Header>
+    <Popover.Body>
+      <strong>Add New Tasks</strong> to keep track of information about trip
+      activities. Add trip members to tasks as an editor with editing
+      privileges, or attendee. <strong>Mark as Complete</strong> once the task
+      has been finalized in order to view activity on itinerary.
+    </Popover.Body>
+  </Popover>
+);
 
 const TripTaskTodo = (props) => {
   const { trip } = props;
@@ -84,12 +103,31 @@ const TripTaskTodo = (props) => {
       <div
         style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
       >
-        <h3 style={{ flex: 5, width: "fit-contents" }}>
-          Task Planning Checklist
-        </h3>
-        <a href="https://www.flaticon.com/free-icons/info" title="info icons">
-          Info icons created by Stockio - Flaticon
-        </a>
+        <div
+          style={{
+            display: "flex",
+            flex: 5,
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            alignContent: "center",
+          }}
+        >
+          <h3 style={{ width: "fit-contents" }}>Task Planning Checklist</h3>
+          <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-info-circle"
+              viewBox="0 0 16 16"
+              style={{ float: "left", margin: "10px" }}
+            >
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+            </svg>
+          </OverlayTrigger>
+        </div>
         {/* conditional render here to allow only editors and owners to add a new task to trip */}
         {isTripOwner || isTripEditor ? (
           <Button
