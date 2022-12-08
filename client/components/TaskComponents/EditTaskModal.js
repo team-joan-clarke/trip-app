@@ -14,6 +14,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 function EditTaskModal(props) {
   const dispatch = useDispatch();
+  const [provider_name, setProviderName] = useState(props.task.provider_name);
   const [due_date, setDueDate] = useState(props.task.due_date);
   const [start_date, setStartDate] = useState(props.task.start_date);
   const [end_date, setEndDate] = useState(props.task.end_date);
@@ -56,7 +57,7 @@ function EditTaskModal(props) {
       setErrors(filtered);
     }
     try {
-      if (due_date) {
+      if (due_date && provider_name.length > 0) {
         if (errors.length === 0) {
           dispatch(
             updateTask(
@@ -99,6 +100,13 @@ function EditTaskModal(props) {
           const dueDateError = [...errors, "Must include dute date."];
           setErrors(dueDateError);
         }
+        if (provider_name.length < 1) {
+          const providerError = [
+            ...errors,
+            "Must include a location name, activity name, or title.",
+          ];
+          setErrors(providerError);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -106,7 +114,20 @@ function EditTaskModal(props) {
   };
 
   const handleChange = (event) => {
-    if (event.target.name === "start_location") {
+    if (event.target.name === "provider_name") {
+      if (
+        errors.includes(
+          "Must include a location name, activity name, or title."
+        )
+      ) {
+        const filtered = errors.filter(
+          (error) =>
+            error !== "Must include a location name, activity name, or title."
+        );
+        setErrors([...filtered]);
+      }
+      setProviderName(event.target.value);
+    } else if (event.target.name === "start_location") {
       setStartLocation(event.target.value);
     } else if (event.target.name === "end_location") {
       setEndLocation(event.target.value);
@@ -173,13 +194,25 @@ function EditTaskModal(props) {
           </div>
         ) : (
           <Form>
+            {/* LOCATION NAME/TITLE */}
+            <Form.Group className="mb-3" controlId="formTaskPROVIDER">
+              <Form.Label>
+                Location Name, Activity, or Title &#40;required&#41;
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name="provider_name"
+                value={provider_name}
+                onChange={handleChange}
+              />
+            </Form.Group>
             {/* DUE DATE */}
             <Form.Group
               className="mb-3"
               name="dueDate"
               controlId="formTaskDUEDATE"
             >
-              <Form.Label>Due Date</Form.Label>
+              <Form.Label>Due Date &#40;required&#41;</Form.Label>
               <div className="date-picker">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
