@@ -66,7 +66,7 @@ taskRouter.get("/trip/:tripId", requireToken, async (req, res, next) => {
       });
       if (data) {
         const tasks = data[0]["Tasks"];
-        if (tasks.length > 0) {
+        if (tasks) {
           res.status(200).send(tasks);
         } else {
           console.log(new Error("Error returning tasks in Get Trip Tasks."));
@@ -90,7 +90,7 @@ taskRouter.post(
   requireToken,
   isOwnerOrEditorOfTrip,
   async (req, res, next) => {
-    console.log("in post route to add a new task");
+    // console.log("in post route to add a new task");
     try {
       const {
         type,
@@ -222,7 +222,7 @@ taskRouter.delete(
       const user = await User.findByPk(userId);
       if (data && user) {
         const userRemovedFromTask = await user.removeTask(data);
-        console.log("removed in this route", userRemovedFromTask);
+        // console.log("removed in this route", userRemovedFromTask);
         if (userRemovedFromTask) {
           const tasksWithUpdatedTask = await Trip.findAll({
             where: { id: data.TripId },
@@ -355,7 +355,7 @@ taskRouter.put(
   isOwnerOrEditorOfTrip,
   isEditorOfTaskOrTripOwner,
   async (req, res, next) => {
-    console.log("in task update route");
+    // console.log("in task update route");
     try {
       const checkedFields = {};
       const { body } = req;
