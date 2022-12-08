@@ -731,7 +731,7 @@ async function seed() {
     {
       type: "Lodging",
       subtype: "Hotel",
-      provider_name: "AirBnB",
+      provider_name: "AirBnB in Cancun",
       due_date: new Date(2023, 2, 3),
       description: "Look for airBnb",
       status: "in progress",
@@ -743,6 +743,7 @@ async function seed() {
       subtype: "Car",
       provider_name: "Drive down",
       due_date: new Date(2023, 2, 7),
+      start_date: new Date(2023, 2, 23, 6, 30),
       description: "Pick up Jen in Dover",
       status: "complete",
       TripId: jensBday,
@@ -802,6 +803,8 @@ async function seed() {
       subtype: "Hotel",
       provider_name: "hotel ibis bogota museo",
       due_date: new Date(2023, 3, 15),
+      start_date: new Date(2023, 0, 5, 5, 0, 0),
+      end_date: new Date(2023, 0, 5, 20, 0, 0),
       description: "mark's recc, otherwise maybe look for flat",
       status: "in progress",
       TripId: bogota,
@@ -818,10 +821,10 @@ async function seed() {
     {
       type: "Lodging",
       subtype: "Private Rental",
-      provider_name: "AirBnB",
+      provider_name: "AirBnB in nature",
       due_date: new Date(2022, 11, 30),
       start_date: new Date(2023, 0, 12, 15, 0, 0),
-      end_date: new Date(2023, 0, 17, 11, 0, 0),
+      end_date: new Date(2023, 0, 16, 11, 0, 0),
       description: "Norma + Jake's Mountain Cottage",
       booking_num: "7462736",
       status: "complete",
@@ -893,7 +896,7 @@ async function seed() {
       type: "Dining",
       subtype: "Dinner",
       provider_name: "CVI.CHE 105",
-      due_date: new Date(2023, 5, 4),
+      due_date: new Date(2023, 4, 4),
       status: "in progress",
       TripId: miami,
     },
@@ -902,7 +905,7 @@ async function seed() {
       subtype: "Sports",
       provider_name: "Quals",
       due_date: new Date(2022, 12, 1),
-      start_date: new Date(2023, 5, 6, 15, 0, 0),
+      start_date: new Date(2023, 4, 6, 15, 0, 0),
       status: "complete",
       TripId: miami,
     },
@@ -911,7 +914,7 @@ async function seed() {
       subtype: "Sports",
       provider_name: "Finals",
       due_date: new Date(2022, 12, 1),
-      start_date: new Date(2023, 5, 7, 11, 0, 0),
+      start_date: new Date(2023, 4, 7, 11, 0, 0),
       status: "complete",
       TripId: miami,
     },
@@ -920,7 +923,7 @@ async function seed() {
       subtype: "Sports",
       provider_name: "Race Day!!",
       due_date: new Date(2022, 12, 1),
-      start_date: new Date(2023, 5, 8, 9, 30, 0),
+      start_date: new Date(2023, 4, 8, 9, 30, 0),
       status: "complete",
       TripId: miami,
     },
@@ -929,7 +932,7 @@ async function seed() {
       subtype: "Dinner",
       provider_name: "Marion Miami",
       due_date: new Date(2023, 4, 16),
-      due_date: new Date(2023, 5, 7, 20, 0, 0),
+      due_date: new Date(2023, 4, 7, 20, 0, 0),
       description: "need res",
       status: "in progress",
       link: "https://www.marionmiami.com/",
@@ -1151,9 +1154,9 @@ async function seed() {
       TripId: aspen,
     }),
     User_Trip.create({
-      role: "owner",
+      role: "editor",
       UserId: darian,
-      TripId: aspen,
+      TripId: upstate,
     }),
     User_Trip.create({
       role: "attendee",
@@ -1166,7 +1169,7 @@ async function seed() {
       TripId: upstate,
     }),
     User_Trip.create({
-      role: "editor",
+      role: "owner",
       UserId: devon,
       TripId: upstate,
     }),
@@ -1176,7 +1179,7 @@ async function seed() {
       TripId: upstate,
     }),
     User_Trip.create({
-      role: "editor",
+      role: "owner",
       UserId: ben,
       TripId: miami,
     }),
@@ -1186,7 +1189,7 @@ async function seed() {
       TripId: miami,
     }),
     User_Trip.create({
-      role: "attendee",
+      role: "editor",
       UserId: darian,
       TripId: miami,
     }),
@@ -1222,7 +1225,7 @@ async function seed() {
   const teatime = await getTAIDByName("Tea shop in NYC");
   const nycsubway = await getTAIDByName("NYC Subway");
   //cancun
-  const airBNBForCancun = await getTAIDByName("AirBnB");
+  const airBNBForCancun = await getTAIDByName("AirBnB in Cancun");
 
   // DEMO
   const nashdrive = await getTAIDByName("Drive down");
@@ -1237,6 +1240,11 @@ async function seed() {
   const finals = await getTAIDByName("Finals");
   const raceday = await getTAIDByName("Race Day!!");
   const marion = await getTAIDByName("Marion Miami");
+  const bodhi = await getTAIDByName("Bodhi Spa");
+  const amtrak = await getTAIDByName("Amtrak");
+  const natureAirbnb = await getTAIDByName("AirBnB in nature");
+  const verdegris = await getTAIDByName("Verdigris Hot Chocolate");
+  const breadfolks = await getTAIDByName("Breadfolks");
 
   await Promise.all([
     User_Task.create({
@@ -1579,6 +1587,102 @@ async function seed() {
       role: "attendee",
       UserId: darian,
       TaskId: marion,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: gemma,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: devon,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: bodhi,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: darian,
+      TaskId: amtrak,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: amtrak,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: amtrak,
+    }),
+
+    User_Task.create({
+      role: "editor",
+      UserId: gemma,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: darian,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: breadfolks,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: devon,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: darian,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: gemma,
+      TaskId: natureAirbnb,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: bella,
+      TaskId: verdegris,
+    }),
+    User_Task.create({
+      role: "attendee",
+      UserId: mariah,
+      TaskId: verdegris,
+    }),
+    User_Task.create({
+      role: "editor",
+      UserId: gemma,
+      TaskId: verdegris,
     }),
   ]);
 
