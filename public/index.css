@@ -229,3 +229,8 @@ html, body {
 .sign-in-link:hover {
   color: lightseagreen;
 }
+
+/* display text */
+.spicy-text {
+  font-family: 'Spicy Rice', cursive;
+}

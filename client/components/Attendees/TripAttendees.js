@@ -67,6 +67,7 @@ const TripAttendees = (props) => {
         borderRadius: "5px",
         boxShadow: "2px 1px 20px grey",
         margin: "2rem auto",
+        background: 'white'
       }}
     >
       <div
@@ -92,14 +93,15 @@ const TripAttendees = (props) => {
             <div
               style={{
                 width: "100%",
-                height: "23rem",
+                height: "22.5rem",
                 overflowY: "scroll",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                padding: "0.5rem",
+                padding: "0.3rem",
                 borderRadius: "5px",
                 boxShadow: "2px 1px 20px grey",
-                margin: "1rem auto",
+                margin: "0.3rem auto",
+                background: '#e3dcef'
               }}
             >
               {usersOnTrip.map((user) => {
@@ -112,6 +114,7 @@ const TripAttendees = (props) => {
                       height: "70px",
                       boxShadow: "0px 1px 1px grey",
                       padding: "none",
+                      background: '#f5f1f9'
                     }}
                   >
                     <Card.Body
@@ -169,6 +172,7 @@ const TripAttendees = (props) => {
                                   padding: "0.5rem",
                                   float: "right",
                                   fontSize: "12px",
+                                  background: '#f5f1f9'
                                 }}
                               >
                                 <option value="attendee">Attendee</option>
