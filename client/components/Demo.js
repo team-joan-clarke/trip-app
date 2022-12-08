@@ -5,15 +5,16 @@ import { Card, Button } from "react-bootstrap";
 import auth, { authenticateLogin } from "../redux/auth";
 import { useNavigate } from "react-router-dom";
 
+const credArr = ["ben pwben", "sara2 pwsara", "darian pwdarian"];
+
 const Demo = (props) => {
   const { error } = props;
   const navigate = useNavigate();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log("in handle");
-    console.log("un", evt.target.value);
-    const demCred = evt.target.value.split(" ");
+    const cred = credArr[parseInt(evt.target.value)];
+    const demCred = cred.split(" ");
     props.authenticateLogin(demCred[0], demCred[1]);
   };
 
@@ -57,7 +58,7 @@ const Demo = (props) => {
             <Button
               size="lg"
               style={{ margin: "2rem", width: "10rem" }}
-              value="ben pwben"
+              value="0"
               onClick={handleSubmit}
             >
               Ben
@@ -65,7 +66,7 @@ const Demo = (props) => {
             <Button
               size="lg"
               style={{ margin: "2rem", width: "10rem" }}
-              value="sara2 pwsara"
+              value="1"
               onClick={handleSubmit}
             >
               Sara
@@ -73,7 +74,7 @@ const Demo = (props) => {
             <Button
               size="lg"
               style={{ margin: "2rem", width: "10rem" }}
-              value="darian pwdarian"
+              value="2"
               onClick={handleSubmit}
             >
               Darian
