@@ -11,6 +11,7 @@ import { createNewUserTrip } from "../../redux/tripReducer";
 
 const Searchbar = (props) => {
   const [users, setUsers] = useState(props.users.allUsers);
+  const [usersNotOnTrip, setUsersNotOnTrip] = useState('');
   const [filteredUsers, setFilteredUsers] = useState("");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [selectedUser, setSelectedUser] = useState([]);
@@ -87,6 +88,7 @@ const Searchbar = (props) => {
   useEffect(() => {
     if (props.users.allUsers.length > 0) {
       setUsers(props.users.allUsers);
+      getUsersNotOnTrip(props)
     }
     if (selectedUserId) {
       getSelectedUser(selectedUserId);
@@ -100,10 +102,23 @@ const Searchbar = (props) => {
     }
   }, [props.users, selectedUserId, userAccess]);
 
-  function onSearchText(text, props) {
+  function getUsersNotOnTrip(props) {
     let filtered;
-    if (text && props.users.allUsers.length) {
-      filtered = props.users.allUsers.filter(
+    if (props.users.allUsers.length && props.trips.singleTripView.Users.length) {
+      const idsOfUsersOnTrip = props.trips.singleTripView.Users.map((user) => user.id)
+      filtered = props.users.allUsers.filter((user) => {
+        if (!idsOfUsersOnTrip.includes(user.id)) {
+          return user
+        }
+      })
+    }
+    setUsersNotOnTrip(filtered);
+  }
+
+  function onSearchText(text, usersNotOnTrip) {
+    let filtered;
+    if (text && usersNotOnTrip) {
+      filtered = usersNotOnTrip.filter(
         (user) =>
           user.firstName.toLowerCase().includes(text.toLowerCase()) ||
           user.lastName.toLowerCase().includes(text.toLowerCase()) ||
@@ -116,7 +131,7 @@ const Searchbar = (props) => {
   }
 
   function handleSearch(event) {
-    inputRef.current(event.target.value, props);
+    inputRef.current(event.target.value, usersNotOnTrip);
   }
 
   function handleSelect(event) {
@@ -297,6 +312,7 @@ const Searchbar = (props) => {
 
 const mapState = (state) => ({
   users: state.users,
+  trips: state.trips
 });
 
 const mapDispatch = (dispatch) => ({
