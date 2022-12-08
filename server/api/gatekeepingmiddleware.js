@@ -54,6 +54,7 @@ const isOwnerOrEditorOfTrip = async (req, res, next) => {
   }
 };
 
+// checks if user logged in is editor of a task or trip owner
 // for all task routes that have trip id and task id in reqparams
 // delete user from task also uses this gatekeeping middlware
 const isEditorOfTaskOrTripOwner = async (req, res, next) => {
@@ -86,6 +87,7 @@ const isEditorOfTaskOrTripOwner = async (req, res, next) => {
   }
 };
 
+// checks if user logged in is editor of a task or trip owner
 // for put and post user tasks routes that have req.body
 const isEditorOfTaskOrTripOwnerForReqBody = async (req, res, next) => {
   const isEditorOfTaskAndHasReqBody = await User_Task.findOne({
