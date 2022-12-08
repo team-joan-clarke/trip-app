@@ -131,6 +131,7 @@ export const deleteTask = (taskId, tripId) => {
 };
 
 export const updateTaskUser = (userId, taskId, role = null, action, tripId) => {
+  console.log("tripId in update thunk", tripId)
   return async (dispatch) => {
     try {
       const token = getCookie("token");

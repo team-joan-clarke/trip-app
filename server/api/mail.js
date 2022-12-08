@@ -1,5 +1,5 @@
-// const mailRouter = require("express").Router();
 // const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 // mailRouter.post("/text-mail", (req, res) => {
 //   nodemailer.createTestAccount((err, account) => {
@@ -48,4 +48,3 @@
 // });
 
 // module.exports = mailRouter;
-

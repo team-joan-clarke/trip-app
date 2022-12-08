@@ -10,6 +10,7 @@ const {
   isEditorOfTask,
   isOwnerOrEditorOfTrip,
   isEditorOfTaskOrTripOwner,
+  isEditorOfTaskOrTripOwnerForReqBody,
 } = require("./gatekeepingmiddleware");
 
 // GET TASKS BY USER ID (1 USER -> TASKS FROM ALL USER TRIPS)
@@ -161,8 +162,8 @@ taskRouter.post(
 // adding, editing, and deleting users from a trip task
 // task editor and trip owner can do this ^
 // task editor can only edit their tasks
-
-taskRouter.post("/task-user/:tripId", requireToken, async (req, res, next) => {
+// make middleware for routes with reqbody 
+taskRouter.post("/task-user/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwnerForReqBody, async (req, res, next) => {
   try {
     const { userId, taskId, role } = req.body;
     const data = await Task.findByPk(taskId);
@@ -213,7 +214,7 @@ taskRouter.post("/task-user/:tripId", requireToken, async (req, res, next) => {
 // owner can do
 taskRouter.delete(
   "/task-user/:userId/:taskId/:tripId",
-  requireToken,
+  requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwner,
   async (req, res, next) => {
     try {
       const { taskId, userId } = req.params;
@@ -260,7 +261,8 @@ taskRouter.delete(
 
 // UPDATE USER ROLE ON EXISTING TASK
 // update on single view attendees/editor roles
-taskRouter.put("/task-user/:tripId", requireToken, async (req, res, next) => {
+// make middleware for routes with reqbody 
+taskRouter.put("/task-user/:tripId", requireToken, isOwnerOrEditorOfTrip, isEditorOfTaskOrTripOwnerForReqBody, async (req, res, next) => {
   try {
     const { taskId, userId, role } = req.body;
     const data = await Task.findByPk(taskId);
