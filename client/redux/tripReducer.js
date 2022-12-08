@@ -138,14 +138,16 @@ export const createNewTrip = (trip) => {
 
 // send token
 export const createNewUserTrip = (userTrip) => {
-  console.log("add new user to trip", userTrip.TripId);
-  console.log("in create new user thunk");
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      const { data } = await axios.post(`/api/userTrips/${userTrip.TripId}`, userTrip, {
-        headers: { authorization: token },
-      });
+      const { data } = await axios.post(
+        `/api/userTrips/${userTrip.TripId}`,
+        userTrip,
+        {
+          headers: { authorization: token },
+        }
+      );
       dispatch(createUserTrip(data));
     } catch (error) {
       console.error(error);
@@ -168,7 +170,6 @@ export const updateThisUserTrip = (tripId, userTrip) => {
 };
 
 export const deleteThisUserTrip = (tripId, userId) => {
-  console.log("trip id in delete thunk", tripId, userId)
   return async (dispatch) => {
     try {
       const token = getCookie("token");
@@ -187,7 +188,6 @@ export const updateThisTrip = (updatedData, tripId) => {
   return async (dispatch) => {
     try {
       const token = getCookie("token");
-      console.log("token in update", token);
       const { data } = await axios.put(
         `/api/trips/singleTrip/${tripId}`,
         updatedData,
@@ -205,9 +205,6 @@ export const deleteActiveTripThunk = (tripId) => {
     try {
       const token = getCookie("token");
       const id = getCookie("userId");
-      console.log("id");
-      console.log("id in dleete thunk", id);
-      console.log("token in active thunk", token);
       const { data } = await axios.delete(`/api/trips/${tripId}`, {
         headers: { authorization: token },
       });
@@ -282,7 +279,7 @@ export default function tripReducer(state = initialState, action) {
       return { ...state, active: [...currentActiveTrips, action.trip] };
     case CREATE_USER_TRIP:
       const activeTrips = state.active;
-      return { ...state, active: [...activeTrips, action.userTrip]};
+      return { ...state, active: [...activeTrips, action.userTrip] };
     case UPDATE_USER_TRIP:
       const currentSingleTripView = state.singleTripView;
       const newUsersArray = state.singleTripView.Users.map((user) => {
