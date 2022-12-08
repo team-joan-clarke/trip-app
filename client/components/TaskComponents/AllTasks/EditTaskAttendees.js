@@ -47,8 +47,8 @@ const EditTaskAttendees = (props) => {
   // }, []);
 
   useEffect(() => {
-    if (props.users.allUsers.length > 0) {
-      setUsers(props.users.allUsers);
+    if (Users.length > 0) {
+      setUsers(allUsers);
     }
     if (selectedUserId) {
       getSelectedUser(selectedUserId);
@@ -64,8 +64,8 @@ const EditTaskAttendees = (props) => {
 
   function onSearchText(text, props) {
     let filtered;
-    if (text && props.users.allUsers.length) {
-      filtered = props.users.allUsers.filter(
+    if (text && props.Users.length) {
+      filtered = props.Users.filter(
         (user) =>
           user.firstName.toLowerCase().includes(text.toLowerCase()) ||
           user.lastName.toLowerCase().includes(text.toLowerCase()) ||
@@ -160,14 +160,14 @@ const EditTaskAttendees = (props) => {
         return role;
       }
     });
-    //Validation for on trip:
-    const isPartOfTrip = userIds.filter((userId) => {
+    //Validation for on task:
+    const isPartOfTask = userIds.filter((userId) => {
       if (userId == selectedUserId) {
         return true;
       }
     });
 
-    if (!isPartOfTrip[0]) {
+    if (!isPartOfTask[0]) {
       return setDeleteAttendee(true);
     }
 
@@ -205,15 +205,13 @@ const EditTaskAttendees = (props) => {
 
     const users = singleTask.Users || [];
     const userIds = users.map((user) => user.id);
-    const isPartOfTrip = userIds.filter((userId) => {
+    const isPartOfTask = userIds.filter((userId) => {
       if (userId == selectedUserId) {
         return true;
       }
     });
 
-    console.log("part", isPartOfTrip[0]);
-
-    if (!isPartOfTrip[0]) {
+    if (!isPartOfTask[0]) {
       return setDeleteAttendee(true);
     }
     dispatch(updateTaskUser(selectedUserId, singleTask.id, role, "remove"));
