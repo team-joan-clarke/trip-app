@@ -386,7 +386,7 @@ async function seed() {
 
     // DEMO
     User.create({
-      firstName: "Sara",
+      firstName: "Sara Demo",
       lastName: "Petrova",
       username: "sara2",
       password: "pwsara",
@@ -418,7 +418,7 @@ async function seed() {
       phoneNumber: "212-111-4444",
     }),
     User.create({
-      firstName: "Darian",
+      firstName: "Darian Demo",
       lastName: "Fink",
       username: "darian",
       password: "pwdarian",
@@ -450,7 +450,7 @@ async function seed() {
       phoneNumber: "212-111-8888",
     }),
     User.create({
-      firstName: "Ben",
+      firstName: "Ben Demo",
       lastName: "Bart",
       username: "ben",
       password: "pwben",
@@ -884,7 +884,7 @@ async function seed() {
       provider_name: "Stay with Aunt Jean",
       due_date: new Date(2023, 3, 30),
       start_date: new Date(2023, 4, 5, 17, 0, 0),
-      end_date: new Date(2023, 4, 9, 13, 0, 0),
+      end_date: new Date(2023, 4, 8, 13, 0, 0),
       description: "Fort Lauderdale",
       status: "complete",
       TripId: miami,
@@ -1112,7 +1112,7 @@ async function seed() {
     // DEMO
     User_Trip.create({
       role: "owner",
-      UserId: sara,
+      UserId: sarap,
       TripId: jensBday,
     }),
     User_Trip.create({
