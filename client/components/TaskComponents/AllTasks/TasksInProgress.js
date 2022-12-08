@@ -130,8 +130,10 @@ const TasksInProgress = (props) => {
 
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>
-                    <strong>Trip Name:</strong>
-                    {singleTask.Trip.name}
+                    <span>
+                    <strong>Trip Name: </strong>
+                    {singleTask.Trip ? (<span>{singleTask.Trip.name}</span>) : null}
+                    </span>
                   </Card.Text>
                   <Card.Text>
                     <strong>Due:</strong>
