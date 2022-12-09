@@ -5,14 +5,21 @@ import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
 import CreateTrip from "./CreateTrip";
+import axios from "axios"
 
 const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
+  const doTheyHaveReferralEmail = useSelector((state) => state.auth.referralEmail)
+  console.log("auth", doTheyHaveReferralEmail)
 
   useEffect(() => {
     dispatch(fetchUser());
   }, []);
+
+  useEffect(() => {
+
+  }, doTheyHaveReferralEmail)
 
   return (
     <div>

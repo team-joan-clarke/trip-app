@@ -21,7 +21,6 @@ const Root = ({ isLoggedIn, auth }) => {
     dispatch(verified());
   }, []);
 
-  console.log("auth", auth)
   return (
     <BrowserRouter>
       <NavigationBar />

@@ -39,13 +39,15 @@ const SignUpForm = (props) => {
     const password = evt.target.password.value;
     const email = evt.target.email.value;
     const phoneNumber = evt.target.phoneNumber.value;
+    const referralEmail = evt.target.referralEmail.value
     props.authenticateSignUp(
       firstName,
       lastName,
       username,
       password,
       email,
-      phoneNumber
+      phoneNumber,
+      referralEmail
     );
   };
 
@@ -122,7 +124,7 @@ const SignUpForm = (props) => {
                 name="phoneNumber"
               />
               <input
-                type="email"
+                type="referralEmail"
                 placeholder="Referral email"
                 name="referralEmail"
               />
@@ -160,7 +162,8 @@ const mapDispatch = (dispatch) => {
       username,
       password,
       email,
-      phoneNumber
+      phoneNumber,
+      referralEmail
     ) =>
       dispatch(
         authenticateSignUp(
@@ -169,7 +172,8 @@ const mapDispatch = (dispatch) => {
           username,
           password,
           email,
-          phoneNumber
+          phoneNumber,
+          referralEmail
         )
       ),
   };
