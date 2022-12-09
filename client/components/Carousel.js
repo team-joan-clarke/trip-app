@@ -1,14 +1,9 @@
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import About from "./About";
 
 function CuteCarousel() {
-  const navigate = useNavigate();
-
-  // const handleClick = () => {
-  //   navigate(`/signup`);
-  // };
 
   return (
     <div>
@@ -20,9 +15,7 @@ function CuteCarousel() {
           alt="First slide"
           />
         <Carousel.Caption>
-          {/* <h3>First slide label</h3> */}
-          {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-          <h1>Plan your perfect trip with trippn</h1>
+          <h1 style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
           <Button href='/signup' variant="primary">
             Start Planning
           </Button>
@@ -36,9 +29,7 @@ function CuteCarousel() {
         />
 
         <Carousel.Caption>
-          {/* <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
-          <h1>Plan your perfect trip with trippn</h1>
+          <h1 style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
           <Button className="mb-5" href='/signup' variant="primary">
             Start Planning
           </Button>
@@ -52,17 +43,14 @@ function CuteCarousel() {
         />
 
         <Carousel.Caption>
-          {/* <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p> */}
-         <h1>Plan your perfect trip with trippn</h1>
+         <h1 style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
           <Button className="mb-5" href='/signup' variant="primary">
             Start Planning
           </Button>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
+    <About />
   </div>
   );
 }
