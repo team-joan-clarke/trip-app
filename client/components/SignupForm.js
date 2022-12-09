@@ -112,7 +112,7 @@ const SignUpForm = (props) => {
               />
             </div>
             <div>
-              <input name="email" placeholder="Email" type="text" required />
+              <input name="email" placeholder="Your email" type="text" required />
             </div>
             <div>
               <input
@@ -120,6 +120,11 @@ const SignUpForm = (props) => {
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 placeholder="Phone: 000-000-0000"
                 name="phoneNumber"
+              />
+              <input
+                type="email"
+                placeholder="Referral email"
+                name="referralEmail"
               />
             </div>
             <Button style={{ margin: "0.6rem 3.5rem" }} type="submit">
