@@ -36,6 +36,8 @@ const CreateTrip = (props) => {
   const [showErrorMessage, setErrorMessage] = useState(false);
   const userId = getCookie("userId");
 
+  const [validated, setValidated] = useState(false);
+
   const stockTripImages = [
     "/stock-header-images/image1.jpg",
     "/stock-header-images/image5.jpg",
@@ -43,8 +45,6 @@ const CreateTrip = (props) => {
   ];
 
   const errorDictionary = {
-    nameError: [1, "Must include a trip name"],
-    countryError: [2, "Must include a country"],
     startDateError: [3, "Must set start date"],
     endDateError: [4, "Must set end date"],
     startDateBeforeError: [5, "Must set start date before setting end date"],
@@ -76,24 +76,8 @@ const CreateTrip = (props) => {
     }
   }, [errors]);
 
-  //SPECIFIC ERROR HANDLING
+  // SPECIFIC ERROR HANDLING
   useEffect(() => {
-    if (!name) {
-      if (!inCurrentErrors(1)) {
-        errors.push(errorDictionary.nameError);
-      }
-    } else {
-      setErrors(getFilteredErrors(1));
-    }
-
-    if (!country) {
-      if (!inCurrentErrors(2)) {
-        errors.push(errorDictionary.countryError);
-      }
-    } else {
-      setErrors(getFilteredErrors(2));
-    }
-
     if (!start_date) {
       if (!inCurrentErrors(3)) {
         errors.push(errorDictionary.startDateError);
@@ -109,10 +93,21 @@ const CreateTrip = (props) => {
     } else {
       setErrors(getFilteredErrors(4, 6));
     }
+
+    if (name && country && start_date && end_date) {
+      setErrors(getFilteredErrors(3, 4));
+    }
   }, [name, country, start_date, end_date]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    setValidated(true);
+
     if (name && country && start_date && end_date) {
       if (errors.length === 0) {
         props.createNewTrip({
@@ -222,10 +217,11 @@ const CreateTrip = (props) => {
             fill
           >
             <Tab eventKey="create" title="Create">
-              <Form>
+              <Form noValidate validated={validated}>
                 <Form.Group className="mb-3" controlId="edit-trip-form">
                   <small style={{ float: "right", color: "red" }}>*</small>
                   <Form.Control
+                    required
                     type="text"
                     name="name"
                     placeholder="Trip Name"
@@ -233,6 +229,9 @@ const CreateTrip = (props) => {
                     onChange={handleChange}
                     style={{ width: "98%", margin: "auto" }}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Must add a trip name
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="edit-trip-form">
@@ -260,6 +259,7 @@ const CreateTrip = (props) => {
                 <Form.Group className="mb-3" controlId="edit-trip-form">
                   <small style={{ float: "right", color: "red" }}>*</small>
                   <Form.Control
+                    required
                     type="text"
                     name="country"
                     placeholder="Country"
@@ -267,6 +267,9 @@ const CreateTrip = (props) => {
                     onChange={handleChange}
                     style={{ width: "98%", margin: "auto" }}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Must add a country
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <div>
@@ -275,6 +278,7 @@ const CreateTrip = (props) => {
                     className="date-picker"
                   >
                     <DatePicker
+                      minDate={new Date()}
                       label="Start Date"
                       name="start_date"
                       value={start_date}
@@ -290,6 +294,7 @@ const CreateTrip = (props) => {
                     className="date-picker"
                   >
                     <DatePicker
+                      minDate={new Date()}
                       label="End Date"
                       name="end_date"
                       value={end_date}
@@ -305,7 +310,7 @@ const CreateTrip = (props) => {
               </small>
             </Tab>
             <Tab eventKey="trip-image" title="Select Trip Image">
-              <Form style={{display: 'flex', justifyContent: 'center'}}>
+              <Form style={{ display: "flex", justifyContent: "center" }}>
                 {stockTripImages.map((img) => (
                   <Card key={img} style={{ width: "18rem" }}>
                     <Card.Img

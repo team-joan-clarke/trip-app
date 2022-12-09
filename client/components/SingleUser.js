@@ -12,6 +12,7 @@ const SingleUser = () => {
 
   useEffect(() => {
     dispatch(fetchUser());
+    window.scrollTo(0, 0)
   }, []);
 
   return (
