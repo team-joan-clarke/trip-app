@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card";
 import { Row, Col, Stack, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { getTasksByUser } from "../../../redux/taskReducer";
 import TaskModal from "./TaskModal";
-import { useNavigate } from "react-router-dom";
 import { AvatarGroup, Avatar } from "@mui/material";
 
 //Avatar Things:
@@ -72,8 +71,9 @@ function dueDateCompare(a, b) {
 
 // Actual Component:
 const TasksInProgress = (props) => {
+  const trips = props.trips.active;
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getTasksByUser());
@@ -81,9 +81,18 @@ const TasksInProgress = (props) => {
 
   const [seeMore, setSeeMore] = useState(false);
 
+  const activeTripsId = trips.map((trips) => trips.id);
+
   const tasks = props.tasks.allItineraryTasks || [];
   let inProgressTasks = tasks
-    .filter((task) => task.status === "in progress")
+    .filter((task) => {
+      if (
+        task.status === "in progress" &&
+        activeTripsId.includes(task.TripId)
+      ) {
+        return task;
+      }
+    })
     .sort(dueDateCompare);
 
   return (
@@ -131,8 +140,10 @@ const TasksInProgress = (props) => {
                   <Card.Title>{singleTask.type} </Card.Title>
                   <Card.Text>
                     <span>
-                    <strong>Trip Name: </strong>
-                    {singleTask.Trip ? (<span>{singleTask.Trip.name}</span>) : null}
+                      <strong>Trip Name: </strong>
+                      {singleTask.Trip ? (
+                        <span>{singleTask.Trip.name}</span>
+                      ) : null}
                     </span>
                   </Card.Text>
                   <Card.Text>
@@ -240,6 +251,7 @@ const TasksInProgress = (props) => {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks,
+    trips: state.trips,
   };
 };
 

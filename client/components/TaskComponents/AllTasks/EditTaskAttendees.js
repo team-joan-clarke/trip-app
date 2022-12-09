@@ -403,8 +403,8 @@ const EditTaskAttendees = (props) => {
                         <Card.Text className="user__details">
                           <span>
                             <strong>
-                              {selectedUser[0].firstName}{" "}
-                              {selectedUser[0].lastName}{" "}
+                              {selectedUser[0].firstName}
+                              {selectedUser[0].lastName}
                             </strong>
                           </span>
                           <span>

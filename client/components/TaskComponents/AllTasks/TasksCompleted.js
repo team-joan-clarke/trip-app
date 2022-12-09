@@ -28,14 +28,23 @@ function dueDateCompare(a, b) {
 }
 
 const TasksCompleted = (props) => {
+  const trips = props.trips.active;
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTasksByUser());
   }, []);
 
+  const activeTripsId = trips.map((trips) => trips.id);
+
   const tasks = props.tasks.allItineraryTasks || [];
   let completeTasks = tasks
-    .filter((task) => task.status === "complete")
+    .filter((task) => {
+      //ONLY RETRUNING TASKS FOR ACTIVE TRIPS
+      if (task.status === "complete" && activeTripsId.includes(task.TripId)) {
+        return task;
+      }
+    })
     .sort(dueDateCompare);
 
   return (
@@ -52,7 +61,7 @@ const TasksCompleted = (props) => {
                 style={{ width: "auto" }}
                 key={singleTask.id}
               >
-                <CompletedTaskCard singleTask={singleTask} />
+                <CompletedTaskCard singleTask={singleTask} trips={trips} />
               </Card>
             );
           })
@@ -65,8 +74,8 @@ const TasksCompleted = (props) => {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks,
+    trips: state.trips,
   };
 };
 
-// export default CompletedTrips
 export default connect(mapStateToProps)(TasksCompleted);

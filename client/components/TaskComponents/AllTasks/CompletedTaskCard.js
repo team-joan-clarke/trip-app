@@ -77,6 +77,7 @@ const CompletedTaskCard = (props) => {
   const { singleTask } = props;
   const { TripId } = singleTask;
   const Users = props.tripUsers.singleTripView.Users || [];
+  const activeTrips = props.trips.active || [];
 
   const dispatch = useDispatch();
 
@@ -86,6 +87,7 @@ const CompletedTaskCard = (props) => {
   const [isTaskEditor, setIsTaskEditor] = useState(false);
   const [isTripOwner, setIsTripOwner] = useState(false);
 
+  //USER IS EDITOR OF TASK && OWNER OF TRIP
   useEffect(() => {
     const userLoggedInIsEditorOfTask = singleTask.Users.filter((user) => {
       if (user.id == idOfUserLoggedIn) {
@@ -95,17 +97,17 @@ const CompletedTaskCard = (props) => {
       }
     });
 
-    // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
-    const userLoggedInIsOwnerOfTrip = Users.filter((user) => {
-      if (user.id == idOfUserLoggedIn) {
-        if (user.user_trip.role == "owner") {
-          return user;
-        }
+    const userLoggedInIsOwnerOfTrip = activeTrips.map((trip) => {
+      if (trip.role == "owner") {
+        return trip.id;
       }
     });
-    console.log("inside", Users);
+    // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
+
     if (userLoggedInIsOwnerOfTrip.length > 0) {
-      setIsTripOwner(true);
+      if (userLoggedInIsOwnerOfTrip.includes(TripId)) {
+        setIsTripOwner(true);
+      }
     } else {
       setIsTripOwner(false);
     }
@@ -132,6 +134,8 @@ const CompletedTaskCard = (props) => {
 
   return (
     <div>
+      {/* {userLoggedInIsOwnerOfTrip.includes(singleTask.TripId) &&
+        setIsTripOwner(true)} */}
       <Card.Body>
         <Alert show={show} variant="danger">
           <Alert.Heading>
@@ -252,7 +256,6 @@ const CompletedTaskCard = (props) => {
             </Row>
 
             <Card.Text>
-              {" "}
               <strong>Link:</strong>
               {singleTask.link}
             </Card.Text>
@@ -274,7 +277,7 @@ const CompletedTaskCard = (props) => {
           </div>
         )}
 
-        {!show && (isTaskEditor || isTripOwner) && (
+        {(isTaskEditor || isTripOwner) && (
           <div>
             <div style={{ position: "absolute", right: "5em", bottom: "1em" }}>
               <Button
@@ -304,6 +307,7 @@ const CompletedTaskCard = (props) => {
 const mapStateToProps = (state) => {
   return {
     tripUsers: state.trips,
+    trips: state.trips,
   };
 };
 

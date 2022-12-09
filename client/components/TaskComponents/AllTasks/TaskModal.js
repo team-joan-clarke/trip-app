@@ -17,6 +17,7 @@ const TaskEditForm = (props) => {
   const { singleTask } = props;
   const { TripId } = singleTask;
   const Users = props.tripUsers.singleTripView.Users || [];
+  const activeTrips = props.trips.active;
 
   const dispatch = useDispatch();
 
@@ -66,7 +67,9 @@ const TaskEditForm = (props) => {
     dispatch(fetchSingleTrip(TripId));
   }, []);
 
-  // USER IS EDITOR OF TASK or OWNER OF TRIP:
+  //USER IS OWNER OF TRIP
+
+  // USER IS EDITOR OF TASK
   const idOfUserLoggedIn = getCookie("userId");
   useEffect(() => {
     const userLoggedInIsEditorOfTask = singleTask.Users.filter((user) => {
@@ -77,17 +80,16 @@ const TaskEditForm = (props) => {
       }
     });
 
-    // userLoggedIn is owner so they can create, edit and delete their own tasks and DELETE other users' tasks
-    const userLoggedInIsOwnerOfTrip = Users.filter((user) => {
-      if (user.id == idOfUserLoggedIn) {
-        if (user.user_trip.role == "owner") {
-          return user;
-        }
+    const userLoggedInIsOwnerOfTrip = activeTrips.map((trip) => {
+      if (trip.role == "owner") {
+        return trip.id;
       }
     });
 
     if (userLoggedInIsOwnerOfTrip.length > 0) {
-      setIsTripOwner(true);
+      if (userLoggedInIsOwnerOfTrip.includes(TripId)) {
+        setIsTripOwner(true);
+      }
     } else {
       setIsTripOwner(false);
     }
@@ -97,7 +99,7 @@ const TaskEditForm = (props) => {
     } else {
       setIsTaskEditor(false);
     }
-  }, [Users]);
+  }, [Users, activeTrips]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -439,6 +441,7 @@ const mapStateToProps = (state) => {
   return {
     tasks: state.tasks,
     tripUsers: state.trips,
+    trips: state.trips,
   };
 };
 
