@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Toast, ToastContainer } from "react-bootstrap";
 import axios from "axios";
 import { getCookie } from "../redux/users";
 // make form to send info to post route in backend server/api/mail.js
@@ -8,9 +8,11 @@ const InviteEmailForm = () => {
   const token = getCookie("token");
   const [recipient, setrecipient] = useState("");
   const [referralEmail, setReferralEmail] = useState("");
+  const [showSuccessToast, setSuccessToast] = useState(false);
 
   const handleInviteClick = async (event) => {
     event.preventDefault();
+    setSuccessToast(true);
     try {
       const sendEmail = await axios.post(
         `/api/mail/text-mail`,
@@ -34,6 +36,26 @@ const InviteEmailForm = () => {
 
   return (
     <div>
+      <ToastContainer position="top-end">
+        <Toast
+          bg="info"
+          onClose={() => setSuccessToast(false)}
+          show={showSuccessToast}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">trippn</strong>
+            <small>Now</small>
+          </Toast.Header>
+          <Toast.Body>Email successfully sent to recipient!</Toast.Body>
+        </Toast>
+      </ToastContainer>
       <div
         style={{
           width: "40%",
@@ -63,7 +85,7 @@ const InviteEmailForm = () => {
             <div>
               <input
                 name="recipient"
-                placeholder="recipient"
+                placeholder="recipient email"
                 value={recipient}
                 onChange={handleChanges}
                 type="email"
