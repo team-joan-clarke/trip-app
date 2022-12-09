@@ -17,7 +17,7 @@ const AllTasks = (props) => {
         margin: "5rem auto",
       }}
     >
-      <h1 className="spicy-text"> Todo </h1>
+      <h1 className="spicy-text"> Task Planning Checklist </h1>
       <Tabs
         defaultActiveKey="Planning"
         id="uncontrolled-tab-example"
