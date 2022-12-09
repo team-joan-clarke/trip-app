@@ -29,6 +29,36 @@
 - Manage a trip dashboard to centralize one true source of travel information
 - Edit trip members and permissions
 
+## Getting Started
+
+### Installation
+
+1. Have PostgreSQL v14.6 available locally on port 5432
+   ```sh
+   psql
+   CREATE DATABASE trip-app;
+   ```
+2. Clone the repo
+   ```sh
+   git clone git@github.com:team-joan-clarke/trip-app.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Run
+   ```sh
+   npm run start-dev
+   ```
+
+### Seed Data
+
+Seed data is available for use with
+
+```sh
+npm run seed
+```
+
 ## Authors
 
 - [@kate-grant](https://www.github.com/kate-grant)
