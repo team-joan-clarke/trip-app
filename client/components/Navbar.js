@@ -51,7 +51,7 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
-                    <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+                    <NavDropdown title="My Account" id="collasible-nav-dropdown">
                       <NavDropdown.Item href="/demo" onClick={handleClick}>
                         Browse Demos
                       </NavDropdown.Item>

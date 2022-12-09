@@ -14,13 +14,14 @@ import { verified } from "../redux/auth";
 import InviteEmailForm from "./InviteEmail";
 import Demo from "./Demo";
 
-const Root = ({ isLoggedIn }) => {
+const Root = ({ isLoggedIn, auth }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(verified());
   }, []);
 
+  console.log("auth", auth)
   return (
     <BrowserRouter>
       <NavigationBar />
