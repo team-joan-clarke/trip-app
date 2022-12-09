@@ -29,8 +29,6 @@ const AllTasks = (props) => {
         margin: "5rem auto",
       }}
     >
-
-      <h1 className="spicy-text"> Task Planning Checklist </h1>
       <div
         style={{
           display: "flex",
@@ -40,7 +38,7 @@ const AllTasks = (props) => {
           alignContent: "center",
         }}
       >
-        <h1 className="spicy-text"> Todo </h1>
+        <h1 className="spicy-text"> Task Planning Checklist </h1>
         <OverlayTrigger trigger="click" placement="right" overlay={popover}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
