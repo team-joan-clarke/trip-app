@@ -2,9 +2,10 @@ const mailRouter2 = require("express").Router();
 const nodemailer = require("nodemailer");
 const { requireToken } = require("./gatekeepingmiddleware");
 
-mailRouter2.post("/sendEmailToPersonWhoReferred", requireToken, (req, res) => {
+mailRouter2.post("/sendEmailToPersonWhoReferred", requireToken, async (req, res) => {
   console.log("made it to send email to person who referred");
   console.log("person invited", req.body.firstName);
+  console.log("userId", req.body.userId)
   console.log("person who reffered", req.body.doTheyHaveReferralEmail);
 
   var transporter = nodemailer.createTransport({

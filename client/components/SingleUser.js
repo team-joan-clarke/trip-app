@@ -15,7 +15,6 @@ const SingleUser = () => {
   const doTheyHaveReferralEmail = useSelector(
     (state) => state.auth.referralEmail
   );
-  console.log("auth", doTheyHaveReferralEmail);
 
   useEffect(() => {
     dispatch(fetchUser());

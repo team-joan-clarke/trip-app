@@ -85,7 +85,7 @@ const InviteEmailForm = () => {
             <div>
               <input
                 name="recipient"
-                placeholder="recipient email"
+                placeholder="Recipient email"
                 value={recipient}
                 onChange={handleChanges}
                 type="email"
@@ -95,7 +95,7 @@ const InviteEmailForm = () => {
               <input
                 name="referralEmail"
                 value={referralEmail}
-                placeholder="referral email"
+                placeholder="Your email"
                 onChange={handleChanges}
                 type="email"
               />
