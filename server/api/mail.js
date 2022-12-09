@@ -1,6 +1,9 @@
 const mailRouter = require("express").Router();
-const sendgridTransport = require("nodemailer-sendgrid-transport");
 const nodemailer = require("nodemailer");
+const {
+    requireToken,
+    isOwnerOrEditorOfTrip,
+  } = require("./gatekeepingmiddleware");
 
 const htmlToSend = `
 <!DOCTYPE html>
@@ -19,7 +22,7 @@ const htmlToSend = `
 </body>
 </html>`;
 
-mailRouter.post("/text-mail", (req, res) => {
+mailRouter.post("/text-mail", requireToken, isOwnerOrEditorOfTrip, (req, res) => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -47,70 +50,4 @@ mailRouter.post("/text-mail", (req, res) => {
 
 module.exports = mailRouter;
 
-// const transport = nodemailer.createTransport(sendgridTransport({
-//     auth: {
-//         api_key: "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"
-//     }
-// }))
 
-// mailRouter.post("/text-mail", (req, res) => {
-//   const sgMail = require("@sendgrid/mail");
-//   sgMail.setApiKey(
-//     "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"
-//   );
-//   const msg = {
-//     to: "ashley.valenzuela73@yahoo.com",
-//     from: "trippnwebsite@gmail.com",
-//     subject: "Sending with SendGrid is Fun",
-//     text: "and easy to do anywhere, even with Node.js",
-//     html: "<strong>and easy to do anywhere, even with Node.js</strong>",
-//   };
-//   sgMail
-//     .send(msg)
-//     .then(() => {
-//       console.log("Email sent");
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// })
-
-//   const transport = nodemailer.createTransport(
-//     sendgridTransport({
-//       auth: {
-//         api_key:
-//           "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",
-//       },
-//     })
-//   );
-
-//   transport
-//     .sendMail({
-//       to: "anahisvq7@gmail.com",
-//       from: 'trippnwebsite@gmail.com',
-//       subject: "Test Email",
-//       html: "<h2>Some email content</h2>",
-//     })
-//     .then(console.log("Success!"))
-//     .catch((err) => console.log(err));
-
-// mailRouter.post("/text-mail", (req, res) => {
-//     require('dotenv').config()
-//     const sgMail = require('@sendgrid/mail')
-//     sgMail.setApiKey("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")
-//     const msg = {
-//       to: `${req.body.email}`,
-//       from: "trippnwebsite@gmail.com",
-//       subject: 'Sending with SendGrid is Fun',
-//       text: 'and easy to do anywhere, even with Node.js',
-//       html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-//     }
-//     sgMail
-//       .send(msg)
-//       .then(() => {
-//         console.log('Email sent')
-//       })
-//       .catch((error) => {
-//         console.error(error)
-//       })
-// });
