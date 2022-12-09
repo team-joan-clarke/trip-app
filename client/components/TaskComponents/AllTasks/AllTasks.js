@@ -29,6 +29,8 @@ const AllTasks = (props) => {
         margin: "5rem auto",
       }}
     >
+
+      <h1 className="spicy-text"> Task Planning Checklist </h1>
       <div
         style={{
           display: "flex",
