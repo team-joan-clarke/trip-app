@@ -18,6 +18,7 @@ const SingleTrip = () => {
 
   useEffect(() => {
     dispatch(getTasksByTrip(tripId));
+    window.scrollTo(0, 0)
   }, []);
 
   useEffect(() => {
