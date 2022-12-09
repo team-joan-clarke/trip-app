@@ -279,22 +279,29 @@ const CompletedTaskCard = (props) => {
 
         {(isTaskEditor || isTripOwner) && (
           <div>
-            <div style={{ position: "absolute", right: "5em", bottom: "1em" }}>
-              <Button
-                variant="primary"
-                onClick={(e) => handleRestore(e, singleTask.id)}
-              >
-                Retsore to Planning
-              </Button>
-            </div>
-
-            <div style={{ position: "absolute", right: "1em", bottom: "1em" }}>
+            <div
+              style={{
+                float: "right",
+                marginLeft: "1rem",
+                marginBottom: "1rem",
+                borderRadius: "50px",
+              }}
+            >
               <Button
                 variant="outline-danger"
                 size="sm"
                 onClick={() => setShow(true)}
               >
                 Delete
+              </Button>
+            </div>
+
+            <div style={{ float: "right", marginBottom: "1rem" }}>
+              <Button
+                variant="primary"
+                onClick={(e) => handleRestore(e, singleTask.id)}
+              >
+                Retsore to Planning
               </Button>
             </div>
           </div>
