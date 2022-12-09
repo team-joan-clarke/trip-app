@@ -53,7 +53,7 @@
 
 ### Seed Data
 
-Seed data is available for use with
+Seed data is available for use
 
 ```sh
 npm run seed
