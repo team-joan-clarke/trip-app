@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-import { Card, Form } from "react-bootstrap";
+import { Card, Form, Popover, OverlayTrigger } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { getCookie } from "../../redux/users";
 import {
@@ -10,6 +10,32 @@ import {
   deleteThisUserTrip,
 } from "../../redux/tripReducer";
 import Searchbar from "./Searchbar";
+
+const popover = (
+  <Popover id="popover-basic">
+    <Popover.Header as="h3">Overview: User Roles</Popover.Header>
+    <Popover.Body>
+      <div>
+        <h6>Owner</h6>
+        <p>
+          Can edit trip details, attendees, and attendee roles. Can also add and
+          edit all trip tasks.
+        </p>
+      </div>
+      <div>
+        <h6>Editor</h6>
+        <p>
+          Can edit trip attendees and attendee roles. Can also add tasks and
+          edit the tasks they create.
+        </p>
+      </div>
+      <div>
+        <h6>Attendee</h6>
+        <p>Can view trip attendees and tasks.</p>
+      </div>
+    </Popover.Body>
+  </Popover>
+);
 
 const TripAttendees = (props) => {
   const { tripId } = useParams();
@@ -67,13 +93,32 @@ const TripAttendees = (props) => {
         borderRadius: "5px",
         boxShadow: "2px 1px 20px grey",
         margin: "2rem auto",
-        background: 'white'
+        background: "white",
       }}
     >
       <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: "1rem",
+        }}
       >
-        <h3 style={{ flex: 5, width: "fit-contents" }}>Trip Attendees</h3>
+          <h3 style={{flex: 5, width: 'fit-contents'}}>Trip Attendees</h3>
+          <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-info-circle"
+              viewBox="0 0 16 16"
+              style={{ float: "left", margin: "1rem" }}
+            >
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+            </svg>
+          </OverlayTrigger>
         {userHasPermissions.length ? <Searchbar /> : null}
       </div>
       <div
@@ -101,7 +146,7 @@ const TripAttendees = (props) => {
                 borderRadius: "5px",
                 boxShadow: "2px 1px 20px grey",
                 margin: "0.3rem auto",
-                background: '#e3dcef'
+                background: "#e3dcef",
               }}
             >
               {usersOnTrip.map((user) => {
@@ -114,7 +159,7 @@ const TripAttendees = (props) => {
                       height: "70px",
                       boxShadow: "0px 1px 1px grey",
                       padding: "none",
-                      background: '#f5f1f9'
+                      background: "#f5f1f9",
                     }}
                   >
                     <Card.Body
@@ -172,7 +217,7 @@ const TripAttendees = (props) => {
                                   padding: "0.5rem",
                                   float: "right",
                                   fontSize: "12px",
-                                  background: '#f5f1f9'
+                                  background: "#f5f1f9",
                                 }}
                               >
                                 <option value="attendee">Attendee</option>
