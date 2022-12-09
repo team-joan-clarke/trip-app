@@ -25,7 +25,9 @@ const isOwnerofTrip = async (req, res, next) => {
   });
 
   if (!isOwnerOfTrip.role == "owner") {
-    return res.status(403).send("You don't have access bcs you are not trip owner");
+    return res
+      .status(403)
+      .send("You don't have access bcs you are not trip owner");
   } else {
     console.log("I HAVE ACCESS bcs I'm trip owner");
     next();
@@ -58,6 +60,7 @@ const isOwnerOrEditorOfTrip = async (req, res, next) => {
 // for all task routes that have trip id and task id in reqparams
 // delete user from task also uses this gatekeeping middlware
 const isEditorOfTaskOrTripOwner = async (req, res, next) => {
+  console.log("in is editor of task or trip");
   const isEditorOfTask = await User_Task.findOne({
     where: {
       UserId: req.user.id,
@@ -77,8 +80,13 @@ const isEditorOfTaskOrTripOwner = async (req, res, next) => {
     raw: true,
   });
 
-  if (isEditorOfTask.role == "editor" || isOwnerOfTrip.role == "owner") {
-    console.log("I have access bcs I am task Editor or trip owner");
+  if (isOwnerOfTrip || isEditorOfTask) {
+    if (!isOwnerOfTrip.role == "owner") {
+      if (isEditorOfTask.role === "editor") {
+        console.log("I have access bcs I am task Editor or trip owner");
+        next();
+      }
+    }
     next();
   } else {
     return res
