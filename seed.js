@@ -491,7 +491,7 @@ async function seed() {
   const cancun = await getTRIDByName("Cancun Trip");
   const vancouver = await getTRIDByName("Trip to Vancover");
   // DEMO
-  const jensBday = await getTRIDByName("Jen's Birthday 30th Birthday");
+  const jensBday = await getTRIDByName("Jen's 30th Birthday");
   const bogota = await getTRIDByName("Bogota 2023!!");
   const upstate = await getTRIDByName("Quiet Weekend Upstate");
   const miami = await getTRIDByName("F1 Miami 2023");
