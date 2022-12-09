@@ -1,25 +1,38 @@
-import React, { useEffect }from "react";
+import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
 import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
 import CreateTrip from "./CreateTrip";
-import axios from "axios"
+import { getCookie } from "../redux/users";
+import axios from "axios";
 
 const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
-  const doTheyHaveReferralEmail = useSelector((state) => state.auth.referralEmail)
-  console.log("auth", doTheyHaveReferralEmail)
+  const token = getCookie("token");
+  const doTheyHaveReferralEmail = useSelector(
+    (state) => state.auth.referralEmail
+  );
+  console.log("auth", doTheyHaveReferralEmail);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, []);
 
   useEffect(() => {
-
-  }, doTheyHaveReferralEmail)
+    async function fetchData() {
+      if (doTheyHaveReferralEmail) {
+        const sendEmailConfirmationToPersonWhoReferred = axios.post(
+          `/api/mail2/sendEmailToPersonWhoReferred`,
+          { firstName, doTheyHaveReferralEmail },
+          { headers: { authorization: token } }
+        );
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -41,7 +54,7 @@ const SingleUser = () => {
             {!firstName && (
               <h3 className=" error"> User does not exist in the system!</h3>
             )}
-            <h1 className='spicy-text'> Hello {firstName}</h1>
+            <h1 className="spicy-text"> Hello {firstName}</h1>
             <h4>Get Started</h4>
             <div
               style={{

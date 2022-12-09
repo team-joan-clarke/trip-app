@@ -2,13 +2,10 @@ const mailRouter = require("express").Router();
 const nodemailer = require("nodemailer");
 const {
     requireToken,
-    isOwnerOrEditorOfTrip,
   } = require("./gatekeepingmiddleware");
 
   
   mailRouter.post("/text-mail", requireToken, (req, res) => {
-    console.log("reciepient", req.body.recipient)
-    console.log("referral", req.body.referralEmail)
 
   const htmlToSend = `
   <!DOCTYPE html>
@@ -51,6 +48,8 @@ const {
     }
   });
 });
+
+
 
 module.exports = mailRouter;
 
