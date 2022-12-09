@@ -255,9 +255,7 @@ const TaskEditForm = (props) => {
 
           <div
             style={{
-              position: "absolute",
-              right: "1em",
-              bottom: "1em",
+              float: "right",
             }}
           >
             <Button

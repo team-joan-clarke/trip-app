@@ -105,8 +105,7 @@ export class UpdateUser extends React.Component {
           </Alert>
           <div
             style={{
-              position: "absolute",
-              right: "10em",
+              float: "right",
             }}
           >
             <Button
