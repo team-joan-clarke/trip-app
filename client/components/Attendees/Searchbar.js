@@ -286,7 +286,7 @@ const Searchbar = (props) => {
 
         <Modal.Footer>
           {/* link to email form  */}
-          <Link style={{ color: "darkgreen", textDecoration: "none"}}><p>Invite attendees via email</p></Link>
+          <Link style={{ color: "darkgreen", textDecoration: "none"}} to="/invite"><p>Invite attendees via email</p></Link>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

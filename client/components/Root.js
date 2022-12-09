@@ -11,6 +11,7 @@ import NavigationBar from "./Navbar";
 import CuteCarousel from "./Carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { verified } from "../redux/auth";
+import InviteEmailForm from "./InviteEmail";
 import Demo from "./Demo";
 
 const Root = ({ isLoggedIn }) => {
@@ -35,6 +36,7 @@ const Root = ({ isLoggedIn }) => {
               <Route exact path="/home" element={<CuteCarousel />} />
               <Route exact path="/demo" element={<Demo />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/invite" element={<InviteEmailForm />} />
             </Routes>
           </div>
         ) : (

@@ -5,24 +5,28 @@ const {
     isOwnerOrEditorOfTrip,
   } = require("./gatekeepingmiddleware");
 
-const htmlToSend = `
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Invitation to trippn</title>
-</head>
-<body>
-  <div>
-    <p>Hello there, </p>
-    <p>You have been invited to join trippn ✈️ </p> 
-    <p>Navigate to the link below to get started https://trippn.onrender.com/signup</p>
-    <p>Thanks,</p>
-    <p>trippn team</p>
-  </div>
-</body>
-</html>`;
+  
+  mailRouter.post("/text-mail", requireToken, (req, res) => {
+    console.log("reciepient", req.body.recipient)
+    console.log("referral", req.body.referralEmail)
 
-mailRouter.post("/text-mail", requireToken, isOwnerOrEditorOfTrip, (req, res) => {
+  const htmlToSend = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Invitation to trippn</title>
+  </head>
+  <body>
+    <div>
+      <p>Hello there, </p>
+      <p>${req.body.referralEmail} has invited you to join trippn ✈️ </p> 
+      <p>Navigate to the link to get started https://trippn.onrender.com/signup</p>
+      <p>Thanks,</p>
+      <p>trippn team</p>
+    </div>
+  </body>
+  </html>`;
+
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -33,7 +37,7 @@ mailRouter.post("/text-mail", requireToken, isOwnerOrEditorOfTrip, (req, res) =>
 
   var mailOptions = {
     from: "trippnwebsite@gmail.com",
-    to: `${req.body.email}`,
+    to: `${req.body.recipient}`,
     subject: "You have been invited to join trippn",
     text: "",
     html: htmlToSend
