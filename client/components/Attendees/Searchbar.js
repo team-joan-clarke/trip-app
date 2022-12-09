@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import _ from "lodash";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -285,6 +285,8 @@ const Searchbar = (props) => {
         </Modal.Body>
 
         <Modal.Footer>
+          {/* link to email form  */}
+          <Link style={{ color: "darkgreen", textDecoration: "none"}}><p>Invite attendees via email</p></Link>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
