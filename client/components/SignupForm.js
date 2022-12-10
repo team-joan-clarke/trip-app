@@ -4,6 +4,7 @@ import { authenticateSignUp } from "../redux/auth";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import axios from "axios"
 
 const SignUpForm = (props) => {
   const { error } = props;

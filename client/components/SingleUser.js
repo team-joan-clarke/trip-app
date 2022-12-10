@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
+import { Button, Toast, ToastContainer } from "react-bootstrap";
 import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
@@ -20,18 +21,20 @@ const SingleUser = () => {
     dispatch(fetchUser());
   }, []);
 
-  useEffect(() => {
-    async function fetchData() {
+  const sendEmailConfirmationButton = async (event) => {
+    console.log("in send emaul confirmation");
+    try {
       if (doTheyHaveReferralEmail) {
-        const sendEmailConfirmationToPersonWhoReferred = axios.post(
+        const sendEmailConfirmationToPersonWhoReferred = await axios.post(
           `/api/mail2/sendEmailToPersonWhoReferred`,
           { firstName, doTheyHaveReferralEmail },
           { headers: { authorization: token } }
         );
       }
+    } catch (error) {
+      console.log(error);
     }
-    fetchData();
-  }, []);
+  };
 
   return (
     <div>
@@ -66,6 +69,17 @@ const SingleUser = () => {
               }}
             >
               <CreateTrip />
+              {doTheyHaveReferralEmail ? (
+                <Button
+                  className="ml-4"
+                  onClick={sendEmailConfirmationButton}
+                  type="submit"
+                >
+                  Send Email Confirmation
+                </Button>
+              ) : (
+                <h1></h1>
+              )}
             </div>
           </div>
 
