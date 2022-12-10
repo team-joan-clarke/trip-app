@@ -10,28 +10,6 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Slider from "react-slick";
 
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "red" }}
-      onClick={onClick}
-    />
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "green" }}
-      onClick={onClick}
-    />
-  );
-}
-
 const ActiveTrips = (props) => {
   useEffect(() => {
     props.getTrips();
@@ -60,8 +38,9 @@ const ActiveTrips = (props) => {
     <div>
       <br></br>
       <h1 className="spicy-text">Your current trips</h1>
+      <h6>swipe to see your trips</h6>
       <br></br>
-      <div>
+      <div className="active">
         <Slider {...settings}>
           {trips.active.length == 0 ? (
             <h5>No active Trips</h5>
@@ -84,7 +63,11 @@ const ActiveTrips = (props) => {
                         <strong>{singleTrip.name}</strong>
                       </Card.Title>
                       <Card.Text>Status: {singleTrip.status}</Card.Text>
-                      <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
+                      {singleTrip.role == "owner" ? (
+                        <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
+                      ) : (
+                        <Card.Text>Trip Role: Owner</Card.Text>
+                      )}
                       <Card.Text>
                         Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
                         {singleTrip.end_date.toString().slice(3, 15)}
@@ -142,4 +125,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveTrips);
-

@@ -37,6 +37,7 @@ const CompletedTrips = (props) => {
     <div>
       <br></br>
       <h1 className="spicy-text">Your past trips</h1>
+      <h6>swipe to see your trips</h6>
       <br></br>
       <div>
       <Slider {...settings}>
