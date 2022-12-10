@@ -1,14 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { authenticateSignUp } from "../redux/auth";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import axios from "axios"
+
+//PHONE NUMBER VALIDATION:
+function validatePhoneNumber(input_str) {
+  var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+  return re.test(input_str);
+}
 
 const SignUpForm = (props) => {
   const { error } = props;
   const navigate = useNavigate();
+
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (props.auth.id) {
@@ -41,6 +50,13 @@ const SignUpForm = (props) => {
     const email = evt.target.email.value;
     const phoneNumber = evt.target.phoneNumber.value;
     const referralEmail = evt.target.referralEmail.value
+    
+    if (phoneNumber) {
+      if (!validatePhoneNumber(phoneNumber)) {
+        return setShow(true);
+      }
+    }
+    
     props.authenticateSignUp(
       firstName,
       lastName,
@@ -56,15 +72,15 @@ const SignUpForm = (props) => {
     <div>
       <div
         style={{
-          width: "40%",
+          width: "50%",
           flexDirection: "row",
           padding: "2rem",
           borderRadius: "5px",
           boxShadow: "2px 1px 20px grey",
           margin: "5rem auto",
           backgroundImage: "url(/gradient2.png)",
-          opacity: '0.9',
-          backgroundSize: 'cover'
+          opacity: "0.9",
+          backgroundSize: "cover",
         }}
       >
         <div
@@ -80,10 +96,37 @@ const SignUpForm = (props) => {
         >
           <h3>Create Account</h3>
           <form onSubmit={handleSubmit} className="trip-form">
+            {/* {Phone number validation:} */}
+            <div>
+              <Alert show={show} variant="warning">
+                <Alert.Heading>
+                  Please fix the following before proceeding:
+                </Alert.Heading>
+                <p style={{ display: "block" }}>
+                  Phone numbers may ONLY contain numbers, parenthesis, and or
+                  dashes.
+                </p>
+                <hr />
+                <div className="d-flex justify-content-end">
+                  <Button
+                    onClick={() => setShow(false)}
+                    variant="secondary"
+                    style={{
+                      marginRight: "1rem",
+                      borderRadius: "50px",
+                      float: "right",
+                    }}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </Alert>
+            </div>
+
             <div>
               <input
                 name="firstName"
-                placeholder="First Name"
+                placeholder="First Name *"
                 type="text"
                 required
               />
@@ -91,7 +134,7 @@ const SignUpForm = (props) => {
             <div>
               <input
                 name="lastName"
-                placeholder="Last Name"
+                placeholder="Last Name *"
                 type="text"
                 required
               />
@@ -99,7 +142,7 @@ const SignUpForm = (props) => {
             <div>
               <input
                 name="username"
-                placeholder="Username"
+                placeholder="Username *"
                 type="text"
                 required
               />
@@ -107,7 +150,7 @@ const SignUpForm = (props) => {
             <div>
               <input
                 name="password"
-                placeholder="Password"
+                placeholder="Password *"
                 type="password"
                 minLength="8"
                 maxLength="16"
@@ -120,8 +163,7 @@ const SignUpForm = (props) => {
             <div>
               <input
                 type="tel"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                placeholder="Phone: 000-000-0000"
+                placeholder="phone(optional)"
                 name="phoneNumber"
               />
               <input
@@ -133,10 +175,7 @@ const SignUpForm = (props) => {
             <Button style={{ margin: "0.6rem 3.5rem" }} type="submit">
               Register
             </Button>
-            <Link
-              className='sign-in-link'
-              to={`/login`}
-            >
+            <Link className="sign-in-link" to={`/login`}>
               <p style={{ marginLeft: "0.5rem" }}>Already have an account?</p>
             </Link>
             {/* {error && error.response && <div> {error.response.data} </div>} */}

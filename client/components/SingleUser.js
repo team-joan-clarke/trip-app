@@ -20,6 +20,7 @@ const SingleUser = () => {
 
   useEffect(() => {
     dispatch(fetchUser());
+    window.scrollTo(0, 0)
   }, []);
 
   const sendEmailConfirmationButton = async (event) => {
@@ -84,7 +85,6 @@ const SingleUser = () => {
               )}
             </div>
           </div>
-
           <ActiveTrips />
           <CompletedTrips />
           <AllTasks />

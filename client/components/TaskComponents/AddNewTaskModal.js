@@ -267,6 +267,12 @@ function AddNewTaskModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <h5 style={{ marginTop: "1rem" }}>Preparing for liftoff? </h5>
+        <p style={{ marginTop: "1rem", marginBottom: "2rem" }}>
+          Add a new task to keep track of your trip todos. Please add an
+          activity type, subtype, title, and the due date by which information
+          related to this task should be marked as complete.
+        </p>
         {addedResStatus === "success" && errors.length === 0 ? (
           <div>
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -328,7 +334,10 @@ function AddNewTaskModal(props) {
               name="dueDate"
               controlId="formTaskDUEDATE"
             >
-              <Form.Label>Due Date &#40;required&#41;</Form.Label>
+              <Form.Label>
+                Task Confirmation Due Date &#40;goal date for
+                booking&#47;buying&#47;etc.&#41; &#40;required&#41;
+              </Form.Label>
               <div className="date-picker">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -358,7 +367,7 @@ function AddNewTaskModal(props) {
                 controlId="formTaskSTARTDATE"
                 style={{ flex: 1 }}
               >
-                <Form.Label>Start Date</Form.Label>
+                <Form.Label>Activity Start Date</Form.Label>
                 <div className="date-picker">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
@@ -393,7 +402,7 @@ function AddNewTaskModal(props) {
                 controlId="formTaskENDDATE"
                 style={{ flex: 1 }}
               >
-                <Form.Label>End Date</Form.Label>
+                <Form.Label>Activity End Date</Form.Label>
                 <div className="date-picker">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker

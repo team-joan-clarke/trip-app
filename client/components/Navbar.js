@@ -26,8 +26,10 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                   padding: "0.2rem",
                 }}
               >
-                <img src="/logo.png" width="45px" height="45px"></img>
-                <Navbar.Brand href="/home" style={{ marginLeft: "1rem" }}>
+                <Navbar.Brand href="/home">
+                  <img src="/logo.png" width="45px" height="45px"></img>
+                </Navbar.Brand>
+                <Navbar.Brand href="/home">
                   trippn
                 </Navbar.Brand>
               </div>
@@ -95,9 +97,6 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                   </Link>
                   <Link to="/signup" className="navbar-link">
                     Signup
-                  </Link>
-                  <Link to="/demo" className="navbar-link">
-                    Demo
                   </Link>
                 </Nav>
               </Navbar.Collapse>

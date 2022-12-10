@@ -152,7 +152,7 @@ const trips = [
   },
   // DEMO
   {
-    name: "Jen's Birthday 30th Birthday",
+    name: "Jen's 30th Birthday",
     city: "Nashville",
     state: "Tennessee",
     country: "United States",
@@ -227,7 +227,6 @@ const trips = [
     status: "active",
     imageUrl:
       "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
-
   },
 ];
 
@@ -492,7 +491,7 @@ async function seed() {
   const cancun = await getTRIDByName("Cancun Trip");
   const vancouver = await getTRIDByName("Trip to Vancover");
   // DEMO
-  const jensBday = await getTRIDByName("Jen's Birthday 30th Birthday");
+  const jensBday = await getTRIDByName("Jen's 30th Birthday");
   const bogota = await getTRIDByName("Bogota 2023!!");
   const upstate = await getTRIDByName("Quiet Weekend Upstate");
   const miami = await getTRIDByName("F1 Miami 2023");
@@ -1218,8 +1217,8 @@ async function seed() {
   // PALM SPRINGS
   const palmspringsstrip = await getTAIDByName("Palm Spring Strip");
   const greatshakes = await getTAIDByName("Great Shakes");
-  // LAGUNA
   const expediacar = await getTAIDByName("Expedia Rental Car");
+  // LAGUNA
   const marriot = await getTAIDByName("The Marriot");
   const urthcafe = await getTAIDByName("Urth Cafe");
   // TEA SHOP
@@ -1229,18 +1228,21 @@ async function seed() {
   const airBNBForCancun = await getTAIDByName("AirBnB in Cancun");
 
   // DEMO
+  //JJEN'S 30TH BIRTHDAY
   const nashdrive = await getTAIDByName("Drive down");
   const casarosa = await getTAIDByName("Casa Rosa");
   const airBnBNash = await getTAIDByName("AirBnB near casa rosa");
   const opre = await getTAIDByName("Grand Ole Opre Tour");
+  //F1 MIAMI 2023
   const miamiflight = await getTAIDByName("AA JFK");
   const staygemma = await getTAIDByName("Stay with Gemma");
   const stayaunt = await getTAIDByName("Stay with Aunt Jean");
+  const marion = await getTAIDByName("Marion Miami");
+  const raceday = await getTAIDByName("Race Day!!");
   const ceviche = await getTAIDByName("CVI.CHE 105");
   const quals = await getTAIDByName("Quals");
   const finals = await getTAIDByName("Finals");
-  const raceday = await getTAIDByName("Race Day!!");
-  const marion = await getTAIDByName("Marion Miami");
+  //QUIET WEEKEND UPSTATE
   const bodhi = await getTAIDByName("Bodhi Spa");
   const amtrak = await getTAIDByName("Amtrak");
   const natureAirbnb = await getTAIDByName("AirBnB in nature");
@@ -1256,7 +1258,7 @@ async function seed() {
     User_Task.create({
       role: "attendee",
       UserId: murphy,
-      TaskId: 1,
+      TaskId: enterprise,
     }),
     User_Task.create({
       role: "editor",
@@ -1440,7 +1442,7 @@ async function seed() {
     }),
     User_Task.create({
       role: "editor",
-      UserId: irais,
+      UserId: yuri,
       TaskId: expediacar,
     }),
     User_Task.create({
@@ -1491,12 +1493,12 @@ async function seed() {
     // DEMO
     User_Task.create({
       role: "editor",
-      UserId: sara,
+      UserId: sarap,
       TaskId: nashdrive,
     }),
     User_Task.create({
       role: "editor",
-      UserId: sara,
+      UserId: sarap,
       TaskId: casarosa,
     }),
     User_Task.create({
@@ -1506,7 +1508,7 @@ async function seed() {
     }),
     User_Task.create({
       role: "editor",
-      UserId: sara,
+      UserId: sarap,
       TaskId: airBnBNash,
     }),
     User_Task.create({
@@ -1516,7 +1518,7 @@ async function seed() {
     }),
     User_Task.create({
       role: "attendee",
-      UserId: sara,
+      UserId: sarap,
       TaskId: opre,
     }),
     User_Task.create({

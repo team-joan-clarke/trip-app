@@ -311,3 +311,21 @@ html, body {
 .slider__item img {
   max-width: 100%;
 }
+
+/* footer */
+
+footer {
+  background-color: #212529;
+  padding: 5rem;
+  text-align: center;
+}
+
+#footer-text {
+  color: lightgray;
+  margin: 0.7rem;
+}
+
+#footer-pic {
+  width: 5rem;
+  height: 5rem;
+}

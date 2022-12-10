@@ -185,10 +185,7 @@ const Searchbar = (props) => {
       <Button
         variant="primary"
         style={{
-          flex: 1,
-          width: "fit-contents",
-          float: "right",
-          marginRight: "1rem",
+          marginRight: '1rem'
         }}
         onClick={handleShow}
       >

@@ -4,6 +4,13 @@ import { updatingUser } from "../redux/users";
 import { fetchUser, deletingUser } from "../redux/users";
 import { Form, Row, Col, Button, Alert } from "react-bootstrap";
 
+//PHONE NUMBER VALIDATION:
+function validatePhoneNumber(input_str) {
+  var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+  return re.test(input_str);
+}
+
 export class UpdateUser extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +23,7 @@ export class UpdateUser extends React.Component {
       phoneNumber: this.props.user.phoneNumber,
       error: this.props.user.error,
       show: false,
+      phoneAlert: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -33,6 +41,11 @@ export class UpdateUser extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    if (this.state.phoneNumber) {
+      if (!validatePhoneNumber(this.state.phoneNumber)) {
+        return this.setState({ phoneAlert: true });
+      }
+    }
     this.props.updateUser({
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -69,6 +82,7 @@ export class UpdateUser extends React.Component {
     const phoneNumber = this.props.user.phoneNumber || "";
 
     const show = this.state.show;
+    const phoneAlert = this.state.phoneAlert;
     return (
       <div>
         <div
@@ -105,8 +119,7 @@ export class UpdateUser extends React.Component {
           </Alert>
           <div
             style={{
-              position: "absolute",
-              right: "10em",
+              float: "right",
             }}
           >
             <Button
@@ -119,6 +132,32 @@ export class UpdateUser extends React.Component {
           </div>
 
           <Form className="form" onSubmit={handleSubmit}>
+            {/* {Phone number validation:} */}
+            <div>
+              <Alert show={phoneAlert} variant="warning">
+                <Alert.Heading>
+                  Please fix the following before proceeding:
+                </Alert.Heading>
+                <p style={{ display: "block" }}>
+                  Phone numbers may ONLY contain numbers, parenthesis, and or
+                  dashes.
+                </p>
+                <hr />
+                <div className="d-flex justify-content-end">
+                  <Button
+                    onClick={() => this.setState({ phoneAlert: false })}
+                    variant="secondary"
+                    style={{
+                      marginRight: "1rem",
+                      borderRadius: "50px",
+                      float: "right",
+                    }}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </Alert>
+            </div>
             <h3>Update User Profile</h3>
             <Row>
               <Col>
@@ -190,9 +229,8 @@ export class UpdateUser extends React.Component {
               <Form.Label>Phone Number: {phoneNumber}</Form.Label>
               <Form.Control
                 type="tel"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 name="phoneNumber"
-                placeholder="format: 000-000-0000"
+                placeholder="phone number"
                 defaultValue={this.state.phoneNumber}
                 onChange={handleChange}
               />
