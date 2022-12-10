@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
 import { Button, Toast, ToastContainer } from "react-bootstrap";
@@ -13,6 +13,7 @@ const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
   const token = getCookie("token");
+  const [buttonStatus, setButtonStatus] = useState(true)
   const doTheyHaveReferralEmail = useSelector(
     (state) => state.auth.referralEmail
   );
@@ -23,6 +24,7 @@ const SingleUser = () => {
 
   const sendEmailConfirmationButton = async (event) => {
     console.log("in send emaul confirmation");
+    setButtonStatus(false)
     try {
       if (doTheyHaveReferralEmail) {
         const sendEmailConfirmationToPersonWhoReferred = await axios.post(
@@ -69,9 +71,9 @@ const SingleUser = () => {
               }}
             >
               <CreateTrip />
-              {doTheyHaveReferralEmail ? (
+              {doTheyHaveReferralEmail && buttonStatus ? (
                 <Button
-                  className="ml-4"
+                  className="marginLeft"
                   onClick={sendEmailConfirmationButton}
                   type="submit"
                 >
