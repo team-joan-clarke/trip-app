@@ -6,13 +6,14 @@ import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
 import CreateTrip from "./CreateTrip";
 
+
 const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
 
   useEffect(() => {
     dispatch(fetchUser());
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -50,8 +51,8 @@ const SingleUser = () => {
               <CreateTrip />
             </div>
           </div>
-          <ActiveTrips />
-          <CompletedTrips />
+            <ActiveTrips />
+            <CompletedTrips />
           <AllTasks />
         </main>
       </div>

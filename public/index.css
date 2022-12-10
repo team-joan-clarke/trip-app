@@ -187,7 +187,7 @@ html, body {
 
 .heightAndWidth {
   width: 285px;
-  height: 250px;
+  height: 230px;
 }
 
 .marginLeft {
@@ -215,6 +215,12 @@ html, body {
   background-image: linear-gradient(115deg, lightseagreen, 35%, #bded7e);
   border: none;
   border-radius: 50px;
+}
+
+.center {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
 }
 /* navbar */
 
