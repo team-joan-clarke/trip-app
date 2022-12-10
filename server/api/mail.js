@@ -1,26 +1,56 @@
-// const mailRouter = require("express").Router();
-// const sendgridTransport = require("nodemailer-sendgrid-transport");
-// const nodemailer = require("nodemailer");
+const mailRouter = require("express").Router();
+const nodemailer = require("nodemailer");
+const {
+    requireToken,
+  } = require("./gatekeepingmiddleware");
+
+  
+  mailRouter.post("/text-mail", requireToken, (req, res) => {
+
+  const htmlToSend = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Invitation to trippn</title>
+  </head>
+  <body>
+    <div>
+      <p>Hello there, </p>
+      <p>${req.body.referralEmail} has invited you to join trippn ✈️ </p> 
+      <p>Navigate to the link to get started https://trippn.onrender.com/signup</p>
+      <p>Thanks,</p>
+      <p>trippn team</p>
+    </div>
+  </body>
+  </html>`;
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "trippnwebsite@gmail.com",
+      pass: process.env.APP_PASS,
+    },
+  });
+
+  var mailOptions = {
+    from: "trippnwebsite@gmail.com",
+    to: `${req.body.recipient}`,
+    subject: "You have been invited to join trippn",
+    text: "",
+    html: htmlToSend
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+});
 
 
-// mailRouter.post("/text-mail", (req, res) => {
-//   const transport = nodemailer.createTransport(
-//     sendgridTransport({
-//       auth: {
-//         api_key: "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",
-//       },
-//     })
-//   );
 
-//   transport
-//     .sendMail({
-//       to: `${req.body.email}`,
-//       from: "trippnwebsite@gmail.com",
-//       subject: "Test Email",
-//       html: "<h2>Please Like Share Comment And Subscribe</h2>",
-//     })
-//     .then(console.log("Success!"))
-//     .catch((err) => console.log(err));
-// });
+module.exports = mailRouter;
 
-// module.exports = mailRouter;
+

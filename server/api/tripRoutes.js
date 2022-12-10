@@ -41,7 +41,6 @@ tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 // get route for trips dashboard gets active trips
 tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
   // gets role
-  console.log("in get active", req.user)
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });
