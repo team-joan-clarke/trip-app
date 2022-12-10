@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component} from "react";
+import React, { useEffect, useState, Component } from "react";
 import {
   getAllActiveTripsThunk,
   deleteActiveTripThunk,
@@ -139,64 +139,102 @@ const ActiveTrips = (props) => {
   const handleRemove = (event) => {
     props.deleteTrip(event.target.name);
   };
+
+  var settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
   return (
     <div>
       <br></br>
       <h1 className="spicy-text">Your current trips</h1>
       <br></br>
-      <div className="addFlex">
-        {trips.active.length == 0 ? (
-          <h5>No active Trips</h5>
-        ) : (
-          trips.active.map((singleTrip) => {
-            return (
-              <div key={singleTrip.id}>
-                <Card
-                  className="mb-4"
-                  style={{ width: "18rem" }}
-                  key={singleTrip.id}
-                >
-                  <Card.Img
-                    variant="top"
-                    className="heightAndWidth"
-                    src={singleTrip.imageUrl}
-                  />
-                  <Card.Body>
-                    <Card.Title>
-                      <strong>{singleTrip.name}</strong>
-                    </Card.Title>
-                    <Card.Text>Status: {singleTrip.status}</Card.Text>
-                    <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
-                    <Card.Text>
-                      Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
-                      {singleTrip.end_date.toString().slice(3, 15)}
-                    </Card.Text>
-                    <Card.Text></Card.Text>
-                    <Button
-                      name={singleTrip.id}
-                      onClick={handleClick}
-                      variant="primary"
-                    >
-                      View Trip
-                    </Button>
-                    {singleTrip.role == "owner" ? (
+      <div>
+        <Slider {...settings}>
+          {trips.active.length == 0 ? (
+            <h5>No active Trips</h5>
+          ) : (
+            trips.active.map((singleTrip) => {
+              return (
+                <div key={singleTrip.id}>
+                  <Card
+                    className="mb-4"
+                    style={{ width: "18rem" }}
+                    key={singleTrip.id}
+                  >
+                    <Card.Img
+                      variant="top"
+                      className="heightAndWidth"
+                      src={singleTrip.imageUrl}
+                    />
+                    <Card.Body>
+                      <Card.Title>
+                        <strong>{singleTrip.name}</strong>
+                      </Card.Title>
+                      <Card.Text>Status: {singleTrip.status}</Card.Text>
+                      <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
+                      <Card.Text>
+                        Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
+                        {singleTrip.end_date.toString().slice(3, 15)}
+                      </Card.Text>
+                      <Card.Text></Card.Text>
                       <Button
                         name={singleTrip.id}
-                        onClick={handleRemove}
-                        variant="outline-danger"
-                        className="marginLeft"
+                        onClick={handleClick}
+                        variant="primary"
                       >
-                        Delete
+                        View Trip
                       </Button>
-                    ) : (
-                      <h1></h1>
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-            );
-          })
-        )}
+                      {singleTrip.role == "owner" ? (
+                        <Button
+                          name={singleTrip.id}
+                          onClick={handleRemove}
+                          variant="outline-danger"
+                          className="marginLeft"
+                        >
+                          Delete
+                        </Button>
+                      ) : (
+                        <h1></h1>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+              );
+            })
+          )}
+        </Slider>
       </div>
     </div>
   );
