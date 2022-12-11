@@ -12,7 +12,7 @@ import CuteCarousel from "./Carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { verified } from "../redux/auth";
 import InviteEmailForm from "./InviteEmail";
-import Demo from "./Demo";
+// import Demo from "./Demo";
 
 
 const Root = ({ isLoggedIn, auth }) => {

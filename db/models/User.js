@@ -44,9 +44,6 @@ const User = db.define("User", {
     type: DataTypes.STRING,
     unique: true,
     allowNull: true,
-    validate: {
-      isEmail: true,
-    },
   },
   // interests: {
   //   type: DataTypes.STRING,
