@@ -16,22 +16,6 @@ import { getCookie } from "../redux/users";
 import Tooltip from "react-bootstrap/Tooltip";
 import axios from "axios";
 
-// Let the person who invited you know you joined trippn!
-// Let them know you joined!
-
-// const popover = (
-//   <Popover id="popover-basic">
-//     <Popover.Header as="h3">Let them know you joined!</Popover.Header>
-//     <Popover.Body>
-//       <div>
-//         <p>
-//           Let the person who invited you know you joined trippn!
-//         </p>
-//       </div>
-//     </Popover.Body>
-//   </Popover>
-// );
-
 const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
