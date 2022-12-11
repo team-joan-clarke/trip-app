@@ -81,10 +81,6 @@ const NavigationBar = ({ isLoggedIn, auth }) => {
                         Update Profile
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
-                      <NavDropdown.Item href="/demo" onClick={handleClick}>
-                        Browse Demos
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
                       <NavDropdown.Item href="/login" onClick={handleClick}>
                         Sign Out
                       </NavDropdown.Item>
