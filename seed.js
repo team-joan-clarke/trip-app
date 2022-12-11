@@ -140,9 +140,9 @@ const trips = [
       "https://i.pinimg.com/736x/3c/7f/fa/3c7ffa6e84ec56fad2d48d9fa2f4f3e4.jpg",
   },
   {
-    name: "Trip to Vancover",
-    city: "Vancover",
-    state: "Vancover",
+    name: "Trip to Vancouver",
+    city: "Vancouver",
+    state: "Vancouver",
     country: "Canada",
     start_date: new Date(2023, 4, 5),
     end_date: new Date(2023, 4, 23),
