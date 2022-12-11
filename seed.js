@@ -396,6 +396,8 @@ async function seed() {
     }),
 
     // DEMO
+    // *** demo users MUST include "Demo" in firstName in order to display DEMO MODE alert ***
+    // ie. "Sara Demo"
     User.create({
       firstName: "Sara Demo",
       lastName: "Petrova",
