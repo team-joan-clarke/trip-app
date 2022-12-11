@@ -229,49 +229,15 @@ const trips = [
       "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
   },
   {
-    //
-    name: "Grand Canyon",
-    city: "Grand Canyon",
-    state: "Arizona",
-    country: "United States",
-    start_date: new Date(2023, 4, 5),
-    end_date: new Date(2023, 4, 7),
-    status: "active",
-    imageUrl:
-      "https://www.doi.gov/sites/doi.gov/files/uploads/grandcanyonnpyanlismall.jpg"
-  },
-  {
-    name: "Chicago Trip",
-    city: "Chicago",
-    state: "Illinois",
-    country: "United States",
-    start_date: new Date(2022, 8, 15),
-    end_date: new Date(2022, 8, 18),
-    status: "complete",
-    imageUrl:
-      "https://www.crescentheights.com/assets/uploads/images/projects/nema-chicago/_large5x3/09-Nema-Chicago-Photo-Insertion-1-R01.jpg"
-  },
-  {
     name: "Paris",
     city: "Paris",
     state: "France",
     country: "Europe",
-    start_date: new Date(2022, 6, 15),
-    end_date: new Date(2022, 7, 18),
-    status: "complete",
+    start_date: new Date(2023, 6, 15),
+    end_date: new Date(2023, 7, 18),
+    status: "active",
     imageUrl:
       "https://media.cntraveler.com/photos/5cf96a9dd9fb41f17ed08435/3:2/w_1600%2Cc_limit/Eiffel%2520Tower_GettyImages-1005348968.jpg"
-  },
-  {
-    name: "Washington",
-    city: "Washington D.C",
-    state: "DC",
-    country: "United States",
-    start_date: new Date(2022, 2, 15),
-    end_date: new Date(2022, 3, 18),
-    status: "complete",
-    imageUrl:
-      "https://www.tripsavvy.com/thmb/tyHvbtGFhrm6lE56UgH_WP43Gz4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/reflection-of-trees-in-water-1034473704-5c686e23c9e77c00012e0ebf.jpg"
   },
 ];
 
@@ -543,10 +509,7 @@ async function seed() {
   const aspen = await getTRIDByName("Aspen Food and Wine");
   const college = await getTRIDByName("Pick Matt Up From College");
   const staycation = await getTRIDByName("NYC Staycation");
-  const chicago = await getTRIDByName("Chicago Trip");
-  const canyon = await getTRIDByName("Grand Canyon");
   const paris = await getTRIDByName("Paris");
-  const washington = await getTRIDByName("Washington");
 
   const tasks = [
     {
@@ -1067,6 +1030,11 @@ async function seed() {
       TripId: teashop,
     }),
     User_Trip.create({
+      role: "owner",
+      UserId: anahis,
+      TripId: paris,
+    }),
+    User_Trip.create({
       role: "editor",
       UserId: irais,
       TripId: teashop,
@@ -1095,11 +1063,6 @@ async function seed() {
       role: "owner",
       UserId: anahis,
       TripId: palmsprings,
-    }),
-    User_Trip.create({
-      role: "editor",
-      UserId: anahis,
-      TripId: washington,
     }),
     User_Trip.create({
       role: "editor",
@@ -1150,21 +1113,6 @@ async function seed() {
       role: "owner",
       UserId: anahis,
       TripId: vancouver,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: anahis,
-      TripId: chicago,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: anahis,
-      TripId: paris,
-    }),
-    User_Trip.create({
-      role: "owner",
-      UserId: anahis,
-      TripId: canyon,
     }),
     User_Trip.create({
       role: "attendee",
