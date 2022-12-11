@@ -7,9 +7,8 @@ import {
   OverlayTrigger,
 } from "react-bootstrap";
 import axios from "axios";
-import {Link} from "react-router-dom"
 import { getCookie } from "../redux/users";
-// make form to send info to post route in backend server/api/mail.js
+
 
 const popover = (
   <Popover id="popover-basic">
@@ -42,7 +41,6 @@ const InviteEmailForm = () => {
   const [recipient, setrecipient] = useState("");
   const [referralEmail, setReferralEmail] = useState("");
   const [showSuccessToast, setSuccessToast] = useState(false);
-  const [backToTripDash, setBackToTripDash] = useState(false)
 
   const handleInviteClick = async (event) => {
     event.preventDefault();
@@ -153,7 +151,6 @@ const InviteEmailForm = () => {
               <Button style={{ margin: "0.6rem 4rem" }} type="submit">
                 Send email invite
               </Button>
-              {backToTripDash ? (<Link to="/user" className="invite-link">Back to user dashboard</Link>): (<h1></h1>)}
             </div>
           </form>
         </div>
