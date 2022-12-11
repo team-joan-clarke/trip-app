@@ -42,7 +42,6 @@ const User = db.define("User", {
   },
   referralEmail: {
     type: DataTypes.STRING,
-    unique: true,
     allowNull: true,
   },
   // interests: {
