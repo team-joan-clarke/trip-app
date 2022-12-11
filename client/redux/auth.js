@@ -43,7 +43,7 @@ export const authenticateLogin = (username, password) => async (dispatch) => {
 };
 
 export const authenticateSignUp =
-  (firstName, lastName, username, password, email, phoneNumber) =>
+  (firstName, lastName, username, password, email, phoneNumber, referralEmail) =>
   async (dispatch) => {
     try {
       const res = await axios.post(`/auth/signup`, {
@@ -53,6 +53,7 @@ export const authenticateSignUp =
         password,
         email,
         phoneNumber,
+        referralEmail
       });
       setCookie(TOKEN, res.data.token, 1);
       dispatch(verified());

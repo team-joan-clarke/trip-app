@@ -1,20 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
+import { Button, Toast, ToastContainer } from "react-bootstrap";
 import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
 import CreateTrip from "./CreateTrip";
+import { getCookie } from "../redux/users";
+import axios from "axios";
 
 
 const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
+  const token = getCookie("token");
+  const [buttonStatus, setButtonStatus] = useState(true)
+  const doTheyHaveReferralEmail = useSelector(
+    (state) => state.auth.referralEmail
+  );
 
   useEffect(() => {
     dispatch(fetchUser());
     window.scrollTo(0, 0);
   }, []);
+
+  const sendEmailConfirmationButton = async (event) => {
+    console.log("in send emaul confirmation");
+    setButtonStatus(false)
+    try {
+      if (doTheyHaveReferralEmail) {
+        const sendEmailConfirmationToPersonWhoReferred = await axios.post(
+          `/api/mail2/sendEmailToPersonWhoReferred`,
+          { firstName, doTheyHaveReferralEmail },
+          { headers: { authorization: token } }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -49,6 +73,17 @@ const SingleUser = () => {
               }}
             >
               <CreateTrip />
+              {doTheyHaveReferralEmail && buttonStatus ? (
+                <Button
+                  className="marginLeft"
+                  onClick={sendEmailConfirmationButton}
+                  type="submit"
+                >
+                  Send Email Confirmation
+                </Button>
+              ) : (
+                <h1></h1>
+              )}
             </div>
           </div>
             <ActiveTrips />

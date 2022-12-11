@@ -98,6 +98,8 @@ const isEditorOfTaskOrTripOwner = async (req, res, next) => {
 // checks if user logged in is editor of a task or trip owner
 // for put and post user tasks routes that have req.body
 const isEditorOfTaskOrTripOwnerForReqBody = async (req, res, next) => {
+  console.log("task id", req.body.taskId)
+  console.log("user id", req.user.id)
   const isEditorOfTaskAndHasReqBody = await User_Task.findOne({
     where: {
       UserId: req.user.id,
