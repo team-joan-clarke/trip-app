@@ -5,7 +5,14 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Form, Alert, Button, Modal, Toast, ToastContainer } from "react-bootstrap";
+import {
+  Form,
+  Alert,
+  Button,
+  Modal,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import { updateThisTrip, fetchSingleTrip } from "../redux/tripReducer";
 
 const EditTrip = (props) => {
@@ -35,6 +42,8 @@ const EditTrip = (props) => {
   const [show, setShow] = useState(false);
   const [showSuccessToast, setSuccessToast] = useState(false);
   const [showErrorMessage, setErrorMessage] = useState(false);
+
+  const [validated, setValidated] = useState(false);
 
   const errorDictionary = {
     endDateAfterError: [6, "End date must come after start date"],
@@ -105,7 +114,14 @@ const EditTrip = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (singleTrip) {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    setValidated(true);
+
+    if (singleTrip && tripInfo.name !== "" && tripInfo.country !== "") {
       if (errors.length === 0) {
         props.updateThisTrip({ ...singleTrip, ...tripInfo }, tripId);
         setTripInfo({
@@ -182,15 +198,19 @@ const EditTrip = (props) => {
               <Modal.Title>Edit Trip</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form>
+              <Form noValidate validated={validated}>
                 <Form.Group className="mb-3" controlId="edit-trip-form">
                   <Form.Label>Trip Name</Form.Label>
                   <Form.Control
+                    required
                     type="text"
                     name="name"
                     defaultValue={singleTrip.name || ""}
                     onChange={handleChange}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Must add a trip name
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="edit-trip-form">
@@ -216,11 +236,15 @@ const EditTrip = (props) => {
                 <Form.Group className="mb-3" controlId="edit-trip-form">
                   <Form.Label>Country</Form.Label>
                   <Form.Control
+                    required
                     type="text"
                     name="country"
                     defaultValue={singleTrip.country || ""}
                     onChange={handleChange}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Must add a country
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <div>
