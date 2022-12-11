@@ -9,6 +9,7 @@ import CreateTrip from "./CreateTrip";
 import { getCookie } from "../redux/users";
 import axios from "axios";
 
+
 const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
@@ -20,7 +21,7 @@ const SingleUser = () => {
 
   useEffect(() => {
     dispatch(fetchUser());
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, []);
 
   const sendEmailConfirmationButton = async (event) => {
@@ -85,8 +86,8 @@ const SingleUser = () => {
               )}
             </div>
           </div>
-          <ActiveTrips />
-          <CompletedTrips />
+            <ActiveTrips />
+            <CompletedTrips />
           <AllTasks />
         </main>
       </div>

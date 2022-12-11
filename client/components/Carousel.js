@@ -15,8 +15,8 @@ function CuteCarousel() {
           alt="First slide"
           />
         <Carousel.Caption>
-          <h1 style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
-          <Button href='/signup' variant="primary">
+          <h1 className="fontForCarousel" style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
+          <Button className="marginBottom" href='/signup' variant="success">
             Start Planning
           </Button>
         </Carousel.Caption>
@@ -29,8 +29,8 @@ function CuteCarousel() {
         />
 
         <Carousel.Caption>
-          <h1 style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
-          <Button className="mb-5" href='/signup' variant="primary">
+          <h1 className="fontForCarousel" style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
+          <Button className="marginBottom" href='/signup' variant="success">
             Start Planning
           </Button>
         </Carousel.Caption>
@@ -43,8 +43,8 @@ function CuteCarousel() {
         />
 
         <Carousel.Caption>
-         <h1 style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
-          <Button className="mb-5" href='/signup' variant="primary">
+         <h1 className="fontForCarousel" style={{margin: '1.5rem'}}>Plan your perfect trip with trippn</h1>
+          <Button className="marginBottom" href='/signup' variant="success">
             Start Planning
           </Button>
         </Carousel.Caption>

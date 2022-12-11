@@ -118,11 +118,15 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
     const { userId } = req.body;
     const makeNewTrip = await Trip.create(req.body);
 
-    await User_Trip.create({
+    const userTrip = await User_Trip.create({
       role: "owner",
       UserId: userId,
       TripId: makeNewTrip.dataValues.id,
     });
+
+    makeNewTrip.dataValues["role"] = userTrip.role
+
+    console.log("trip i made", makeNewTrip)
     res.send(makeNewTrip).status(200);
   } catch (error) {
     next(error);
@@ -130,26 +134,36 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
 });
 
 // put route to edit a trip uses tripId to search for specific trip
-tripRouter.put("/singleTrip/:tripId", requireToken, isOwnerofTrip, async (req, res, next) => {
-  try {
-    const findTripToUpdate = await Trip.findByPk(req.params.tripId);
-    findTripToUpdate.update(req.body);
-    res.send(findTripToUpdate).status(200);
-  } catch (error) {
-    next(error);
+tripRouter.put(
+  "/singleTrip/:tripId",
+  requireToken,
+  isOwnerofTrip,
+  async (req, res, next) => {
+    try {
+      const findTripToUpdate = await Trip.findByPk(req.params.tripId);
+      findTripToUpdate.update(req.body);
+      res.send(findTripToUpdate).status(200);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // delete route to delete a trip uses tripId to search for specific trip
-tripRouter.delete("/:tripId", requireToken, isOwnerofTrip, async (req, res, next) => {
-  console.log("in delete")
-  try {
-    const findTripToDelete = await Trip.findByPk(req.params.tripId);
-    findTripToDelete.destroy();
-    res.send(findTripToDelete).status(200);
-  } catch (error) {
-    next(error);
+tripRouter.delete(
+  "/:tripId",
+  requireToken,
+  isOwnerofTrip,
+  async (req, res, next) => {
+    console.log("in delete");
+    try {
+      const findTripToDelete = await Trip.findByPk(req.params.tripId);
+      findTripToDelete.destroy();
+      res.send(findTripToDelete).status(200);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = tripRouter;
