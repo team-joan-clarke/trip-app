@@ -122,8 +122,8 @@ const trips = [
     city: "Brooklyn",
     state: "New York",
     country: "United States",
-    start_date: new Date(2022, 12, 17),
-    end_date: new Date(2022, 12, 17),
+    start_date: new Date(2022, 11, 3),
+    end_date: new Date(2022, 11, 3),
     status: "complete",
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO1y52-cuFMKc2cVCwlBsLPqfr-rC_MTPWg&usqp=CAU",
@@ -227,6 +227,17 @@ const trips = [
     status: "active",
     imageUrl:
       "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
+  },
+  {
+    name: "Paris",
+    city: "Paris",
+    state: "France",
+    country: "Europe",
+    start_date: new Date(2023, 6, 15),
+    end_date: new Date(2023, 7, 18),
+    status: "active",
+    imageUrl:
+      "https://media.cntraveler.com/photos/5cf96a9dd9fb41f17ed08435/3:2/w_1600%2Cc_limit/Eiffel%2520Tower_GettyImages-1005348968.jpg"
   },
 ];
 
@@ -500,6 +511,7 @@ async function seed() {
   const aspen = await getTRIDByName("Aspen Food and Wine");
   const college = await getTRIDByName("Pick Matt Up From College");
   const staycation = await getTRIDByName("NYC Staycation");
+  const paris = await getTRIDByName("Paris");
 
   const tasks = [
     {
@@ -1018,6 +1030,11 @@ async function seed() {
       role: "owner",
       UserId: anahis,
       TripId: teashop,
+    }),
+    User_Trip.create({
+      role: "owner",
+      UserId: anahis,
+      TripId: paris,
     }),
     User_Trip.create({
       role: "editor",
