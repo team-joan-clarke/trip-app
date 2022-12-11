@@ -276,6 +276,8 @@ export default function tripReducer(state = initialState, action) {
       return { ...state, active: sortedDates };
     case CREATE_TRIP:
       const currentActiveTrips = state.active;
+      action.trip.start_date = new Date(action.trip.start_date)
+      action.trip.end_date = new Date(action.trip.end_date)
       return { ...state, active: [...currentActiveTrips, action.trip] };
     case CREATE_USER_TRIP:
       const activeTrips = state.active;

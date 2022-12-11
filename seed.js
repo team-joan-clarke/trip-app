@@ -122,8 +122,8 @@ const trips = [
     city: "Brooklyn",
     state: "New York",
     country: "United States",
-    start_date: new Date(2022, 12, 17),
-    end_date: new Date(2022, 12, 17),
+    start_date: new Date(2022, 11, 3),
+    end_date: new Date(2022, 11, 3),
     status: "complete",
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTO1y52-cuFMKc2cVCwlBsLPqfr-rC_MTPWg&usqp=CAU",

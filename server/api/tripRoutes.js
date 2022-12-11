@@ -41,7 +41,7 @@ tripRouter.get("/allUserTrips/:userId", async (req, res, next) => {
 // get route for trips dashboard gets active trips
 tripRouter.get("/activeTrips/:userId", requireToken, async (req, res, next) => {
   // gets role
-  console.log("in get active", req.user)
+  console.log("in get active", req.user);
   const findAllTripsForUser = await User_Trip.findAll({
     where: { UserId: req.params.userId },
   });
@@ -124,6 +124,10 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
       UserId: userId,
       TripId: makeNewTrip.dataValues.id,
     });
+
+    makeNewTrip.start_date = makeNewTrip.start_date.toString().slice(4, 16);
+    makeNewTrip.end_date = makeNewTrip.end_date.toString().slice(4, 16);
+
     res.send(makeNewTrip).status(200);
   } catch (error) {
     next(error);
@@ -131,26 +135,36 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
 });
 
 // put route to edit a trip uses tripId to search for specific trip
-tripRouter.put("/singleTrip/:tripId", requireToken, isOwnerofTrip, async (req, res, next) => {
-  try {
-    const findTripToUpdate = await Trip.findByPk(req.params.tripId);
-    findTripToUpdate.update(req.body);
-    res.send(findTripToUpdate).status(200);
-  } catch (error) {
-    next(error);
+tripRouter.put(
+  "/singleTrip/:tripId",
+  requireToken,
+  isOwnerofTrip,
+  async (req, res, next) => {
+    try {
+      const findTripToUpdate = await Trip.findByPk(req.params.tripId);
+      findTripToUpdate.update(req.body);
+      res.send(findTripToUpdate).status(200);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // delete route to delete a trip uses tripId to search for specific trip
-tripRouter.delete("/:tripId", requireToken, isOwnerofTrip, async (req, res, next) => {
-  console.log("in delete")
-  try {
-    const findTripToDelete = await Trip.findByPk(req.params.tripId);
-    findTripToDelete.destroy();
-    res.send(findTripToDelete).status(200);
-  } catch (error) {
-    next(error);
+tripRouter.delete(
+  "/:tripId",
+  requireToken,
+  isOwnerofTrip,
+  async (req, res, next) => {
+    console.log("in delete");
+    try {
+      const findTripToDelete = await Trip.findByPk(req.params.tripId);
+      findTripToDelete.destroy();
+      res.send(findTripToDelete).status(200);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = tripRouter;

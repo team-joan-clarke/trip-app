@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   getAllCompletedTripsThunk,
   deleteCompleteTripThunk,
@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { Toast, ToastContainer } from "react-bootstrap";
 import Slider from "react-slick";
 
 const CompletedTrips = (props) => {
@@ -16,12 +17,14 @@ const CompletedTrips = (props) => {
 
   const { trips } = props;
   const navigate = useNavigate();
+  const [showSuccessToast, setSuccessToast] = useState(false);
 
   const handleClick = (event) => {
     navigate(`/trip/${event.target.name}`);
   };
 
   const handleRemove = (event) => {
+    setSuccessToast(true);
     props.deleteTrip(event.target.name);
   };
 
@@ -39,6 +42,27 @@ const CompletedTrips = (props) => {
       <h1 className="spicy-text">Your past trips</h1>
       <h6>swipe to see your trips</h6>
       <br></br>
+      <ToastContainer position="top-end">
+        <Toast
+          bg="info"
+          onClose={() => setSuccessToast(false)}
+          show={showSuccessToast}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">trippn</strong>
+            <small>Now</small>
+          </Toast.Header>
+          <Toast.Body>Succesfully deleted trip</Toast.Body>
+        </Toast>
+      </ToastContainer>
+
       <div>
       <Slider {...settings}>
           {trips.complete.length == 0 ? (
