@@ -502,7 +502,7 @@ async function seed() {
   const teashop = await getTRIDByName("Trip to Tea Shop");
   const joshuatree = await getTRIDByName("Kylie's Bday");
   const cancun = await getTRIDByName("Cancun Trip");
-  const vancouver = await getTRIDByName("Trip to Vancover");
+  const vancouver = await getTRIDByName("Trip to Vancouver");
   // DEMO
   const jensBday = await getTRIDByName("Jen's 30th Birthday");
   const bogota = await getTRIDByName("Bogota 2023!!");
