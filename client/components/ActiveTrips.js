@@ -60,7 +60,7 @@ const ActiveTrips = (props) => {
             <strong className="me-auto">trippn</strong>
             <small>Now</small>
           </Toast.Header>
-          <Toast.Body>Successfully deleted trip</Toast.Body>
+          <Toast.Body>Successfully deleted trip!</Toast.Body>
         </Toast>
       </ToastContainer>
       <div>

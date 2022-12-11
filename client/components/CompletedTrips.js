@@ -59,7 +59,7 @@ const CompletedTrips = (props) => {
             <strong className="me-auto">trippn</strong>
             <small>Now</small>
           </Toast.Header>
-          <Toast.Body>Succesfully deleted trip</Toast.Body>
+          <Toast.Body>Succesfully deleted trip!</Toast.Body>
         </Toast>
       </ToastContainer>
 
