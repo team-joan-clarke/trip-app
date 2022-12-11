@@ -119,15 +119,15 @@ tripRouter.post("/", requireToken, async (req, res, next) => {
     const { userId } = req.body;
     const makeNewTrip = await Trip.create(req.body);
 
-    await User_Trip.create({
+    const userTrip = await User_Trip.create({
       role: "owner",
       UserId: userId,
       TripId: makeNewTrip.dataValues.id,
     });
 
-    makeNewTrip.start_date = makeNewTrip.start_date.toString().slice(4, 16);
-    makeNewTrip.end_date = makeNewTrip.end_date.toString().slice(4, 16);
+    makeNewTrip.dataValues["role"] = userTrip.role
 
+    console.log("trip i made", makeNewTrip)
     res.send(makeNewTrip).status(200);
   } catch (error) {
     next(error);
