@@ -140,9 +140,9 @@ const trips = [
       "https://i.pinimg.com/736x/3c/7f/fa/3c7ffa6e84ec56fad2d48d9fa2f4f3e4.jpg",
   },
   {
-    name: "Trip to Vancover",
-    city: "Vancover",
-    state: "Vancover",
+    name: "Trip to Vancouver",
+    city: "Vancouver",
+    state: "Vancouver",
     country: "Canada",
     start_date: new Date(2023, 4, 5),
     end_date: new Date(2023, 4, 23),
@@ -396,6 +396,8 @@ async function seed() {
     }),
 
     // DEMO
+    // *** demo users MUST include "Demo" in firstName in order to display DEMO MODE alert ***
+    // ie. "Sara Demo"
     User.create({
       firstName: "Sara Demo",
       lastName: "Petrova",
@@ -500,7 +502,7 @@ async function seed() {
   const teashop = await getTRIDByName("Trip to Tea Shop");
   const joshuatree = await getTRIDByName("Kylie's Bday");
   const cancun = await getTRIDByName("Cancun Trip");
-  const vancouver = await getTRIDByName("Trip to Vancover");
+  const vancouver = await getTRIDByName("Trip to Vancouver");
   // DEMO
   const jensBday = await getTRIDByName("Jen's 30th Birthday");
   const bogota = await getTRIDByName("Bogota 2023!!");

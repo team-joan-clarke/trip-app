@@ -8,17 +8,6 @@ import { useNavigate } from "react-router-dom";
 const credArr = ["ben pwben", "sara2 pwsara", "darian pwdarian"];
 
 const About = (props) => {
-  const { error } = props;
-  const navigate = useNavigate();
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    const cred = credArr[parseInt(evt.target.value)];
-    const demCred = cred.split(" ");
-    props.authenticateLogin(demCred[0], demCred[1]);
-    navigate('/user')
-  };
-
   useEffect(() => {
     // if (props.auth.id) {
     //   navigate("/user");
@@ -121,95 +110,10 @@ const About = (props) => {
               </p>
             </div>
           </div>
-
-          <img
-            src="/logo.png"
-            style={{ width: "16rem", height: "16rem", margin: "5rem" }}
-          ></img>
-
-          <h2>Not ready for takeoff quite yet?</h2>
-          <h4>Explore trippn by demoing the experiences below.</h4>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              borderBottom: "2px solid #D3D3D3",
-              marginBottom: "3rem",
-              width: '65%'
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                size="lg"
-                style={{ margin: "2rem", width: "10rem" }}
-                value="0"
-                onClick={handleSubmit}
-              >
-                Ben
-              </Button>
-              <p style={{ marginTop: '0.6rem', width: '65%'}}>Ben is a <strong>trip owner</strong>, and can edit trip details, attendees, and attendee roles. Ben can also add and edit all trip tasks.</p>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Button
-              size="lg"
-              style={{ margin: "2rem", width: "10rem" }}
-              value="1"
-              onClick={handleSubmit}
-            >
-              Sara
-            </Button>
-              <p style={{ marginTop: '0.6rem', width: '65%'}}>Sara is a <strong>trip owner</strong>, and can edit trip details, attendees, and attendee roles. Sara can also add and edit all trip tasks.</p>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Button
-              size="lg"
-              style={{ margin: "2rem", width: "10rem" }}
-              value="2"
-              onClick={handleSubmit}
-            >
-              Darian
-            </Button>
-              <p style={{ marginTop: '0.6rem', width: '65%'}}>Darian is a <strong>trip editor</strong>, and can edit attendees and attendee roles. Darian can also add tasks and edit the tasks he creates.</p>
-            </div>
-          </div>
         </div>
       </main>
     </div>
   );
 };
 
-const mapLogin = (state) => {
-  return {
-    error: state.auth.error,
-    auth: state.auth,
-  };
-};
-
-const mapDispatch = (dispatch) => {
-  return {
-    authenticateLogin: (username, password) =>
-      dispatch(authenticateLogin(username, password)),
-  };
-};
-
-export default connect(mapLogin, mapDispatch)(About);
+export default connect(null)(About);
