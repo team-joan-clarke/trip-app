@@ -163,12 +163,12 @@ const SignUpForm = (props) => {
             <div>
               <input
                 type="tel"
-                placeholder="phone(optional)"
+                placeholder="Phone(optional)"
                 name="phoneNumber"
               />
               <input
                 type="referralEmail"
-                placeholder="Referral email"
+                placeholder="Referral email(optional)"
                 name="referralEmail"
               />
             </div>
