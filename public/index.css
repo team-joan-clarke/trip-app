@@ -204,6 +204,18 @@ div.scrollmenu {
   white-space: nowrap;
 }
 
+/* link for invite trip attendees */
+.invite-link {
+  color: green;
+  margin-top: 20px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.invite-link:hover {
+  color: lightseagreen;
+}
+
 
 
 /* carousel button */
@@ -267,7 +279,7 @@ div.scrollmenu {
   font-family: 'Spicy Rice', cursive;
 }
 
-/* styling trip card arrow */
+
 *,
 *:before,
 *:after {

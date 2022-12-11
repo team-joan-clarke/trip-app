@@ -16,10 +16,11 @@ const {
   <body>
     <div>
       <p>Hello there, </p>
-      <p>${req.body.referralEmail} has invited you to join trippn ✈️ </p> 
+      <p>${req.body.referralEmail} has invited you to join trippn! </p> 
+      <p>Upon sign up add the email of the person who invited you to the referral email input field.</p>
       <p>Navigate to the link to get started https://trippn.onrender.com/signup</p>
       <p>Thanks,</p>
-      <p>trippn team</p>
+      <p>trippn team ✈️ </p>
     </div>
   </body>
   </html>`;
