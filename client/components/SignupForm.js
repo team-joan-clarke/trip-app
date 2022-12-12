@@ -124,33 +124,41 @@ const SignUpForm = (props) => {
             </div>
 
             <div>
+              <small style={{ float: "right", color: "red" }}>*</small>
               <input
                 name="firstName"
-                placeholder="First Name *"
+                placeholder="First Name"
                 type="text"
                 required
+                style={{ marginRight: "1rem" }}
               />
             </div>
             <div>
+              <small style={{ float: "right", color: "red" }}>*</small>
+
               <input
                 name="lastName"
-                placeholder="Last Name *"
+                placeholder="Last Name"
                 type="text"
                 required
               />
             </div>
             <div>
+              <small style={{ float: "right", color: "red" }}>*</small>
+
               <input
                 name="username"
-                placeholder="Username *"
+                placeholder="Username"
                 type="text"
                 required
               />
             </div>
             <div>
+              <small style={{ float: "right", color: "red" }}>*</small>
+
               <input
                 name="password"
-                placeholder="Password *"
+                placeholder="Password "
                 type="password"
                 minLength="8"
                 maxLength="16"
@@ -158,7 +166,11 @@ const SignUpForm = (props) => {
               />
             </div>
             <div>
+
+              <small style={{ float: "right", color: "red" }}>*</small>
+
               <input name="email" placeholder="Your email" type="text" required />
+
             </div>
             <div>
               <input
@@ -178,6 +190,7 @@ const SignUpForm = (props) => {
             <Link className="sign-in-link" to={`/login`}>
               <p style={{ marginLeft: "0.5rem" }}>Already have an account?</p>
             </Link>
+            <small style={{ color: "red" }}>* indicates required field</small>
             {/* {error && error.response && <div> {error.response.data} </div>} */}
             {error && error.response && <div> {errorMessage} </div>}
           </form>

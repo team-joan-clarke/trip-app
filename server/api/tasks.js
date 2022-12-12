@@ -360,6 +360,7 @@ taskRouter.put(
   isEditorOfTaskOrTripOwner,
   async (req, res, next) => {
     try {
+      console.log("in update task route");
       const checkedFields = {};
       const { body } = req;
       const taskFields = [

@@ -44,17 +44,30 @@ const About = (props) => {
               flexDirection: "row",
               alignItems: "center",
               width: "78%",
+              // width: "auto",
+
+              flexWrap: "wrap",
             }}
           >
-            <img
-              src="/about/userdash.png"
+            <div style={{ width: "auto" }}>
+              <img
+                src="/about/userdash.png"
+                style={{
+                  display: "flex",
+                  width: "35rem",
+                  boxShadow: "2px 1px 20px grey",
+                  margin: "2rem",
+                }}
+              ></img>
+            </div>
+            <div
               style={{
-                width: "35rem",
-                boxShadow: "2px 1px 20px grey",
-                margin: "2rem",
+                display: "flex",
+                flexDirection: "column",
+                width: "auto",
+                // flexWrap: "wrap",
               }}
-            ></img>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            >
               <h4>
                 Go from &#128173; daydreams &#128173; to planning mode &#128395;{" "}
               </h4>
