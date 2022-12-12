@@ -1,9 +1,6 @@
 import React, { Component, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import { Alert } from "react-bootstrap";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -87,6 +84,9 @@ function EditTaskModal(props) {
               setBookingNum(props.task.booking_num);
               setLink(props.task.link);
               setAddedResStatus("success");
+              setShow(false);
+              props.onHide();
+              props.onSuccess();
             } else {
               setErrors([
                 ...errors,
@@ -162,244 +162,234 @@ function EditTaskModal(props) {
   };
 
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Edit {`${props.task.provider_name}`}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {addedResStatus === "success" && errors.length === 0 ? (
-          <div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <img src="/palmtree_limegreen.png" style={{ height: "20rem" }} />
-            </div>
-            <h3>Task Successfully Updated!</h3>
-            <Button
-              variant="primary"
-              type="submit"
-              style={{ float: "right" }}
-              onClick={(e) => {
-                setAddedResStatus("");
-                props.onHide(e);
-              }}
-            >
-              Done
-            </Button>
-          </div>
-        ) : (
-          <Form>
-            {/* LOCATION NAME/TITLE */}
-            <Form.Group className="mb-3" controlId="formTaskPROVIDER">
-              <Form.Label>
-                Location Name, Activity, or Title &#40;required&#41;
-              </Form.Label>
-              <Form.Control
-                type="text"
-                name="provider_name"
-                value={provider_name}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            {/* DUE DATE */}
-            <Form.Group
-              className="mb-3"
-              name="dueDate"
-              controlId="formTaskDUEDATE"
-            >
-              <Form.Label>
-                {" "}
-                Task Confirmation Due Date &#40;goal date for
-                booking&#47;buying&#47;etc.&#41; &#40;required&#41;
-              </Form.Label>
-              <div className="date-picker">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Due Date"
-                    name="due_date"
-                    minDate={new Date()}
-                    maxDate={new Date(props.trip.end_date)}
-                    value={due_date}
-                    onChange={(newValue) => {
-                      if (errors.includes("Must include dute date.")) {
-                        const filtered = errors.filter(
-                          (error) => error !== "Must include dute date."
-                        );
-                        setErrors([...filtered]);
-                      }
-                      setDueDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </div>
-            </Form.Group>
-            <div id="start-end-date-flex" style={{ display: "flex" }}>
-              {/* STARTDATE W/ START TIME CALENDAR VIEW */}
-              <Form.Group
-                className="mb-3"
-                controlId="formTaskSTARTDATE"
-                style={{ flex: 1 }}
-              >
-                <Form.Label>Activity Start Date</Form.Label>
-                <div className="date-picker">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateTimePicker
-                      label="Start Date"
-                      name="start_date"
-                      minDate={new Date(props.trip.start_date)}
-                      maxDate={new Date(props.trip.end_date)}
-                      value={start_date}
-                      onChange={(newValue) => {
-                        if (
-                          errors.includes(
-                            "Must set start date before setting end date."
-                          )
-                        ) {
-                          const filtered = errors.filter(
-                            (error) =>
-                              error !==
-                              "Must set start date before setting end date."
-                          );
-                          setErrors([...filtered]);
-                        }
-                        setStartDate(newValue);
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </div>
+    <div>
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Edit {`${props.task.provider_name}`}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {addedResStatus === "success" && errors.length === 0 ? (
+            <></>
+          ) : (
+            <Form>
+              {/* LOCATION NAME/TITLE */}
+              <Form.Group className="mb-3" controlId="formTaskPROVIDER">
+                <Form.Label>
+                  Location Name, Activity, or Title &#40;required&#41;
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="provider_name"
+                  value={provider_name}
+                  onChange={handleChange}
+                />
               </Form.Group>
-              {/* ENDDATE - OPTIONAL ASK? */}
+              {/* DUE DATE */}
               <Form.Group
                 className="mb-3"
-                controlId="formTaskENDDATE"
-                style={{ flex: 1 }}
+                name="dueDate"
+                controlId="formTaskDUEDATE"
               >
-                <Form.Label>Activity End Date</Form.Label>
+                <Form.Label>
+                  {" "}
+                  Task Confirmation Due Date &#40;goal date for
+                  booking&#47;buying&#47;etc.&#41; &#40;required&#41;
+                </Form.Label>
                 <div className="date-picker">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                      label="End Date"
-                      name="end_date"
-                      minDate={new Date(props.trip.start_date)}
+                      label="Due Date"
+                      name="due_date"
+                      minDate={new Date()}
                       maxDate={new Date(props.trip.end_date)}
-                      value={end_date}
+                      value={due_date}
                       onChange={(newValue) => {
-                        if (!start_date) {
-                          setErrors([
-                            ...errors,
-                            "Must set start date before setting end date.",
-                          ]);
-                        } else {
-                          if (newValue < start_date) {
-                            setErrors([
-                              ...errors,
-                              "End date must come after start date.",
-                            ]);
-                          } else {
-                            if (
-                              errors.includes(
-                                "End date must come after start date."
-                              )
-                            ) {
-                              const filtered = errors.filter(
-                                (error) =>
-                                  error !==
-                                  "End date must come after start date."
-                              );
-                              setErrors([...filtered]);
-                            }
-                            setEndDate(newValue);
-                          }
+                        if (errors.includes("Must include dute date.")) {
+                          const filtered = errors.filter(
+                            (error) => error !== "Must include dute date."
+                          );
+                          setErrors([...filtered]);
                         }
+                        setDueDate(newValue);
                       }}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
                 </div>
               </Form.Group>
+              <div id="start-end-date-flex" style={{ display: "flex" }}>
+                {/* STARTDATE W/ START TIME CALENDAR VIEW */}
+                <Form.Group
+                  className="mb-3"
+                  controlId="formTaskSTARTDATE"
+                  style={{ flex: 1 }}
+                >
+                  <Form.Label>Activity Start Date</Form.Label>
+                  <div className="date-picker">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DateTimePicker
+                        label="Start Date"
+                        name="start_date"
+                        minDate={new Date(props.trip.start_date)}
+                        maxDate={new Date(props.trip.end_date)}
+                        value={start_date}
+                        onChange={(newValue) => {
+                          if (
+                            errors.includes(
+                              "Must set start date before setting end date."
+                            )
+                          ) {
+                            const filtered = errors.filter(
+                              (error) =>
+                                error !==
+                                "Must set start date before setting end date."
+                            );
+                            setErrors([...filtered]);
+                          }
+                          setStartDate(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </div>
+                </Form.Group>
+                {/* ENDDATE - OPTIONAL ASK? */}
+                <Form.Group
+                  className="mb-3"
+                  controlId="formTaskENDDATE"
+                  style={{ flex: 1 }}
+                >
+                  <Form.Label>Activity End Date</Form.Label>
+                  <div className="date-picker">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="End Date"
+                        name="end_date"
+                        minDate={new Date(props.trip.start_date)}
+                        maxDate={new Date(props.trip.end_date)}
+                        value={end_date}
+                        onChange={(newValue) => {
+                          if (!start_date) {
+                            setErrors([
+                              ...errors,
+                              "Must set start date before setting end date.",
+                            ]);
+                          } else {
+                            if (newValue < start_date) {
+                              setErrors([
+                                ...errors,
+                                "End date must come after start date.",
+                              ]);
+                            } else {
+                              if (
+                                errors.includes(
+                                  "End date must come after start date."
+                                )
+                              ) {
+                                const filtered = errors.filter(
+                                  (error) =>
+                                    error !==
+                                    "End date must come after start date."
+                                );
+                                setErrors([...filtered]);
+                              }
+                              setEndDate(newValue);
+                            }
+                          }
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </div>
+                </Form.Group>
+              </div>
+              {/* START LOCATION - OPTIONAL */}
+              <Form.Group className="mb-3" controlId="formTaskSTARTLOCATION">
+                <Form.Label>Start Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="start_location"
+                  value={start_location}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              {/* END_LOCATION - OPTIONAL */}
+              <Form.Group className="mb-3" controlId="formTaskENDLOCATION">
+                <Form.Label>End Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="end_location"
+                  value={end_location}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              {/* DESCRIPTION - OPTIONAL AVAIL */}
+              <Form.Group className="mb-3" controlId="formTaskDESCRIPTION">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="description"
+                  value={description}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              {/* BOOKINGNUM - OPTIONAL */}
+              <Form.Group className="mb-3" controlId="formTaskBOOKINGNUM">
+                <Form.Label>Booking Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="booking_num"
+                  value={booking_num}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              {/* LINK - OPTIONAL AVAIL */}
+              <Form.Group className="mb-3" controlId="formTaskLINK">
+                <Form.Label>Link</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="link"
+                  value={link}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={handleSubmit}
+                style={{ float: "right" }}
+              >
+                Submit
+              </Button>
+            </Form>
+          )}
+          <Alert
+            show={show}
+            variant="danger"
+            style={{ flexDirection: "column" }}
+          >
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Alert.Heading style={{ float: "left" }}>
+                Please fix these errors before proceeding:
+              </Alert.Heading>
+              <ul>
+                {errors.map((error, i) => {
+                  return <li key={i}>{error}</li>;
+                })}
+              </ul>
             </div>
-            {/* START LOCATION - OPTIONAL */}
-            <Form.Group className="mb-3" controlId="formTaskSTARTLOCATION">
-              <Form.Label>Start Location</Form.Label>
-              <Form.Control
-                type="text"
-                name="start_location"
-                value={start_location}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            {/* END_LOCATION - OPTIONAL */}
-            <Form.Group className="mb-3" controlId="formTaskENDLOCATION">
-              <Form.Label>End Location</Form.Label>
-              <Form.Control
-                type="text"
-                name="end_location"
-                value={end_location}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            {/* DESCRIPTION - OPTIONAL AVAIL */}
-            <Form.Group className="mb-3" controlId="formTaskDESCRIPTION">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                name="description"
-                value={description}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            {/* BOOKINGNUM - OPTIONAL */}
-            <Form.Group className="mb-3" controlId="formTaskBOOKINGNUM">
-              <Form.Label>Booking Number</Form.Label>
-              <Form.Control
-                type="text"
-                name="booking_num"
-                value={booking_num}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            {/* LINK - OPTIONAL AVAIL */}
-            <Form.Group className="mb-3" controlId="formTaskLINK">
-              <Form.Label>Link</Form.Label>
-              <Form.Control
-                type="text"
-                name="link"
-                value={link}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={handleSubmit}
-              style={{ float: "right" }}
-            >
-              Submit
-            </Button>
-          </Form>
-        )}
-        <Alert show={show} variant="danger" style={{ flexDirection: "column" }}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <Alert.Heading style={{ float: "left" }}>
-              Please fix these errors before proceeding:
-            </Alert.Heading>
-            <ul>
-              {errors.map((error, i) => {
-                return <li key={i}>{error}</li>;
-              })}
-            </ul>
-          </div>
-          <hr />
-        </Alert>
-      </Modal.Body>
-    </Modal>
+            <hr />
+          </Alert>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 }
 
