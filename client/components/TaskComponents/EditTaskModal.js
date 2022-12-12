@@ -79,12 +79,12 @@ function EditTaskModal(props) {
               setStartDate(props.task.start_date);
               setEndDate(props.task.end_date);
               setStartLocation(props.task.start_locaion);
-              setEndLocation(props.task.end_date);
+              setEndLocation(props.task.end_location);
               setDescription(props.task.description);
               setBookingNum(props.task.booking_num);
               setLink(props.task.link);
-              setAddedResStatus("success");
-              setShow(false);
+              // setAddedResStatus("success");
+              // setShow(false);
               props.onHide();
               props.onSuccess();
             } else {
@@ -94,6 +94,7 @@ function EditTaskModal(props) {
               ]);
             }
           }, "1000");
+          // setAddedResStatus("false");
         }
       } else {
         if (!due_date) {

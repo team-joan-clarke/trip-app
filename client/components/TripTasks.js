@@ -32,7 +32,7 @@ const TripTasks = (props) => {
       const taskOngoingMapDate = {};
 
       // MAKE ARR OF TRIP DAYS
-      for (let i = 0; i < tripDuration; i++) {
+      for (let i = 0; i <= tripDuration; i++) {
         const startDate = new Date(start);
         startDate.setDate(startDate.getDate() + i);
         const dateStr = startDate.toDateString();
