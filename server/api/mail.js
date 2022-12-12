@@ -6,6 +6,7 @@ const {
 
   
   mailRouter.post("/text-mail", requireToken, (req, res) => {
+    console.log("in mail post route")
 
   const htmlToSend = `
   <!DOCTYPE html>

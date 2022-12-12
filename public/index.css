@@ -198,10 +198,8 @@ html, body {
   margin-bottom: 100px
 }
 
-div.scrollmenu {
-  background-color: white;
-  overflow: auto;
-  white-space: nowrap;
+.center-text {
+ padding-bottom: 100px;
 }
 
 /* link for invite trip attendees */
