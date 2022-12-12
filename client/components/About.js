@@ -16,7 +16,7 @@ const About = (props) => {
     const cred = credArr[parseInt(evt.target.value)];
     const demCred = cred.split(" ");
     props.authenticateLogin(demCred[0], demCred[1]);
-    navigate('/user')
+    navigate("/user");
   };
 
   useEffect(() => {
@@ -55,17 +55,30 @@ const About = (props) => {
               flexDirection: "row",
               alignItems: "center",
               width: "78%",
+              // width: "auto",
+
+              flexWrap: "wrap",
             }}
           >
-            <img
-              src="/about/userdash.png"
+            <div style={{ width: "auto" }}>
+              <img
+                src="/about/userdash.png"
+                style={{
+                  display: "flex",
+                  width: "35rem",
+                  boxShadow: "2px 1px 20px grey",
+                  margin: "2rem",
+                }}
+              ></img>
+            </div>
+            <div
               style={{
-                width: "35rem",
-                boxShadow: "2px 1px 20px grey",
-                margin: "2rem",
+                display: "flex",
+                flexDirection: "column",
+                width: "auto",
+                // flexWrap: "wrap",
               }}
-            ></img>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            >
               <h4>
                 Go from &#128173; daydreams &#128173; to planning mode &#128395;{" "}
               </h4>
@@ -137,7 +150,7 @@ const About = (props) => {
               justifyContent: "center",
               borderBottom: "2px solid #D3D3D3",
               marginBottom: "3rem",
-              width: '65%'
+              width: "65%",
             }}
           >
             <div
@@ -155,7 +168,11 @@ const About = (props) => {
               >
                 Ben
               </Button>
-              <p style={{ marginTop: '0.6rem', width: '65%'}}>Ben is a <strong>trip owner</strong>, and can edit trip details, attendees, and attendee roles. Ben can also add and edit all trip tasks.</p>
+              <p style={{ marginTop: "0.6rem", width: "65%" }}>
+                Ben is a <strong>trip owner</strong>, and can edit trip details,
+                attendees, and attendee roles. Ben can also add and edit all
+                trip tasks.
+              </p>
             </div>
             <div
               style={{
@@ -165,14 +182,18 @@ const About = (props) => {
               }}
             >
               <Button
-              size="lg"
-              style={{ margin: "2rem", width: "10rem" }}
-              value="1"
-              onClick={handleSubmit}
-            >
-              Sara
-            </Button>
-              <p style={{ marginTop: '0.6rem', width: '65%'}}>Sara is a <strong>trip owner</strong>, and can edit trip details, attendees, and attendee roles. Sara can also add and edit all trip tasks.</p>
+                size="lg"
+                style={{ margin: "2rem", width: "10rem" }}
+                value="1"
+                onClick={handleSubmit}
+              >
+                Sara
+              </Button>
+              <p style={{ marginTop: "0.6rem", width: "65%" }}>
+                Sara is a <strong>trip owner</strong>, and can edit trip
+                details, attendees, and attendee roles. Sara can also add and
+                edit all trip tasks.
+              </p>
             </div>
             <div
               style={{
@@ -182,14 +203,18 @@ const About = (props) => {
               }}
             >
               <Button
-              size="lg"
-              style={{ margin: "2rem", width: "10rem" }}
-              value="2"
-              onClick={handleSubmit}
-            >
-              Darian
-            </Button>
-              <p style={{ marginTop: '0.6rem', width: '65%'}}>Darian is a <strong>trip editor</strong>, and can edit attendees and attendee roles. Darian can also add tasks and edit the tasks he creates.</p>
+                size="lg"
+                style={{ margin: "2rem", width: "10rem" }}
+                value="2"
+                onClick={handleSubmit}
+              >
+                Darian
+              </Button>
+              <p style={{ marginTop: "0.6rem", width: "65%" }}>
+                Darian is a <strong>trip editor</strong>, and can edit attendees
+                and attendee roles. Darian can also add tasks and edit the tasks
+                he creates.
+              </p>
             </div>
           </div>
         </div>
