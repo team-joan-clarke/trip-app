@@ -27,7 +27,7 @@ const {
   </html>`;
 
   var transporter = nodemailer.createTransport({
-    port: 587,
+    port: 465,
     service: "gmail",
     auth: {
       user: "trippnwebsite@gmail.com",

@@ -5,7 +5,7 @@ const { requireToken } = require("./gatekeepingmiddleware");
 mailRouter2.post("/sendEmailToPersonWhoReferred", requireToken, async (req, res) => {
 
   var transporter = nodemailer.createTransport({
-    port: 587,
+    port: 465,
     service: "gmail",
     auth: {
       user: "trippnwebsite@gmail.com",
@@ -14,7 +14,7 @@ mailRouter2.post("/sendEmailToPersonWhoReferred", requireToken, async (req, res)
   });
 
   var mailOptions = {
-    from: process.env.GMAIL,
+    from: "trippnwebsite@gmail.com",
     to: `${req.body.doTheyHaveReferralEmail}`,
     subject: `The person you invited: ${req.body.firstName} joined trippn!`,
     text: `Hello there, the person you invited has joined trippn. ✈️ Navigate to the link to continue planning your trip! https://trippn.onrender.com/login thanks, trippn team`,
