@@ -11,6 +11,21 @@ import Button from "react-bootstrap/Button";
 import { Toast, ToastContainer } from "react-bootstrap";
 import Slider from "react-slick";
 
+function Arrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        background: "black",
+        float: "left",
+      }}
+      onClick={onClick}
+    />
+  );
+}
+
 const ActiveTrips = (props) => {
   useEffect(() => {
     props.getTrips();
@@ -29,12 +44,29 @@ const ActiveTrips = (props) => {
     props.deleteTrip(event.target.name);
   };
 
+  // const settings = {
+  //   dots: false,
+  //   infinite: false,
+  //   speed: 500,
+  //   slidesToShow: 3,
+  //   slidesToScroll: 3,
+  //   nextArrow: <Arrow />,
+  //   prevArrow: <Arrow />,
+  // };
+
   const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
+    className: "slick",
+    infinite: true,
+    centerPadding: "60px",
     slidesToShow: 3,
-    slidesToScroll: 3,
+    swipeToSlide: true,
+    slickPrev: true,
+    nextArrow: <Arrow />,
+    afterChange: function (index) {
+      console.log(
+        `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
+      );
+    },
   };
 
   return (
@@ -64,60 +96,66 @@ const ActiveTrips = (props) => {
         </Toast>
       </ToastContainer>
       <div>
-        <Slider {...settings}>
-          {trips.active.length == 0 ? (
-            <h5>No active Trips</h5>
-          ) : (
-            trips.active.map((singleTrip) => {
-              return (
-                <div key={singleTrip.id}>
-                  <Card
-                    className="mb-4"
-                    style={{ width: "18rem", height: "30rem" }}
-                    key={singleTrip.id}
-                  >
-                    <Card.Img
-                      variant="top"
-                      className="heightAndWidth"
-                      src={singleTrip.imageUrl}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        <strong>{singleTrip.name}</strong>
-                      </Card.Title>
-                      <Card.Text>Status: {singleTrip.status}</Card.Text>
-                      <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
-                      <Card.Text>
-                        Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
-                        {singleTrip.end_date.toString().slice(3, 15)}
-                      </Card.Text>
-                      <Card.Text></Card.Text>
-                      <Button
-                        name={singleTrip.id}
-                        onClick={handleClick}
-                        variant="primary"
-                      >
-                        View Trip
-                      </Button>
-                      {singleTrip.role == "owner" ? (
+        {trips.active.length == 0 ? (
+          <div>
+            <Slider {...settings}>
+              <h5>No active Trips</h5>
+            </Slider>
+          </div>
+        ) : (
+          <div>
+            <Slider {...settings}>
+              {trips.active.map((singleTrip) => {
+                return (
+                  <div key={singleTrip.id}>
+                    <Card
+                      className="mb-4"
+                      style={{ width: "18rem", height: "30rem" }}
+                      key={singleTrip.id}
+                    >
+                      <Card.Img
+                        variant="top"
+                        className="heightAndWidth"
+                        src={singleTrip.imageUrl}
+                      />
+                      <Card.Body>
+                        <Card.Title>
+                          <strong>{singleTrip.name}</strong>
+                        </Card.Title>
+                        <Card.Text>Status: {singleTrip.status}</Card.Text>
+                        <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
+                        <Card.Text>
+                          Dates: {singleTrip.start_date.toString().slice(3, 15)}{" "}
+                          - {singleTrip.end_date.toString().slice(3, 15)}
+                        </Card.Text>
+                        <Card.Text></Card.Text>
                         <Button
                           name={singleTrip.id}
-                          onClick={handleRemove}
-                          variant="outline-danger"
-                          className="marginLeft"
+                          onClick={handleClick}
+                          variant="primary"
                         >
-                          Delete
+                          View Trip
                         </Button>
-                      ) : (
-                        <h1></h1>
-                      )}
-                    </Card.Body>
-                  </Card>
-                </div>
-              );
-            })
-          )}
-        </Slider>
+                        {singleTrip.role == "owner" ? (
+                          <Button
+                            name={singleTrip.id}
+                            onClick={handleRemove}
+                            variant="outline-danger"
+                            className="marginLeft"
+                          >
+                            Delete
+                          </Button>
+                        ) : (
+                          <h1></h1>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  </div>
+                );
+              })}
+            </Slider>
+          </div>
+        )}
       </div>
     </div>
   );
