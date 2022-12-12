@@ -41,7 +41,7 @@ const ActiveTrips = (props) => {
     <div>
       <br></br>
       <h1 className="spicy-text">Your current trips</h1>
-      <h7>swipe to see your trips</h7>
+      <h6>swipe to see your trips</h6>
       <br></br>
       <ToastContainer position="top-end">
         <Toast

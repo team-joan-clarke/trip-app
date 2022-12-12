@@ -45,7 +45,6 @@ const InviteEmailForm = () => {
   const handleInviteClick = async (event) => {
     event.preventDefault();
     setSuccessToast(true);
-    setBackToTripDash(true)
     try {
       const sendEmail = await axios.post(
         `/api/mail/text-mail`,
