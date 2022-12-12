@@ -186,12 +186,54 @@ html, body {
 }
 
 .heightAndWidth {
-  width: 285x;
-  height: 250px;
+  width: 285px;
+  height: 230px;
 }
 
 .marginLeft {
   margin-left: 10px;
+}
+
+.marginBottom {
+  margin-bottom: 100px
+}
+
+.center-text {
+ padding-bottom: 100px;
+}
+
+/* link for invite trip attendees */
+.invite-link {
+  color: green;
+  margin-top: 20px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.invite-link:hover {
+  color: lightseagreen;
+}
+
+
+
+/* carousel button */
+.btn-success {
+  background-color: lightseagreen;
+  background-image: linear-gradient(115deg, lightseagreen, 68%, #bded7e);
+  border: none;
+  border-radius: 50px;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background-color: #bded7e;
+  background-image: linear-gradient(115deg, lightseagreen, 35%, #bded7e);
+  border: none;
+  border-radius: 50px;
+}
+
+.fontForCarousel {
+  font-size: 3rem;
 }
 
 /* navbar */
@@ -235,7 +277,7 @@ html, body {
   font-family: 'Spicy Rice', cursive;
 }
 
-/* styling trip card arrow */
+
 *,
 *:before,
 *:after {

@@ -5,6 +5,7 @@ const {
 
 router.post("/login", async (req, res, next) => {
   console.log("in login route");
+
   try {
     res.send({ token: await User.authenticate(req.body) });
   } catch (err) {
@@ -14,8 +15,9 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/signup", async (req, res, next) => {
   try {
-    const { firstName, lastName, username, password, email, phoneNumber } =
+    const { firstName, lastName, username, password, email, phoneNumber, referralEmail } =
       req.body;
+
     const user = await User.create({
       firstName,
       lastName,
@@ -23,6 +25,7 @@ router.post("/signup", async (req, res, next) => {
       password,
       email,
       phoneNumber,
+      referralEmail
     });
     const token = await user.generateToken();
     user.update({ token });

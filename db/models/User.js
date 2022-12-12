@@ -40,6 +40,10 @@ const User = db.define("User", {
   phoneNumber: {
     type: DataTypes.STRING,
   },
+  referralEmail: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   // interests: {
   //   type: DataTypes.STRING,
   //   status:{

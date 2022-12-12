@@ -1,19 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../redux/users";
+import {
+  Button,
+  Toast,
+  ToastContainer,
+  Popover,
+  OverlayTrigger,
+} from "react-bootstrap";
 import AllTasks from "./TaskComponents/AllTasks/AllTasks";
 import CompletedTrips from "./CompletedTrips";
 import ActiveTrips from "./ActiveTrips";
 import CreateTrip from "./CreateTrip";
+import { getCookie } from "../redux/users";
+import Tooltip from "react-bootstrap/Tooltip";
+import axios from "axios";
 
 const SingleUser = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
+  const token = getCookie("token");
+  const [buttonStatus, setButtonStatus] = useState(true);
+  const doTheyHaveReferralEmail = useSelector(
+    (state) => state.auth.referralEmail
+  );
 
   useEffect(() => {
     dispatch(fetchUser());
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, []);
+
+  const sendEmailConfirmationButton = async (event) => {
+    console.log("in send emaul confirmation");
+    setButtonStatus(false);
+    try {
+      if (doTheyHaveReferralEmail) {
+        const sendEmailConfirmationToPersonWhoReferred = await axios.post(
+          `/api/mail2/sendEmailToPersonWhoReferred`,
+          { firstName, doTheyHaveReferralEmail },
+          { headers: { authorization: token } }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Let the person who invited you know you joined trippn!
+    </Tooltip>
+  );
 
   return (
     <div>
@@ -48,6 +85,25 @@ const SingleUser = () => {
               }}
             >
               <CreateTrip />
+              {doTheyHaveReferralEmail && buttonStatus ? (
+                <div>
+                  <OverlayTrigger
+                    placement="right"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={renderTooltip}
+                  >
+                    <Button
+                      className="marginLeft"
+                      onClick={sendEmailConfirmationButton}
+                      type="submit"
+                    >
+                      Send email confirmation
+                    </Button>
+                  </OverlayTrigger>
+                </div>
+              ) : (
+                <h1></h1>
+              )}
             </div>
           </div>
           <ActiveTrips />

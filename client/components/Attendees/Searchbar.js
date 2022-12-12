@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import _ from "lodash";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -11,7 +11,7 @@ import { createNewUserTrip } from "../../redux/tripReducer";
 
 const Searchbar = (props) => {
   const [users, setUsers] = useState(props.users.allUsers);
-  const [usersNotOnTrip, setUsersNotOnTrip] = useState('');
+  const [usersNotOnTrip, setUsersNotOnTrip] = useState("");
   const [filteredUsers, setFilteredUsers] = useState("");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [selectedUser, setSelectedUser] = useState([]);
@@ -69,7 +69,7 @@ const Searchbar = (props) => {
 
   //SPECIFIC ERROR HANDLING
   useEffect(() => {
-    if (!userAccess || userAccess === 'Choose a role') {
+    if (!userAccess || userAccess === "Choose a role") {
       if (!inCurrentErrors(7)) {
         errors.push(errorDictionary.roleError);
       }
@@ -88,7 +88,7 @@ const Searchbar = (props) => {
   useEffect(() => {
     if (props.users.allUsers.length > 0) {
       setUsers(props.users.allUsers);
-      getUsersNotOnTrip(props)
+      getUsersNotOnTrip(props);
     }
     if (selectedUserId) {
       getSelectedUser(selectedUserId);
@@ -104,13 +104,18 @@ const Searchbar = (props) => {
 
   function getUsersNotOnTrip(props) {
     let filtered;
-    if (props.users.allUsers.length && props.trips.singleTripView.Users.length) {
-      const idsOfUsersOnTrip = props.trips.singleTripView.Users.map((user) => user.id)
+    if (
+      props.users.allUsers.length &&
+      props.trips.singleTripView.Users.length
+    ) {
+      const idsOfUsersOnTrip = props.trips.singleTripView.Users.map(
+        (user) => user.id
+      );
       filtered = props.users.allUsers.filter((user) => {
         if (!idsOfUsersOnTrip.includes(user.id)) {
-          return user
+          return user;
         }
-      })
+      });
     }
     setUsersNotOnTrip(filtered);
   }
@@ -149,7 +154,7 @@ const Searchbar = (props) => {
   }
 
   const handleSubmit = (event) => {
-    console.log("in search bar", userTripInfo)
+    console.log("in search bar", userTripInfo);
     event.preventDefault();
     if (errors.length === 0) {
       props.createNewUserTrip({
@@ -185,7 +190,7 @@ const Searchbar = (props) => {
       <Button
         variant="primary"
         style={{
-          marginRight: '1rem'
+          marginRight: "1rem",
         }}
         onClick={handleShow}
       >
@@ -202,6 +207,12 @@ const Searchbar = (props) => {
                 <div className="header__search">
                   <input
                     type="search"
+                    style={{
+                      background: "whitesmoke",
+                      border: "1px solid black",
+                      borderRadius: "5px",
+                      padding: "0.3rem",
+                    }}
                     placeholder="Search attendees"
                     onChange={handleSearch}
                   />
@@ -210,7 +221,24 @@ const Searchbar = (props) => {
               <React.Fragment>
                 <div className="users-list">
                   {!filteredUsers.length ? (
-                    <p className="loading">No Users Found</p>
+                    <div>
+                      <p className="loading" style={{ marginTop: "0.7rem" }}>
+                        No Users Found
+                      </p>
+                      {/* link to email form  */}
+                      <div style={{marginTop: '3rem'}}>
+                        <h6>
+                          Want to invite someone who isn't a user on
+                          trippn yet?
+                        </h6>
+                        <Link
+                          style={{ color: "darkgreen", textDecoration: "none" }}
+                          to="/invite"
+                        >
+                          <p>Invite attendees via email</p>
+                        </Link>
+                      </div>
+                    </div>
                   ) : (
                     <React.Fragment>
                       {filteredUsers.map((user) => (
@@ -309,7 +337,7 @@ const Searchbar = (props) => {
 
 const mapState = (state) => ({
   users: state.users,
-  trips: state.trips
+  trips: state.trips,
 });
 
 const mapDispatch = (dispatch) => ({

@@ -4,6 +4,7 @@ import { authenticateSignUp } from "../redux/auth";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
+import axios from "axios"
 
 //PHONE NUMBER VALIDATION:
 function validatePhoneNumber(input_str) {
@@ -48,20 +49,22 @@ const SignUpForm = (props) => {
     const password = evt.target.password.value;
     const email = evt.target.email.value;
     const phoneNumber = evt.target.phoneNumber.value;
-
+    const referralEmail = evt.target.referralEmail.value
+    
     if (phoneNumber) {
       if (!validatePhoneNumber(phoneNumber)) {
         return setShow(true);
       }
     }
-
+    
     props.authenticateSignUp(
       firstName,
       lastName,
       username,
       password,
       email,
-      phoneNumber
+      phoneNumber,
+      referralEmail
     );
   };
 
@@ -163,15 +166,22 @@ const SignUpForm = (props) => {
               />
             </div>
             <div>
+
               <small style={{ float: "right", color: "red" }}>*</small>
 
-              <input name="email" placeholder="Email " type="text" required />
+              <input name="email" placeholder="Your email" type="text" required />
+
             </div>
             <div>
               <input
                 type="tel"
-                placeholder="phone(optional)"
+                placeholder="Phone(optional)"
                 name="phoneNumber"
+              />
+              <input
+                type="referralEmail"
+                placeholder="Referral email(optional)"
+                name="referralEmail"
               />
             </div>
             <Button style={{ margin: "0.6rem 3.5rem" }} type="submit">
@@ -205,7 +215,8 @@ const mapDispatch = (dispatch) => {
       username,
       password,
       email,
-      phoneNumber
+      phoneNumber,
+      referralEmail
     ) =>
       dispatch(
         authenticateSignUp(
@@ -214,7 +225,8 @@ const mapDispatch = (dispatch) => {
           username,
           password,
           email,
-          phoneNumber
+          phoneNumber,
+          referralEmail
         )
       ),
   };

@@ -301,7 +301,7 @@ const CompletedTaskCard = (props) => {
                 variant="primary"
                 onClick={(e) => handleRestore(e, singleTask.id)}
               >
-                Retsore to Planning
+                Restore to Planning
               </Button>
             </div>
           </div>

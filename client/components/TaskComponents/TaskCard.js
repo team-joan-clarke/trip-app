@@ -1,9 +1,13 @@
 import React, { Component, useEffect, useState, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
+import {
+  Alert,
+  Button,
+  Card,
+  ListGroup,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import { Draggable } from "react-beautiful-dnd";
 import EditTaskModal from "./EditTaskModal";
 import { deleteTask, updateTask } from "../../redux/taskReducer";
@@ -53,6 +57,7 @@ const TaskCard = (props) => {
   const dispatch = useDispatch();
   const [seeMore, setSeeMore] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
+  const [showSuccessToast, setSuccessToast] = useState(false);
   const taskStartTime = timeDisplayConverter(props.task.start_date);
 
   const TripId = props.trip.id;
@@ -151,6 +156,26 @@ const TaskCard = (props) => {
               }
         }
       >
+        <ToastContainer position="top-end">
+          <Toast
+            bg="info"
+            onClose={() => setSuccessToast(false)}
+            show={showSuccessToast}
+            delay={4000}
+            autohide
+          >
+            <Toast.Header>
+              <img
+                src="holder.js/20x20?text=%20"
+                className="rounded me-2"
+                alt=""
+              />
+              <strong className="me-auto">trippn</strong>
+              <small>Now</small>
+            </Toast.Header>
+            <Toast.Body>You just edited this task.</Toast.Body>
+          </Toast>
+        </ToastContainer>
         <Card.Body>
           <ListGroup>
             {props.type === "itinerary" ? (
@@ -411,6 +436,7 @@ const TaskCard = (props) => {
         onHide={() => {
           setModalShow(false);
         }}
+        onSuccess={() => setSuccessToast(true)}
       />
     </>
   );
