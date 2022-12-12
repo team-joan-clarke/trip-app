@@ -41,7 +41,7 @@ const ActiveTrips = (props) => {
     <div>
       <br></br>
       <h1 className="spicy-text">Your current trips</h1>
-      <h6>swipe to see your trips</h6>
+      <h7>swipe to see your trips</h7>
       <br></br>
       <ToastContainer position="top-end">
         <Toast
@@ -64,7 +64,7 @@ const ActiveTrips = (props) => {
         </Toast>
       </ToastContainer>
       <div>
-      <Slider {...settings}>
+        <Slider {...settings}>
           {trips.active.length == 0 ? (
             <h5>No active Trips</h5>
           ) : (
@@ -86,7 +86,7 @@ const ActiveTrips = (props) => {
                         <strong>{singleTrip.name}</strong>
                       </Card.Title>
                       <Card.Text>Status: {singleTrip.status}</Card.Text>
-                        <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
+                      <Card.Text>Trip Role: {singleTrip.role}</Card.Text>
                       <Card.Text>
                         Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
                         {singleTrip.end_date.toString().slice(3, 15)}
@@ -117,7 +117,7 @@ const ActiveTrips = (props) => {
               );
             })
           )}
-           </Slider>
+        </Slider>
       </div>
     </div>
   );
@@ -144,7 +144,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveTrips);
-
 
 // const ActiveTrips = (props) => {
 //   useEffect(() => {
