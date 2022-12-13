@@ -23,6 +23,7 @@
     "@mui/x-date-pickers": "^5.0.9",
     "@mui/x-date-pickers-pro": "^5.0.9",
     "@sendgrid/mail": "^7.7.0",
+    "@splidejs/react-splide": "^0.7.12",
     "axios": "^1.2.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
