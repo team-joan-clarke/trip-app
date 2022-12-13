@@ -232,7 +232,7 @@ const Searchbar = (props) => {
                           trippn yet?
                         </h6>
                         <Link
-                          style={{ color: "darkgreen", textDecoration: "none" }}
+                          className="invite-link"
                           to="/invite"
                         >
                           <p>Invite attendees via email</p>
