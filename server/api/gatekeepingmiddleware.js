@@ -98,29 +98,40 @@ const isEditorOfTaskOrTripOwner = async (req, res, next) => {
 // checks if user logged in is editor of a task or trip owner
 // for put and post user tasks routes that have req.body
 const isEditorOfTaskOrTripOwnerForReqBody = async (req, res, next) => {
-  console.log("task id", req.body.taskId)
-  console.log("user id", req.user.id)
+  console.log("task id", req.body.taskId);
+  console.log("user id", req.user.id);
   const isEditorOfTaskAndHasReqBody = await User_Task.findOne({
     where: {
       UserId: req.user.id,
       TaskId: req.body.taskId,
-      role: "editor",
+      // role: "editor",
     },
   });
+
+  let isEditor;
+  let isOwner;
+  if (isEditorOfTaskAndHasReqBody.role === "editor") {
+    isEditor = true;
+  } else {
+    isEditor = false;
+  }
 
   const isOwnerOfTripHasReqBody = await User_Trip.findOne({
     where: {
       UserId: req.user.id,
       TripId: req.params.tripId,
-      role: "owner",
+      // role: "owner",
     },
-    raw: true,
+    // raw: true,
   });
 
-  if (
-    isEditorOfTaskAndHasReqBody.role == "editor" ||
-    isOwnerOfTripHasReqBody.role == "owner"
-  ) {
+  if (isOwnerOfTripHasReqBody.role === "owner") {
+    isOwner = true;
+  } else {
+    isOwner = false;
+  }
+
+  if (isEditor || isOwner) {
     console.log(
       "In reqbody middleware, I have access bcs I am task Editor or trip owner"
     );
