@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Toast, ToastContainer } from "react-bootstrap";
-import Slider from "react-slick";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 
 const CompletedTrips = (props) => {
   useEffect(() => {
@@ -40,7 +41,6 @@ const CompletedTrips = (props) => {
     <div>
       <br></br>
       <h1 className="spicy-text">Your past trips</h1>
-      <h6>swipe to see your trips</h6>
       <br></br>
       <ToastContainer position="top-end">
         <Toast
@@ -64,59 +64,66 @@ const CompletedTrips = (props) => {
       </ToastContainer>
 
       <div>
-      <Slider {...settings}>
+        <Splide
+          aria-label="Your current trips"
+          options={{
+            perPage: 3,
+          }}
+        >
           {trips.complete.length == 0 ? (
             <h5>No past trips</h5>
           ) : (
             trips.complete.map((singleTrip) => {
               return (
-                <div key={singleTrip.id}>
-                  <Card
-                    className="mb-4"
-                    style={{ width: "18rem" }}
-                    key={singleTrip.id}
-                  >
-                    <Card.Img
-                      variant="top"
-                      className="heightAndWidth"
-                      src={singleTrip.imageUrl}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        <strong>{singleTrip.name}</strong>
-                      </Card.Title>
-                      <Card.Text>Status: {singleTrip.status}</Card.Text>
-                      <Card.Text>Trip role: {singleTrip.role}</Card.Text>
-                      <Card.Text>
-                        Dates: {singleTrip.start_date.toString().slice(3, 15)} -{" "}
-                        {singleTrip.end_date.toString().slice(3, 15)}
-                      </Card.Text>
-                      <Button
-                        name={singleTrip.id}
-                        onClick={handleClick}
-                        variant="primary"
-                      >
-                        View Trip
-                      </Button>
-                      {singleTrip.role == "owner" ? (
+                <SplideSlide className="marginBetween">
+                  <div key={singleTrip.id}>
+                    <Card
+                      className="mb-4"
+                      style={{ width: "18rem" }}
+                      key={singleTrip.id}
+                    >
+                      <Card.Img
+                        variant="top"
+                        className="heightAndWidth"
+                        src={singleTrip.imageUrl}
+                      />
+                      <Card.Body>
+                        <Card.Title>
+                          <strong>{singleTrip.name}</strong>
+                        </Card.Title>
+                        <Card.Text>Status: {singleTrip.status}</Card.Text>
+                        <Card.Text>Trip role: {singleTrip.role}</Card.Text>
+                        <Card.Text>
+                          Dates: {singleTrip.start_date.toString().slice(3, 15)}{" "}
+                          - {singleTrip.end_date.toString().slice(3, 15)}
+                        </Card.Text>
                         <Button
                           name={singleTrip.id}
-                          onClick={handleRemove}
-                          variant="outline-danger"
-                          className="marginLeft"
+                          onClick={handleClick}
+                          variant="primary"
                         >
-                          Delete
+                          View Trip
                         </Button>
-                      ) : (
-                        <h1></h1>
-                      )}
-                    </Card.Body>
-                  </Card>
-                </div>
+                        {singleTrip.role == "owner" ? (
+                          <Button
+                            name={singleTrip.id}
+                            onClick={handleRemove}
+                            variant="outline-danger"
+                            className="marginLeft"
+                          >
+                            Delete
+                          </Button>
+                        ) : (
+                          <h1></h1>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </SplideSlide>
               );
             })
           )}
-          </Slider>
+        </Splide>
       </div>
     </div>
   );
