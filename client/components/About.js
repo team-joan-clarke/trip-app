@@ -44,28 +44,20 @@ const About = (props) => {
               flexDirection: "row",
               alignItems: "center",
               width: "78%",
-              // width: "auto",
-
-              flexWrap: "wrap",
             }}
           >
-            <div style={{ width: "auto" }}>
-              <img
-                src="/about/userdash.png"
-                style={{
-                  display: "flex",
-                  width: "35rem",
-                  boxShadow: "2px 1px 20px grey",
-                  margin: "2rem",
-                }}
-              ></img>
-            </div>
+            <img
+              src="/about/userdash.png"
+              style={{
+                width: "58%",
+                boxShadow: "2px 1px 20px grey",
+                margin: "2rem",
+              }}
+            ></img>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "auto",
-                // flexWrap: "wrap",
               }}
             >
               <h4>
@@ -89,7 +81,7 @@ const About = (props) => {
             <img
               src="/about/tasks.png"
               style={{
-                width: "35rem",
+                width: "58%",
                 boxShadow: "2px 1px 20px grey",
                 margin: "2rem",
               }}
@@ -111,7 +103,7 @@ const About = (props) => {
             <img
               src="/about/tripdash.png"
               style={{
-                width: "35rem",
+                width: "58%",
                 boxShadow: "2px 1px 20px grey",
                 margin: "2rem",
               }}
