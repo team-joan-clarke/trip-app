@@ -165,22 +165,27 @@ function AddNewTaskModal(props) {
           }
         }
       } else {
-        if (!provider_name) {
+        if (
+          !provider_name &&
+          !errors.includes(
+            "Must include a location name, activity name, or title."
+          )
+        ) {
           const providerError = [
             ...errors,
             "Must include a location name, activity name, or title.",
           ];
           setErrors(providerError);
         }
-        if (!subtype) {
+        if (!subtype && !errors.includes("Must include subtype.")) {
           const subtypeError = [...errors, "Must include subtype."];
           setErrors(subtypeError);
         }
-        if (!type) {
+        if (!type && !errors.includes("Must include type.")) {
           const typeError = [...errors, "Must include type."];
           setErrors(typeError);
         }
-        if (!due_date) {
+        if (!due_date && !errors.includes("Must include dute date.")) {
           const dueDateError = [...errors, "Must include dute date."];
           setErrors(dueDateError);
         }
@@ -261,7 +266,13 @@ function AddNewTaskModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header
+        closeButton
+        onClick={(e) => {
+          e.preventDefault();
+          setErrors([]);
+        }}
+      >
         <Modal.Title id="contained-modal-title-vcenter">
           Add New Task
         </Modal.Title>
@@ -412,7 +423,12 @@ function AddNewTaskModal(props) {
                       maxDate={new Date(props.trip.end_date)}
                       value={end_date}
                       onChange={(newValue) => {
-                        if (!start_date) {
+                        if (
+                          !start_date &&
+                          !errors.includes(
+                            "Must set start date before setting end date."
+                          )
+                        ) {
                           setErrors([
                             ...errors,
                             "Must set start date before setting end date.",
