@@ -45,6 +45,8 @@ const InviteEmailForm = () => {
   const handleInviteClick = async (event) => {
     event.preventDefault();
     setSuccessToast(true);
+    setReferralEmail("")
+    setrecipient("")
     try {
       const sendEmail = await axios.post(
         `/api/mail/text-mail`,
