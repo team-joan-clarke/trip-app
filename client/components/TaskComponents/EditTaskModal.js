@@ -170,7 +170,13 @@ function EditTaskModal(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header
+          closeButton
+          onClick={(e) => {
+            e.preventDefault();
+            setErrors([]);
+          }}
+        >
           <Modal.Title id="contained-modal-title-vcenter">
             Edit {`${props.task.provider_name}`}
           </Modal.Title>
