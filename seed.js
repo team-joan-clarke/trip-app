@@ -100,8 +100,8 @@ const trips = [
     city: "Palm Springs",
     state: "California",
     country: "United States",
-    start_date: new Date(2023, 3, 16),
-    end_date: new Date(2023, 4, 16),
+    start_date: new Date(2024, 7, 16),
+    end_date: new Date(2024, 7, 20),
     status: "active",
     imageUrl:
       "https://media.cntraveler.com/photos/605cfa959d9a95de47693340/1:1/w_3692,h_3692,c_limit/T24Y1F.jpg",
@@ -133,8 +133,8 @@ const trips = [
     city: "Cancun",
     state: "Cancun",
     country: "Mexico",
-    start_date: new Date(2023, 7, 5),
-    end_date: new Date(2023, 7, 23),
+    start_date: new Date(2024, 8, 5),
+    end_date: new Date(2024, 8, 23),
     status: "active",
     imageUrl:
       "https://i.pinimg.com/736x/3c/7f/fa/3c7ffa6e84ec56fad2d48d9fa2f4f3e4.jpg",
@@ -144,8 +144,8 @@ const trips = [
     city: "Vancouver",
     state: "Vancouver",
     country: "Canada",
-    start_date: new Date(2023, 4, 5),
-    end_date: new Date(2023, 4, 23),
+    start_date: new Date(2024, 10, 5),
+    end_date: new Date(2024, 10, 23),
     status: "active",
     imageUrl:
       "https://publish.purewow.net/wp-content/uploads/sites/2/2022/07/things-to-do-in-vancouver-cat.jpg",
@@ -238,6 +238,17 @@ const trips = [
     status: "active",
     imageUrl:
       "https://media.cntraveler.com/photos/5cf96a9dd9fb41f17ed08435/3:2/w_1600%2Cc_limit/Eiffel%2520Tower_GettyImages-1005348968.jpg"
+  },
+  {
+    name: "Maui",
+    city: "Kihea",
+    state: "Hawaii",
+    country: "USA",
+    start_date: new Date(2024, 3, 29),
+    end_date: new Date(2024, 4, 4),
+    status: "active",
+    imageUrl:
+      "https://images.unsplash.com/photo-1562191326-0da0767cfffe?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
 ];
 
@@ -512,6 +523,7 @@ async function seed() {
   const college = await getTRIDByName("Pick Matt Up From College");
   const staycation = await getTRIDByName("NYC Staycation");
   const paris = await getTRIDByName("Paris");
+  const maui = await getTRIDByName("Maui");
 
   const tasks = [
     {
@@ -991,6 +1003,11 @@ async function seed() {
   const mariah = await getUIDByEmail("mariah@trippntestdemo.com");
 
   await Promise.all([
+    User_Trip.create({
+      role: "owner",
+      UserId: anahis,
+      TripId: maui,
+    }),
     User_Trip.create({
       role: "owner",
       UserId: jessie,
